@@ -1,0 +1,57 @@
+{
+  "project_info": {
+    "project_number": "129474455401",
+    "firebase_url": "https://choose-a35a1.firebaseio.com",
+    "project_id": "choose-a35a1",
+    "storage_bucket": "choose-a35a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129474455401:android:a09c801375f3f6125cbff8",
+        "android_client_info": {
+          "package_name": "com.mmfsin.quepreferirias"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129474455401-4uoiskulbour34dg9840qc80mnt1bd23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mmfsin.quepreferirias",
+            "certificate_hash": "879f8cc5d48b883c55b1982928c005a06bb5098f"
+          }
+        },
+        {
+          "client_id": "129474455401-nm2te3qg79ujn5sv4cguuhlb75ng5ps2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mmfsin.quepreferirias",
+            "certificate_hash": "7bfc8a041f987f187a50ccfe4cd47bc7fe45db02"
+          }
+        },
+        {
+          "client_id": "129474455401-v4gggilchel65hekg2hch8oh2datktmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGHjAXsYa4ZSNIa0ci7GE7EUpvmz-xLv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129474455401-v4gggilchel65hekg2hch8oh2datktmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-4515698012373396~1972969527"
+    }
+  ],
+  "configuration_version": "1"
+}
