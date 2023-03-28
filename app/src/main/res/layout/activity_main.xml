@@ -1,34 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/gradient_list"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context=".presentation.MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.VivirEsDecidir.AppBarOverlay">
+    <!--    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+    <!--        android:id="@+id/adView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        ads:adSize="BANNER"-->
+    <!--        ads:adUnitId="ca-app-pub-4515698012373396/8033411533">-->
+    <!--        &lt;!&ndash;        ads:adUnitId="ca-app-pub-4515698012373396/8033411533">&ndash;&gt;-->
+    <!--        &lt;!&ndash;        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">&ndash;&gt;-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.VivirEsDecidir.PopupOverlay" />
+    <!--    </com.google.android.gms.ads.AdView>-->
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <include layout="@layout/content_main" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/raining" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:contentDescription="@string/content_description" />
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="@dimen/margin_padding_xlarge"
+        android:layout_height="@dimen/margin_padding_xlarge"
+        android:layout_marginTop="@dimen/margin_padding_large"
+        android:background="@drawable/ic_info"
+        android:contentDescription="@string/content_description"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_padding_large"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/ll_votes"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/info">
+
+        <TextView
+            android:id="@+id/tv_text_top"
+            style="@style/OptionsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_box_top"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/margin_padding_small"
+            android:paddingVertical="@dimen/margin_padding_xlarge"
+            tools:text="Opción 1 a elegir" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_padding_medium"
+            android:layout_marginVertical="@dimen/margin_padding_small"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_weight="2.5"
+                android:background="@color/black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_padding_small"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:text="@string/but"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_weight="2.5"
+                android:background="@color/black" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_text_bottom"
+            style="@style/OptionsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_box_bottom"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/margin_padding_small"
+            android:paddingVertical="@dimen/margin_padding_xlarge"
+            tools:text="Opción 2 a elegir" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_votes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_large"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_yes"
+                android:layout_width="@dimen/img_size"
+                android:layout_height="@dimen/img_size"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                android:background="@drawable/ic_option_yes_trans" />
+
+            <TextView
+                style="@style/BtnsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                android:text="@string/btn_yes" />
+
+            <LinearLayout
+                android:id="@+id/ll_results_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_votes_yes"
+                    style="@style/VotesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/margin_padding_xxsmall"
+                    tools:text="142 votos" />
+
+                <TextView
+                    android:id="@+id/tv_percer_yes"
+                    style="@style/PercentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    tools:text="(18%)" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_no"
+                android:layout_width="@dimen/img_size"
+                android:layout_height="@dimen/img_size"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                android:background="@drawable/ic_option_no_trans" />
+
+            <TextView
+                style="@style/BtnsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                android:text="@string/btn_no" />
+
+            <LinearLayout
+                android:id="@+id/ll_results_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_votes_no"
+                    style="@style/VotesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/margin_padding_xxsmall"
+                    tools:text="142 votos" />
+
+                <TextView
+                    android:id="@+id/porcen_no"
+                    style="@style/PercentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    tools:text="(72%)" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/loadingScreen"
+        layout="@layout/include_loading"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

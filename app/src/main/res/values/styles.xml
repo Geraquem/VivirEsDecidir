@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="OptionsTextView">
+        <item name="android:fontFamily">@font/letra2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="BtnsTextView">
+        <item name="android:fontFamily">@font/oknolocreo1</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="VotesTextView">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="PercentsTextView">
+        <item name="android:fontFamily">@font/letra2</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="circular_image">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>
