@@ -37,10 +37,10 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/raining" />
+    <!--    <pl.droidsonroids.gif.GifImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@drawable/raining" />-->
 
     <ImageView
         android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:background="@drawable/bg_box_top"
             android:elevation="6dp"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/margin_padding_small"
+            android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_xlarge"
             tools:text="Opción 1 a elegir" />
 
@@ -127,7 +127,7 @@
             android:background="@drawable/bg_box_bottom"
             android:elevation="6dp"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/margin_padding_small"
+            android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_xlarge"
             tools:text="Opción 2 a elegir" />
 
@@ -149,15 +149,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_yes"
                 android:layout_width="@dimen/img_size"
                 android:layout_height="@dimen/img_size"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_padding_xsmall"
-                android:background="@drawable/ic_option_yes_trans" />
+                android:layout_marginBottom="@dimen/margin_padding_small"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_option_yes_trans" />
 
             <TextView
                 style="@style/BtnsTextView"
@@ -167,32 +169,6 @@
                 android:layout_marginBottom="@dimen/margin_padding_xsmall"
                 android:text="@string/btn_yes" />
 
-            <LinearLayout
-                android:id="@+id/ll_results_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_votes_yes"
-                    style="@style/VotesTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/margin_padding_xxsmall"
-                    tools:text="142 votos" />
-
-                <TextView
-                    android:id="@+id/tv_percer_yes"
-                    style="@style/PercentsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="(18%)" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -200,15 +176,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_no"
                 android:layout_width="@dimen/img_size"
                 android:layout_height="@dimen/img_size"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_padding_xsmall"
-                android:background="@drawable/ic_option_no_trans" />
+                android:layout_marginBottom="@dimen/margin_padding_small"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_option_no_trans" />
 
             <TextView
                 style="@style/BtnsTextView"
@@ -217,32 +195,6 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/margin_padding_xsmall"
                 android:text="@string/btn_no" />
-
-            <LinearLayout
-                android:id="@+id/ll_results_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_votes_no"
-                    style="@style/VotesTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/margin_padding_xxsmall"
-                    tools:text="142 votos" />
-
-                <TextView
-                    android:id="@+id/porcen_no"
-                    style="@style/PercentsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="(72%)" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
