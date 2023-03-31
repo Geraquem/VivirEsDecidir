@@ -54,6 +54,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
 
+    implementation 'com.airbnb.android:lottie:4.2.2'
+
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     testImplementation 'junit:junit:4.13.2'

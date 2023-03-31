@@ -37,11 +37,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <!--    <pl.droidsonroids.gif.GifImageView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:background="@drawable/raining" />-->
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
