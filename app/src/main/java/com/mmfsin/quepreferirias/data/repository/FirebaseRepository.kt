@@ -13,12 +13,11 @@ class FirebaseRepository(private val listener: IRepository) {
         Firebase.database.reference.child(ROOT).get().addOnSuccessListener {
             val pruebas = mutableListOf<DataDTO>()
             for (prueba in it.children) {
-                val id = UUID.randomUUID().toString()
                 val textA = prueba.child(TEXT_TOP).value.toString()
                 val textB = prueba.child(TEXT_BOTTOM).value.toString()
                 val votesA = prueba.child(YES).childrenCount
                 val votesB = prueba.child(NO).childrenCount
-                pruebas.add(DataDTO(id, textA, textB, votesA, votesB))
+                pruebas.add(DataDTO(textA, textB, votesA, votesB))
             }
             listener.getDataFromFirebase(pruebas)
 

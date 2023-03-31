@@ -1,10 +1,9 @@
 package com.mmfsin.quepreferirias.presentation
 
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +36,12 @@ class MainActivity : AppCompatActivity(), MainView {
         binding.apply {
 //            showWelcomeDialog()
             loadingScreen.root.visibility = View.VISIBLE
+
+            val animationDrawable = clMain.background as AnimationDrawable
+            animationDrawable.setEnterFadeDuration(6000)
+            animationDrawable.setExitFadeDuration(6000)
+            animationDrawable.start()
+
             percents.root.visibility = View.INVISIBLE
         }
     }
@@ -112,7 +117,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private fun animateProgress(progress: ProgressBar, total: Int, votes: Int) {
         progress.max = total * 100
-        val animation = ObjectAnimator.ofInt(progress, "progress", votes*100)
+        val animation = ObjectAnimator.ofInt(progress, "progress", votes * 100)
         animation.duration = 2000
         animation.interpolator = DecelerateInterpolator()
         animation.start()

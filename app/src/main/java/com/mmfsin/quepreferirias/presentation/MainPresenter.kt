@@ -1,6 +1,5 @@
 package com.mmfsin.quepreferirias.presentation
 
-import com.mmfsin.quepreferirias.data.database.RealmDatabase
 import com.mmfsin.quepreferirias.data.repository.FirebaseRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRepository
 import com.mmfsin.quepreferirias.domain.models.DataDTO
@@ -14,7 +13,6 @@ class MainPresenter(private val view: MainView) : IRepository, CoroutineScope {
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     private val repository by lazy { FirebaseRepository(this) }
-    private val realm by lazy { RealmDatabase() }
 
     fun getData() = launch(Dispatchers.IO) { repository.getDataFromFirebase() }
 
@@ -38,7 +36,6 @@ class MainPresenter(private val view: MainView) : IRepository, CoroutineScope {
     }
 
     override fun getDataFromFirebase(dataList: List<DataDTO>) {
-//        dataList.shuffled().forEach{data -> realm.addObject { data } }
         launch { view.firebaseReady(dataList.shuffled()) }
     }
 

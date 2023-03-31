@@ -13,7 +13,4 @@
     <item android:drawable="@drawable/gradient_move4"
         android:duration="6000"/>
 
-    <item android:drawable="@drawable/gradient_move5"
-        android:duration="6000"/>
-
 </animation-list>
