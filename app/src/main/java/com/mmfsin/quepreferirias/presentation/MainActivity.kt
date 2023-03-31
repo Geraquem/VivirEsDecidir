@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.mmfsin.quepreferirias.R
@@ -110,7 +111,10 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     private fun animateProgress(progress: ProgressBar, total: Int, votes: Int) {
-        progress.max = total
-        ObjectAnimator.ofInt(progress, "progress", votes).setDuration(2500).start()
+        progress.max = total * 100
+        val animation = ObjectAnimator.ofInt(progress, "progress", votes*100)
+        animation.duration = 2000
+        animation.interpolator = DecelerateInterpolator()
+        animation.start()
     }
 }
