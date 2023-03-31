@@ -45,7 +45,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent"
+        android:background="@color/bg_transparent"
         android:contentDescription="@string/content_description" />
 
     <ImageView
@@ -66,7 +66,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/ll_votes"
+        app:layout_constraintBottom_toTopOf="@id/percents"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/info">
@@ -124,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_padding_xlarge"
             android:background="@drawable/bg_box_bottom"
             android:elevation="6dp"
             android:gravity="center"
@@ -132,6 +133,16 @@
             tools:text="Opción 2 a elegir" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/percents"
+        layout="@layout/include_percents"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_medium"
+        app:layout_constraintBottom_toTopOf="@id/ll_votes"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
 
     <LinearLayout
         android:id="@+id/ll_votes"

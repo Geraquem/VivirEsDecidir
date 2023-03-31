@@ -12,10 +12,10 @@
     <string name="btn_yes">A TOPE</string>
     <string name="btn_no">NO LO CREO</string>
 
+    <string name="percent">%s%</string>
+    <string name="votes">VOTOS</string>
 
-
-
-
+    <!-- ////////////////////////////////////////////////////////////////////////////// -->
 
     <string name="instrucciones1">Se te plantea un dilema</string>
     <string name="instrucciones2">Una situación buena con una consecuencia mala.</string>
