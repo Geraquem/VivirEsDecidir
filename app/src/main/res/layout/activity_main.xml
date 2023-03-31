@@ -48,16 +48,6 @@
         android:background="@color/bg_transparent"
         android:contentDescription="@string/content_description" />
 
-    <ImageView
-        android:id="@+id/info"
-        android:layout_width="@dimen/margin_padding_xlarge"
-        android:layout_height="@dimen/margin_padding_xlarge"
-        android:layout_marginTop="@dimen/margin_padding_large"
-        android:background="@drawable/ic_info"
-        android:contentDescription="@string/content_description"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/ll_main"
         android:layout_width="0dp"
