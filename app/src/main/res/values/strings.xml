@@ -3,26 +3,10 @@
 
     <string name="content_description">image</string>
 
-
-    <!-- Instructions -->
-    <string name="swipeText">Desliza a la izquierda para pasar de pregunta</string>
-
     <!-- Main -->
     <string name="but">PERO</string>
     <string name="btn_yes">A TOPE</string>
     <string name="btn_no">NO LO CREO</string>
-
     <string name="votes">VOTOS</string>
-
-    <!-- ////////////////////////////////////////////////////////////////////////////// -->
-
-    <string name="instrucciones1">Se te plantea un dilema</string>
-    <string name="instrucciones2">Una situación buena con una consecuencia mala.</string>
-    <string name="instrucciones3">Tienes que decidir si</string>
-    <string name="aceptas">ACEPTAS</string>
-    <string name="o">O</string>
-    <string name="rechazas">RECHAZAS</string>
-
-    <string name="end2">de momento no existen más dilemas que plantearte</string>
-    <string name="end3">¡Muchas gracias por jugar!</string>
+    <string name="next">SIGUIENTE</string>
 </resources>

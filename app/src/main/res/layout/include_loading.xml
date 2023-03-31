@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:clickable="true"
+    android:elevation="10dp"
     android:focusable="true">
 
     <!-- Cambiar a Lottie -->

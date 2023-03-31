@@ -12,6 +12,7 @@
 
     <color name="bg_transparent">#41FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="btn_transparent">#75FFFFFF</color>
 
     <color name="color_top">#79C7FFCD</color>
     <color name="color_bottom">#79FF9B9B</color>

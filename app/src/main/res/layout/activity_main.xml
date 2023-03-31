@@ -199,12 +199,18 @@
 
     </LinearLayout>
 
-    <Button
+    <TextView
         android:id="@+id/btn_next"
+        style="@style/VotesTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_padding_large"
-        android:text="siguiente"
+        android:background="@drawable/bg_btn_next"
+        android:elevation="6dp"
+        android:gravity="center"
+        android:paddingVertical="@dimen/margin_padding_xmedium"
+        android:text="@string/next"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
