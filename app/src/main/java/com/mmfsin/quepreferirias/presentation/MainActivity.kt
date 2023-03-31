@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity(), MainView {
     private lateinit var dataList: List<DataDTO>
     private var position = 0
 
+    private var votesA: Long = 0
+    private var votesB: Long = 0
+
     private val presenter by lazy { MainPresenter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,27 +29,16 @@ class MainActivity : AppCompatActivity(), MainView {
         setContentView(binding.root)
         setUI()
         setListeners()
-//        presenter.getData()
+        presenter.getData()
     }
 
     private fun setUI() {
         binding.apply {
 //            showWelcomeDialog()
-//            loadingScreen.root.visibility = View.VISIBLE
+            loadingScreen.root.visibility = View.VISIBLE
+            percents.root.visibility = View.INVISIBLE
         }
     }
-
-//    fun animatePercentage(percentage: Float) {
-//        val width = percentage * binding.customView.width / 100
-//        val animator = ValueAnimator.ofInt(0, width.toInt())
-//        animator.addUpdateListener { valueAnimator ->
-//            val value = valueAnimator.animatedValue as Int
-//            binding.progressBar.layoutParams.width = value
-//            binding.progressBar.requestLayout()
-//        }
-//        animator.duration = 1000
-//        animator.start()
-//    }
 
     override fun firebaseReady(dataList: List<DataDTO>) {
         this.dataList = dataList
@@ -56,31 +49,68 @@ class MainActivity : AppCompatActivity(), MainView {
         binding.apply {
             tvTextTop.text = data.textA
             tvTextBottom.text = data.textB
+            votesA = data.votesA
+            votesB = data.votesB
             loadingScreen.root.visibility = View.GONE
         }
     }
 
     private fun setListeners() {
         binding.apply {
-            btnYes.setOnClickListener { }
+            btnYes.setOnClickListener {
+                btnYes.isEnabled = false
+                btnNo.isEnabled = false
+                //do firebase call
+                btnYes.setImageResource(R.drawable.ic_option_yes)
+                votesA += 1
+                showPercents()
+            }
 
             btnNo.setOnClickListener {
+                btnYes.isEnabled = false
+                btnNo.isEnabled = false
+                //do firebase call
+                btnNo.setImageResource(R.drawable.ic_option_no)
+                votesA += 1
+                showPercents()
+            }
 
-                val votesYes = 35
-                val votesNo = 65
-                val max = votesYes + votesNo
+            btnNext.setOnClickListener {
+                percents.root.visibility = View.INVISIBLE
+                btnYes.setImageResource(R.drawable.ic_option_yes_trans)
+                btnNo.setImageResource(R.drawable.ic_option_no_trans)
+                btnYes.isEnabled = true
+                btnNo.isEnabled = true
 
-                percents.progressBarLeft.max = max
+                animateProgress(percents.progressBarLeft, 0, 0)
+                animateProgress(percents.progressBarRight, 0, 0)
 
-                ObjectAnimator.ofInt(percents.progressBarLeft, "progress", votesYes)
-                    .setDuration(2500).start()
-
-                percents.progressBarRight.max = max
-
-                ObjectAnimator.ofInt(percents.progressBarRight, "progress", votesNo)
-                    .setDuration(2500).start()
-
+                position += 1
+                setSingleData(dataList[position])
             }
         }
+    }
+
+    private fun showPercents() {
+        binding.percents.apply {
+            val progressA = progressBarLeft
+            val progressB = progressBarRight
+            val total = (votesA + votesB).toInt()
+
+            val percents = presenter.calculatePercent(votesA, votesB)
+            tvPercentYes.text = percents.first
+            tvPercentNo.text = percents.second
+            tvVotesYes.text = votesA.toString()
+            tvVotesNo.text = votesB.toString()
+
+            animateProgress(progressA, total, votesA.toInt())
+            animateProgress(progressB, total, votesB.toInt())
+            root.visibility = View.VISIBLE
+        }
+    }
+
+    private fun animateProgress(progress: ProgressBar, total: Int, votes: Int) {
+        progress.max = total
+        ObjectAnimator.ofInt(progress, "progress", votes).setDuration(2500).start()
     }
 }

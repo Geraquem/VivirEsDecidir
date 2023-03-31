@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@+id/tv_votes_yes"
-        style="@style/PercentsTextView"
+        style="@style/VotesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_small"
@@ -66,7 +66,7 @@
 
     <TextView
         android:id="@+id/tv_votes_no"
-        style="@style/PercentsTextView"
+        style="@style/VotesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_small"
@@ -76,7 +76,7 @@
         tools:text="485" />
 
     <TextView
-        style="@style/PercentsTextView"
+        style="@style/VotesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_small"

@@ -68,8 +68,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/percents"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/info">
+        app:layout_constraintRight_toRightOf="@id/gl_right">
 
         <TextView
             android:id="@+id/tv_text_top"
@@ -139,7 +138,7 @@
         layout="@layout/include_percents"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_padding_medium"
+        android:layout_marginBottom="@dimen/margin_padding_large"
         app:layout_constraintBottom_toTopOf="@id/ll_votes"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
@@ -148,10 +147,10 @@
         android:id="@+id/ll_votes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_padding_large"
+        android:layout_marginBottom="@dimen/margin_padding_medium"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_next"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right">
 
@@ -210,6 +209,16 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_large"
+        android:text="siguiente"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
 
     <include
         android:id="@+id/loadingScreen"
