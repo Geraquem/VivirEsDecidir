@@ -7,7 +7,9 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import com.mmfsin.quepreferirias.NO
 import com.mmfsin.quepreferirias.R
+import com.mmfsin.quepreferirias.YES
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.domain.models.DataDTO
 
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private var votesA: Long = 0
     private var votesB: Long = 0
+
+    private var dataKey: String = ""
 
     private val presenter by lazy { MainPresenter(this) }
 
@@ -53,6 +57,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun setSingleData(data: DataDTO) {
         binding.apply {
+            dataKey = data.id
             tvTextTop.text = data.textA
             tvTextBottom.text = data.textB
             votesA = data.votesA
@@ -64,15 +69,16 @@ class MainActivity : AppCompatActivity(), MainView {
     private fun setListeners() {
         binding.apply {
             btnYes.setOnClickListener {
+                presenter.setVotes(dataKey, YES)
                 btnYes.isEnabled = false
                 btnNo.isEnabled = false
-                //do firebase call
                 btnYes.setImageResource(R.drawable.ic_option_yes)
                 votesA += 1
                 showPercents()
             }
 
             btnNo.setOnClickListener {
+                presenter.setVotes(dataKey, NO)
                 btnYes.isEnabled = false
                 btnNo.isEnabled = false
                 //do firebase call

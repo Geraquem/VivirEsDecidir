@@ -1,6 +1,7 @@
 package com.mmfsin.quepreferirias.domain.models
 
 open class DataDTO(
+    var id: String = "",
     var textA: String = "",
     var textB: String = "",
     var votesA: Long = 0L,

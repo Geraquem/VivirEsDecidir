@@ -16,6 +16,9 @@ class MainPresenter(private val view: MainView) : IRepository, CoroutineScope {
 
     fun getData() = launch(Dispatchers.IO) { repository.getDataFromFirebase() }
 
+    fun setVotes(key: String, voted: String) =
+        launch(Dispatchers.IO) { repository.setVote(key, voted) }
+
     fun calculatePercent(votesYes: Long, votesNo: Long): Pair<String, String> {
         val total = votesYes + votesNo
 
