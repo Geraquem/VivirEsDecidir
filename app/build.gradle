@@ -11,10 +11,10 @@ android {
 
     defaultConfig {
         applicationId "com.mmfsin.quepreferirias"
-        minSdk 24
+        minSdk 26
         targetSdk 32
-        versionCode 8
-        versionName "1.8"
+        versionCode 9
+        versionName "1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

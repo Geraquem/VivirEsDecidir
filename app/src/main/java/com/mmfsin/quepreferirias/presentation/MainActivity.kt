@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private var mInterstitialAd: InterstitialAd? = null
     private var mInterstitialId = "ca-app-pub-3940256099942544/1033173712"
-//    private var InterstitialId = "ca-app-pub-4515698012373396/6775142518"
+//    private var mInterstitialId = "ca-app-pub-4515698012373396/6775142518"
+
 
     private val presenter by lazy { MainPresenter(this) }
 
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity(), MainView {
                     btnNext.text = getString(R.string.no_more_questions)
                     btnNext.isEnabled = false
                 }
-//                showInterstitial()
+                showInterstitial()
             }
         }
     }

@@ -5,7 +5,6 @@ import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.*
 import com.mmfsin.quepreferirias.domain.interfaces.IRepository
 import com.mmfsin.quepreferirias.domain.models.DataDTO
-import java.util.UUID
 
 class FirebaseRepository(private val listener: IRepository) {
 
