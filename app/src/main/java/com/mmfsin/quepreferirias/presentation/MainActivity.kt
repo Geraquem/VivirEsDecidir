@@ -7,6 +7,11 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mmfsin.quepreferirias.NO
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.YES
@@ -25,12 +30,20 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private var dataKey: String = ""
 
+    private var mInterstitialAd: InterstitialAd? = null
+    private var mInterstitialId = "ca-app-pub-3940256099942544/1033173712"
+//    private var InterstitialId = "ca-app-pub-4515698012373396/6775142518"
+
     private val presenter by lazy { MainPresenter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        MobileAds.initialize(this) {}
+        loadInterstitial(AdRequest.Builder().build())
+
         setUI()
         setListeners()
         presenter.getData()
@@ -38,8 +51,10 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private fun setUI() {
         binding.apply {
-//            showWelcomeDialog()
             loadingScreen.root.visibility = View.VISIBLE
+
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
 
             val animationDrawable = clMain.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(6000)
@@ -51,7 +66,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun firebaseReady(dataList: List<DataDTO>) {
-        this.dataList = dataList
+        this.dataList = dataList.shuffled()
         setSingleData(dataList[position])
     }
 
@@ -81,13 +96,13 @@ class MainActivity : AppCompatActivity(), MainView {
                 presenter.setVotes(dataKey, NO)
                 btnYes.isEnabled = false
                 btnNo.isEnabled = false
-                //do firebase call
                 btnNo.setImageResource(R.drawable.ic_option_no)
                 votesA += 1
                 showPercents()
             }
 
             btnNext.setOnClickListener {
+                showInterstitial()
                 percents.root.visibility = View.INVISIBLE
                 btnYes.setImageResource(R.drawable.ic_option_yes_trans)
                 btnNo.setImageResource(R.drawable.ic_option_no_trans)
@@ -127,5 +142,30 @@ class MainActivity : AppCompatActivity(), MainView {
         animation.duration = 2000
         animation.interpolator = DecelerateInterpolator()
         animation.start()
+    }
+
+    private fun loadInterstitial(adRequest: AdRequest) {
+        InterstitialAd.load(this,
+            mInterstitialId,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                    loadInterstitial(AdRequest.Builder().build())
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+            })
+    }
+
+    private fun showInterstitial() {
+        if (position % 20 == 0) {
+            mInterstitialAd?.let { ad ->
+                ad.show(this)
+                loadInterstitial(AdRequest.Builder().build())
+            }
+        }
     }
 }

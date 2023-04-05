@@ -22,7 +22,7 @@ class FirebaseRepository(private val listener: IRepository) {
                 }
             }
             if (pruebas.isEmpty()) listener.somethingWentWrong()
-            else listener.getDataFromFirebase(pruebas)
+            else listener.getDataFromFirebase(pruebas.shuffled())
 
         }.addOnFailureListener { listener.somethingWentWrong() }
     }
