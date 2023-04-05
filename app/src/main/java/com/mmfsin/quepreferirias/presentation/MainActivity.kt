@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     private fun showInterstitial() {
-        if (position % 20 == 0) {
+        if (position != 2 && position % 20 == 0) {
             mInterstitialAd?.let { ad ->
                 ad.show(this)
                 loadInterstitial(AdRequest.Builder().build())
