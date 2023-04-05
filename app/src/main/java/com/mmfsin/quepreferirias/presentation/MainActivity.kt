@@ -1,7 +1,9 @@
 package com.mmfsin.quepreferirias.presentation
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -40,7 +42,6 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         MobileAds.initialize(this) {}
         loadInterstitial(AdRequest.Builder().build())
 
@@ -83,6 +84,10 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private fun setListeners() {
         binding.apply {
+            ivMm.setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.mmfsinURL))))
+            }
+
             btnYes.setOnClickListener {
                 presenter.setVotes(dataKey, YES)
                 btnYes.isEnabled = false
@@ -102,7 +107,6 @@ class MainActivity : AppCompatActivity(), MainView {
             }
 
             btnNext.setOnClickListener {
-                showInterstitial()
                 percents.root.visibility = View.INVISIBLE
                 btnYes.setImageResource(R.drawable.ic_option_yes_trans)
                 btnNo.setImageResource(R.drawable.ic_option_no_trans)
@@ -113,7 +117,13 @@ class MainActivity : AppCompatActivity(), MainView {
                 animateProgress(percents.progressBarRight, 0, 0)
 
                 position += 1
-                setSingleData(dataList[position])
+                if (position < dataList.size) {
+                    setSingleData(dataList[position])
+                } else {
+                    btnNext.text = getString(R.string.no_more_questions)
+                    btnNext.isEnabled = false
+                }
+//                showInterstitial()
             }
         }
     }
@@ -161,7 +171,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     private fun showInterstitial() {
-        if (position != 2 && position % 20 == 0) {
+        if (position % 20 == 0) {
             mInterstitialAd?.let { ad ->
                 ad.show(this)
                 loadInterstitial(AdRequest.Builder().build())

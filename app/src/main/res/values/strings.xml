@@ -3,10 +3,14 @@
 
     <string name="content_description">image</string>
 
+    <string name="mmfsinURL">https://play.google.com/store/apps/developer?id=mmfsin</string>
+    <!--    <string name="mmfsinURL">https://play.google.com/store/apps/collection/cluster?clp=igM3ChkKEzU1MTgyMTMzMDU5Mjk0Mzk3NzAQCBgDEhgKEmNvbS5tbWZzaW4ueW9udW5jYRABGAMYAQ%3D%3D:S:ANO1ljIt5Vc&amp;gsr=CjqKAzcKGQoTNTUxODIxMzMwNTkyOTQzOTc3MBAIGAMSGAoSY29tLm1tZnNpbi55b251bmNhEAEYAxgB:S:ANO1ljJHODs</string>-->
+
     <!-- Main -->
     <string name="but">PERO</string>
     <string name="btn_yes">A TOPE</string>
     <string name="btn_no">NO LO CREO</string>
     <string name="votes">VOTOS</string>
     <string name="next">SIGUIENTE</string>
+    <string name="no_more_questions">NO HAY MÁS PREGUNTAS</string>
 </resources>

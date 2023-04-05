@@ -47,17 +47,30 @@
         android:background="@color/bg_transparent"
         android:contentDescription="@string/content_description" />
 
+    <ImageView
+        android:id="@+id/iv_mm"
+        android:layout_width="@dimen/margin_padding_xlarge"
+        android:layout_height="@dimen/margin_padding_xlarge"
+        android:layout_marginTop="@dimen/margin_padding_medium"
+        android:background="@color/bg_transparent"
+        android:contentDescription="@string/content_description"
+        android:src="@color/black"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/adView" />
+
     <LinearLayout
         android:id="@+id/ll_main"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/margin_padding_xxlarge"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/margin_padding_xlarge"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/percents"
+        android:gravity="bottom"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right">
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/iv_mm">
 
         <TextView
             android:id="@+id/tv_text_top"
