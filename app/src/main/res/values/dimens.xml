@@ -6,6 +6,7 @@
     <dimen name="margin_padding_xmedium">12dp</dimen>
     <dimen name="margin_padding_medium">16dp</dimen>
     <dimen name="margin_padding_large">24dp</dimen>
+    <dimen name="margin_padding_large_small">28dp</dimen>
     <dimen name="margin_padding_xlarge">32dp</dimen>
     <dimen name="margin_padding_xxlarge">40dp</dimen>
     <dimen name="margin_padding_xxxlarge">44dp</dimen>

@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-4515698012373396/8033411533"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toTopOf="parent">
@@ -74,6 +74,7 @@
         android:backgroundTint="@color/transparent"
         android:contentDescription="@string/content_description"
         android:src="@drawable/ic_mmf"
+        android:visibility="gone"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/adView" />
 
@@ -89,7 +90,7 @@
         app:layout_constraintBottom_toTopOf="@id/percents"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/iv_mm">
+        app:layout_constraintTop_toBottomOf="@id/adView">
 
         <TextView
             android:id="@+id/tv_text_top"
@@ -101,7 +102,7 @@
             android:elevation="6dp"
             android:gravity="center"
             android:paddingHorizontal="@dimen/margin_padding_medium"
-            android:paddingVertical="@dimen/margin_padding_xlarge"
+            android:paddingVertical="@dimen/margin_padding_large_small"
             tools:text="Opción 1 a elegir" />
 
         <LinearLayout
@@ -148,7 +149,7 @@
             android:elevation="6dp"
             android:gravity="center"
             android:paddingHorizontal="@dimen/margin_padding_medium"
-            android:paddingVertical="@dimen/margin_padding_xlarge"
+            android:paddingVertical="@dimen/margin_padding_large_small"
             tools:text="Opción 2 a elegir" />
 
     </LinearLayout>
