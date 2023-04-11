@@ -81,7 +81,7 @@
     <LinearLayout
         android:id="@+id/ll_main"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginVertical="@dimen/margin_padding_xlarge"
         android:clipChildren="false"
         android:clipToPadding="false"
