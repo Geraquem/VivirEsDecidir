@@ -16,7 +16,7 @@
             android:value="ca-app-pub-4515698012373396~1972969527" />
 
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.dashboard.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.VivirEsDecidir.NoActionBar"

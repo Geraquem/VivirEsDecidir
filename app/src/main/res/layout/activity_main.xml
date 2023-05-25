@@ -8,7 +8,7 @@
     android:background="@drawable/gradient_list"
     android:clipChildren="false"
     android:clipToPadding="false"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.dashboard.MainActivity">
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-4515698012373396/8033411533"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toTopOf="parent">
@@ -26,23 +26,6 @@
         <!--    ID REAL -> ads:adUnitId="ca-app-pub-4515698012373396/8033411533" -->
 
     </com.google.android.gms.ads.AdView>
-
-    <!--    <androidx.core.widget.NestedScrollView-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:foregroundGravity="bottom"-->
-    <!--        android:overScrollMode="never"-->
-    <!--        android:scrollbars="none"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/adView">-->
-
-    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:clipChildren="false"-->
-    <!--            android:clipToPadding="false">-->
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_left"
@@ -64,17 +47,18 @@
         android:background="@color/bg_transparent"
         android:contentDescription="@string/content_description" />
 
-    <ImageView
-        android:id="@+id/iv_mm"
-        android:layout_width="@dimen/margin_padding_xxlarge"
-        android:layout_height="@dimen/margin_padding_xxlarge"
-        android:layout_marginTop="@dimen/margin_padding_medium"
-        android:layout_marginEnd="@dimen/margin_padding_xxsmall"
-        android:background="@color/bg_transparent"
-        android:backgroundTint="@color/transparent"
-        android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_mmf"
-        android:visibility="gone"
+    <TextView
+        android:id="@+id/btn_send_questions"
+        style="@style/VotesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_small"
+        android:background="@drawable/bg_btn_next"
+        android:elevation="@dimen/elevation"
+        android:paddingHorizontal="@dimen/margin_padding_medium"
+        android:paddingVertical="@dimen/margin_padding_xsmall"
+        android:text="@string/send_questions"
+        android:textAllCaps="true"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/adView" />
 
@@ -82,7 +66,7 @@
         android:id="@+id/ll_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginVertical="@dimen/margin_padding_xlarge"
+        android:layout_marginVertical="@dimen/margin_padding_large_small"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="bottom"
@@ -90,7 +74,7 @@
         app:layout_constraintBottom_toTopOf="@id/percents"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/adView">
+        app:layout_constraintTop_toBottomOf="@id/btn_send_questions">
 
         <TextView
             android:id="@+id/tv_text_top"
@@ -238,7 +222,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_padding_large"
         android:background="@drawable/bg_btn_next"
-        android:elevation="6dp"
+        android:elevation="@dimen/elevation"
         android:gravity="center"
         android:paddingVertical="@dimen/margin_padding_xmedium"
         android:text="@string/next"
@@ -247,13 +231,19 @@
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
-    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-    <!--    </androidx.core.widget.NestedScrollView>-->
-
     <include
         android:id="@+id/loadingScreen"
         layout="@layout/include_loading"
         android:visibility="gone" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="@dimen/margin_padding_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
