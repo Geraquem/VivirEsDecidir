@@ -17,7 +17,13 @@ class DataRepository(private val listener: IData) {
                     val textB = prueba.child(TEXT_BOTTOM).value.toString()
                     val votesA = prueba.child(YES).childrenCount
                     val votesB = prueba.child(NO).childrenCount
-                    pruebas.add(DataDTO(id, textA, textB, votesA, votesB))
+                    val creatorName = prueba.child(CREATOR_NAME).value
+                    if (creatorName != null && creatorName.toString().isNotEmpty()) {
+                        pruebas.add(
+                            DataDTO(id, textA, textB, votesA, votesB, creatorName.toString())
+                        )
+                    } else pruebas.add(DataDTO(id, textA, textB, votesA, votesB))
+
                 }
             }
             if (pruebas.isEmpty()) listener.somethingWentWrong()
@@ -27,10 +33,7 @@ class DataRepository(private val listener: IData) {
     }
 
     fun setVote(key: String, voted: String) {
-        Firebase.database.reference.child(PRUEBAS_ROOT)
-            .child(key)
-            .child(voted)
-            .push()
+        Firebase.database.reference.child(PRUEBAS_ROOT).child(key).child(voted).push()
             .setValue(true)
     }
 }

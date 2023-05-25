@@ -1,6 +1,8 @@
 package com.mmfsin.quepreferirias.presentation.create
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.FragmentSendQuestionsBinding
 import com.mmfsin.quepreferirias.domain.models.QuestionSentDTO
 
@@ -44,6 +47,10 @@ class SendQuestionsFragment : Fragment(), SendQuestionView {
                 val textA = txtTop.text.toString()
                 val textB = txtBottom.text.toString()
                 if (textA.isNotEmpty() && textB.isNotEmpty()) sendQuestion(textA, textB)
+            }
+
+            btnMoreApps.setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.mmfsinURL))))
             }
         }
     }

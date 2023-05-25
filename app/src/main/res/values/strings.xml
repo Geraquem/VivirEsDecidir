@@ -14,6 +14,7 @@
     <string name="votes">VOTOS</string>
     <string name="next">SIGUIENTE</string>
     <string name="no_more_questions">NO HAY MÁS PREGUNTAS</string>
+    <string name="sent_by">Enviado por</string>
 
     <!-- Send Question -->
     <string name="good_condition">Condición buena</string>

@@ -11,7 +11,7 @@ class QuestionsRepository(private val listener: IQuestions) {
 
     fun sendQuestion(question: QuestionSentDTO) {
         val key = UUID.randomUUID().toString()
-        Firebase.database.reference.child(SEND_QUESTIONS_ROOT).child(key).setValue(true)
+        Firebase.database.reference.child(SEND_QUESTIONS_ROOT).child(key).setValue(question)
             .addOnCompleteListener { listener.result(it.isSuccessful) }
     }
 }

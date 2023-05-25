@@ -1,14 +1,14 @@
 package com.mmfsin.quepreferirias.presentation.dashboard
 
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
-import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.bold
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity(), MainView {
     private var dataKey: String = ""
 
     private var mInterstitialAd: InterstitialAd? = null
-    private var mInterstitialId = "ca-app-pub-3940256099942544/1033173712"
-//    private var mInterstitialId = "ca-app-pub-4515698012373396/6775142518"
+//    private var mInterstitialId = "ca-app-pub-3940256099942544/1033173712"
+    private var mInterstitialId = "ca-app-pub-4515698012373396/6775142518"
 
     private val presenter by lazy { MainPresenter(this) }
 
@@ -46,19 +46,14 @@ class MainActivity : AppCompatActivity(), MainView {
         MobileAds.initialize(this) {}
         loadInterstitial(AdRequest.Builder().build())
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, SendQuestionsFragment())
-            .addToBackStack(null)
-            .commit()
-
         setUI()
         setListeners()
-//        presenter.getData()
+        presenter.getData()
     }
 
     private fun setUI() {
         binding.apply {
-//            loadingScreen.root.visibility = View.VISIBLE
+            loadingScreen.root.visibility = View.VISIBLE
 
             val adRequest = AdRequest.Builder().build()
             adView.loadAd(adRequest)
@@ -84,20 +79,23 @@ class MainActivity : AppCompatActivity(), MainView {
             tvTextBottom.text = data.textB
             votesA = data.votesA
             votesB = data.votesB
+            data.creatorName?.let { name ->
+                val spannableText = SpannableStringBuilder().append(getString(R.string.sent_by))
+                    .append(" ")
+                    .bold { append(name) }
+                creatorName.text = spannableText
+                creatorName.visibility = View.VISIBLE
+            } ?: run { creatorName.visibility = View.GONE }
             loadingScreen.root.visibility = View.GONE
         }
     }
 
     private fun setListeners() {
         binding.apply {
-//            ivMm.setOnClickListener {
-//                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.mmfsinURL))))
-//            }
             btnSendQuestions.setOnClickListener {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container_view, SendQuestionsFragment())
-                    .addToBackStack(null)
-                    .commit()
+                    .addToBackStack(null).commit()
             }
 
             btnYes.setOnClickListener {
@@ -167,7 +165,8 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     private fun loadInterstitial(adRequest: AdRequest) {
-        InterstitialAd.load(this,
+        InterstitialAd.load(
+            this,
             mInterstitialId,
             adRequest,
             object : InterstitialAdLoadCallback() {

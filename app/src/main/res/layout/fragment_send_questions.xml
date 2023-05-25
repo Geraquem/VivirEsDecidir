@@ -78,7 +78,7 @@
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_more_apps"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toBottomOf="@id/appBar">
@@ -89,7 +89,7 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:paddingVertical="@dimen/margin_padding_large">
+            android:paddingTop="@dimen/margin_padding_medium">
 
             <TextView
                 style="@style/VotesTextView"
@@ -163,39 +163,43 @@
                 android:id="@+id/result"
                 layout="@layout/include_result_send_questions" />
 
-            <LinearLayout
-                android:id="@+id/btn_more_apps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_padding_large"
-                android:orientation="vertical"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="@dimen/margin_padding_gigant"
-                    android:layout_height="@dimen/margin_padding_gigant"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/margin_padding_xmedium"
-                    android:background="@drawable/bg_mmf"
-                    android:contentDescription="@string/content_description"
-                    android:elevation="@dimen/elevation"
-                    android:padding="@dimen/margin_padding_small"
-                    android:src="@drawable/ic_mmf" />
-
-                <TextView
-                    style="@style/VotesTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/more_apps"
-                    android:textAllCaps="true"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/btn_more_apps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_padding_medium"
+        android:paddingBottom="@dimen/margin_padding_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="@dimen/margin_padding_gigant"
+            android:layout_height="@dimen/margin_padding_gigant"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_padding_xmedium"
+            android:background="@drawable/bg_mmf"
+            android:contentDescription="@string/content_description"
+            android:elevation="@dimen/elevation"
+            android:padding="@dimen/margin_padding_small"
+            android:src="@drawable/ic_mmf" />
+
+        <TextView
+            style="@style/VotesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/more_apps"
+            android:textAllCaps="true"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
