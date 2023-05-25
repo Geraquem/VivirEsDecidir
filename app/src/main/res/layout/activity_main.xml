@@ -89,39 +89,7 @@
             android:paddingVertical="@dimen/margin_padding_large_small"
             tools:text="Opción 1 a elegir" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_padding_medium"
-            android:layout_marginVertical="@dimen/margin_padding_small"
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_weight="2.5"
-                android:background="@color/black" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_padding_small"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:text="@string/but"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_weight="2.5"
-                android:background="@color/black" />
-
-        </LinearLayout>
+        <include layout="@layout/include_but" />
 
         <TextView
             android:id="@+id/tv_text_bottom"

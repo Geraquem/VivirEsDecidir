@@ -12,6 +12,7 @@
     <dimen name="margin_padding_xxlarge">40dp</dimen>
     <dimen name="margin_padding_xxxlarge">44dp</dimen>
     <dimen name="margin_padding_gigant">56dp</dimen>
+    <dimen name="margin_padding_xgigant">64dp</dimen>
 
     <dimen name="elevation">6dp</dimen>
 

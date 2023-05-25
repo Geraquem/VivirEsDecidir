@@ -3,13 +3,13 @@ package com.mmfsin.quepreferirias.data.repository
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.*
-import com.mmfsin.quepreferirias.domain.interfaces.IRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IData
 import com.mmfsin.quepreferirias.domain.models.DataDTO
 
-class FirebaseRepository(private val listener: IRepository) {
+class DataRepository(private val listener: IData) {
 
     fun getDataFromFirebase() {
-        Firebase.database.reference.child(ROOT).get().addOnSuccessListener {
+        Firebase.database.reference.child(PRUEBAS_ROOT).get().addOnSuccessListener {
             val pruebas = mutableListOf<DataDTO>()
             for (prueba in it.children) {
                 prueba.key?.let { id ->
@@ -27,7 +27,7 @@ class FirebaseRepository(private val listener: IRepository) {
     }
 
     fun setVote(key: String, voted: String) {
-        Firebase.database.reference.child(ROOT)
+        Firebase.database.reference.child(PRUEBAS_ROOT)
             .child(key)
             .child(voted)
             .push()

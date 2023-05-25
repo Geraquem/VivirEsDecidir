@@ -6,4 +6,5 @@ open class DataDTO(
     var textB: String = "",
     var votesA: Long = 0L,
     var votesB: Long = 0L,
+    var creatorName: String? = null,
 )

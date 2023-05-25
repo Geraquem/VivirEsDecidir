@@ -1,18 +1,18 @@
 package com.mmfsin.quepreferirias.presentation.dashboard
 
-import com.mmfsin.quepreferirias.data.repository.FirebaseRepository
-import com.mmfsin.quepreferirias.domain.interfaces.IRepository
+import com.mmfsin.quepreferirias.data.repository.DataRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IData
 import com.mmfsin.quepreferirias.domain.models.DataDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class MainPresenter(private val view: MainView) : IRepository, CoroutineScope {
+class MainPresenter(private val view: MainView) : IData, CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
-    private val repository by lazy { FirebaseRepository(this) }
+    private val repository by lazy { DataRepository(this) }
 
     fun getData() = launch(Dispatchers.IO) { repository.getDataFromFirebase() }
 

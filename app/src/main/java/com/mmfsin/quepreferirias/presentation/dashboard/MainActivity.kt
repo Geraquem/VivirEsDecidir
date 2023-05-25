@@ -46,14 +46,19 @@ class MainActivity : AppCompatActivity(), MainView {
         MobileAds.initialize(this) {}
         loadInterstitial(AdRequest.Builder().build())
 
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, SendQuestionsFragment())
+            .addToBackStack(null)
+            .commit()
+
         setUI()
         setListeners()
-        presenter.getData()
+//        presenter.getData()
     }
 
     private fun setUI() {
         binding.apply {
-            loadingScreen.root.visibility = View.VISIBLE
+//            loadingScreen.root.visibility = View.VISIBLE
 
             val adRequest = AdRequest.Builder().build()
             adView.loadAd(adRequest)

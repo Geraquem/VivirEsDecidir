@@ -14,4 +14,18 @@
     <string name="votes">VOTOS</string>
     <string name="next">SIGUIENTE</string>
     <string name="no_more_questions">NO HAY MÁS PREGUNTAS</string>
+
+    <!-- Send Question -->
+    <string name="good_condition">Condición buena</string>
+    <string name="bad_condition">Condición mala</string>
+    <string name="send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>
+    <string name="send_textB">Por ejemplo: Pierdes el dedo pulgar izquierdo</string>
+    <string name="creator_name">Tu nombre (opcional)</string>
+    <string name="send">Enviar</string>
+    <string name="more_apps">Ver más aplicaciones parecidas</string>
+
+    <string name="loading">Un momentito, por favor</string>
+    <string name="result_ok">¡Genial! Tu propuesta ha sido enviada</string>
+    <string name="result_ko">No se ha podido procesar,\ninténtalo en unos minutos</string>
+
 </resources>
