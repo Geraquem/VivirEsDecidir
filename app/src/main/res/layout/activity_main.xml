@@ -134,7 +134,6 @@
 
     </LinearLayout>
 
-
     <include
         android:id="@+id/percents"
         layout="@layout/include_percents"
