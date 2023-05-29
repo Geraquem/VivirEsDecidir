@@ -47,185 +47,208 @@
         android:background="@color/bg_transparent"
         android:contentDescription="@string/content_description" />
 
-    <LinearLayout
-        android:id="@+id/btn_send_questions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_padding_small"
-        android:background="@drawable/bg_btn_next"
-        android:elevation="@dimen/elevation"
-        android:paddingHorizontal="@dimen/margin_padding_medium"
-        android:paddingVertical="@dimen/margin_padding_xsmall"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/adView"
-        tools:ignore="UseCompoundDrawables">
-
-        <TextView
-            style="@style/VotesTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/margin_padding_small"
-            android:gravity="center"
-            android:text="@string/send_questions"
-            android:textAllCaps="true" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="@string/content_description"
-            android:src="@drawable/ic_letter" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_main"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_padding_medium"
-        android:layout_marginBottom="@dimen/margin_padding_large"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/percents"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/btn_send_questions">
-
-        <TextView
-            android:id="@+id/tv_text_top"
-            style="@style/OptionsTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_box_top"
-            android:elevation="6dp"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/margin_padding_medium"
-            android:paddingVertical="@dimen/margin_padding_large_small"
-            tools:text="Opción 1 a elegir" />
-
-        <include layout="@layout/include_but" />
-
-        <TextView
-            android:id="@+id/tv_text_bottom"
-            style="@style/OptionsTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_box_bottom"
-            android:elevation="6dp"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/margin_padding_medium"
-            android:paddingVertical="@dimen/margin_padding_large_small"
-            tools:text="Opción 2 a elegir" />
-
-        <TextView
-            android:id="@+id/creator_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_xsmall"
-            android:layout_marginTop="@dimen/margin_padding_medium"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="16sp"
-            tools:text="@string/sent_by" />
-
-    </LinearLayout>
-
-    <include
-        android:id="@+id/percents"
-        layout="@layout/include_percents"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_padding_large"
-        app:layout_constraintBottom_toTopOf="@id/ll_votes"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
-
-    <LinearLayout
-        android:id="@+id/ll_votes"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_padding_large"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/btn_next"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            tools:ignore="UseCompoundDrawables">
-
-            <ImageView
-                android:id="@+id/btn_yes"
-                android:layout_width="@dimen/img_size"
-                android:layout_height="@dimen/img_size"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_padding_small"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_option_yes_trans" />
-
-            <TextView
-                style="@style/BtnsTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_padding_xsmall"
-                android:text="@string/btn_yes" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            tools:ignore="UseCompoundDrawables">
-
-            <ImageView
-                android:id="@+id/btn_no"
-                android:layout_width="@dimen/img_size"
-                android:layout_height="@dimen/img_size"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_padding_small"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_option_no_trans" />
-
-            <TextView
-                style="@style/BtnsTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_padding_xsmall"
-                android:text="@string/btn_no" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/btn_next"
-        style="@style/VotesTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_padding_large"
-        android:background="@drawable/bg_btn_next"
-        android:elevation="@dimen/elevation"
-        android:gravity="center"
-        android:paddingVertical="@dimen/margin_padding_xmedium"
-        android:text="@string/next"
-        android:textAllCaps="true"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/adView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:id="@+id/btn_send_questions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_small"
+                android:background="@drawable/bg_btn_next"
+                android:elevation="@dimen/elevation"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
+                android:paddingVertical="@dimen/margin_padding_xsmall"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseCompoundDrawables">
+
+                <TextView
+                    style="@style/VotesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_padding_small"
+                    android:gravity="center"
+                    android:text="@string/send_questions"
+                    android:textAllCaps="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/ic_letter" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_main"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_medium"
+                android:layout_marginBottom="@dimen/margin_padding_large"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/percents"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_send_questions">
+
+                <TextView
+                    android:id="@+id/tv_text_top"
+                    style="@style/OptionsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_box_top"
+                    android:elevation="6dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_large_small"
+                    tools:text="Opción 1 a elegir" />
+
+                <include layout="@layout/include_but" />
+
+                <TextView
+                    android:id="@+id/tv_text_bottom"
+                    style="@style/OptionsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_box_bottom"
+                    android:elevation="6dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_large_small"
+                    tools:text="Opción 2 a elegir" />
+
+                <TextView
+                    android:id="@+id/creator_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_padding_xsmall"
+                    android:layout_marginTop="@dimen/margin_padding_medium"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="16sp"
+                    tools:text="@string/sent_by" />
+
+            </LinearLayout>
+
+            <include
+                android:id="@+id/percents"
+                layout="@layout/include_percents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_padding_large"
+                app:layout_constraintBottom_toTopOf="@id/ll_votes"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_votes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_padding_large"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/btn_next"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/btn_yes"
+                        android:layout_width="@dimen/img_size"
+                        android:layout_height="@dimen/img_size"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/margin_padding_small"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_option_yes_trans" />
+
+                    <TextView
+                        style="@style/BtnsTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                        android:text="@string/btn_yes" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/btn_no"
+                        android:layout_width="@dimen/img_size"
+                        android:layout_height="@dimen/img_size"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/margin_padding_small"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_option_no_trans" />
+
+                    <TextView
+                        style="@style/BtnsTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                        android:text="@string/btn_no" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btn_next"
+                style="@style/VotesTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_padding_large"
+                android:background="@drawable/bg_btn_next"
+                android:elevation="@dimen/elevation"
+                android:gravity="center"
+                android:paddingVertical="@dimen/margin_padding_xmedium"
+                android:text="@string/next"
+                android:textAllCaps="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <include
         android:id="@+id/loadingScreen"

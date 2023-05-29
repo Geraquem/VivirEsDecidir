@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
@@ -14,6 +15,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.firebase.messaging.FirebaseMessaging
 import com.mmfsin.quepreferirias.NO
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.YES
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity(), MainView {
         MobileAds.initialize(this) {}
         loadInterstitial(AdRequest.Builder().build())
 
+//        getFCMToken()
         setUI()
         setListeners()
         presenter.getData()
@@ -80,9 +83,9 @@ class MainActivity : AppCompatActivity(), MainView {
             votesA = data.votesA
             votesB = data.votesB
             data.creatorName?.let { name ->
-                val spannableText = SpannableStringBuilder().append(getString(R.string.sent_by))
-                    .append(" ")
-                    .bold { append(name) }
+                val spannableText =
+                    SpannableStringBuilder().append(getString(R.string.sent_by)).append(" ")
+                        .bold { append(name) }
                 creatorName.text = spannableText
                 creatorName.visibility = View.VISIBLE
             } ?: run { creatorName.visibility = View.GONE }
@@ -165,8 +168,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     private fun loadInterstitial(adRequest: AdRequest) {
-        InterstitialAd.load(
-            this,
+        InterstitialAd.load(this,
             mInterstitialId,
             adRequest,
             object : InterstitialAdLoadCallback() {
@@ -187,6 +189,13 @@ class MainActivity : AppCompatActivity(), MainView {
                 ad.show(this)
                 loadInterstitial(AdRequest.Builder().build())
             }
+        }
+    }
+
+    private fun getFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isSuccessful) Log.i("FCM", it.result)
+            else Log.i("FCM", "no token")
         }
     }
 }
