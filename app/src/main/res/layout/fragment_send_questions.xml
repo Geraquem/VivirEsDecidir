@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/windowBackground"
+            android:backgroundTint="@color/white"
             android:paddingVertical="@dimen/margin_padding_medium"
             app:layout_scrollFlags="scroll|enterAlways">
 
@@ -49,6 +50,7 @@
                     android:layout_toEndOf="@+id/iv_back"
                     android:text="@string/send_questions"
                     android:textAllCaps="true"
+                    android:textColor="@color/black"
                     android:textSize="20sp" />
 
             </RelativeLayout>
@@ -107,7 +109,10 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="null"
                 android:background="@drawable/bg_box_top"
-                android:hint="@string/send_textA" />
+                android:hint="@string/send_textA"
+                android:textColor="@color/black"
+                android:textColorHint="@color/solft_black"
+                android:textCursorDrawable="@null" />
 
             <include layout="@layout/include_but" />
 
@@ -128,7 +133,10 @@
                 android:layout_marginBottom="@dimen/margin_padding_large"
                 android:autofillHints="null"
                 android:background="@drawable/bg_box_bottom"
-                android:hint="@string/send_textB" />
+                android:hint="@string/send_textB"
+                android:textColor="@color/black"
+                android:textColorHint="@color/solft_black"
+                android:textCursorDrawable="@null" />
 
             <EditText
                 android:id="@+id/creator_name"
@@ -147,7 +155,8 @@
                 android:paddingVertical="@dimen/margin_padding_small"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textCursorDrawable="@color/black" />
+                android:textColorHint="@color/solft_black"
+                android:textCursorDrawable="@null" />
 
             <TextView
                 android:id="@+id/btn_send"

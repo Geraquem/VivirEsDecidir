@@ -17,13 +17,10 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-4515698012373396/8033411533"
+        ads:adUnitId="@string/banner"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toTopOf="parent">
-
-        <!--    ID PRUEBAS -> ads:adUnitId="ca-app-pub-3940256099942544/6300978111" -->
-        <!--    ID REAL -> ads:adUnitId="ca-app-pub-4515698012373396/8033411533" -->
 
     </com.google.android.gms.ads.AdView>
 

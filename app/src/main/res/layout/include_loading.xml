@@ -43,7 +43,6 @@
                 android:contentDescription="@string/content_description"
                 android:src="@drawable/ic_option_yes" />
 
-
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_view"
                 android:layout_width="120dp"

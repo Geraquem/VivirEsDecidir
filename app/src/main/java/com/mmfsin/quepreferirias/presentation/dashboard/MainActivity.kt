@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity(), MainView {
     private var dataKey: String = ""
 
     private var mInterstitialAd: InterstitialAd? = null
-//    private var mInterstitialId = "ca-app-pub-3940256099942544/1033173712"
-    private var mInterstitialId = "ca-app-pub-4515698012373396/6775142518"
 
     private val presenter by lazy { MainPresenter(this) }
 
@@ -169,7 +167,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
     private fun loadInterstitial(adRequest: AdRequest) {
         InterstitialAd.load(this,
-            mInterstitialId,
+            getString(R.string.insterstitial),
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
