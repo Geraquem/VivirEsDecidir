@@ -1,13 +1,13 @@
 package com.mmfsin.quepreferirias.presentation.dashboard
 
 import android.content.Context
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
 import com.mmfsin.quepreferirias.domain.models.Data
@@ -26,6 +26,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     private var dataList = emptyList<Data>()
     private var position: Int = 0
 
+    private var votesYes: Long = 0
+    private var votesNo: Long = 0
+
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentDashboardBinding.inflate(inflater, container, false)
@@ -36,22 +39,43 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     override fun setUI() {
-        binding.loadingScreen.root.isVisible
+        binding.apply {
+            loadingScreen.root.isVisible
+            votesYes = 0
+            votesNo = 0
+            percents.root.visibility = View.INVISIBLE
+        }
         (activity as MainActivity).showBanner()
     }
 
     override fun setListeners() {
         binding.apply {
-            btnYes.setOnClickListener {  }
-            btnNo.setOnClickListener {  }
+            btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
+            btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
             btnNext.setOnClickListener {
                 position++
-                if(position<dataList.size){
+                if (position < dataList.size) {
                     binding.loadingScreen.root.isVisible
-                    val data = dataList[position]
-                    viewModel.getPercents(data.votesYes, data.votesNo)
+                    setData()
                 }
+            }
+        }
+    }
+
+    private fun yesOrNoClick(isYes: Boolean) {
+        binding.apply {
+            try {
+                votesYes = dataList[position].votesYes
+                votesNo = dataList[position].votesNo
+                if (isYes) votesYes += 1 else votesNo += 1
+                viewModel.getPercents(votesYes, votesNo)
+                if (isYes) btnYes.setImageResource(R.drawable.ic_option_yes)
+                else btnNo.setImageResource(R.drawable.ic_option_no)
+                btnYes.isEnabled = false
+                btnNo.isEnabled = false
+            } catch (e: java.lang.Exception) {
+                error()
             }
         }
     }
@@ -61,9 +85,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
             when (event) {
                 is DashboardEvent.AppData -> {
                     dataList = event.data
-                    getPercents()
+                    setData()
                 }
-                is DashboardEvent.GetPercents -> setData(event.percents)
+                is DashboardEvent.GetPercents -> setPercents(event.percents)
                 is DashboardEvent.SWW -> error()
             }
         }
@@ -78,20 +102,38 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         }
     }
 
-    private fun setData(dataPercents: Percents) {
+    private fun setData() {
+        binding.apply {
+            try {
+                votesYes = 0
+                votesNo = 0
+                val data = dataList[position]
+                percents.root.visibility = View.INVISIBLE
+                tvTextTop.text = data.topText
+                tvTextBottom.text = data.bottomText
+                btnYes.setImageResource(R.drawable.ic_option_yes_trans)
+                btnNo.setImageResource(R.drawable.ic_option_no_trans)
+                btnYes.isEnabled = true
+                btnNo.isEnabled = true
+                loadingScreen.root.isVisible = false
+            } catch (e: java.lang.Exception) {
+                error()
+            }
+        }
+    }
+
+    private fun setPercents(actualPercents: Percents) {
         binding.apply {
             try {
                 val data = dataList[position]
-                tvTextTop.text = data.topText
-                tvTextBottom.text = data.bottomText
                 percents.apply {
-                    tvPercentYes.text = dataPercents.percentYes
-                    tvPercentNo.text = dataPercents.percentNo
-                    tvVotesYes.text = data.votesYes.toString()
-                    tvVotesNo.text = data.votesNo.toString()
+                    tvPercentYes.text = actualPercents.percentYes
+                    tvPercentNo.text = actualPercents.percentNo
+                    tvVotesYes.text = votesYes.toString()
+                    tvVotesNo.text = votesNo.toString()
+                    root.visibility = View.VISIBLE
                 }
-                loadingScreen.root.isVisible = false
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 error()
             }
         }
