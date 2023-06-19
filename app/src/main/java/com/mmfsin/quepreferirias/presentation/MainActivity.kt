@@ -1,0 +1,174 @@
+package com.mmfsin.quepreferirias.presentation
+
+import android.graphics.drawable.AnimationDrawable
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.mmfsin.quepreferirias.data.models.DataDTO
+import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var dataList: List<DataDTO>
+    private var position = 0
+
+    private var votesA: Long = 0
+    private var votesB: Long = 0
+
+    private var dataKey: String = ""
+
+    private var mInterstitialAd: InterstitialAd? = null
+
+//    private val presenter by lazy { MainPresenter(this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+//        loadInterstitial(AdRequest.Builder().build())
+
+        setUI()
+//        setListeners()
+//        presenter.getData()
+    }
+//
+    private fun setUI() {
+        binding.apply {
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+
+            val animationDrawable = clMain.background as AnimationDrawable
+            animationDrawable.setEnterFadeDuration(6000)
+            animationDrawable.setExitFadeDuration(6000)
+            animationDrawable.start()
+        }
+    }
+//
+//    override fun firebaseReady(dataList: List<DataDTO>) {
+//        this.dataList = dataList.shuffled()
+//        setSingleData(dataList[position])
+//    }
+//
+//    override fun setSingleData(data: DataDTO) {
+//        binding.apply {
+//            dataKey = data.id
+//            tvTextTop.text = data.textA
+//            tvTextBottom.text = data.textB
+//            votesA = data.votesA
+//            votesB = data.votesB
+//            data.creatorName?.let { name ->
+//                val spannableText =
+//                    SpannableStringBuilder().append(getString(R.string.sent_by)).append(" ")
+//                        .bold { append(name) }
+//                creatorName.text = spannableText
+//                creatorName.visibility = View.VISIBLE
+//            } ?: run { creatorName.visibility = View.GONE }
+//            loadingScreen.root.visibility = View.GONE
+//        }
+//    }
+//
+//    private fun setListeners() {
+//        binding.apply {
+//            btnSendQuestions.setOnClickListener {
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.fragment_container_view, SendQuestionsFragment())
+//                    .addToBackStack(null).commit()
+//            }
+//
+//            btnYes.setOnClickListener {
+//                presenter.setVotes(dataKey, YES)
+//                btnYes.isEnabled = false
+//                btnNo.isEnabled = false
+//                btnYes.setImageResource(R.drawable.ic_option_yes)
+//                votesA += 1
+//                showPercents()
+//            }
+//
+//            btnNo.setOnClickListener {
+//                presenter.setVotes(dataKey, NO)
+//                btnYes.isEnabled = false
+//                btnNo.isEnabled = false
+//                btnNo.setImageResource(R.drawable.ic_option_no)
+//                votesA += 1
+//                showPercents()
+//            }
+//
+//            btnNext.setOnClickListener {
+//                percents.root.visibility = View.INVISIBLE
+//                btnYes.setImageResource(R.drawable.ic_option_yes_trans)
+//                btnNo.setImageResource(R.drawable.ic_option_no_trans)
+//                btnYes.isEnabled = true
+//                btnNo.isEnabled = true
+//
+//                animateProgress(percents.progressBarLeft, 0, 0)
+//                animateProgress(percents.progressBarRight, 0, 0)
+//
+//                position += 1
+//                if (position < dataList.size) {
+//                    setSingleData(dataList[position])
+//                } else {
+//                    btnNext.text = getString(R.string.no_more_questions)
+//                    btnNext.isEnabled = false
+//                }
+//                showInterstitial()
+//            }
+//        }
+//    }
+//
+//    private fun showPercents() {
+//        binding.percents.apply {
+//            val progressA = progressBarLeft
+//            val progressB = progressBarRight
+//            val total = (votesA + votesB).toInt()
+//
+//            val percents = presenter.calculatePercent(votesA, votesB)
+//            tvPercentYes.text = percents.first
+//            tvPercentNo.text = percents.second
+//            tvVotesYes.text = votesA.toString()
+//            tvVotesNo.text = votesB.toString()
+//
+//            animateProgress(progressA, total, votesA.toInt())
+//            animateProgress(progressB, total, votesB.toInt())
+//            root.visibility = View.VISIBLE
+//        }
+//    }
+//
+//    private fun animateProgress(progress: ProgressBar, total: Int, votes: Int) {
+//        progress.max = total * 100
+//        val animation = ObjectAnimator.ofInt(progress, "progress", votes * 100)
+//        animation.duration = 2000
+//        animation.interpolator = DecelerateInterpolator()
+//        animation.start()
+//    }
+//
+//    private fun loadInterstitial(adRequest: AdRequest) {
+//        InterstitialAd.load(this,
+//            getString(R.string.insterstitial),
+//            adRequest,
+//            object : InterstitialAdLoadCallback() {
+//                override fun onAdFailedToLoad(adError: LoadAdError) {
+//                    mInterstitialAd = null
+//                    loadInterstitial(AdRequest.Builder().build())
+//                }
+//
+//                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+//                    mInterstitialAd = interstitialAd
+//                }
+//            })
+//    }
+//
+//    private fun showInterstitial() {
+//        if (position % 20 == 0) {
+//            mInterstitialAd?.let { ad ->
+//                ad.show(this)
+//                loadInterstitial(AdRequest.Builder().build())
+//            }
+//        }
+//    }
+}

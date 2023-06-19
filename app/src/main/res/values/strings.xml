@@ -1,15 +1,19 @@
 <resources>
     <string name="app_name">Vivir es decidir</string>
-
     <string name="content_description">image</string>
 
     <string name="mmfsinURL">https://play.google.com/store/apps/developer?id=mmfsin</string>
 
     <!-- ADS -->
-<!--    <string name="banner">ca-app-pub-3940256099942544/6300978111</string>-->
-    <string name="banner">ca-app-pub-4515698012373396/8033411533</string>
-<!--    <string name="insterstitial">ca-app-pub-3940256099942544/1033173712</string>-->
-    <string name="insterstitial">ca-app-pub-4515698012373396/6775142518</string>
+    <string name="banner">ca-app-pub-3940256099942544/6300978111</string>
+<!--    <string name="banner">ca-app-pub-4515698012373396/8033411533</string>-->
+    <string name="insterstitial">ca-app-pub-3940256099942544/1033173712</string>
+<!--    <string name="insterstitial">ca-app-pub-4515698012373396/6775142518</string>-->
+
+    <!-- ERROR -->
+    <string name="error_title">Ha ocurrido un problema</string>
+    <string name="error_description">Inténtalo de nuevo más tarde</string>
+    <string name="error_btn">Aceptar</string>
 
     <!-- Main -->
     <string name="send_questions">Envía tus ideas</string>

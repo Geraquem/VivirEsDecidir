@@ -8,18 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.FragmentSendQuestionsBinding
-import com.mmfsin.quepreferirias.domain.models.QuestionSentDTO
+import com.mmfsin.quepreferirias.data.models.QuestionSentDTO
 
 class SendQuestionsFragment : Fragment(), SendQuestionView {
 
     private var _bdg: FragmentSendQuestionsBinding? = null
     private val binding get() = _bdg!!
 
-    private val presenter by lazy { SendQuestionsPresenter(this) }
+    private val presenter by lazy { SendQuestionsRepositoryPresenter(this) }
 
     private lateinit var mContext: Context
 
