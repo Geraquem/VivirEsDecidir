@@ -1,8 +1,7 @@
 package com.mmfsin.quepreferirias.domain.interfaces
 
-import com.mmfsin.quepreferirias.data.models.DataDTO
+import com.mmfsin.quepreferirias.domain.models.Data
 
 interface IDataRepository {
-    fun getDataFromFirebase(dataList: List<DataDTO>)
-    fun somethingWentWrong()
+    suspend fun getDataFromFirebase(): List<Data>
 }

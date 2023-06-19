@@ -1,11 +1,18 @@
 package com.mmfsin.quepreferirias.presentation.dashboard
 
+import android.content.Context
 import android.graphics.drawable.AnimationDrawable
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
+import com.mmfsin.quepreferirias.domain.models.Data
+import com.mmfsin.quepreferirias.presentation.models.Percents
+import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -13,18 +20,94 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override val viewModel: DashboardViewModel by viewModels()
 
+    private lateinit var mContext: Context
+
+    private var dataList = emptyList<Data>()
+    private var position: Int = 0
+
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentDashboardBinding.inflate(inflater, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getAppData()
+    }
 
     override fun setUI() {
         binding.apply {
+//            loadingScreen.root.isVisible
             val animationDrawable = clMain.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(6000)
             animationDrawable.setExitFadeDuration(6000)
             animationDrawable.start()
         }
+    }
+
+    override fun setListeners() {
+        binding.apply {
+            btnYes.setOnClickListener {  }
+            btnNo.setOnClickListener {  }
+
+            btnNext.setOnClickListener {
+                position++
+                if(position<dataList.size){
+                    binding.loadingScreen.root.isVisible
+                    val data = dataList[position]
+                    viewModel.getPercents(data.votesYes, data.votesNo)
+                }
+            }
+        }
+    }
+
+    override fun observe() {
+        viewModel.event.observe(this) { event ->
+            when (event) {
+                is DashboardEvent.AppData -> {
+                    dataList = event.data
+                    getPercents()
+                }
+                is DashboardEvent.GetPercents -> setData(event.percents)
+                is DashboardEvent.SWW -> error()
+            }
+        }
+    }
+
+    private fun getPercents() {
+        try {
+            val data = dataList[position]
+            viewModel.getPercents(data.votesYes, data.votesNo)
+        } catch (e: Exception) {
+            error()
+        }
+    }
+
+    private fun setData(dataPercents: Percents) {
+        binding.apply {
+            try {
+                val data = dataList[position]
+                tvTextTop.text = data.topText
+                tvTextBottom.text = data.bottomText
+                percents.apply {
+                    tvPercentYes.text = dataPercents.percentYes
+                    tvPercentNo.text = dataPercents.percentNo
+                    tvVotesYes.text = data.votesYes.toString()
+                    tvVotesNo.text = data.votesNo.toString()
+                }
+                loadingScreen.root.isVisible = false
+            } catch (e: java.lang.Exception) {
+                error()
+            }
+        }
+    }
+
+    private fun error() {
+        activity?.showErrorDialog() { activity?.finish() }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
     }
 }
 //    override val viewModel: DashboardViewModel by viewModels()

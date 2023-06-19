@@ -3,10 +3,9 @@ package com.mmfsin.quepreferirias.presentation
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.mmfsin.quepreferirias.data.models.DataDTO
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,41 +14,32 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var dataList: List<DataDTO>
-    private var position = 0
-
-    private var votesA: Long = 0
-    private var votesB: Long = 0
-
-    private var dataKey: String = ""
-
     private var mInterstitialAd: InterstitialAd? = null
-
-//    private val presenter by lazy { MainPresenter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        loadInterstitial(AdRequest.Builder().build())
-
-        setUI()
-//        setListeners()
-//        presenter.getData()
+        init()
     }
-//
-    private fun setUI() {
-        binding.apply {
-            val adRequest = AdRequest.Builder().build()
-            adView.loadAd(adRequest)
 
+    private fun init() {
+//                loadInterstitial(AdRequest.Builder().build())
+        binding.apply {
+            adView.isVisible = false
             val animationDrawable = clMain.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(6000)
             animationDrawable.setExitFadeDuration(6000)
             animationDrawable.start()
         }
     }
-//
+
+    private fun showBanner() {
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+    }
+
+
 //    override fun firebaseReady(dataList: List<DataDTO>) {
 //        this.dataList = dataList.shuffled()
 //        setSingleData(dataList[position])
