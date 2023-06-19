@@ -2,10 +2,13 @@ package com.mmfsin.quepreferirias.presentation
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,9 +27,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-//                loadInterstitial(AdRequest.Builder().build())
+        loadInterstitial(AdRequest.Builder().build())
         binding.apply {
-            adView.isVisible = false
+            adView.visibility = View.GONE
             val animationDrawable = clMain.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(6000)
             animationDrawable.setExitFadeDuration(6000)
@@ -34,13 +37,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showBanner() {
+    fun showBanner() {
         val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
+        binding.adView.apply {
+            loadAd(adRequest)
+            visibility = View.VISIBLE
+        }
     }
 
+    fun showInterstitial() {
+        mInterstitialAd?.let { ad ->
+            ad.show(this)
+            loadInterstitial(AdRequest.Builder().build())
+        }
+    }
 
-//    override fun firebaseReady(dataList: List<DataDTO>) {
+    //    override fun firebaseReady(dataList: List<DataDTO>) {
 //        this.dataList = dataList.shuffled()
 //        setSingleData(dataList[position])
 //    }
@@ -137,28 +149,19 @@ class MainActivity : AppCompatActivity() {
 //        animation.start()
 //    }
 //
-//    private fun loadInterstitial(adRequest: AdRequest) {
-//        InterstitialAd.load(this,
-//            getString(R.string.insterstitial),
-//            adRequest,
-//            object : InterstitialAdLoadCallback() {
-//                override fun onAdFailedToLoad(adError: LoadAdError) {
-//                    mInterstitialAd = null
-//                    loadInterstitial(AdRequest.Builder().build())
-//                }
-//
-//                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-//                    mInterstitialAd = interstitialAd
-//                }
-//            })
-//    }
-//
-//    private fun showInterstitial() {
-//        if (position % 20 == 0) {
-//            mInterstitialAd?.let { ad ->
-//                ad.show(this)
-//                loadInterstitial(AdRequest.Builder().build())
-//            }
-//        }
-//    }
+    private fun loadInterstitial(adRequest: AdRequest) {
+        InterstitialAd.load(this,
+            getString(R.string.insterstitial),
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                    loadInterstitial(AdRequest.Builder().build())
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+            })
+    }
 }

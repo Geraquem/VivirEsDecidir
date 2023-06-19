@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
 import com.mmfsin.quepreferirias.domain.models.Data
+import com.mmfsin.quepreferirias.presentation.MainActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,13 +36,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     override fun setUI() {
-        binding.apply {
-//            loadingScreen.root.isVisible
-            val animationDrawable = clMain.background as AnimationDrawable
-            animationDrawable.setEnterFadeDuration(6000)
-            animationDrawable.setExitFadeDuration(6000)
-            animationDrawable.start()
-        }
+        binding.loadingScreen.root.isVisible
+        (activity as MainActivity).showBanner()
     }
 
     override fun setListeners() {
