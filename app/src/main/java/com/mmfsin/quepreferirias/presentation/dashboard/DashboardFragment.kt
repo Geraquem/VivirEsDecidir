@@ -62,6 +62,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
             btnNext.setOnClickListener {
                 position++
                 if (position < dataList.size) {
+                    showInterstitial()
                     actualData = dataList[position]
                     binding.loadingScreen.root.isVisible
                     setData()
@@ -73,6 +74,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                 }
             }
         }
+    }
+
+    private fun showInterstitial() {
+        if (position % 20 == 0) (activity as MainActivity).showInterstitial()
     }
 
     private fun yesOrNoClick(isYes: Boolean) {
