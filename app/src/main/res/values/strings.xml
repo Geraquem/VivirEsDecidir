@@ -20,15 +20,14 @@
     <string name="no_more_description">No hay más decisiones que tengas que tomar por el momento</string>
     <string name="no_more_btn">Empezar de nuevo</string>
 
-    <!-- Main -->
-    <string name="send_questions">Envía tus ideas</string>
-    <string name="but">PERO</string>
-    <string name="btn_yes">A TOPE</string>
-    <string name="btn_no">NO LO CREO</string>
-    <string name="votes">VOTOS</string>
-    <string name="next">SIGUIENTE</string>
-    <string name="no_more_questions">NO HAY MÁS PREGUNTAS</string>
-    <string name="sent_by">Enviado por</string>
+    <!-- DASHBOARD -->
+    <string name="dashboard_send_questions">Envía tus ideas</string>
+    <string name="dashboard_but">PERO</string>
+    <string name="dashboard_btn_yes">A TOPE</string>
+    <string name="dashboard_btn_no">NO LO CREO</string>
+    <string name="dashboard_votes">VOTOS</string>
+    <string name="dashboard_next">SIGUIENTE</string>
+    <string name="dashboard_sent_by">Enviado por</string>
 
     <!-- Send Question -->
     <string name="good_condition">Condición buena</string>

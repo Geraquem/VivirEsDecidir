@@ -20,7 +20,7 @@
         android:layout_weight="1"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"
-        android:text="@string/but"
+        android:text="@string/dashboard_but"
         android:textColor="@color/black"
         android:textSize="18sp" />
 

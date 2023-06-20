@@ -117,6 +117,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
             percents.root.visibility = View.INVISIBLE
             tvTextTop.text = actualData?.topText
             tvTextBottom.text = actualData?.bottomText
+            actualData?.creatorName?.let { name ->
+                tvCreatorName.text = name
+                llCreatorName.visibility = View.VISIBLE
+            } ?: run { llCreatorName.visibility = View.GONE }
             animateProgress(percents.progressBarLeft, 0, 0)
             animateProgress(percents.progressBarRight, 0, 0)
             btnYes.setImageResource(R.drawable.ic_option_yes_trans)

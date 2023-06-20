@@ -61,7 +61,7 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/margin_padding_small"
                     android:gravity="center"
-                    android:text="@string/send_questions"
+                    android:text="@string/dashboard_send_questions"
                     android:textAllCaps="true" />
 
                 <ImageView
@@ -116,15 +116,29 @@
                     android:paddingVertical="@dimen/margin_padding_large_small"
                     tools:text="Opción 2 a elegir" />
 
-                <TextView
-                    android:id="@+id/creator_name"
+                <LinearLayout
+                    android:id="@+id/ll_creator_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_padding_xsmall"
                     android:layout_marginTop="@dimen/margin_padding_medium"
-                    android:fontFamily="sans-serif-condensed"
-                    android:textSize="16sp"
-                    tools:text="@string/sent_by" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_padding_xsmall"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/dashboard_sent_by"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_creator_name"
+                        style="@style/MediumTextView_Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Mufasita" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -172,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/margin_padding_xsmall"
-                        android:text="@string/btn_yes" />
+                        android:text="@string/dashboard_btn_yes" />
 
                 </LinearLayout>
 
@@ -199,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/margin_padding_xsmall"
-                        android:text="@string/btn_no" />
+                        android:text="@string/dashboard_btn_no" />
 
                 </LinearLayout>
 
@@ -215,7 +229,7 @@
                 android:elevation="@dimen/elevation"
                 android:gravity="center"
                 android:paddingVertical="@dimen/margin_padding_xmedium"
-                android:text="@string/next"
+                android:text="@string/dashboard_next"
                 android:textAllCaps="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
