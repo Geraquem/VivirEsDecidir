@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/soft_white"
@@ -87,16 +88,20 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <LinearLayout
+                android:id="@+id/ll_main"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical"
+                android:foregroundGravity="top"
                 android:paddingVertical="@dimen/margin_padding_medium"
-                app:layout_constraintBottom_toTopOf="@id/ll_related_apps"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -109,7 +114,6 @@
                     android:autofillHints="null"
                     android:background="@drawable/bg_box_top"
                     android:hint="@string/send_textA"
-                    android:text="Opción 1 a elegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegielegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirelegirrelegirelegirelegirelegirelegirelegirelegir"
                     android:textColor="@color/black"
                     android:textColorHint="@color/solft_black"
                     android:textCursorDrawable="@null" />
@@ -168,6 +172,12 @@
 
             </LinearLayout>
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ll_main"
+                app:layout_constraintBottom_toTopOf="@id/ll_related_apps"/>
+
             <LinearLayout
                 android:id="@+id/ll_related_apps"
                 android:layout_width="match_parent"
@@ -176,7 +186,8 @@
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                app:layout_constraintRight_toRightOf="parent"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="@dimen/margin_padding_gigant"
