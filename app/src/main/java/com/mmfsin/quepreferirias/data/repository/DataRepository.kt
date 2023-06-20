@@ -26,7 +26,7 @@ class DataRepository @Inject constructor() : IDataRepository {
                 child.getValue(DataDTO::class.java)?.let { item ->
                     val votesYes = child.child(YES).childrenCount
                     val votesNo = child.child(NO).childrenCount
-                    dataList.add(item.toData(votesYes, votesNo))
+                    child.key?.let { id -> dataList.add(item.toData(id, votesYes, votesNo)) }
                 }
             }
             latch.countDown()
@@ -37,9 +37,10 @@ class DataRepository @Inject constructor() : IDataRepository {
         }
         return dataList
     }
-}
 
-//    fun setVote(key: String, voted: String) {
-//        Firebase.database.reference.child(PRUEBAS_ROOT).child(key).child(voted).push()
-//            .setValue(true)
-//    }
+
+    override suspend fun vote(dataId: String, voteId: String) {
+        Firebase.database.reference.child(PRUEBAS_ROOT).child(dataId).child(voteId).push()
+            .setValue(true)
+    }
+}

@@ -78,7 +78,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     private fun yesOrNoClick(isYes: Boolean) {
         binding.apply {
             actualData?.let { data ->
-//                viewModel.vote(isYes)
+                viewModel.vote(data.id, isYes)
                 votesYes = data.votesYes
                 votesNo = data.votesNo
                 if (isYes) votesYes += 1 else votesNo += 1
