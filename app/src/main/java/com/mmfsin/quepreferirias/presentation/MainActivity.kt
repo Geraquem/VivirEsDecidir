@@ -52,10 +52,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //    override fun firebaseReady(dataList: List<DataDTO>) {
-//        this.dataList = dataList.shuffled()
-//        setSingleData(dataList[position])
-//    }
 //
 //    override fun setSingleData(data: DataDTO) {
 //        binding.apply {
