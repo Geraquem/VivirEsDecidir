@@ -1,10 +1,31 @@
-package com.mmfsin.quepreferirias.presentation.create
+package com.mmfsin.quepreferirias.presentation.sendquestions
 
-import androidx.fragment.app.Fragment
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.mmfsin.quepreferirias.base.BaseFragment
+import com.mmfsin.quepreferirias.databinding.FragmentSendQuestionsBinding
 
-class SendQuestionsFragment : Fragment() {
+class SendQuestionsFragment : BaseFragment<FragmentSendQuestionsBinding, SendQuestionsViewModel>() {
+
+    override val viewModel: SendQuestionsViewModel by viewModels()
+
+    private lateinit var mContext: Context
+
+    override fun inflateView(
+        inflater: LayoutInflater, container: ViewGroup?
+    ) = FragmentSendQuestionsBinding.inflate(inflater, container, false)
+
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
 }
-//
+
+
 //    private var _bdg: FragmentSendQuestionsBinding? = null
 //    private val binding get() = _bdg!!
 //

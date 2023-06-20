@@ -63,7 +63,7 @@
         <item name="android:fontFamily">@font/normal_font</item>
         <item name="android:imeOptions">actionNext</item>
         <item name="android:inputType">text|textMultiLine|textCapSentences</item>
-        <item name="android:padding">@dimen/margin_padding_medium</item>
+        <item name="android:padding">@dimen/margin_padding_medium_medium</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textCursorDrawable">@color/black</item>
     </style>

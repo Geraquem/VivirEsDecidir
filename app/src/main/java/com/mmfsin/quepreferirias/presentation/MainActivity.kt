@@ -10,6 +10,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
+import com.mmfsin.quepreferirias.presentation.sendquestions.SendQuestionsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,5 +67,12 @@ class MainActivity : AppCompatActivity() {
                     mInterstitialAd = interstitialAd
                 }
             })
+    }
+
+    fun showSendQuestions() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_send_questions, SendQuestionsFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }

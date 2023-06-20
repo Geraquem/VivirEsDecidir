@@ -56,6 +56,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override fun setListeners() {
         binding.apply {
+            btnSendQuestions.setOnClickListener {
+                (activity as MainActivity).showSendQuestions()
+            }
+
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
@@ -100,7 +104,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         viewModel.event.observe(this) { event ->
             when (event) {
                 is DashboardEvent.AppData -> {
-                    dataList = event.data.take(3)
+                    dataList = event.data
                     actualData = dataList[position]
                     setData()
                 }
