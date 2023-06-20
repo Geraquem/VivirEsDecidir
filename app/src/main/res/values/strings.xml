@@ -2,8 +2,6 @@
     <string name="app_name">Vivir es decidir</string>
     <string name="content_description">image</string>
 
-    <string name="mmfsinURL">https://play.google.com/store/apps/developer?id=mmfsin</string>
-
     <!-- ADS -->
     <string name="banner">ca-app-pub-3940256099942544/6300978111</string>
     <!--    <string name="banner">ca-app-pub-4515698012373396/8033411533</string>-->
@@ -29,17 +27,18 @@
     <string name="dashboard_next">SIGUIENTE</string>
     <string name="dashboard_sent_by">Enviado por</string>
 
-    <!-- Send Question -->
-    <string name="good_condition">Condición buena</string>
-    <string name="bad_condition">Condición mala</string>
-    <string name="send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>
-    <string name="send_textB">Por ejemplo: Pierdes el dedo pulgar izquierdo</string>
-    <string name="creator_name">Tu nombre (opcional)</string>
-    <string name="send">Enviar</string>
-    <string name="more_apps">Ver más aplicaciones parecidas</string>
+    <!-- SEND_QUESTION -->
+    <string name="sq_send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>
+    <string name="sq_send_textB">Por ejemplo: Pierdes el dedo pulgar izquierdo</string>
+    <string name="sq_creator_name">Tu nombre (opcional)</string>
+    <string name="sq_send">Enviar</string>
+    <string name="sq_more_apps">Ver más aplicaciones parecidas</string>
 
-    <string name="loading">Un momentito, por favor</string>
-    <string name="result_ok">¡Genial! Tu propuesta ha sido enviada</string>
-    <string name="result_ko">No se ha podido procesar,\ninténtalo en unos minutos</string>
+    <string name="sq_loading">Un momentito, por favor</string>
+    <string name="sq_result_ok">¡Genial! Tu propuesta ha sido enviada</string>
+    <string name="sq_result_ko">Vaya, no se ha podido procesar</string>
+    <string name="sq_result_again">Enviar otra</string>
+    <string name="sq_result_error">Probar de nuevo</string>
 
+    <string name="sq_mmfsin_url">https://play.google.com/store/apps/developer?id=mmfsin</string>
 </resources>
