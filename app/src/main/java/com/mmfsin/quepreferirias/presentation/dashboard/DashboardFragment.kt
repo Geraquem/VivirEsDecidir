@@ -1,10 +1,13 @@
 package com.mmfsin.quepreferirias.presentation.dashboard
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
+import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
@@ -109,6 +112,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
             percents.root.visibility = View.INVISIBLE
             tvTextTop.text = actualData?.topText
             tvTextBottom.text = actualData?.bottomText
+            animateProgress(percents.progressBarLeft, 0, 0)
+            animateProgress(percents.progressBarRight, 0, 0)
             btnYes.setImageResource(R.drawable.ic_option_yes_trans)
             btnNo.setImageResource(R.drawable.ic_option_no_trans)
             btnYes.isEnabled = true
@@ -125,20 +130,20 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                 tvVotesYes.text = votesYes.toString()
                 tvVotesNo.text = votesNo.toString()
                 root.visibility = View.VISIBLE
-
-
-                //progresss
+                val total = (votesYes + votesNo).toInt()
+                animateProgress(progressBarLeft, total, votesYes.toInt())
+                animateProgress(progressBarRight, total, votesNo.toInt())
             }
         }
     }
 
-//        private fun animateProgress(progress: ProgressBar, total: Int, votes: Int) {
-//        progress.max = total * 100
-//        val animation = ObjectAnimator.ofInt(progress, "progress", votes * 100)
-//        animation.duration = 2000
-//        animation.interpolator = DecelerateInterpolator()
-//        animation.start()
-//    }
+    private fun animateProgress(progress: ProgressBar, total: Int, votes: Int) {
+        progress.max = total * 100
+        val animation = ObjectAnimator.ofInt(progress, "progress", votes * 100)
+        animation.duration = 2000
+        animation.interpolator = DecelerateInterpolator()
+        animation.start()
+    }
 
     private fun error() {
         activity?.showErrorDialog() { activity?.finish() }
