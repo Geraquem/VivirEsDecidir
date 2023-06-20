@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
         loadInterstitial(AdRequest.Builder().build())
         binding.apply {
-            showSendQuestions()
             adView.visibility = View.GONE
             val animationDrawable = clMain.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(6000)

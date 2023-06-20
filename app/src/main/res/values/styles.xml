@@ -60,7 +60,7 @@
         <item name="maxLines">4</item>
         <item name="android:maxLength">150</item>
         <item name="android:autofillHints">null</item>
-        <item name="android:fontFamily">@font/normal_font</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
         <item name="android:imeOptions">actionNext</item>
         <item name="android:inputType">text|textMultiLine|textCapSentences</item>
         <item name="android:padding">@dimen/margin_padding_medium_medium</item>

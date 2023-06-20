@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentSendQuestionsBinding
 import com.mmfsin.quepreferirias.presentation.sendquestions.dialog.SqResultDialog
 import com.mmfsin.quepreferirias.utils.showErrorDialog
+import com.mmfsin.quepreferirias.utils.toEditable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +28,11 @@ class SendQuestionsFragment : BaseFragment<FragmentSendQuestionsBinding, SendQue
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentSendQuestionsBinding.inflate(inflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getCreatorName()
+    }
 
     override fun setUI() {
         binding.apply {
@@ -55,10 +62,17 @@ class SendQuestionsFragment : BaseFragment<FragmentSendQuestionsBinding, SendQue
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is SendQuestionsEvent.CreatorName -> setCreatorName(event.name)
                 is SendQuestionsEvent.SendQuestionResult -> setResult(event.result)
                 is SendQuestionsEvent.SWW -> activity?.showErrorDialog { }
             }
         }
+    }
+
+    private fun setCreatorName(name: String?) {
+        val creatorName = binding.etCreatorName
+        name?.let { creatorName.text = it.toEditable() }
+            ?: run { creatorName.text = null }
     }
 
     private fun setResult(questionResult: Boolean) {

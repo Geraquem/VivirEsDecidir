@@ -140,7 +140,7 @@
                     android:layout_marginBottom="@dimen/margin_padding_xlarge"
                     android:autofillHints="null"
                     android:background="@drawable/bg_box_creator_name"
-                    android:fontFamily="@font/normal_font"
+                    android:fontFamily="@font/montserrat_regular"
                     android:hint="@string/sq_creator_name"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
