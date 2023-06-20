@@ -1,5 +1,8 @@
 package com.mmfsin.quepreferirias.domain.interfaces
 
+import com.mmfsin.quepreferirias.data.models.QuestionDTO
+
 interface IQuestionsRepository {
-    fun result(result: Boolean)
+    suspend fun sendQuestion(question: QuestionDTO): Boolean
+    fun saveCreatorName(name: String)
 }

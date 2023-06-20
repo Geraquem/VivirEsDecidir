@@ -10,7 +10,7 @@ class SendQuestionsViewModel @Inject constructor(
     private val sendQuestionUseCase: SendQuestionUseCase
 ) : BaseViewModel<SendQuestionsEvent>() {
 
-    fun sendQuestion(textTop: String, textBottom: String, creatorName: String?) {
+    fun sendQuestion(textTop: String, textBottom: String, creatorName: String) {
         executeUseCase(
             {
                 sendQuestionUseCase.execute(
