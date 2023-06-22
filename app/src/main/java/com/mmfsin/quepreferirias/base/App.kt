@@ -14,6 +14,7 @@ class App : Application() {
         super.onCreate()
         Realm.init(this)
         MobileAds.initialize(this) {}
+
 //        getFCMToken()
     }
 
