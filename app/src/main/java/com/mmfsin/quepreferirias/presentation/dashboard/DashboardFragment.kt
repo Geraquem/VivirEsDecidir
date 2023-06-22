@@ -104,7 +104,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         viewModel.event.observe(this) { event ->
             when (event) {
                 is DashboardEvent.AppData -> {
-                    dataList = event.data//.shuffled()
+                    dataList = event.data.shuffled()
                     actualData = dataList[position]
                     setData()
                 }
