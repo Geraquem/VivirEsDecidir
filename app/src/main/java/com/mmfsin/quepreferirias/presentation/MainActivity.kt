@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        loadInterstitial(AdRequest.Builder().build())
+        setNavigationDrawer()
         binding.apply {
             adView.visibility = View.GONE
             val animationDrawable = clMain.background as AnimationDrawable
@@ -36,7 +36,23 @@ class MainActivity : AppCompatActivity() {
             animationDrawable.setExitFadeDuration(6000)
             animationDrawable.start()
         }
+        loadInterstitial(AdRequest.Builder().build())
     }
+
+    private fun setNavigationDrawer() {
+        binding.apply {
+            navigationView.setNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.nav_item1 -> {}
+                    R.id.nav_item2 -> {}
+                }
+                drawerLayout.closeDrawers()
+                true
+            }
+        }
+    }
+
+    fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
 
     fun showBanner() {
         val adRequest = AdRequest.Builder().build()
@@ -71,11 +87,9 @@ class MainActivity : AppCompatActivity() {
 
     fun showSendQuestions() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_send_questions, SendQuestionsFragment())
-            .addToBackStack(null)
+            .replace(R.id.fragment_send_questions, SendQuestionsFragment()).addToBackStack(null)
             .commit()
     }
-
 
 
 }
