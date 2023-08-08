@@ -62,7 +62,39 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu" />
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawer_menu">
+
+        <LinearLayout
+            android:id="@+id/ll_more_apps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/ic_mmf" />
+
+            <TextView
+                style="@style/MediumTextView_Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/normal_font"
+                android:gravity="center"
+                android:text="@string/nav_drawer_more_apps"
+                android:textAllCaps="true" />
+
+        </LinearLayout>
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

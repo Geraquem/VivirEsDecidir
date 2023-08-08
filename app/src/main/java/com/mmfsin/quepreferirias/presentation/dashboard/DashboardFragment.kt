@@ -56,13 +56,14 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override fun setListeners() {
         binding.apply {
-            btnSendQuestions.setOnClickListener {
-//                (activity as MainActivity).showSendQuestions()
+            btnYes.setOnClickListener {
                 (activity as MainActivity).openDrawer()
+//                yesOrNoClick(isYes = true)
             }
-
-            btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
-            btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
+            btnNo.setOnClickListener {
+                (activity as MainActivity).openDrawer()
+//                yesOrNoClick(isYes = false)
+            }
 
             btnNext.setOnClickListener {
                 position++

@@ -18,6 +18,13 @@
     <string name="no_more_description">No hay más decisiones que tengas que tomar por el momento</string>
     <string name="no_more_btn">Empezar de nuevo</string>
 
+    <!-- NAVIGATION DRAWER -->
+    <string name="nav_dashboard">Home</string>
+    <string name="nav_profile">Mi perfil</string>
+    <string name="nav_saved">Guardadas</string>
+    <string name="nav_sended">Enviadas</string>
+    <string name="nav_drawer_more_apps">Aplicaciones parecidas</string>
+
     <!-- DASHBOARD -->
     <string name="dashboard_send_questions">Envía tus ideas</string>
     <string name="dashboard_but">PERO</string>
@@ -32,7 +39,6 @@
     <string name="sq_send_textB">Por ejemplo: Pierdes el dedo pulgar izquierdo</string>
     <string name="sq_creator_name">Tu nombre (opcional)</string>
     <string name="sq_send">Enviar</string>
-    <string name="sq_more_apps">Ver más aplicaciones parecidas</string>
 
     <string name="sq_loading">Un momentito, por favor</string>
     <string name="sq_result_ok">¡Genial! Tu propuesta ha sido enviada</string>

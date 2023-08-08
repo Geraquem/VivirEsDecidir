@@ -1,6 +1,9 @@
 package com.mmfsin.quepreferirias.presentation
 
+import android.content.Intent
+import android.content.Intent.ACTION_VIEW
 import android.graphics.drawable.AnimationDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +32,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         setNavigationDrawer()
+
+        openDrawer()
+
+        setListeners()
         binding.apply {
             adView.visibility = View.GONE
             val animationDrawable = clMain.background as AnimationDrawable
@@ -43,11 +50,20 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.nav_item1 -> {}
-                    R.id.nav_item2 -> {}
+                    R.id.nav_send_questions -> showSendQuestions()
+//                    R.id.nav_item2 -> {}
+
                 }
                 drawerLayout.closeDrawers()
                 true
+            }
+        }
+    }
+
+    private fun setListeners() {
+        binding.apply {
+            llMoreApps.setOnClickListener {
+                startActivity(Intent(ACTION_VIEW, Uri.parse(getString(R.string.sq_mmfsin_url))))
             }
         }
     }
@@ -85,11 +101,9 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun showSendQuestions() {
+    private fun showSendQuestions() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_send_questions, SendQuestionsFragment()).addToBackStack(null)
             .commit()
     }
-
-
 }

@@ -1,16 +1,12 @@
 package com.mmfsin.quepreferirias.presentation.sendquestions
 
 import android.content.Context
-import android.content.Intent
-import android.content.Intent.ACTION_VIEW
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
-import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentSendQuestionsBinding
 import com.mmfsin.quepreferirias.presentation.sendquestions.dialog.SqResultDialog
@@ -52,9 +48,6 @@ class SendQuestionsFragment : BaseFragment<FragmentSendQuestionsBinding, SendQue
                     loading.visibility = View.VISIBLE
                     viewModel.sendQuestion(textTop, textBottom, creatorName)
                 }
-            }
-            llRelatedApps.setOnClickListener {
-                startActivity(Intent(ACTION_VIEW, Uri.parse(getString(R.string.sq_mmfsin_url))))
             }
         }
     }
