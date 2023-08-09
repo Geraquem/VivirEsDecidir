@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gradient_list"
-        tools:context=".presentation.MainActivity">
+        tools:context=".presentation.main.MainActivity">
 
         <ImageView
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer_menu">
+        app:menu="@menu/drawer_menu_logout">
 
         <LinearLayout
             android:id="@+id/ll_more_apps"

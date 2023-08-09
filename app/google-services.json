@@ -15,15 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "129474455401-4uoiskulbour34dg9840qc80mnt1bd23.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mmfsin.quepreferirias",
-            "certificate_hash": "879f8cc5d48b883c55b1982928c005a06bb5098f"
-          }
-        },
-        {
-          "client_id": "129474455401-nm2te3qg79ujn5sv4cguuhlb75ng5ps2.apps.googleusercontent.com",
+          "client_id": "129474455401-gcb79sjdnotq6bs40867bfj1ghuv7mog.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mmfsin.quepreferirias",

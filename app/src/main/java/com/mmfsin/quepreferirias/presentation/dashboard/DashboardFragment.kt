@@ -14,7 +14,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
 import com.mmfsin.quepreferirias.domain.models.Data
-import com.mmfsin.quepreferirias.presentation.MainActivity
+import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.showErrorDialog

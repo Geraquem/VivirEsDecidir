@@ -2,6 +2,10 @@
     <string name="app_name">Vivir es decidir</string>
     <string name="content_description">image</string>
 
+    <!-- OAuth -->
+<!--    <string name="google_oauth_token">129474455401-gcb79sjdnotq6bs40867bfj1ghuv7mog.apps.googleusercontent.com</string>-->
+    <string name="google_oauth_token">129474455401-v4gggilchel65hekg2hch8oh2datktmn.apps.googleusercontent.com</string>
+
     <!-- ADS -->
     <string name="banner">ca-app-pub-3940256099942544/6300978111</string>
 <!--        <string name="banner">ca-app-pub-4515698012373396/8033411533</string>-->
@@ -19,6 +23,7 @@
     <string name="no_more_btn">Empezar de nuevo</string>
 
     <!-- NAVIGATION DRAWER -->
+    <string name="nav_login">Iniciar sesión</string>
     <string name="nav_dashboard">Home</string>
     <string name="nav_profile">Mi perfil</string>
     <string name="nav_saved">Guardadas</string>

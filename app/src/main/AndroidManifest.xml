@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mmfsin.quepreferirias">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".base.App"
@@ -18,7 +21,7 @@
             android:value="ca-app-pub-4515698012373396~1972969527" />
 
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.VivirEsDecidir.NoActionBar"
@@ -35,17 +38,17 @@
             android:name=".data.messaging.NotificationHandler"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notification"/>
+            android:resource="@drawable/ic_notification" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/color_notification"/>
+            android:resource="@color/color_notification" />
 
     </application>
 
