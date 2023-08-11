@@ -1,7 +1,8 @@
 package com.mmfsin.quepreferirias.domain.interfaces
 
-import com.mmfsin.quepreferirias.data.models.SessionDTO
+import com.mmfsin.quepreferirias.domain.models.Session
 
 interface ISessionRepository {
-    suspend fun logIn(session: SessionDTO)
+    fun saveSession(session: Session)
+    fun getSession(): Session?
 }

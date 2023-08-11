@@ -1,7 +1,8 @@
 package com.mmfsin.quepreferirias.domain.usecases
 
 import android.content.Context
-import com.mmfsin.quepreferirias.base.BaseUseCaseNoParams
+import com.mmfsin.quepreferirias.base.BaseUseCase
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -9,10 +10,15 @@ import javax.inject.Inject
 
 class GetSessionInitiatedUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-) : BaseUseCaseNoParams<Boolean>() {
+) : BaseUseCase<GetSessionInitiatedUseCase.Params, Pair<Boolean, DrawerFlow>>() {
 
-    override suspend fun execute(): Boolean {
+    override suspend fun execute(params: Params): Pair<Boolean, DrawerFlow> {
         val session = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
-        return session.getBoolean(SESSION_INITIATED, false)
+        val isInitiated = session.getBoolean(SESSION_INITIATED, false)
+        return Pair(isInitiated, params.flow)
     }
+
+    data class Params(
+        val flow: DrawerFlow
+    )
 }

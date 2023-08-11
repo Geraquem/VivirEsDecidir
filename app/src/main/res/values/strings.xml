@@ -22,12 +22,14 @@
     <string name="no_more_description">No hay más decisiones que tengas que tomar por el momento</string>
     <string name="no_more_btn">Empezar de nuevo</string>
 
+    <!-- LOGIN -->
+    <string name="login_google">Iniciar sesión</string>
+
     <!-- NAVIGATION DRAWER -->
-    <string name="nav_login">Iniciar sesión</string>
     <string name="nav_dashboard">Home</string>
     <string name="nav_profile">Mi perfil</string>
     <string name="nav_saved">Guardadas</string>
-    <string name="nav_sended">Enviadas</string>
+    <string name="nav_sent">Enviadas</string>
     <string name="nav_drawer_more_apps">Aplicaciones parecidas</string>
 
     <!-- DASHBOARD -->

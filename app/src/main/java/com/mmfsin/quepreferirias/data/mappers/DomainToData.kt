@@ -10,4 +10,4 @@ fun toQuestionDTO(textTop: String, textBottom: String, creatorName: String) = Qu
     creatorName = creatorName.ifEmpty { null }
 )
 
-fun Session.toSessionDTO() = SessionDTO(id, name, initiated)
+fun Session.toSessionDTO() = SessionDTO(email, name)

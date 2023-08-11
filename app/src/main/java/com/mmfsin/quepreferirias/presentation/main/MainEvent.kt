@@ -1,8 +1,8 @@
 package com.mmfsin.quepreferirias.presentation.main
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
 
 sealed class MainEvent {
-    class GoogleClient(val user: GoogleSignInClient?) : MainEvent()
+    class DrawerFlowDirection(val result: Pair<Boolean, DrawerFlow>) : MainEvent()
     object SWW : MainEvent()
 }

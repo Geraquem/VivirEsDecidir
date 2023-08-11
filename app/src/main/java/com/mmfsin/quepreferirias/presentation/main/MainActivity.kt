@@ -1,10 +1,14 @@
 package com.mmfsin.quepreferirias.presentation.main
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.Intent.ACTION_VIEW
 import android.graphics.drawable.AnimationDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +16,10 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
+import com.mmfsin.quepreferirias.presentation.login.LoginActivity
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.*
 import com.mmfsin.quepreferirias.presentation.sendquestions.SendQuestionsFragment
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,22 +53,25 @@ class MainActivity : AppCompatActivity() {
     private fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is MainEvent.GoogleClient -> {
-                    val client = event.user
-                    client?.let {
-                        val signInIntent: Intent = client.signInIntent
-                        resultLauncher.launch(signInIntent)
+                is MainEvent.DrawerFlowDirection -> {
+                    val hasSession = event.result.first
+                    if (!hasSession) {
+                        resultLauncher.launch(Intent(this@MainActivity, LoginActivity::class.java))
+                    } else {
+                        Toast.makeText(
+                            applicationContext, event.result.second.name, Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
+
                 is MainEvent.SWW -> showErrorDialog() { finish() }
             }
         }
     }
 
     private var resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val acct = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            val account = acct.getResult(ApiException::class.java)
+        if (result.resultCode == RESULT_OK) {
+            Toast.makeText(applicationContext, "BIENVENIDO/A", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -72,9 +79,20 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.nav_login -> viewModel.doLogin()
-                    R.id.nav_send_questions -> showSendQuestions()
-//                    R.id.nav_item2 -> {}
+                    R.id.nav_home -> {
+                        viewModel.checkSession(HOME)
+//                        resultLauncher.launch(Intent(this@MainActivity, LoginActivity::class.java))
+                    }
+                    R.id.nav_profile -> viewModel.checkSession(PROFILE)
+                    R.id.nav_saved -> viewModel.checkSession(SAVED)
+                    R.id.nav_sent -> viewModel.checkSession(SENT)
+
+                    R.id.nav_send_questions -> {}
+                    R.id.nav_more_apps -> {
+                        startActivity(
+                            Intent(ACTION_VIEW, Uri.parse(getString(R.string.sq_mmfsin_url)))
+                        )
+                    }
                 }
                 drawerLayout.closeDrawers()
                 true
@@ -85,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 //    private fun setListeners() {
 //        binding.apply {
 //            llMoreApps.setOnClickListener {
-//                startActivity(Intent(ACTION_VIEW, Uri.parse(getString(R.string.sq_mmfsin_url))))
+//
 //            }
 //        }
 //    }

@@ -9,7 +9,7 @@ import com.mmfsin.quepreferirias.base.BaseUseCaseNoParams
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class LogInGoogleUseCase @Inject constructor(
+class GoogleLoginUseCase @Inject constructor(
     @ApplicationContext val context: Context,
 ) : BaseUseCaseNoParams<GoogleSignInClient>() {
 

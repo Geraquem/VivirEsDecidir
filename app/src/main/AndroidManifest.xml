@@ -21,6 +21,13 @@
             android:value="ca-app-pub-4515698012373396~1972969527" />
 
         <activity
+            android:name=".presentation.login.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            tools:ignore="LockedOrientationActivity"/>
+
+        <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
