@@ -28,7 +28,7 @@
             tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name=".presentation.root.RootActivity"
+            android:name=".presentation.main.BedRockActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan"

@@ -41,6 +41,9 @@
     <string name="dashboard_next">SIGUIENTE</string>
     <string name="dashboard_sent_by">Enviado por</string>
 
+    <!-- PROFILE -->
+    <string name="profile_title">Mi perfil</string>
+
     <!-- SEND_QUESTION -->
     <string name="sq_send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>
     <string name="sq_send_textB">Por ejemplo: Pierdes el dedo pulgar izquierdo</string>

@@ -19,7 +19,6 @@ import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.*
-import com.mmfsin.quepreferirias.presentation.root.RootActivity
 import com.mmfsin.quepreferirias.presentation.sendquestions.SendQuestionsFragment
 import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             SENT -> {}
         }
         navGraph?.let { navigation ->
-            val intent = Intent(this, RootActivity::class.java)
+            val intent = Intent(this, BedRockActivity::class.java)
             intent.putExtra(ROOT_ACTIVITY_NAV_GRAPH, navigation)
             startActivity(intent)
         }
