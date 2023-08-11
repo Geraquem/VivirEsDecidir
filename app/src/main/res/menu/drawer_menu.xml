@@ -4,10 +4,6 @@
     <item android:title="@string/app_name">
         <menu>
             <item
-                android:id="@+id/nav_home"
-                android:icon="@drawable/ic_option_yes_trans"
-                android:title="@string/nav_dashboard" />
-            <item
                 android:id="@+id/nav_profile"
                 android:icon="@drawable/ic_option_yes_trans"
                 android:title="@string/nav_profile" />

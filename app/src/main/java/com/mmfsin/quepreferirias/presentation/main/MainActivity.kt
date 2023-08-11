@@ -1,7 +1,5 @@
 package com.mmfsin.quepreferirias.presentation.main
 
-import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.graphics.drawable.AnimationDrawable
@@ -19,11 +17,13 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.*
+import com.mmfsin.quepreferirias.presentation.root.RootActivity
 import com.mmfsin.quepreferirias.presentation.sendquestions.SendQuestionsFragment
+import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -57,11 +57,7 @@ class MainActivity : AppCompatActivity() {
                     val hasSession = event.result.first
                     if (!hasSession) {
                         resultLauncher.launch(Intent(this@MainActivity, LoginActivity::class.java))
-                    } else {
-                        Toast.makeText(
-                            applicationContext, event.result.second.name, Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    } else navigateDrawer(event.result.second)
                 }
 
                 is MainEvent.SWW -> showErrorDialog() { finish() }
@@ -75,14 +71,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateDrawer(flow: DrawerFlow) {
+        var navGraph: Int? = null
+        when (flow) {
+            PROFILE -> navGraph = R.navigation.nav_graph_profile
+            SAVED -> {}
+            SENT -> {}
+        }
+        navGraph?.let { navigation ->
+            val intent = Intent(this, RootActivity::class.java)
+            intent.putExtra(ROOT_ACTIVITY_NAV_GRAPH, navigation)
+            startActivity(intent)
+        }
+    }
+
     private fun setNavigationDrawer() {
         binding.apply {
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.nav_home -> {
-                        viewModel.checkSession(HOME)
-//                        resultLauncher.launch(Intent(this@MainActivity, LoginActivity::class.java))
-                    }
                     R.id.nav_profile -> viewModel.checkSession(PROFILE)
                     R.id.nav_saved -> viewModel.checkSession(SAVED)
                     R.id.nav_sent -> viewModel.checkSession(SENT)

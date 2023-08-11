@@ -11,4 +11,8 @@ const val YES = "Si"
 const val NO = "No"
 
 //REALM
+/** delete */
 const val CREATOR_NAME_ID = 0
+
+//INTENT
+const val ROOT_ACTIVITY_NAV_GRAPH = "root_nav_graph"
