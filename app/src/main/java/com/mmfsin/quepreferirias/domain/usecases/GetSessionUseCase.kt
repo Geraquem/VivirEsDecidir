@@ -1,24 +1,23 @@
 package com.mmfsin.quepreferirias.domain.usecases
 
 import android.content.Context
-import com.mmfsin.quepreferirias.base.BaseUseCase
-import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
+import com.mmfsin.quepreferirias.base.BaseUseCaseNoParams
+import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
+import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class GetSessionInitiatedUseCase @Inject constructor(
+class GetSessionUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-) : BaseUseCase<GetSessionInitiatedUseCase.Params, Pair<Boolean, DrawerFlow>>() {
+    private val sessionRepository: ISessionRepository
+) : BaseUseCaseNoParams<Session?>() {
 
-    override suspend fun execute(params: Params): Pair<Boolean, DrawerFlow> {
+    override suspend fun execute(): Session? {
         val session = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
         val isInitiated = session.getBoolean(SESSION_INITIATED, false)
-        return Pair(isInitiated, params.flow)
+        if (!isInitiated) return null
+        return sessionRepository.getSession()
     }
-
-    data class Params(
-        val flow: DrawerFlow
-    )
 }

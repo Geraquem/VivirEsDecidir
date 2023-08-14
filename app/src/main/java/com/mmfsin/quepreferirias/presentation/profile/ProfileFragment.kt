@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentProfileBinding
+import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,8 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val viewModel: ProfileViewModel by viewModels()
-
     private lateinit var mContext: Context
+
+    private var session: Session? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -27,7 +29,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.getAppData()
+        viewModel.getSession()
     }
 
     private fun setToolbar() {
@@ -40,9 +42,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     override fun setUI() {
         setToolbar()
         binding.apply {
-            tvEmail.text = "eeeeee"
-            tvName.text = "funciono"
-            loading.root.isVisible = false
+            loading.root.visibility = View.VISIBLE
+            session?.let {
+                tvEmail.text = it.email
+                tvName.text = it.name
+                loading.root.visibility = View.GONE
+            }
         }
     }
 
@@ -54,6 +59,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is ProfileEvent.Profile -> {
+                    session = event.session
+                    setUI()
+                }
                 is ProfileEvent.SWW -> error()
             }
         }
