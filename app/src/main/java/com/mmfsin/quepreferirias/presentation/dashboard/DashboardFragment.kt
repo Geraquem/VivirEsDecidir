@@ -76,7 +76,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                 }
             }
 
-            ivSave.setOnClickListener { viewModel.saveDataToUser(dataList[position].id) }
+            ivSave.setOnClickListener { actualData?.let { viewModel.saveDataToUser(it.id) }}
         }
     }
 
@@ -132,7 +132,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     private fun setData() {
-        viewModel.checkIfAlreadySaved(dataList[position].id)
+        actualData?.let {
+            viewModel.checkIfAlreadySaved(dataList[position].id)
+        }
+
         binding.apply {
             votesYes = 0
             votesNo = 0

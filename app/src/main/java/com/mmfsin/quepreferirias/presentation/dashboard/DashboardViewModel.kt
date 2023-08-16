@@ -53,6 +53,14 @@ class DashboardViewModel @Inject constructor(
         )
     }
 
+    fun checkIfAlreadyVoted(dataId: String) {
+        executeUseCase(
+            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
+            { result -> _event.value = DashboardEvent.AlreadySaved(result) },
+            { _event.value = DashboardEvent.SWW }
+        )
+    }
+
     fun checkIfAlreadySaved(dataId: String) {
         executeUseCase(
             { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
