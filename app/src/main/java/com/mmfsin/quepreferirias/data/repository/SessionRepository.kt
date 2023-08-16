@@ -1,5 +1,6 @@
 package com.mmfsin.quepreferirias.data.repository
 
+import android.content.Context
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -10,9 +11,8 @@ import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.utils.DATA
-import com.mmfsin.quepreferirias.utils.DATA_SAVED
-import com.mmfsin.quepreferirias.utils.USERS
+import com.mmfsin.quepreferirias.utils.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,6 +20,7 @@ import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 class SessionRepository @Inject constructor(
+    @ApplicationContext val context: Context,
     private val realmDatabase: IRealmDatabase
 ) : ISessionRepository {
 
@@ -42,8 +43,18 @@ class SessionRepository @Inject constructor(
     override suspend fun checkIfIsSavedData(dataId: String): Boolean? {
         val session = getSession() ?: return null
         var savedData = realmDatabase.getObjectsFromRealm { where<SavedDataDTO>().findAll() }
+
+        val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+        val update = sharedPrefs.getBoolean(UPDATE_SAVED_DATA, true)
+        if(update) savedData = getSavedDataFromRealm(session.email)
+        sharedPrefs.edit().apply{
+            putBoolean(UPDATE_SAVED_DATA, false)
+            apply()
+        }
+
         if (savedData.isEmpty()) savedData = getSavedDataFromRealm(session.email)
         savedData.forEach { if (it.dataId == dataId) return true }
+
         return false
     }
 
@@ -66,7 +77,7 @@ class SessionRepository @Inject constructor(
         return data
     }
 
-    override suspend fun saveDataToUser(dataId: String): Boolean? {
+    override suspend fun saveData(dataId: String): Boolean? {
         val session = getSession() ?: return null
         var result: Boolean? = null
         val data = hashMapOf(dataId to true)

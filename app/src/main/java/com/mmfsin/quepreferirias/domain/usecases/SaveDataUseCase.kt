@@ -5,6 +5,7 @@ import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
+import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -17,7 +18,11 @@ class SaveDataUseCase @Inject constructor(
         val session = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
         val isInitiated = session.getBoolean(SESSION_INITIATED, false)
         if (!isInitiated) return null
-        return sessionRepository.saveDataToUser(params.dataId)
+        session.edit().apply() {
+            putBoolean(UPDATE_SAVED_DATA, true)
+            apply()
+        }
+        return sessionRepository.saveData(params.dataId)
     }
 
     data class Params(
