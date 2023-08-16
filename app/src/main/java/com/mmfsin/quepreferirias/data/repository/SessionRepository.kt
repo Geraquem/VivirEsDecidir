@@ -21,4 +21,6 @@ class SessionRepository @Inject constructor(
         val session = realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
         return if (session.isEmpty()) null else session.first().toSession()
     }
+
+    override fun deleteSession() = realmDatabase.deleteAllData()
 }

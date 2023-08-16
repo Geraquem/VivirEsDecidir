@@ -60,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
             try {
                 val account = acct.getResult(ApiException::class.java)
                 account?.let {
-                    viewModel.saveSession(it.email ?: "", account.displayName ?: "")
+                    viewModel.saveSession(it.id ?: "", it.email ?: "", account.displayName ?: "")
                 } ?: run { error() }
             } catch (e: ApiException) {
                 error()

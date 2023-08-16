@@ -19,7 +19,6 @@ import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.*
-import com.mmfsin.quepreferirias.presentation.sendquestions.SendQuestionsFragment
 import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,11 +41,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         observe()
+        setListeners()
         setNavigationDrawer()
         setDefaultBackground()
-
-        /** */
-        openDrawer()
     }
 
     private fun observe() {
@@ -105,13 +102,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun setListeners() {
-//        binding.apply {
-//            llMoreApps.setOnClickListener {
-//
-//            }
-//        }
-//    }
+    private fun setListeners() {
+        binding.apply {
+            ivBack.setOnClickListener { openDrawer() }
+        }
+    }
 
     fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
 
@@ -157,9 +152,9 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    private fun showSendQuestions() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_send_questions, SendQuestionsFragment()).addToBackStack(null)
-            .commit()
-    }
+//    private fun showSendQuestions() {
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_send_questions, SendQuestionsFragment()).addToBackStack(null)
+//            .commit()
+//    }
 }

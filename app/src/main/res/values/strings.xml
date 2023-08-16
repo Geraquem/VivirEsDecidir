@@ -43,6 +43,7 @@
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>
+    <string name="profile_close_session">Cerrar sessión</string>
 
     <!-- SEND_QUESTION -->
     <string name="sq_send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>

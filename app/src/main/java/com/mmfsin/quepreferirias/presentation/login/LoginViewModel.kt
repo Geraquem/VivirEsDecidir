@@ -21,9 +21,9 @@ class LoginViewModel @Inject constructor(
         )
     }
 
-    fun saveSession(email: String, name: String) {
+    fun saveSession(id: String, email: String, name: String) {
         executeUseCase(
-            { saveSessionUseCase.execute(SaveSessionUseCase.Params(Session(email, name))) },
+            { saveSessionUseCase.execute(SaveSessionUseCase.Params(id, Session(email, name))) },
             { _event.value = LoginEvent.SessionSaved },
             { _event.value = LoginEvent.SWW }
         )
