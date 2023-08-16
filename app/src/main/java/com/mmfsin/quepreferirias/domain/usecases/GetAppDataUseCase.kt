@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetAppDataUseCase @Inject constructor(private val repository: IDataRepository) :
     BaseUseCaseNoParams<List<Data>>() {
 
-    override suspend fun execute(): List<Data> = repository.getDataFromFirebase().shuffled()
+    override suspend fun execute(): List<Data> = repository.getDataFromFirebase()//.shuffled()
 }

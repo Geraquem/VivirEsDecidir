@@ -2,7 +2,7 @@ package com.mmfsin.quepreferirias.presentation.profile
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.mmfsin.quepreferirias.base.BaseViewModel
-import com.mmfsin.quepreferirias.domain.usecases.CloseSessionUseCase
+import com.mmfsin.quepreferirias.domain.usecases.LogoutUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GoogleLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getSessionUseCase: GetSessionUseCase,
     private val googleLoginUseCase: GoogleLoginUseCase,
-    private val closeSessionUseCase: CloseSessionUseCase
+    private val logoutUseCase: LogoutUseCase
 ) : BaseViewModel<ProfileEvent>() {
 
     fun getSession() {
@@ -35,7 +35,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun deleteSessionFromSystem(client: GoogleSignInClient?) {
         executeUseCase(
-            { closeSessionUseCase.execute(CloseSessionUseCase.Params(client)) },
+            { logoutUseCase.execute(LogoutUseCase.Params(client)) },
             { _event.value = ProfileEvent.SessionClosed },
             { _event.value = ProfileEvent.SWW })
     }

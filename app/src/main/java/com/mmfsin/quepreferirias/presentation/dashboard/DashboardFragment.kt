@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
@@ -69,8 +68,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                     setData()
                 } else {
                     activity?.let {
-                        val dialog = NoMoreDialog() { it.recreate() }
+                        val dialog = NoMoreDialog() { /** TODO */ }
                         dialog.show(it.supportFragmentManager, "")
+                        /** DELETE AFTER */
+                        position = -1
                     }
                 }
             }
@@ -103,16 +104,20 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         viewModel.event.observe(this) { event ->
             when (event) {
                 is DashboardEvent.AppData -> {
-                    dataList = event.data.shuffled()
+                    dataList = event.data//.shuffled()
                     actualData = dataList[position]
                     setData()
                 }
 
                 is DashboardEvent.GetPercents -> setPercents(event.percents)
 
-                is DashboardEvent.SavedData -> {
+                is DashboardEvent.AlreadySaved -> {
+                    event.saved?.let { saveDataSRC(it) } ?: run { saveDataSRC(false) }
+                }
+
+                is DashboardEvent.DataSaved -> {
                     event.result?.let { saved ->
-                        if (saved) saveData(true) else activity?.showErrorDialog() {}
+                        if (saved) saveDataSRC(true) else activity?.showErrorDialog() {}
                     } ?: run { (activity as MainActivity).loginFlow() }
                 }
 
@@ -121,12 +126,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         }
     }
 
-    private fun saveData(isSaved: Boolean) {
+    private fun saveDataSRC(isSaved: Boolean) {
         val resource = if (isSaved) R.drawable.ic_saved else R.drawable.ic_not_saved
         binding.ivSave.setImageResource(resource)
     }
 
     private fun setData() {
+        viewModel.checkIfAlreadySaved(dataList[position].id)
         binding.apply {
             votesYes = 0
             votesNo = 0

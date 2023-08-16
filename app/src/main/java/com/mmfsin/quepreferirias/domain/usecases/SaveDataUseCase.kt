@@ -8,10 +8,10 @@ import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class SaveDataToUserUseCase @Inject constructor(
+class SaveDataUseCase @Inject constructor(
     @ApplicationContext val context: Context,
     private val sessionRepository: ISessionRepository
-) : BaseUseCase<SaveDataToUserUseCase.Params, Boolean?>() {
+) : BaseUseCase<SaveDataUseCase.Params, Boolean?>() {
 
     override suspend fun execute(params: Params): Boolean? {
         val session = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)

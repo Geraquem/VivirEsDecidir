@@ -2,10 +2,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
-import com.mmfsin.quepreferirias.domain.usecases.GetAppDataUseCase
-import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
-import com.mmfsin.quepreferirias.domain.usecases.SaveDataToUserUseCase
-import com.mmfsin.quepreferirias.domain.usecases.UserVoteUseCase
+import com.mmfsin.quepreferirias.domain.usecases.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,7 +11,8 @@ class DashboardViewModel @Inject constructor(
     private val getAppDataUseCase: GetAppDataUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val userVoteUseCase: UserVoteUseCase,
-    private val saveDataToUserUseCase: SaveDataToUserUseCase
+    private val checkIfAlreadySavedUseCase: CheckIfAlreadySavedUseCase,
+    private val saveDataUseCase: SaveDataUseCase
 ) : BaseViewModel<DashboardEvent>() {
 
     fun getAppData() {
@@ -49,8 +47,16 @@ class DashboardViewModel @Inject constructor(
 
     fun saveDataToUser(dataId: String) {
         executeUseCase(
-            { saveDataToUserUseCase.execute(SaveDataToUserUseCase.Params(dataId)) },
-            { result -> _event.value = DashboardEvent.SavedData(result) },
+            { saveDataUseCase.execute(SaveDataUseCase.Params(dataId)) },
+            { result -> _event.value = DashboardEvent.DataSaved(result) },
+            { _event.value = DashboardEvent.SWW }
+        )
+    }
+
+    fun checkIfAlreadySaved(dataId: String) {
+        executeUseCase(
+            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
+            { result -> _event.value = DashboardEvent.AlreadySaved(result) },
             { _event.value = DashboardEvent.SWW }
         )
     }

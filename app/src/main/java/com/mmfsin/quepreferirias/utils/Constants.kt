@@ -3,6 +3,8 @@ package com.mmfsin.quepreferirias.utils
 //SHARED PREFS
 const val SESSION = "user_session"
 const val SESSION_INITIATED = "session_initiated"
+const val UPDATE_SAVED_DATA = "update_saved_data"
+const val UPDATE_SENT_DATA = "update_sent_data"
 
 //FIREBASE
 const val PRUEBAS_ROOT = "pruebas"

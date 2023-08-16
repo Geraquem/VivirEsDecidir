@@ -35,7 +35,7 @@ class DataRepository @Inject constructor() : IDataRepository {
         withContext(Dispatchers.IO) {
             latch.await()
         }
-        return dataList.shuffled()
+        return dataList//.shuffled()
     }
 
 

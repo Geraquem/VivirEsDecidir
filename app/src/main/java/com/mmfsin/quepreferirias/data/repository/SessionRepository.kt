@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.mappers.toSessionDTO
+import com.mmfsin.quepreferirias.data.models.SavedDataDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
@@ -37,6 +38,33 @@ class SessionRepository @Inject constructor(
     }
 
     override fun deleteSession() = realmDatabase.deleteAllData()
+
+    override suspend fun checkIfIsSavedData(dataId: String): Boolean? {
+        val session = getSession() ?: return null
+        var savedData = realmDatabase.getObjectsFromRealm { where<SavedDataDTO>().findAll() }
+        if (savedData.isEmpty()) savedData = getSavedDataFromRealm(session.email)
+        savedData.forEach { if (it.dataId == dataId) return true }
+        return false
+    }
+
+    private suspend fun getSavedDataFromRealm(email: String): List<SavedDataDTO> {
+        val data = mutableListOf<SavedDataDTO>()
+        val latch = CountDownLatch(1)
+        Firebase.firestore.collection(USERS).document(email)
+            .collection(DATA).document(DATA_SAVED)
+            .get()
+            .addOnCompleteListener {
+                val arrayList = it.result.data?.keys?.let { it1 -> ArrayList(it1) }
+                arrayList?.forEach { id ->
+                    val savedDataDTO = SavedDataDTO(dataId = id)
+                    data.add(savedDataDTO)
+                    realmDatabase.addObject { savedDataDTO }
+                }
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
+        return data
+    }
 
     override suspend fun saveDataToUser(dataId: String): Boolean? {
         val session = getSession() ?: return null

@@ -9,13 +9,15 @@ import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
+import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
+import com.mmfsin.quepreferirias.utils.UPDATE_SENT_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class CloseSessionUseCase @Inject constructor(
+class LogoutUseCase @Inject constructor(
     @ApplicationContext val context: Context,
     private val sessionRepository: ISessionRepository
-) : BaseUseCase<CloseSessionUseCase.Params, Unit>() {
+) : BaseUseCase<LogoutUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
         /** Google */
@@ -31,6 +33,8 @@ class CloseSessionUseCase @Inject constructor(
         val session = context.getSharedPreferences(SESSION, MODE_PRIVATE)
         session.edit().apply() {
             putBoolean(SESSION_INITIATED, false)
+            putBoolean(UPDATE_SAVED_DATA, false)
+            putBoolean(UPDATE_SENT_DATA, false)
             apply()
         }
 

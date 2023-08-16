@@ -133,18 +133,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadInterstitial(adRequest: AdRequest) {
-        InterstitialAd.load(this,
-            getString(R.string.insterstitial),
-            adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    mInterstitialAd = null
-                    loadInterstitial(AdRequest.Builder().build())
-                }
-
-                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    mInterstitialAd = interstitialAd
-                }
-            })
+//        InterstitialAd.load(this,
+//            getString(R.string.insterstitial),
+//            adRequest,
+//            object : InterstitialAdLoadCallback() {
+//                override fun onAdFailedToLoad(adError: LoadAdError) {
+//                    mInterstitialAd = null
+//                    loadInterstitial(AdRequest.Builder().build())
+//                }
+//
+//                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+//                    mInterstitialAd = interstitialAd
+//                }
+//            })
     }
 }
