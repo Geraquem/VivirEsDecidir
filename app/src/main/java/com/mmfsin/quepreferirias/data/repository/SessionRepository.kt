@@ -54,7 +54,6 @@ class SessionRepository @Inject constructor(
 
         if (savedData.isEmpty()) savedData = getSavedDataFromRealm(session.email)
         savedData.forEach { if (it.dataId == dataId) return true }
-
         return false
     }
 
