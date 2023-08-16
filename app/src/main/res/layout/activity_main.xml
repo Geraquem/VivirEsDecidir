@@ -8,10 +8,8 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_list"
         tools:context=".presentation.main.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout

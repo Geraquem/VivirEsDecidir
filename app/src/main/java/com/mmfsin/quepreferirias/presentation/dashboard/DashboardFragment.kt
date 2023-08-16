@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
 import com.mmfsin.quepreferirias.domain.models.Data
-import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,14 +57,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override fun setListeners() {
         binding.apply {
-            btnYes.setOnClickListener {
-                (activity as MainActivity).openDrawer()
-//                yesOrNoClick(isYes = true)
-            }
-            btnNo.setOnClickListener {
-                (activity as MainActivity).openDrawer()
-//                yesOrNoClick(isYes = false)
-            }
+            btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
+            btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
             btnNext.setOnClickListener {
                 position++
@@ -79,6 +74,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                     }
                 }
             }
+
+            ivSave.setOnClickListener { viewModel.saveDataToUser(dataList[position].id) }
         }
     }
 
@@ -110,10 +107,23 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                     actualData = dataList[position]
                     setData()
                 }
+
                 is DashboardEvent.GetPercents -> setPercents(event.percents)
+
+                is DashboardEvent.SavedData -> {
+                    event.result?.let { saved ->
+                        if (saved) saveData(true) else activity?.showErrorDialog() {}
+                    } ?: run { (activity as MainActivity).loginFlow() }
+                }
+
                 is DashboardEvent.SWW -> error()
             }
         }
+    }
+
+    private fun saveData(isSaved: Boolean) {
+        val resource = if (isSaved) R.drawable.ic_saved else R.drawable.ic_not_saved
+        binding.ivSave.setImageResource(resource)
     }
 
     private fun setData() {

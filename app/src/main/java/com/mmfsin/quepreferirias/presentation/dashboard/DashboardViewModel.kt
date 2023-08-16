@@ -4,6 +4,7 @@ import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.usecases.GetAppDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.SaveDataToUserUseCase
 import com.mmfsin.quepreferirias.domain.usecases.UserVoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,7 +13,8 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val getAppDataUseCase: GetAppDataUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
-    private val userVoteUseCase: UserVoteUseCase
+    private val userVoteUseCase: UserVoteUseCase,
+    private val saveDataToUserUseCase: SaveDataToUserUseCase
 ) : BaseViewModel<DashboardEvent>() {
 
     fun getAppData() {
@@ -41,6 +43,14 @@ class DashboardViewModel @Inject constructor(
         executeUseCase(
             { userVoteUseCase.execute(UserVoteUseCase.Params(dataId, isYes)) },
             { Log.i("userVoteUseCase: ", "User voted successfully") },
+            { _event.value = DashboardEvent.SWW }
+        )
+    }
+
+    fun saveDataToUser(dataId: String) {
+        executeUseCase(
+            { saveDataToUserUseCase.execute(SaveDataToUserUseCase.Params(dataId)) },
+            { result -> _event.value = DashboardEvent.SavedData(result) },
             { _event.value = DashboardEvent.SWW }
         )
     }

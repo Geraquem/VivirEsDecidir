@@ -6,4 +6,5 @@ interface ISessionRepository {
     fun saveSession(session: Session)
     fun deleteSession()
     fun getSession(): Session?
+    suspend fun saveDataToUser(dataId: String): Boolean?
 }

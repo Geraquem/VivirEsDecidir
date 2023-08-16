@@ -2,7 +2,6 @@ package com.mmfsin.quepreferirias.presentation.main
 
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
-import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         observe()
         setListeners()
         setNavigationDrawer()
-        setDefaultBackground()
+        setAds()
     }
 
     private fun observe() {
@@ -51,15 +50,16 @@ class MainActivity : AppCompatActivity() {
             when (event) {
                 is MainEvent.DrawerFlowDirection -> {
                     val hasSession = event.result.first
-                    if (!hasSession) {
-                        resultLauncher.launch(Intent(this@MainActivity, LoginActivity::class.java))
-                    } else navigateDrawer(event.result.second)
+                    if (hasSession) navigateDrawer(event.result.second) else loginFlow()
                 }
 
                 is MainEvent.SWW -> showErrorDialog() { finish() }
             }
         }
     }
+
+    fun loginFlow() =
+        resultLauncher.launch(Intent(this@MainActivity, LoginActivity::class.java))
 
     private var resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
@@ -108,15 +108,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
+    private fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
 
-    private fun setDefaultBackground() {
+    private fun setAds() {
         binding.apply {
             adView.visibility = View.GONE
-            val animationDrawable = clMain.background as AnimationDrawable
-            animationDrawable.setEnterFadeDuration(6000)
-            animationDrawable.setExitFadeDuration(6000)
-            animationDrawable.start()
         }
         loadInterstitial(AdRequest.Builder().build())
     }
@@ -151,10 +147,4 @@ class MainActivity : AppCompatActivity() {
                 }
             })
     }
-
-//    private fun showSendQuestions() {
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragment_send_questions, SendQuestionsFragment()).addToBackStack(null)
-//            .commit()
-//    }
 }

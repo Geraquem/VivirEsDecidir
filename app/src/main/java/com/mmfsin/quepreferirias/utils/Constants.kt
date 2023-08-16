@@ -10,6 +10,12 @@ const val SEND_QUESTIONS_ROOT = "user_questions"
 const val YES = "Si"
 const val NO = "No"
 
+//FIRESTORE
+const val USERS = "users"
+const val DATA = "user_data"
+const val DATA_SAVED = "saved"
+const val DATA_CREATED = "created"
+
 //REALM
 /** delete */
 const val CREATOR_NAME_ID = 0

@@ -30,21 +30,21 @@ class SaveSessionUseCase @Inject constructor(
         }
 
         /** Firebase ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR*/
-        val credential = GoogleAuthProvider.getCredential(params.id, null)
-        val latch = CountDownLatch(1)
-        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful){
-                val a = 2
-                latch.countDown()
-            }else{
-                val a = 2
-                latch.countDown()
-            }
-        }
-
-        withContext(Dispatchers.IO) {
-            latch.await()
-        }
+//        val credential = GoogleAuthProvider.getCredential(params.id, null)
+//        val latch = CountDownLatch(1)
+//        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
+//            if (it.isSuccessful){
+//                val a = 2
+//                latch.countDown()
+//            }else{
+//                val a = 2
+//                latch.countDown()
+//            }
+//        }
+//
+//        withContext(Dispatchers.IO) {
+//            latch.await()
+//        }
 
         /** Realm */
         sessionRepository.saveSession(params.session)
