@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_saved_data"
+    app:startDestination="@id/savedDataFragment">
+
+    <fragment
+        android:id="@+id/savedDataFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.saved.SavedDataFragment"
+        android:label="savedDataFragment"
+        tools:layout="@layout/fragment_saved_data" />
+
+</navigation>

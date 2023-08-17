@@ -9,10 +9,14 @@ const val UPDATE_SENT_DATA = "update_sent_data"
 //FIREBASE
 const val PRUEBAS_ROOT = "pruebas"
 const val SEND_QUESTIONS_ROOT = "user_questions"
+const val TXT_TOP = "txtTop"
+const val TXT_BOTTOM = "txtBottom"
 const val YES = "Si"
 const val NO = "No"
 
 //FIRESTORE
+const val BUT_DATA = "but_data"
+const val DATA_ID = "dataId"
 const val USERS = "users"
 const val DATA = "user_data"
 const val DATA_SAVED = "saved"

@@ -3,14 +3,14 @@
     <string name="content_description">image</string>
 
     <!-- OAuth -->
-<!--    <string name="google_oauth_token">129474455401-gcb79sjdnotq6bs40867bfj1ghuv7mog.apps.googleusercontent.com</string>-->
+    <!--    <string name="google_oauth_token">129474455401-gcb79sjdnotq6bs40867bfj1ghuv7mog.apps.googleusercontent.com</string>-->
     <string name="google_oauth_token">129474455401-v4gggilchel65hekg2hch8oh2datktmn.apps.googleusercontent.com</string>
 
     <!-- ADS -->
     <string name="banner">ca-app-pub-3940256099942544/6300978111</string>
-<!--        <string name="banner">ca-app-pub-4515698012373396/8033411533</string>-->
+    <!--        <string name="banner">ca-app-pub-4515698012373396/8033411533</string>-->
     <string name="insterstitial">ca-app-pub-3940256099942544/1033173712</string>
-<!--        <string name="insterstitial">ca-app-pub-4515698012373396/6775142518</string>-->
+    <!--        <string name="insterstitial">ca-app-pub-4515698012373396/6775142518</string>-->
 
     <!-- ERROR -->
     <string name="error_title">Ha ocurrido un problema</string>
@@ -44,6 +44,10 @@
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>
     <string name="profile_close_session">Cerrar sessión</string>
+
+    <!-- SAVED DATA -->
+    <string name="saved_data_title">Guardadas</string>
+    <string name="saved_data_empty">Parece que todavía no has guardado nada</string>
 
     <!-- SEND_QUESTION -->
     <string name="sq_send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>

@@ -10,9 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
@@ -71,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         var navGraph: Int? = null
         when (flow) {
             PROFILE -> navGraph = R.navigation.nav_graph_profile
-            SAVED -> {}
+            SAVED -> navGraph = R.navigation.nav_graph_saved_data
             SENT -> {}
         }
         navGraph?.let { navigation ->
@@ -104,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding.apply {
-            ivBack.setOnClickListener { openDrawer() }
+            ivMenu.setOnClickListener { openDrawer() }
         }
     }
 

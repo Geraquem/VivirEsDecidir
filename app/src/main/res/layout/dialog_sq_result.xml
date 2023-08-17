@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/VotesTextView"
+        style="@style/NormalTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/btn_again"
-        style="@style/VotesTextView"
+        style="@style/NormalTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_large"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/btn_error"
-        style="@style/VotesTextView"
+        style="@style/NormalTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_large"

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.mappers.toSessionDTO
-import com.mmfsin.quepreferirias.data.models.SavedDataDTO
+import com.mmfsin.quepreferirias.data.models.SavedDataIdDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
@@ -40,25 +40,32 @@ class SessionRepository @Inject constructor(
 
     override fun deleteSession() = realmDatabase.deleteAllData()
 
-    override suspend fun checkIfIsSavedData(dataId: String): Boolean? {
+    private suspend fun retrieveSavedData(): List<SavedDataIdDTO>? {
         val session = getSession() ?: return null
-        var savedData = realmDatabase.getObjectsFromRealm { where<SavedDataDTO>().findAll() }
+        var savedData = realmDatabase.getObjectsFromRealm { where<SavedDataIdDTO>().findAll() }
 
         val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
         val update = sharedPrefs.getBoolean(UPDATE_SAVED_DATA, true)
-        if(update) savedData = getSavedDataFromRealm(session.email)
-        sharedPrefs.edit().apply{
+        /** if true goes to Firebase */
+        if (update) savedData = getSavedDataFromFirebase(session.email)
+        /** set update to false */
+        sharedPrefs.edit().apply {
             putBoolean(UPDATE_SAVED_DATA, false)
             apply()
         }
-
-        if (savedData.isEmpty()) savedData = getSavedDataFromRealm(session.email)
-        savedData.forEach { if (it.dataId == dataId) return true }
-        return false
+        return savedData
     }
 
-    private suspend fun getSavedDataFromRealm(email: String): List<SavedDataDTO> {
-        val data = mutableListOf<SavedDataDTO>()
+    override suspend fun checkIfIsSavedData(dataId: String): Boolean? {
+        val savedData = retrieveSavedData()
+        savedData?.let { item ->
+            item.forEach { if (it.dataId == dataId) return true }
+            return false
+        } ?: run { return null }
+    }
+
+    private suspend fun getSavedDataFromFirebase(email: String): List<SavedDataIdDTO> {
+        val data = mutableListOf<SavedDataIdDTO>()
         val latch = CountDownLatch(1)
         Firebase.firestore.collection(USERS).document(email)
             .collection(DATA).document(DATA_SAVED)
@@ -66,9 +73,9 @@ class SessionRepository @Inject constructor(
             .addOnCompleteListener {
                 val arrayList = it.result.data?.keys?.let { it1 -> ArrayList(it1) }
                 arrayList?.forEach { id ->
-                    val savedDataDTO = SavedDataDTO(dataId = id)
-                    data.add(savedDataDTO)
-                    realmDatabase.addObject { savedDataDTO }
+                    val savedDataIdDTO = SavedDataIdDTO(dataId = id)
+                    data.add(savedDataIdDTO)
+                    realmDatabase.addObject { savedDataIdDTO }
                 }
                 latch.countDown()
             }
@@ -90,5 +97,12 @@ class SessionRepository @Inject constructor(
             }
         withContext(Dispatchers.IO) { latch.await() }
         return result
+    }
+
+    override suspend fun getSavedDataKeys(email: String): List<String> {
+        val savedData = retrieveSavedData()
+        val data = mutableListOf<String>()
+        savedData?.forEach { data.add(it.dataId) }
+        return data
     }
 }
