@@ -22,13 +22,15 @@ class DataRepository @Inject constructor(
     private val realmDatabase: IRealmDatabase
 ) : IDataRepository {
 
-    private val reference = Firebase.database.reference.child(PRUEBAS_ROOT)
+    private val reference = Firebase.database.reference
 
     override suspend fun getData(): List<Data> {
         val latch = CountDownLatch(1)
         val dataList = mutableListOf<Data>()
-        reference.get().addOnSuccessListener {
-            for (child in it.children) {
+
+        reference.get().addOnSuccessListener { root ->
+            val allData = root.child(PRUEBAS_ROOT)
+            for (child in allData.children) {
                 child.getValue(DataDTO::class.java)?.let { item ->
                     val votesYes = child.child(YES).childrenCount
                     val votesNo = child.child(NO).childrenCount
@@ -56,9 +58,9 @@ class DataRepository @Inject constructor(
         val collectionReference = Firebase.firestore.collection(BUT_DATA)
         collectionReference.whereIn(DATA_ID, idList).get().addOnSuccessListener { querySnapshot ->
             for (document in querySnapshot) {
-                val dataDTO = document.toObject(SavedDataDTO::class.java)
-                dataList.add(dataDTO)
-                realmDatabase.addObject { dataDTO }
+                val savedDataDTO = document.toObject(SavedDataDTO::class.java)
+                dataList.add(savedDataDTO)
+                realmDatabase.addObject { savedDataDTO }
             }
             latch.countDown()
         }.addOnFailureListener { latch.countDown() }
