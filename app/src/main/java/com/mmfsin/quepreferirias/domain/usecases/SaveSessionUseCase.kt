@@ -2,28 +2,23 @@ package com.mmfsin.quepreferirias.domain.usecases
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.mmfsin.quepreferirias.base.BaseUseCase
-import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
 import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
 import com.mmfsin.quepreferirias.utils.UPDATE_SENT_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 class SaveSessionUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: ISessionRepository
-) : BaseUseCase<SaveSessionUseCase.Params, Unit>() {
+    private val sessionRepository: IUserRepository
+) : BaseUseCase<SaveSessionUseCase.Params, Boolean>() {
 
     /** Save in shared prefs, Firebase and Realm */
-    override suspend fun execute(params: Params) {
+    override suspend fun execute(params: Params): Boolean {
         /** Shared prefs */
         val session = context.getSharedPreferences(SESSION, MODE_PRIVATE)
         session.edit().apply() {
@@ -51,7 +46,7 @@ class SaveSessionUseCase @Inject constructor(
 //        }
 
         /** Realm */
-        sessionRepository.saveSession(params.session)
+        return sessionRepository.saveSession(params.session)
     }
 
     data class Params(

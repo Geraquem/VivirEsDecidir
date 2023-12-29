@@ -2,7 +2,7 @@ package com.mmfsin.quepreferirias.domain.usecases
 
 import android.content.Context
 import com.mmfsin.quepreferirias.base.BaseUseCase
-import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class CheckIfAlreadySavedUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: ISessionRepository
+    private val sessionRepository: IUserRepository
 ) :
     BaseUseCase<CheckIfAlreadySavedUseCase.Params, Boolean?>() {
 

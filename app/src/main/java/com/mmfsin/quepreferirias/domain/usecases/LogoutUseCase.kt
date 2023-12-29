@@ -6,7 +6,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.base.BaseUseCase
-import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
 import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: ISessionRepository
+    private val sessionRepository: IUserRepository
 ) : BaseUseCase<LogoutUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {

@@ -1,6 +1,7 @@
 package com.mmfsin.quepreferirias.data.repository
 
 import android.content.Context
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -9,28 +10,45 @@ import com.mmfsin.quepreferirias.data.mappers.toSessionDTO
 import com.mmfsin.quepreferirias.data.models.SavedDataIdDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
-import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.UUID
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
-class SessionRepository @Inject constructor(
+class UserRepository @Inject constructor(
     @ApplicationContext val context: Context,
     private val realmDatabase: IRealmDatabase
-) : ISessionRepository {
+) : IUserRepository {
 
-    override fun saveSession(session: Session) {
-        realmDatabase.addObject { session.toSessionDTO() }
-        saveInFirestore(session)
+    private val reference = Firebase.database.reference
+
+    override suspend fun saveSession(session: Session): Boolean {
+        return if (savedInFirebase(session)) {
+            realmDatabase.addObject { session.toSessionDTO() }
+            true
+        } else false
     }
 
-    private fun saveInFirestore(session: Session) {
-        Firebase.firestore.collection(USERS).document(session.email).set(session)
+    private suspend fun savedInFirebase(session: Session): Boolean {
+        val latch = CountDownLatch(1)
+        var result = false
+        val userId = UUID.randomUUID().toString()
+        session.id = userId
+        reference.child(USERS).child(userId).setValue(session)
+            .addOnCompleteListener {
+                result = it.isSuccessful
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) {
+            latch.await()
+        }
+        return result
     }
 
     override fun getSession(): Session? {
@@ -88,6 +106,11 @@ class SessionRepository @Inject constructor(
         var result: Boolean? = null
         val data = hashMapOf(dataId to true)
         val latch = CountDownLatch(1)
+
+
+
+
+
         Firebase.firestore.collection(USERS).document(session.email)
             .collection(DATA).document(DATA_SAVED)
             .set(data, SetOptions.merge())

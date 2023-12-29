@@ -2,7 +2,7 @@ package com.mmfsin.quepreferirias.domain.usecases
 
 import android.content.Context
 import com.mmfsin.quepreferirias.base.BaseUseCaseNoParams
-import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class GetSessionUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: ISessionRepository
+    private val sessionRepository: IUserRepository
 ) : BaseUseCaseNoParams<Session?>() {
 
     override suspend fun execute(): Session? {

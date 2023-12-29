@@ -3,7 +3,7 @@ package com.mmfsin.quepreferirias.domain.usecases
 import android.content.Context
 import com.mmfsin.quepreferirias.base.BaseUseCaseNoParams
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
-import com.mmfsin.quepreferirias.domain.interfaces.ISessionRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.SavedData
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class GetSavedDataUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: ISessionRepository,
+    private val sessionRepository: IUserRepository,
     private val dataRepository: IDataRepository
 ) : BaseUseCaseNoParams<List<SavedData>?>() {
 
