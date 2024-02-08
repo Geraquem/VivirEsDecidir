@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EAEAEA"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -13,67 +12,80 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.10" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="0.90" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/include_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
+        android:layout_marginTop="64dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <ImageView
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+        <include
+            layout="@layout/include_circle_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/content_description"
-            android:src="@color/black" />
+            android:layout_marginBottom="48dp" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <TextView
+            style="@style/MediumTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="email" />
+            android:layout_gravity="start"
+            android:layout_marginBottom="8dp"
+            android:text="@string/login_title" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="pass" />
+            tools:itemCount="4"
+            tools:listitem="@layout/item_login_text" />
+
 
         <LinearLayout
             android:id="@+id/btn_google"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:background="@drawable/bg_login_google"
             android:elevation="6dp"
+            android:gravity="center"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
+            android:paddingVertical="14dp"
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="12dp"
                 android:contentDescription="@string/content_description"
                 android:src="@drawable/ic_google" />
 
             <TextView
-                style="@style/SmallTextView"
+                style="@style/MediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

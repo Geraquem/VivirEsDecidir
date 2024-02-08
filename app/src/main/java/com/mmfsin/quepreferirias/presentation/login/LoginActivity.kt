@@ -5,9 +5,13 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityLoginBinding
+import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.presentation.login.adapter.LoginAdapter
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,12 +29,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        setUI()
         setListeners()
         observe()
     }
 
+    private fun setUI() {
+        val arrayList = resources.getStringArray(R.array.login_txt_list)
+        binding.rvLogin.apply {
+            layoutManager = LinearLayoutManager(this@LoginActivity)
+            adapter = LoginAdapter(arrayList.toList())
+        }
+    }
+
     private fun setListeners() {
         binding.apply {
+            toolbar.ivBack.setOnClickListener { finish() }
             btnGoogle.setOnClickListener { viewModel.googleLogin() }
         }
     }
@@ -45,10 +59,12 @@ class LoginActivity : AppCompatActivity() {
                         resultLauncher.launch(signInIntent)
                     }
                 }
+
                 is LoginEvent.SessionSaved -> {
                     setResult(RESULT_OK)
                     finish()
                 }
+
                 is LoginEvent.SWW -> error()
             }
         }
@@ -60,7 +76,14 @@ class LoginActivity : AppCompatActivity() {
             try {
                 val account = acct.getResult(ApiException::class.java)
                 account?.let {
-                    viewModel.saveSession(it.id ?: "", it.email ?: "", account.displayName ?: "")
+                    val session = Session(
+                        id = it.id ?: "",
+                        imageUrl = it.photoUrl.toString(),
+                        email = it.email ?: "",
+                        name = it.givenName ?: "",
+                        fullName = it.displayName ?: ""
+                    )
+                    viewModel.saveSession(session)
                 } ?: run { error() }
             } catch (e: ApiException) {
                 error()

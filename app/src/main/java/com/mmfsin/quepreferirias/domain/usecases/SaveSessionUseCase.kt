@@ -50,7 +50,6 @@ class SaveSessionUseCase @Inject constructor(
     }
 
     data class Params(
-        val id: String,
         val session: Session
     )
 }

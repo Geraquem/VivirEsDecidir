@@ -38,9 +38,7 @@ class UserRepository @Inject constructor(
     private suspend fun savedInFirebase(session: Session): Boolean {
         val latch = CountDownLatch(1)
         var result = false
-        val userId = UUID.randomUUID().toString()
-        session.id = userId
-        reference.child(USERS).child(userId).setValue(session)
+        reference.child(USERS).child(session.id).setValue(session)
             .addOnCompleteListener {
                 result = it.isSuccessful
                 latch.countDown()

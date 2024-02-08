@@ -6,6 +6,8 @@ import io.realm.annotations.PrimaryKey
 open class SessionDTO(
     @PrimaryKey
     var id: String = "",
+    var imageUrl: String = "",
     var email: String = "",
     var name: String = "",
+    var fullName: String = "",
 ) : RealmObject()
