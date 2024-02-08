@@ -89,8 +89,7 @@ class UserRepository @Inject constructor(
         val latch = CountDownLatch(1)
         Firebase.firestore.collection(USERS).document(email)
             .collection(USER_DATA).document(DATA_SAVED)
-            .get()
-            .addOnCompleteListener {
+            .get().addOnCompleteListener {
                 val arrayList = it.result.data?.keys?.let { it1 -> ArrayList(it1) }
                 arrayList?.forEach { id ->
                     val savedDataIdDTO = SavedDataIdDTO(dataId = id)

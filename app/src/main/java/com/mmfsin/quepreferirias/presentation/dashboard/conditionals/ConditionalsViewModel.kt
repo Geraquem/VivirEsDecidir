@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard
+package com.mmfsin.quepreferirias.presentation.dashboard.conditionals
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
@@ -7,22 +7,22 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
-    private val getAppDataUseCase: GetAppDataUseCase,
+class ConditionalsViewModel @Inject constructor(
+    private val getConditionalData: GetConditionalData,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val userVoteUseCase: UserVoteUseCase,
     private val checkIfAlreadySavedUseCase: CheckIfAlreadySavedUseCase,
     private val saveDataUseCase: SaveDataUseCase
-) : BaseViewModel<DashboardEvent>() {
+) : BaseViewModel<ConditionalsEvent>() {
 
-    fun getAppData() {
+    fun getConditionalData() {
         executeUseCase(
-            { getAppDataUseCase.execute() },
+            { getConditionalData.execute() },
             { result ->
                 _event.value =
-                    if (result.isEmpty()) DashboardEvent.SWW else DashboardEvent.AppData(result)
+                    if (result.isEmpty()) ConditionalsEvent.SWW else ConditionalsEvent.Data(result)
             },
-            { _event.value = DashboardEvent.SWW }
+            { _event.value = ConditionalsEvent.SWW }
         )
     }
 
@@ -31,9 +31,9 @@ class DashboardViewModel @Inject constructor(
             { getPercentsUseCase.execute(GetPercentsUseCase.Params(votesYes, votesNo)) },
             { result ->
                 _event.value =
-                    result?.let { DashboardEvent.GetPercents(it) } ?: run { DashboardEvent.SWW }
+                    result?.let { ConditionalsEvent.GetPercents(it) } ?: run { ConditionalsEvent.SWW }
             },
-            { _event.value = DashboardEvent.SWW }
+            { _event.value = ConditionalsEvent.SWW }
         )
     }
 
@@ -41,31 +41,31 @@ class DashboardViewModel @Inject constructor(
         executeUseCase(
             { userVoteUseCase.execute(UserVoteUseCase.Params(dataId, isYes)) },
             { Log.i("userVoteUseCase: ", "User voted successfully") },
-            { _event.value = DashboardEvent.SWW }
+            { _event.value = ConditionalsEvent.SWW }
         )
     }
 
     fun saveDataToUser(dataId: String) {
         executeUseCase(
             { saveDataUseCase.execute(SaveDataUseCase.Params(dataId)) },
-            { result -> _event.value = DashboardEvent.DataSaved(result) },
-            { _event.value = DashboardEvent.SWW }
+            { result -> _event.value = ConditionalsEvent.DataSaved(result) },
+            { _event.value = ConditionalsEvent.SWW }
         )
     }
 
     fun checkIfAlreadyVoted(dataId: String) {
         executeUseCase(
             { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
-            { result -> _event.value = DashboardEvent.AlreadySaved(result) },
-            { _event.value = DashboardEvent.SWW }
+            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
+            { _event.value = ConditionalsEvent.SWW }
         )
     }
 
     fun checkIfAlreadySaved(dataId: String) {
         executeUseCase(
             { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
-            { result -> _event.value = DashboardEvent.AlreadySaved(result) },
-            { _event.value = DashboardEvent.SWW }
+            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
+            { _event.value = ConditionalsEvent.SWW }
         )
     }
 }

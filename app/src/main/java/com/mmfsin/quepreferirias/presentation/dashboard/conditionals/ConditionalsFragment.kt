@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard
+package com.mmfsin.quepreferirias.presentation.dashboard.conditionals
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
-import com.mmfsin.quepreferirias.domain.models.Data
+import com.mmfsin.quepreferirias.domain.models.ConditionalData
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
@@ -21,14 +21,14 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>() {
+class ConditionalsFragment : BaseFragment<FragmentDashboardBinding, ConditionalsViewModel>() {
 
-    override val viewModel: DashboardViewModel by viewModels()
+    override val viewModel: ConditionalsViewModel by viewModels()
 
     private lateinit var mContext: Context
 
-    private var dataList = emptyList<Data>()
-    private var actualData: Data? = null
+    private var conditionalDataList = emptyList<ConditionalData>()
+    private var actualConditionalData: ConditionalData? = null
     private var position: Int = 0
 
     private var votesYes: Long = 0
@@ -40,7 +40,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getAppData()
+        viewModel.getConditionalData()
     }
 
     override fun setUI() {
@@ -61,9 +61,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
             btnNext.setOnClickListener {
                 position++
-                if (position < dataList.size) {
+                if (position < conditionalDataList.size) {
                     showInterstitial()
-                    actualData = dataList[position]
+                    actualConditionalData = conditionalDataList[position]
                     binding.loadingScreen.root.isVisible
                     setData()
                 } else {
@@ -76,7 +76,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
                 }
             }
 
-            ivSave.setOnClickListener { actualData?.let { viewModel.saveDataToUser(it.id) }}
+            ivSave.setOnClickListener { actualConditionalData?.let { viewModel.saveDataToUser(it.id) }}
         }
     }
 
@@ -86,7 +86,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     private fun yesOrNoClick(isYes: Boolean) {
         binding.apply {
-            actualData?.let { data ->
+            actualConditionalData?.let { data ->
                 viewModel.vote(data.id, isYes)
                 votesYes = data.votesYes
                 votesNo = data.votesNo
@@ -103,25 +103,25 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is DashboardEvent.AppData -> {
-                    dataList = event.data//.shuffled()
-                    actualData = dataList[position]
+                is ConditionalsEvent.Data -> {
+                    conditionalDataList = event.data//.shuffled()
+                    actualConditionalData = conditionalDataList[position]
                     setData()
                 }
 
-                is DashboardEvent.GetPercents -> setPercents(event.percents)
+                is ConditionalsEvent.GetPercents -> setPercents(event.percents)
 
-                is DashboardEvent.AlreadySaved -> {
+                is ConditionalsEvent.AlreadySaved -> {
                     event.saved?.let { saveDataSRC(it) } ?: run { saveDataSRC(false) }
                 }
 
-                is DashboardEvent.DataSaved -> {
+                is ConditionalsEvent.DataSaved -> {
                     event.result?.let { saved ->
                         if (saved) saveDataSRC(true) else activity?.showErrorDialog() {}
                     } ?: run { (activity as MainActivity).loginFlow() }
                 }
 
-                is DashboardEvent.SWW -> error()
+                is ConditionalsEvent.SWW -> error()
             }
         }
     }
@@ -132,17 +132,17 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     private fun setData() {
-        actualData?.let {
-            viewModel.checkIfAlreadySaved(dataList[position].id)
+        actualConditionalData?.let {
+            viewModel.checkIfAlreadySaved(conditionalDataList[position].id)
         }
 
         binding.apply {
             votesYes = 0
             votesNo = 0
             percents.root.visibility = View.INVISIBLE
-            tvTextTop.text = actualData?.topText
-            tvTextBottom.text = actualData?.bottomText
-            actualData?.creatorName?.let { name ->
+            tvTextTop.text = actualConditionalData?.topText
+            tvTextBottom.text = actualConditionalData?.bottomText
+            actualConditionalData?.creatorName?.let { name ->
                 tvCreatorName.text = name
                 llCreatorName.visibility = View.VISIBLE
             } ?: run { llCreatorName.visibility = View.GONE }

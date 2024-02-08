@@ -4,6 +4,19 @@
     <item android:title="@string/app_name">
         <menu>
             <item
+                android:id="@+id/nav_conditional"
+                android:icon="@drawable/ic_option_yes_trans"
+                android:title="@string/nav_conditional" />
+            <item
+                android:id="@+id/nav_dualism"
+                android:icon="@drawable/ic_option_yes_trans"
+                android:title="@string/nav_dualism" />
+        </menu>
+    </item>
+
+    <item android:title="@string/nav_my_info">
+        <menu>
+            <item
                 android:id="@+id/nav_profile"
                 android:icon="@drawable/ic_option_yes_trans"
                 android:title="@string/nav_profile" />
