@@ -30,12 +30,11 @@
         <item>Enviar tus propias preguntas</item>
         <item>Dejar tus redes sociales</item>
     </array>
-
-    <string name="login_txt_one">Dejar comentarios</string>
-    <string name="login_txt_two">Guardar favoritos</string>
-    <string name="login_txt_three">Enviar tus propias preguntas</string>
-    <string name="login_txt_four">Dejar tus redes sociales</string>
     <string name="login_google">Iniciar sesión</string>
+
+    <!-- USER PROFILE -->
+    <string name="user_profile_hello">Hola</string>
+    <string name="user_profile_how_you_doing">¿Cómo te va?</string>
 
     <!-- NAVIGATION DRAWER -->
     <string name="nav_dashboard">Home</string>

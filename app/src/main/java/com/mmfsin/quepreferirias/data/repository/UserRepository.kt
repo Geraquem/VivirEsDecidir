@@ -12,12 +12,15 @@ import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.utils.*
+import com.mmfsin.quepreferirias.utils.DATA_SAVED
+import com.mmfsin.quepreferirias.utils.SESSION
+import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
+import com.mmfsin.quepreferirias.utils.USERS
+import com.mmfsin.quepreferirias.utils.USER_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.UUID
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
@@ -38,7 +41,8 @@ class UserRepository @Inject constructor(
     private suspend fun savedInFirebase(session: Session): Boolean {
         val latch = CountDownLatch(1)
         var result = false
-        reference.child(USERS).child(session.id).setValue(session)
+        Firebase.firestore.collection(USERS).document(session.id)
+            .set(session, SetOptions.merge())
             .addOnCompleteListener {
                 result = it.isSuccessful
                 latch.countDown()
@@ -84,7 +88,7 @@ class UserRepository @Inject constructor(
         val data = mutableListOf<SavedDataIdDTO>()
         val latch = CountDownLatch(1)
         Firebase.firestore.collection(USERS).document(email)
-            .collection(DATA).document(DATA_SAVED)
+            .collection(USER_DATA).document(DATA_SAVED)
             .get()
             .addOnCompleteListener {
                 val arrayList = it.result.data?.keys?.let { it1 -> ArrayList(it1) }
@@ -110,7 +114,7 @@ class UserRepository @Inject constructor(
 
 
         Firebase.firestore.collection(USERS).document(session.email)
-            .collection(DATA).document(DATA_SAVED)
+            .collection(USER_DATA).document(DATA_SAVED)
             .set(data, SetOptions.merge())
             .addOnCompleteListener {
                 result = it.isSuccessful

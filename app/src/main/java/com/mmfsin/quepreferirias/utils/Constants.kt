@@ -18,7 +18,7 @@ const val NO = "No"
 const val BUT_DATA = "but_data"
 const val DATA_ID = "dataId"
 const val USERS = "users"
-const val DATA = "user_data"
+const val USER_DATA = "user_data"
 const val DATA_SAVED = "saved"
 const val DATA_CREATED = "created"
 

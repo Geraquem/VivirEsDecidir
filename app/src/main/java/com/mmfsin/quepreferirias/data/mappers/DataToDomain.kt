@@ -16,7 +16,13 @@ fun DataDTO.toData(id: String, votesYes: Long, votesNo: Long) = Data(
     creatorName = creatorName
 )
 
-fun SessionDTO.toSession() = Session(id, email, name)
+fun SessionDTO.toSession() = Session(
+    id = id,
+    imageUrl = imageUrl,
+    email = email,
+    name = name,
+    fullName = fullName
+)
 
 fun SavedDataDTO.toSavedData() = SavedData(
     dataId = dataId,

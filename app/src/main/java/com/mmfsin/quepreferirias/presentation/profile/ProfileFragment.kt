@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentProfileBinding
@@ -43,7 +44,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         binding.apply {
             loading.root.visibility = View.VISIBLE
             session?.let {
-                tvEmail.text = it.email
+                Glide.with(mContext).load(it.imageUrl).into(ivImage.image)
                 tvName.text = it.name
                 loading.root.visibility = View.GONE
             }
@@ -62,7 +63,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
                 is ProfileEvent.Profile -> {
                     session = event.session
                     setUI()
+                    /** viewmodel ver mi actividad */
                 }
+
                 is ProfileEvent.SessionClosed -> activity?.finish()
                 is ProfileEvent.SWW -> error()
             }
