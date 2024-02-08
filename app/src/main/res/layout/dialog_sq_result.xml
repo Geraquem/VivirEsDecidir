@@ -15,7 +15,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/margin_padding_medium"
+        android:layout_marginBottom="16dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="false" />
 
@@ -35,11 +35,11 @@
         style="@style/NormalTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_padding_large"
+        android:layout_marginTop="24dp"
         android:background="@drawable/bg_btn_send"
-        android:elevation="@dimen/elevation"
+        android:elevation="4dp"
         android:gravity="center"
-        android:paddingVertical="@dimen/margin_padding_xmedium"
+        android:paddingVertical="12dp"
         android:text="@string/sq_result_again"
         android:textAllCaps="true" />
 
@@ -48,11 +48,11 @@
         style="@style/NormalTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_padding_large"
+        android:layout_marginTop="24dp"
         android:background="@drawable/bg_error_btn"
-        android:elevation="@dimen/elevation"
+        android:elevation="4dp"
         android:gravity="center"
-        android:paddingVertical="@dimen/margin_padding_xmedium"
+        android:paddingVertical="12dp"
         android:text="@string/sq_result_error"
         android:textAllCaps="true" />
 

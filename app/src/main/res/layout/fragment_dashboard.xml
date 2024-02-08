@@ -45,7 +45,7 @@
                 android:id="@+id/ll_main"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_padding_medium"
+                android:layout_marginTop="16dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical"
@@ -62,8 +62,8 @@
                     android:background="@drawable/bg_box_top"
                     android:elevation="6dp"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/margin_padding_medium"
-                    android:paddingVertical="@dimen/margin_padding_large_small"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="28dp"
                     tools:text="Opción 1 a elegir" />
 
                 <include layout="@layout/include_but" />
@@ -77,21 +77,21 @@
                     android:background="@drawable/bg_box_bottom"
                     android:elevation="6dp"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/margin_padding_medium"
-                    android:paddingVertical="@dimen/margin_padding_large_small"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="28dp"
                     tools:text="Opción 2 a elegir" />
 
                 <LinearLayout
                     android:id="@+id/ll_creator_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_padding_medium"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_padding_xsmall"
+                        android:layout_marginHorizontal="6dp"
                         android:fontFamily="sans-serif-condensed"
                         android:text="@string/dashboard_sent_by"
                         android:textSize="16sp" />
@@ -138,10 +138,10 @@
 
                     <ImageView
                         android:id="@+id/btn_yes"
-                        android:layout_width="@dimen/img_size"
-                        android:layout_height="@dimen/img_size"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="@dimen/margin_padding_small"
+                        android:layout_marginBottom="8dp"
                         android:contentDescription="@string/content_description"
                         android:src="@drawable/ic_option_yes_trans" />
 
@@ -150,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                        android:layout_marginBottom="6dp"
                         android:text="@string/dashboard_btn_yes" />
 
                 </LinearLayout>
@@ -165,10 +165,10 @@
 
                     <ImageView
                         android:id="@+id/btn_no"
-                        android:layout_width="@dimen/img_size"
-                        android:layout_height="@dimen/img_size"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="@dimen/margin_padding_small"
+                        android:layout_marginBottom="8dp"
                         android:contentDescription="@string/content_description"
                         android:src="@drawable/ic_option_no_trans" />
 
@@ -177,7 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="@dimen/margin_padding_xsmall"
+                        android:layout_marginBottom="6dp"
                         android:text="@string/dashboard_btn_no" />
 
                 </LinearLayout>
@@ -191,9 +191,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/bg_btn_next"
-                android:elevation="@dimen/elevation"
+                android:elevation="4dp"
                 android:gravity="center"
-                android:paddingVertical="@dimen/margin_padding_xmedium"
+                android:paddingVertical="12dp"
                 android:text="@string/dashboard_next"
                 android:textAllCaps="true"
                 app:layout_constraintLeft_toLeftOf="parent"

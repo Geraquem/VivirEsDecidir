@@ -1,15 +1,15 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/margin_padding_small" />
+            <corners android:radius="8dp" />
             <solid android:color="@color/transparent" />
         </shape>
     </item>
     <item android:id="@android:id/progress">
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
-                <corners android:bottomLeftRadius="@dimen/margin_padding_small"
-                    android:topLeftRadius="@dimen/margin_padding_small"/>
+                <corners android:bottomLeftRadius="8dp"
+                    android:topLeftRadius="8dp"/>
                 <solid android:color="@color/percent_no" />
             </shape>
         </scale>

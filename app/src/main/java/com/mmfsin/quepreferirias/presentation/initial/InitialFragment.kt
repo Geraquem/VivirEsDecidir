@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
+import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
 import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InitialFragment : BaseFragment<FragmentDashboardBinding, InitialViewModel>() {
+class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>() {
 
     override val viewModel: InitialViewModel by viewModels()
 
@@ -21,7 +22,7 @@ class InitialFragment : BaseFragment<FragmentDashboardBinding, InitialViewModel>
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentDashboardBinding.inflate(inflater, container, false)
+    ) = FragmentInitialBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +31,6 @@ class InitialFragment : BaseFragment<FragmentDashboardBinding, InitialViewModel>
     override fun setUI() {
         binding.apply {
         }
-        (activity as MainActivity).showBanner()
     }
 
     override fun setListeners() {

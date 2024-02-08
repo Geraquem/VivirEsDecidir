@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingHorizontal="@dimen/margin_padding_medium"
-    android:paddingVertical="@dimen/margin_padding_small">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
 
     <FrameLayout
         android:layout_width="0dp"
@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_padding_small"
+        android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"

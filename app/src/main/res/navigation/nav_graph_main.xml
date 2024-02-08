@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/dashboardFragment">
+    app:startDestination="@id/initialFragment">
 
     <fragment
-        android:id="@+id/dashboardFragment"
-        android:name="com.mmfsin.quepreferirias.presentation.dashboard.DashboardFragment"
-        android:label="DashboardFragment"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/initialFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.initial.InitialFragment"
+        android:label="initialFragment"
+        tools:layout="@layout/fragment_initial" />
 
 </navigation>

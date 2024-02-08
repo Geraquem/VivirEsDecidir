@@ -26,13 +26,13 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/windowBackground"
                 android:backgroundTint="@color/white"
-                android:paddingVertical="@dimen/margin_padding_medium"
+                android:paddingVertical="16dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="@dimen/margin_padding_medium">
+                    android:layout_marginHorizontal="16dp">
 
                     <TextView
                         android:id="@+id/tv_title"
@@ -49,8 +49,8 @@
 
                     <ImageView
                         android:id="@+id/iv_menu"
-                        android:layout_width="@dimen/margin_padding_large_small"
-                        android:layout_height="@dimen/margin_padding_large_small"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/content_description"
