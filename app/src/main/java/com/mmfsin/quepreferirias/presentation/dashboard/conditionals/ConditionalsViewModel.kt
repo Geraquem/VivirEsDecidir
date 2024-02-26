@@ -44,28 +44,28 @@ class ConditionalsViewModel @Inject constructor(
             { _event.value = ConditionalsEvent.SWW }
         )
     }
-
-    fun saveDataToUser(dataId: String) {
-        executeUseCase(
-            { saveDataUseCase.execute(SaveDataUseCase.Params(dataId)) },
-            { result -> _event.value = ConditionalsEvent.DataSaved(result) },
-            { _event.value = ConditionalsEvent.SWW }
-        )
-    }
-
-    fun checkIfAlreadyVoted(dataId: String) {
-        executeUseCase(
-            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
-            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
-            { _event.value = ConditionalsEvent.SWW }
-        )
-    }
-
-    fun checkIfAlreadySaved(dataId: String) {
-        executeUseCase(
-            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
-            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
-            { _event.value = ConditionalsEvent.SWW }
-        )
-    }
+//
+//    fun saveDataToUser(dataId: String) {
+//        executeUseCase(
+//            { saveDataUseCase.execute(SaveDataUseCase.Params(dataId)) },
+//            { result -> _event.value = ConditionalsEvent.DataSaved(result) },
+//            { _event.value = ConditionalsEvent.SWW }
+//        )
+//    }
+//
+//    fun checkIfAlreadyVoted(dataId: String) {
+//        executeUseCase(
+//            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
+//            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
+//            { _event.value = ConditionalsEvent.SWW }
+//        )
+//    }
+//
+//    fun checkIfAlreadySaved(dataId: String) {
+//        executeUseCase(
+//            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
+//            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
+//            { _event.value = ConditionalsEvent.SWW }
+//        )
+//    }
 }

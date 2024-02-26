@@ -12,31 +12,29 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
+import com.mmfsin.quepreferirias.databinding.FragmentConditionalDataBinding
 import com.mmfsin.quepreferirias.domain.models.ConditionalData
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ConditionalsFragment : BaseFragment<FragmentDashboardBinding, ConditionalsViewModel>() {
+class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, ConditionalsViewModel>() {
 
     override val viewModel: ConditionalsViewModel by viewModels()
 
-    private lateinit var mContext: Context
-
     private var conditionalDataList = emptyList<ConditionalData>()
-    private var actualConditionalData: ConditionalData? = null
     private var position: Int = 0
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
 
+    private lateinit var mContext: Context
+
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentDashboardBinding.inflate(inflater, container, false)
+    ) = FragmentConditionalDataBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,12 +44,8 @@ class ConditionalsFragment : BaseFragment<FragmentDashboardBinding, Conditionals
     override fun setUI() {
         binding.apply {
             loadingScreen.root.isVisible
-            position = 0
-            votesYes = 0
-            votesNo = 0
-            percents.root.visibility = View.INVISIBLE
+            setInitialPercents()
         }
-        (activity as MainActivity).showBanner()
     }
 
     override fun setListeners() {
@@ -62,41 +56,32 @@ class ConditionalsFragment : BaseFragment<FragmentDashboardBinding, Conditionals
             btnNext.setOnClickListener {
                 position++
                 if (position < conditionalDataList.size) {
-                    showInterstitial()
-                    actualConditionalData = conditionalDataList[position]
-                    binding.loadingScreen.root.isVisible
+//                    showInterstitial()
+                    llButtons.animate().alpha(1f).duration = 250
+                    percents.root.animate().alpha(0.0f).duration = 250
+                    setInitialPercents()
                     setData()
                 } else {
                     activity?.let {
                         val dialog = NoMoreDialog() { /** TODO */ }
                         dialog.show(it.supportFragmentManager, "")
-                        /** DELETE AFTER */
-                        position = -1
                     }
                 }
             }
-
-            ivSave.setOnClickListener { actualConditionalData?.let { viewModel.saveDataToUser(it.id) }}
         }
-    }
-
-    private fun showInterstitial() {
-        if (position % 20 == 0) (activity as MainActivity).showInterstitial()
     }
 
     private fun yesOrNoClick(isYes: Boolean) {
         binding.apply {
-            actualConditionalData?.let { data ->
-                viewModel.vote(data.id, isYes)
-                votesYes = data.votesYes
-                votesNo = data.votesNo
-                if (isYes) votesYes += 1 else votesNo += 1
-                viewModel.getPercents(votesYes, votesNo)
-                if (isYes) btnYes.setImageResource(R.drawable.ic_option_yes)
-                else btnNo.setImageResource(R.drawable.ic_option_no)
-                btnYes.isEnabled = false
-                btnNo.isEnabled = false
+            if (isYes) {
+                btnYes.setImageResource(R.drawable.ic_option_yes)
+                percents.ivYes.visibility = View.VISIBLE
+            } else {
+                btnNo.setImageResource(R.drawable.ic_option_no)
+                percents.ivNo.visibility = View.VISIBLE
             }
+            llButtons.animate().alpha(0.0f).duration = 250
+            viewModel.getPercents(votesYes, votesNo)
         }
     }
 
@@ -104,55 +89,47 @@ class ConditionalsFragment : BaseFragment<FragmentDashboardBinding, Conditionals
         viewModel.event.observe(this) { event ->
             when (event) {
                 is ConditionalsEvent.Data -> {
-                    conditionalDataList = event.data//.shuffled()
-                    actualConditionalData = conditionalDataList[position]
+                    conditionalDataList = event.data
                     setData()
                 }
 
                 is ConditionalsEvent.GetPercents -> setPercents(event.percents)
-
-                is ConditionalsEvent.AlreadySaved -> {
-                    event.saved?.let { saveDataSRC(it) } ?: run { saveDataSRC(false) }
-                }
-
-                is ConditionalsEvent.DataSaved -> {
-                    event.result?.let { saved ->
-                        if (saved) saveDataSRC(true) else activity?.showErrorDialog() {}
-                    } ?: run { (activity as MainActivity).loginFlow() }
-                }
-
                 is ConditionalsEvent.SWW -> error()
             }
         }
     }
 
-    private fun saveDataSRC(isSaved: Boolean) {
-        val resource = if (isSaved) R.drawable.ic_saved else R.drawable.ic_not_saved
-        binding.ivSave.setImageResource(resource)
+    private fun setData() {
+        try {
+            binding.apply {
+                setInitialPercents()
+                val actualData = conditionalDataList[position]
+                tvTextTop.text = actualData.topText
+                tvTextBottom.text = actualData.bottomText
+                actualData.creatorName?.let { name ->
+                    tvCreatorName.text = name
+                    llCreatorName.visibility = View.VISIBLE
+                } ?: run { llCreatorName.visibility = View.GONE }
+                votesYes = actualData.votesYes
+                votesNo = actualData.votesNo
+                loadingScreen.root.isVisible = false
+            }
+        } catch (e: Exception) {
+            error()
+        }
     }
 
-    private fun setData() {
-        actualConditionalData?.let {
-            viewModel.checkIfAlreadySaved(conditionalDataList[position].id)
-        }
-
+    private fun setInitialPercents() {
         binding.apply {
-            votesYes = 0
-            votesNo = 0
-            percents.root.visibility = View.INVISIBLE
-            tvTextTop.text = actualConditionalData?.topText
-            tvTextBottom.text = actualConditionalData?.bottomText
-            actualConditionalData?.creatorName?.let { name ->
-                tvCreatorName.text = name
-                llCreatorName.visibility = View.VISIBLE
-            } ?: run { llCreatorName.visibility = View.GONE }
-            animateProgress(percents.progressBarLeft, 0, 0)
-            animateProgress(percents.progressBarRight, 0, 0)
             btnYes.setImageResource(R.drawable.ic_option_yes_trans)
             btnNo.setImageResource(R.drawable.ic_option_no_trans)
-            btnYes.isEnabled = true
-            btnNo.isEnabled = true
-            loadingScreen.root.isVisible = false
+            percents.apply {
+                root.animate().alpha(0.0f).duration = 250
+                animateProgress(progressBarLeft, 0, 0)
+                animateProgress(progressBarRight, 0, 0)
+                ivYes.visibility = View.INVISIBLE
+                ivNo.visibility = View.INVISIBLE
+            }
         }
     }
 
@@ -163,8 +140,8 @@ class ConditionalsFragment : BaseFragment<FragmentDashboardBinding, Conditionals
                 tvPercentNo.text = actualPercents.percentNo
                 tvVotesYes.text = votesYes.toString()
                 tvVotesNo.text = votesNo.toString()
-                root.visibility = View.VISIBLE
                 val total = (votesYes + votesNo).toInt()
+                percents.root.animate().alpha(1f).duration = 250
                 animateProgress(progressBarLeft, total, votesYes.toInt())
                 animateProgress(progressBarRight, total, votesNo.toInt())
             }

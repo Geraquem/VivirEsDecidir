@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.databinding.FragmentDashboardBinding
 import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
-import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,7 +45,7 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
     }
 
     private fun error() {
-        activity?.showErrorDialog() { activity?.finish() }
+        activity?.showErrorDialog { activity?.finish() }
     }
 
     override fun onAttach(context: Context) {

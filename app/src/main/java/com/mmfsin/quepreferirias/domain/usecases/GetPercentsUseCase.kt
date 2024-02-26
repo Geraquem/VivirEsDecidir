@@ -1,11 +1,10 @@
 package com.mmfsin.quepreferirias.domain.usecases
 
 import com.mmfsin.quepreferirias.base.BaseUseCase
-import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import javax.inject.Inject
 
-class GetPercentsUseCase @Inject constructor(private val repository: IDataRepository) :
+class GetPercentsUseCase @Inject constructor() :
     BaseUseCase<GetPercentsUseCase.Params, Percents?>() {
 
     override suspend fun execute(params: Params): Percents? {

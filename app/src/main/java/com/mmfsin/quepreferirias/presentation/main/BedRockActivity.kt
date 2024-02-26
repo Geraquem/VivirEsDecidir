@@ -26,9 +26,7 @@ class BedRockActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.br_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         val navGraph = intent.getIntExtra(ROOT_ACTIVITY_NAV_GRAPH, -1)
-        navController.apply {
-            if (navGraph != -1) setGraph(navGraph) else error()
-        }
+        navController.apply { if (navGraph != -1) setGraph(navGraph) else error() }
     }
 
     fun backListener(action: () -> Unit) {

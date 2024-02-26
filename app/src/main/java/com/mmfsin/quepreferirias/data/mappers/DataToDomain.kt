@@ -7,7 +7,7 @@ import com.mmfsin.quepreferirias.domain.models.ConditionalData
 import com.mmfsin.quepreferirias.domain.models.SavedData
 import com.mmfsin.quepreferirias.domain.models.Session
 
-fun DataDTO.toData(id: String, votesYes: Long, votesNo: Long) = ConditionalData(
+fun DataDTO.toConditionalData(id: String, votesYes: Long, votesNo: Long) = ConditionalData(
     id = id,
     topText = txtTop,
     bottomText = txtBottom,

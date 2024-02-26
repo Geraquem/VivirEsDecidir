@@ -1,19 +1,17 @@
 package com.mmfsin.quepreferirias.data.repository
 
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.mmfsin.quepreferirias.data.mappers.toData
-import com.mmfsin.quepreferirias.data.mappers.toSavedDataList
-import com.mmfsin.quepreferirias.data.models.DataDTO
-import com.mmfsin.quepreferirias.data.models.SavedDataDTO
-import com.mmfsin.quepreferirias.data.models.SavedDataIdDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.ConditionalData
 import com.mmfsin.quepreferirias.domain.models.SavedData
-import com.mmfsin.quepreferirias.utils.*
-import io.realm.kotlin.where
+import com.mmfsin.quepreferirias.utils.CONDITIONAL_DATA
+import com.mmfsin.quepreferirias.utils.CREATOR_NAME
+import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
+import com.mmfsin.quepreferirias.utils.TXT_TOP
+import com.mmfsin.quepreferirias.utils.VOTES_NO
+import com.mmfsin.quepreferirias.utils.VOTES_YES
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
@@ -24,74 +22,70 @@ class DataRepository @Inject constructor(
 ) : IDataRepository {
 
     private val reference = Firebase.database.reference
-    private val fReference = Firebase.firestore
 
     override suspend fun getConditionalData(): List<ConditionalData> {
         val latch = CountDownLatch(1)
         val conditionalDataList = mutableListOf<ConditionalData>()
-
-
-        fReference.collection(USERS).document(email)
-            .collection(USER_DATA).document(DATA_SAVED)
-            .get().addOnCompleteListener {
-                val arrayList = it.result.data?.keys?.let { it1 -> ArrayList(it1) }
-                arrayList?.forEach { id ->
-                    val savedDataIdDTO = SavedDataIdDTO(dataId = id)
-                    data.add(savedDataIdDTO)
-                    realmDatabase.addObject { savedDataIdDTO }
+        val root = reference.child(CONDITIONAL_DATA)
+        root.get().addOnCompleteListener { dataSnapshot ->
+            for (child in dataSnapshot.result.children) {
+                if (child.exists()) {
+                    val id = child.key ?: child.ref.key
+                    val textTop = child.child(TXT_TOP).value.toString()
+                    val textBottom = child.child(TXT_BOTTOM).value.toString()
+                    val votesYes = child.child(VOTES_YES).childrenCount
+                    val votesNo = child.child(VOTES_NO).childrenCount
+                    val creator = child.child(CREATOR_NAME).value?.toString()
+                    val data = ConditionalData(
+                        id.toString(),
+                        textTop,
+                        textBottom,
+                        votesYes,
+                        votesNo,
+                        creator
+                    )
+                    conditionalDataList.add(data)
                 }
-                latch.countDown()
             }
+            latch.countDown()
+        }.addOnFailureListener { latch.countDown() }
 
-
-
-
-
-//        reference.get().addOnSuccessListener { root ->
-//            val allData = root.child(PRUEBAS_ROOT)
-//            for (child in allData.children) {
-//                child.getValue(DataDTO::class.java)?.let { item ->
-//                    val votesYes = child.child(YES).childrenCount
-//                    val votesNo = child.child(NO).childrenCount
-//                    child.key?.let { id -> conditionalDataList.add(item.toData(id, votesYes, votesNo)) }
-//                }
-//            }
-//            latch.countDown()
-//        }.addOnFailureListener { latch.countDown() }
-
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO)
+        {
             latch.await()
         }
         return conditionalDataList//.shuffled()
     }
 
     override suspend fun vote(dataId: String, voteId: String) {
-        Firebase.database.reference.child(PRUEBAS_ROOT).child(dataId).child(voteId).push()
-            .setValue(true)
+//        Firebase.database.reference.child(PRUEBAS_ROOT).child(dataId).child(voteId).push()
+//            .setValue(true)
     }
 
     override suspend fun getDataGivenKeyList(idList: List<String>): List<SavedData> {
-        val latch = CountDownLatch(1)
-        val dataList = mutableListOf<SavedDataDTO>()
-
-        val collectionReference = Firebase.firestore.collection(BUT_DATA)
-        collectionReference.whereIn(DATA_ID, idList).get().addOnSuccessListener { querySnapshot ->
-            for (document in querySnapshot) {
-                val savedDataDTO = document.toObject(SavedDataDTO::class.java)
-                dataList.add(savedDataDTO)
-                realmDatabase.addObject { savedDataDTO }
-            }
-            latch.countDown()
-        }.addOnFailureListener { latch.countDown() }
-
-        withContext(Dispatchers.IO) {
-            latch.await()
-        }
-        return dataList.toSavedDataList()
+//        val latch = CountDownLatch(1)
+//        val dataList = mutableListOf<SavedDataDTO>()
+//
+//        val collectionReference = Firebase.firestore.collection(CONDITIONAL_DATA)
+//        collectionReference.whereIn(DATA_ID, idList).get().addOnSuccessListener { querySnapshot ->
+//            for (document in querySnapshot) {
+//                val savedDataDTO = document.toObject(SavedDataDTO::class.java)
+//                dataList.add(savedDataDTO)
+//                realmDatabase.addObject { savedDataDTO }
+//            }
+//            latch.countDown()
+//        }.addOnFailureListener { latch.countDown() }
+//
+//        withContext(Dispatchers.IO) {
+//            latch.await()
+//        }
+//        return dataList.toSavedDataList()
+        return emptyList()
     }
 
     override suspend fun getSavedDataInRealm(): List<SavedData> {
-        val dataList = realmDatabase.getObjectsFromRealm { where<SavedDataDTO>().findAll() }
-        return dataList.toSavedDataList()
+//        val dataList = realmDatabase.getObjectsFromRealm { where<SavedDataDTO>().findAll() }
+//        return dataList.toSavedDataList()
+        return emptyList()
     }
 }
