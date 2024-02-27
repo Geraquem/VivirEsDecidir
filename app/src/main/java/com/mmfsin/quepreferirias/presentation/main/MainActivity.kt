@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun loginFlow() =
+    private fun loginFlow() =
         resultLauncher.launch(Intent(this@MainActivity, LoginActivity::class.java))
 
     private var resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
@@ -109,9 +109,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        binding.apply {
-            ivMenu.setOnClickListener { openDrawer() }
-        }
+        binding.apply { ivMenu.setOnClickListener { openDrawer() } }
     }
 
     private fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)

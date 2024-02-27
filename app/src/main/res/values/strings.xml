@@ -43,16 +43,17 @@
     <string name="nav_profile">Mi perfil</string>
     <string name="nav_saved">Guardadas</string>
     <string name="nav_sent">Enviadas</string>
+    <string name="nav_drawer_send_questions">Envía tus ideas</string>
     <string name="nav_drawer_more_apps">Aplicaciones parecidas</string>
 
     <!-- DASHBOARD -->
-    <string name="dashboard_send_questions">Envía tus ideas</string>
-    <string name="dashboard_but">PERO</string>
-    <string name="dashboard_btn_yes">A TOPE</string>
-    <string name="dashboard_btn_no">NO LO CREO</string>
-    <string name="dashboard_votes">VOTOS</string>
-    <string name="dashboard_next">SIGUIENTE</string>
+    <string name="dashboard_but">pero</string>
+    <string name="dashboard_btn_yes">A tope</string>
+    <string name="dashboard_btn_no">No lo creo</string>
+    <string name="dashboard_votes">Votos</string>
+    <string name="dashboard_next">Siguiente</string>
     <string name="dashboard_sent_by">Enviado por</string>
+    <string name="dashboard_comments">comentarios</string>
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>

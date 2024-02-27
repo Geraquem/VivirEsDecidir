@@ -47,7 +47,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="16dp"
                     android:layout_toEndOf="@+id/iv_back"
-                    android:text="@string/dashboard_send_questions"
+                    android:text="@string/nav_drawer_send_questions"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="20sp" />

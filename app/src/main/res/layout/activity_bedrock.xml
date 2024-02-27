@@ -47,7 +47,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    tools:text="@string/dashboard_send_questions" />
+                    tools:text="@string/nav_drawer_send_questions" />
 
             </RelativeLayout>
 

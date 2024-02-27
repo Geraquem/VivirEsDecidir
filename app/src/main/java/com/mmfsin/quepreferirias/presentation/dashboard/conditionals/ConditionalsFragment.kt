@@ -10,11 +10,16 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentConditionalDataBinding
+import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.ConditionalData
+import com.mmfsin.quepreferirias.presentation.dashboard.conditionals.comments.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.login.adapter.LoginAdapter
+import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +49,16 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
     override fun setUI() {
         binding.apply {
             loadingScreen.root.isVisible
+            setToolbar()
             setInitialPercents()
+            setUpLastComments()
+        }
+    }
+
+    private fun setToolbar() {
+        (activity as BedRockActivity).apply {
+            backListener { onBackPressed() }
+            setToolbarText(R.string.nav_conditional)
         }
     }
 
@@ -154,6 +168,34 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
         animation.duration = 2000
         animation.interpolator = DecelerateInterpolator()
         animation.start()
+    }
+
+    private fun setUpLastComments() {
+        val mutalist = mutableListOf<Comment>()
+        mutalist.add(Comment("Carlos", "akjdlasdlfkjsadkfjskñl"))
+        mutalist.add(
+            Comment(
+                "María",
+                "akjdlasdlfkjsadkfjskñladskadlksofk aopodjf ajs jfaiefiopsej ifae iojgio jiji aj g`je gajasojpeagj`p"
+            )
+        )
+        mutalist.add(
+            Comment(
+                "Ldlakd",
+                "akjdlasdlfkjsadkfjskñl  ñskfjdashfjs ads hf adhfhasd ohaopdh"
+            )
+        )
+        mutalist.add(Comment("Rosalía", "dajkajkdjad"))
+        mutalist.add(
+            Comment(
+                "Coordenada",
+                "akjdlasdlfkjsadkfjskñlalsdfhnsdhfzshdlgsdfhglkjzshgkjhskdhgkzshkjghzskhgdkzhsgjk"
+            )
+        )
+        binding.comments.rvComments.apply {
+            layoutManager = LinearLayoutManager(mContext)
+            adapter = RecentCommentsAdapter(mutalist)
+        }
     }
 
     private fun error() {
