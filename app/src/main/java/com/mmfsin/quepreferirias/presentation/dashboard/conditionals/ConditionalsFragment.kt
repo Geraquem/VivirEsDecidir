@@ -18,9 +18,9 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.ConditionalData
 import com.mmfsin.quepreferirias.presentation.dashboard.conditionals.comments.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.login.adapter.LoginAdapter
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
+import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +34,8 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
+
+    private var comments = emptyList<Comment>()
 
     private lateinit var mContext: Context
 
@@ -51,7 +53,6 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
             loadingScreen.root.isVisible
             setToolbar()
             setInitialPercents()
-            setUpLastComments()
         }
     }
 
@@ -67,7 +68,7 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
-            btnNext.setOnClickListener {
+            btnNext.btnNext.setOnClickListener {
                 position++
                 if (position < conditionalDataList.size) {
 //                    showInterstitial()
@@ -108,6 +109,11 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
                 }
 
                 is ConditionalsEvent.GetPercents -> setPercents(event.percents)
+                is ConditionalsEvent.GetComments -> {
+                    comments = event.comments
+                    setUpComments(comments.take(LAST_COMMENTS))
+                }
+
                 is ConditionalsEvent.SWW -> error()
             }
         }
@@ -118,6 +124,7 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
             binding.apply {
                 setInitialPercents()
                 val actualData = conditionalDataList[position]
+                viewModel.getComments(actualData.id)
                 tvTextTop.text = actualData.topText
                 tvTextBottom.text = actualData.bottomText
                 actualData.creatorName?.let { name ->
@@ -170,31 +177,31 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
         animation.start()
     }
 
-    private fun setUpLastComments() {
-        val mutalist = mutableListOf<Comment>()
-        mutalist.add(Comment("Carlos", "akjdlasdlfkjsadkfjskñl"))
-        mutalist.add(
-            Comment(
-                "María",
-                "akjdlasdlfkjsadkfjskñladskadlksofk aopodjf ajs jfaiefiopsej ifae iojgio jiji aj g`je gajasojpeagj`p"
-            )
-        )
-        mutalist.add(
-            Comment(
-                "Ldlakd",
-                "akjdlasdlfkjsadkfjskñl  ñskfjdashfjs ads hf adhfhasd ohaopdh"
-            )
-        )
-        mutalist.add(Comment("Rosalía", "dajkajkdjad"))
-        mutalist.add(
-            Comment(
-                "Coordenada",
-                "akjdlasdlfkjsadkfjskñlalsdfhnsdhfzshdlgsdfhglkjzshgkjhskdhgkzshkjghzskhgdkzhsgjk"
-            )
-        )
-        binding.comments.rvComments.apply {
-            layoutManager = LinearLayoutManager(mContext)
-            adapter = RecentCommentsAdapter(mutalist)
+    private fun setUpComments(lastComments: List<Comment>) {
+        binding.comments.apply {
+            when (comments.size) {
+                0 -> {
+                    tvNoComments.visibility = View.VISIBLE
+                    tvTotalComments.visibility = View.GONE
+                }
+
+                1 -> {
+                    tvTotalComments.text = getString(R.string.dashboard_see_more_one)
+                    tvNoComments.visibility = View.GONE
+                    tvTotalComments.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    tvTotalComments.text =
+                        getString(R.string.dashboard_see_more, comments.size.toString())
+                    tvNoComments.visibility = View.GONE
+                    tvTotalComments.visibility = View.VISIBLE
+                }
+            }
+            rvComments.apply {
+                layoutManager = LinearLayoutManager(mContext)
+                adapter = RecentCommentsAdapter(lastComments)
+            }
         }
     }
 

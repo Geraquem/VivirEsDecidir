@@ -53,7 +53,8 @@
     <string name="dashboard_votes">Votos</string>
     <string name="dashboard_next">Siguiente</string>
     <string name="dashboard_sent_by">Enviado por</string>
-    <string name="dashboard_comments">comentarios</string>
+    <string name="dashboard_see_more">Ver %s comentarios</string>
+    <string name="dashboard_see_more_one">Ver 1 comentario</string>
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>

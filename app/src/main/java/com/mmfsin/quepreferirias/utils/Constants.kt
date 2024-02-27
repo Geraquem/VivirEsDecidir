@@ -21,6 +21,7 @@ const val VOTES_NO = "votesNo"
 /** USERS */
 const val USERS = "users"
 
+const val LAST_COMMENTS = 4
 
 /*************************** delete */
 const val CREATOR_NAME_ID = 0

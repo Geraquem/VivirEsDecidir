@@ -11,6 +11,7 @@ class ConditionalsViewModel @Inject constructor(
     private val getConditionalData: GetConditionalData,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val userVoteUseCase: UserVoteUseCase,
+    private val getConditionalCommentsUseCase: GetConditionalCommentsUseCase,
     private val checkIfAlreadySavedUseCase: CheckIfAlreadySavedUseCase,
     private val saveDataUseCase: SaveDataUseCase
 ) : BaseViewModel<ConditionalsEvent>() {
@@ -31,7 +32,8 @@ class ConditionalsViewModel @Inject constructor(
             { getPercentsUseCase.execute(GetPercentsUseCase.Params(votesYes, votesNo)) },
             { result ->
                 _event.value =
-                    result?.let { ConditionalsEvent.GetPercents(it) } ?: run { ConditionalsEvent.SWW }
+                    result?.let { ConditionalsEvent.GetPercents(it) }
+                        ?: run { ConditionalsEvent.SWW }
             },
             { _event.value = ConditionalsEvent.SWW }
         )
@@ -44,7 +46,15 @@ class ConditionalsViewModel @Inject constructor(
             { _event.value = ConditionalsEvent.SWW }
         )
     }
-//
+
+    fun getComments(dataId: String) {
+        executeUseCase(
+            { getConditionalCommentsUseCase.execute(GetConditionalCommentsUseCase.Params(dataId)) },
+            { result -> _event.value = ConditionalsEvent.GetComments(result) },
+            { _event.value = ConditionalsEvent.SWW }
+        )
+    }
+
 //    fun saveDataToUser(dataId: String) {
 //        executeUseCase(
 //            { saveDataUseCase.execute(SaveDataUseCase.Params(dataId)) },
