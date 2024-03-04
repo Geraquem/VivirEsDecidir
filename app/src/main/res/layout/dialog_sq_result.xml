@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/NormalTextView"
+        style="@style/MediumTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/btn_again"
-        style="@style/NormalTextView"
+        style="@style/MediumTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/btn_error"
-        style="@style/NormalTextView"
+        style="@style/MediumTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/tv_percent_yes"
-        style="@style/PercentsTextView"
+        style="@style/MediumTextView_Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/percent_text_color_yes"
@@ -25,7 +25,7 @@
 
     <TextView
         android:id="@+id/tv_percent_no"
-        style="@style/PercentsTextView"
+        style="@style/MediumTextView_Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/percent_text_color_no"
@@ -57,7 +57,7 @@
 
     <TextView
         android:id="@+id/tv_votes_yes"
-        style="@style/NormalTextView"
+        style="@style/MediumTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -79,7 +79,7 @@
 
     <TextView
         android:id="@+id/tv_votes_no"
-        style="@style/NormalTextView"
+        style="@style/MediumTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

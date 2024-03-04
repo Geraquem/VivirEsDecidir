@@ -41,7 +41,7 @@
 
                 <TextView
                     android:id="@+id/title"
-                    style="@style/NormalTextView"
+                    style="@style/MediumTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -154,7 +154,7 @@
 
                 <TextView
                     android:id="@+id/btn_send"
-                    style="@style/NormalTextView"
+                    style="@style/MediumTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
@@ -173,7 +173,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/NormalTextView"
+                        style="@style/MediumTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

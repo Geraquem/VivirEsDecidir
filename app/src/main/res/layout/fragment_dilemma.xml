@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/tv_text_top"
-                    style="@style/OptionsTextView"
+                    style="@style/MediumTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -73,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/tv_text_bottom"
-                    style="@style/OptionsTextView"
+                    style="@style/MediumTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -149,7 +149,7 @@
                         android:src="@drawable/ic_option_yes_trans" />
 
                     <TextView
-                        style="@style/BtnsTextView"
+                        style="@style/ButtonsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -177,7 +177,7 @@
                         android:src="@drawable/ic_option_no_trans" />
 
                     <TextView
-                        style="@style/BtnsTextView"
+                        style="@style/ButtonsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
