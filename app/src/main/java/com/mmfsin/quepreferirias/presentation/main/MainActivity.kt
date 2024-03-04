@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         setListeners()
         setNavigationDrawer()
         setAds()
+
+        /*****************************/
+        navigateDrawer(DILEMMAS)
     }
 
     private fun observe() {

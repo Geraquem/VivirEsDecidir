@@ -18,6 +18,7 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.Comments
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
@@ -70,7 +71,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
             ivFav.setOnClickListener { setFavDilemma() }
 
-            ivOpenComments.setOnClickListener { }
+            ivOpenComments.setOnClickListener {
+                val modalBottomSheet = Comments(this@DilemmasFragment.comments)
+                activity?.let { modalBottomSheet.show(it.supportFragmentManager, "") }
+            }
 
             btnNext.btnNext.setOnClickListener {
                 position++
