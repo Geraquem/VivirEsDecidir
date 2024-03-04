@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
@@ -9,9 +10,9 @@
 
     <include
         android:id="@+id/image"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        layout="@layout/include_circle_image" />
+        layout="@layout/include_circle_image"
+        android:layout_width="42dp"
+        android:layout_height="42dp" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -24,17 +25,30 @@
 
         <TextView
             android:id="@+id/tv_name"
-            style="@style/SmallTextView"
+            style="@style/SmallTextView_Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Carlos"
-            android:textStyle="bold" />
+            android:layout_marginBottom="2dp"
+            android:textStyle="bold"
+            tools:text="Carlos" />
 
         <TextView
             android:id="@+id/tv_comment"
+            style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hola esto es lo mejor que me ha pasado en la vida blablablablablabla blablabla blablablablablabla blablabla blablablablablabla" />
+            android:layout_marginBottom="2dp"
+            android:textSize="16sp"
+            tools:text="bla bla bla bla bla bla" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:alpha="0.5"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="24 feb 2024" />
 
     </LinearLayout>
 

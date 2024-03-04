@@ -3,63 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/background"
     android:clickable="true"
-    android:elevation="10dp"
     android:focusable="true">
 
-    <LinearLayout
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:indeterminate="true"
+        app:indicatorColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_app_name"
-            style="@style/ButtonsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textAllCaps="true"
-            android:textSize="36sp" />
-
-        <LinearLayout
-            android:id="@+id/linear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_option_yes" />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_view"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="loading_dots.json"
-                app:lottie_loop="true" />
-
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_option_no" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:indicatorSize="24dp"
+        app:trackThickness="3dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

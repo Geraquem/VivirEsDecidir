@@ -16,9 +16,10 @@ class RecentCommentsAdapter(private val comments: List<Comment>) :
         val binding = ItemCommentBinding.bind(view)
         fun bind(comment: Comment) {
             binding.apply {
+                Glide.with(binding.root.context).load(comment.image).into(image.image)
                 tvName.text = comment.name
                 tvComment.text = comment.comment
-                Glide.with(binding.root.context).load(comment.image).into(image.image)
+                tvDate.text = comment.date
             }
         }
     }

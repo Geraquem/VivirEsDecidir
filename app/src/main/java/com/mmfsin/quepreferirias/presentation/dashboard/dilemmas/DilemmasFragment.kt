@@ -52,7 +52,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         binding.apply {
             loadingScreen.root.isVisible
             setToolbar()
-            setInitialPercents()
+            setInitialConfig()
         }
     }
 
@@ -68,13 +68,18 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
+            ivFav.setOnClickListener { setFavDilemma() }
+
+            ivOpenComments.setOnClickListener { }
+
             btnNext.btnNext.setOnClickListener {
                 position++
                 if (position < dilemmaList.size) {
 //                    showInterstitial()
+                    comments.loading.root.visibility = View.VISIBLE
                     llButtons.animate().alpha(1f).duration = 250
                     percents.root.animate().alpha(0.0f).duration = 250
-                    setInitialPercents()
+                    setInitialConfig()
                     setData()
                 } else {
                     activity?.let {
@@ -122,7 +127,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private fun setData() {
         try {
             binding.apply {
-                setInitialPercents()
+                setInitialConfig()
                 val actualData = dilemmaList[position]
                 viewModel.getComments(actualData.id)
                 tvTextTop.text = actualData.topText
@@ -140,7 +145,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    private fun setInitialPercents() {
+    private fun setInitialConfig() {
         binding.apply {
             btnYes.setImageResource(R.drawable.ic_option_yes_trans)
             btnNo.setImageResource(R.drawable.ic_option_no_trans)
@@ -151,6 +156,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 ivYes.visibility = View.INVISIBLE
                 ivNo.visibility = View.INVISIBLE
             }
+            ivFav.animate().rotation(0f).setDuration(0).start()
+            ivFav.setImageResource(R.drawable.ic_fav_off)
         }
     }
 
@@ -179,34 +186,30 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun setUpComments(lastComments: List<Comment>) {
         binding.comments.apply {
-            when (comments.size) {
-                0 -> {
-                    tvNoComments.visibility = View.VISIBLE
-                    tvTotalComments.visibility = View.GONE
-                }
-
-                1 -> {
-                    tvTotalComments.text = getString(R.string.dashboard_see_more_one)
-                    tvNoComments.visibility = View.GONE
-                    tvTotalComments.visibility = View.VISIBLE
-                }
-
-                else -> {
-                    tvTotalComments.text =
-                        getString(R.string.dashboard_see_more, comments.size.toString())
-                    tvNoComments.visibility = View.GONE
-                    tvTotalComments.visibility = View.VISIBLE
-                }
+            val title = when (comments.size) {
+                0 -> getString(R.string.dashboard_no_comments)
+                1 -> getString(R.string.dashboard_single_comment_title)
+                else -> getString(R.string.dashboard_comments_title, comments.size.toString())
             }
+            tvTitle.text = title
+            tvSeeMore.visibility = if (comments.size < LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
                 adapter = RecentCommentsAdapter(lastComments)
             }
+            loading.root.visibility = View.GONE
+        }
+    }
+
+    private fun setFavDilemma() {
+        binding.apply {
+            ivFav.animate().rotation(360f).setDuration(350).start()
+            ivFav.setImageResource(R.drawable.ic_fav_on)
         }
     }
 
     private fun error() {
-        activity?.showErrorDialog() { activity?.finish() }
+        activity?.showErrorDialog { activity?.finish() }
     }
 
     override fun onAttach(context: Context) {
