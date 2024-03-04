@@ -13,11 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.databinding.FragmentConditionalDataBinding
+import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
@@ -25,7 +25,7 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmasFragment : BaseFragment<FragmentConditionalDataBinding, DilemmasViewModel>() {
+class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>() {
 
     override val viewModel: DilemmasViewModel by viewModels()
 
@@ -41,7 +41,7 @@ class DilemmasFragment : BaseFragment<FragmentConditionalDataBinding, DilemmasVi
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentConditionalDataBinding.inflate(inflater, container, false)
+    ) = FragmentDilemmaBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

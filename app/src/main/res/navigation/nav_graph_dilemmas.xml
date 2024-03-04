@@ -9,6 +9,6 @@
         android:id="@+id/dilemmasFragment"
         android:name="com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasFragment"
         android:label="dilemmasFragment"
-        tools:layout="@layout/fragment_conditional_data" />
+        tools:layout="@layout/fragment_dilemma" />
 
 </navigation>
