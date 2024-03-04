@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.conditionals
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
@@ -7,23 +7,23 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ConditionalsViewModel @Inject constructor(
-    private val getConditionalData: GetConditionalData,
+class DilemmasViewModel @Inject constructor(
+    private val getDilemmas: GetDilemmas,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val userVoteUseCase: UserVoteUseCase,
-    private val getConditionalCommentsUseCase: GetConditionalCommentsUseCase,
+    private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val checkIfAlreadySavedUseCase: CheckIfAlreadySavedUseCase,
     private val saveDataUseCase: SaveDataUseCase
-) : BaseViewModel<ConditionalsEvent>() {
+) : BaseViewModel<DilemmasEvent>() {
 
     fun getConditionalData() {
         executeUseCase(
-            { getConditionalData.execute() },
+            { getDilemmas.execute() },
             { result ->
                 _event.value =
-                    if (result.isEmpty()) ConditionalsEvent.SWW else ConditionalsEvent.Data(result)
+                    if (result.isEmpty()) DilemmasEvent.SWW else DilemmasEvent.Data(result)
             },
-            { _event.value = ConditionalsEvent.SWW }
+            { _event.value = DilemmasEvent.SWW }
         )
     }
 
@@ -32,10 +32,10 @@ class ConditionalsViewModel @Inject constructor(
             { getPercentsUseCase.execute(GetPercentsUseCase.Params(votesYes, votesNo)) },
             { result ->
                 _event.value =
-                    result?.let { ConditionalsEvent.GetPercents(it) }
-                        ?: run { ConditionalsEvent.SWW }
+                    result?.let { DilemmasEvent.GetPercents(it) }
+                        ?: run { DilemmasEvent.SWW }
             },
-            { _event.value = ConditionalsEvent.SWW }
+            { _event.value = DilemmasEvent.SWW }
         )
     }
 
@@ -43,15 +43,15 @@ class ConditionalsViewModel @Inject constructor(
         executeUseCase(
             { userVoteUseCase.execute(UserVoteUseCase.Params(dataId, isYes)) },
             { Log.i("userVoteUseCase: ", "User voted successfully") },
-            { _event.value = ConditionalsEvent.SWW }
+            { _event.value = DilemmasEvent.SWW }
         )
     }
 
     fun getComments(dataId: String) {
         executeUseCase(
-            { getConditionalCommentsUseCase.execute(GetConditionalCommentsUseCase.Params(dataId)) },
-            { result -> _event.value = ConditionalsEvent.GetComments(result) },
-            { _event.value = ConditionalsEvent.SWW }
+            { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dataId)) },
+            { result -> _event.value = DilemmasEvent.GetComments(result) },
+            { _event.value = DilemmasEvent.SWW }
         )
     }
 

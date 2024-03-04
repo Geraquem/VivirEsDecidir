@@ -1,13 +1,13 @@
 package com.mmfsin.quepreferirias.data.mappers
 
-import com.mmfsin.quepreferirias.data.models.DataDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SavedDataDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
-import com.mmfsin.quepreferirias.domain.models.ConditionalData
+import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.SavedData
 import com.mmfsin.quepreferirias.domain.models.Session
 
-fun DataDTO.toConditionalData(id: String, votesYes: Long, votesNo: Long) = ConditionalData(
+fun DilemmaDTO.toDilemma(id: String, votesYes: Long, votesNo: Long) = Dilemma(
     id = id,
     topText = txtTop,
     bottomText = txtBottom,

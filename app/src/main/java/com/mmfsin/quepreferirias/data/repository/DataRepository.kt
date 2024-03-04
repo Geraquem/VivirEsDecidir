@@ -4,9 +4,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
-import com.mmfsin.quepreferirias.domain.models.ConditionalData
+import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.SavedData
-import com.mmfsin.quepreferirias.utils.CONDITIONAL_DATA
+import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
@@ -23,10 +23,10 @@ class DataRepository @Inject constructor(
 
     private val reference = Firebase.database.reference
 
-    override suspend fun getConditionalData(): List<ConditionalData> {
+    override suspend fun getDilemmas(): List<Dilemma> {
         val latch = CountDownLatch(1)
-        val conditionalDataList = mutableListOf<ConditionalData>()
-        val root = reference.child(CONDITIONAL_DATA)
+        val dilemmaList = mutableListOf<Dilemma>()
+        val root = reference.child(DILEMMAS)
         root.get().addOnCompleteListener { dataSnapshot ->
             for (child in dataSnapshot.result.children) {
                 if (child.exists()) {
@@ -36,7 +36,7 @@ class DataRepository @Inject constructor(
                     val votesYes = child.child(VOTES_YES).childrenCount
                     val votesNo = child.child(VOTES_NO).childrenCount
                     val creator = child.child(CREATOR_NAME).value?.toString()
-                    val data = ConditionalData(
+                    val data = Dilemma(
                         id.toString(),
                         textTop,
                         textBottom,
@@ -44,7 +44,7 @@ class DataRepository @Inject constructor(
                         votesNo,
                         creator
                     )
-                    conditionalDataList.add(data)
+                    dilemmaList.add(data)
                 }
             }
             latch.countDown()
@@ -54,7 +54,7 @@ class DataRepository @Inject constructor(
         {
             latch.await()
         }
-        return conditionalDataList//.shuffled()
+        return dilemmaList//.shuffled()
     }
 
     override suspend fun vote(dataId: String, voteId: String) {

@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.conditionals.comments
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 
 import android.view.LayoutInflater
 import android.view.View

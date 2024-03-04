@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_conditionals_fragment"
-    app:startDestination="@id/conditionalsFragment">
+    android:id="@+id/nav_graph_dilemmas"
+    app:startDestination="@id/dilemmasFragment">
 
     <fragment
-        android:id="@+id/conditionalsFragment"
-        android:name="com.mmfsin.quepreferirias.presentation.dashboard.conditionals.ConditionalsFragment"
-        android:label="conditionalsFragment"
+        android:id="@+id/dilemmasFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasFragment"
+        android:label="dilemmasFragment"
         tools:layout="@layout/fragment_conditional_data" />
 
 </navigation>

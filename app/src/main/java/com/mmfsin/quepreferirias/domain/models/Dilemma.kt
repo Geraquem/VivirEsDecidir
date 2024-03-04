@@ -1,6 +1,6 @@
 package com.mmfsin.quepreferirias.domain.models
 
-open class ConditionalData(
+open class Dilemma(
     var id: String = "",
     var topText: String = "",
     var bottomText: String = "",

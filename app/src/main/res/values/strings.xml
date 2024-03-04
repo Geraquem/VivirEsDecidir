@@ -37,7 +37,7 @@
     <string name="user_profile_how_you_doing">¿Cómo te va?</string>
 
     <!-- NAVIGATION DRAWER -->
-    <string name="nav_conditional">Condicionales</string>
+    <string name="nav_dilemmas">Dilemas</string>
     <string name="nav_dualism">Dualismos</string>
     <string name="nav_my_info">Mi información</string>
     <string name="nav_profile">Mi perfil</string>

@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.conditionals
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -15,8 +15,8 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentConditionalDataBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.ConditionalData
-import com.mmfsin.quepreferirias.presentation.dashboard.conditionals.comments.RecentCommentsAdapter
+import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
@@ -25,11 +25,11 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, ConditionalsViewModel>() {
+class DilemmasFragment : BaseFragment<FragmentConditionalDataBinding, DilemmasViewModel>() {
 
-    override val viewModel: ConditionalsViewModel by viewModels()
+    override val viewModel: DilemmasViewModel by viewModels()
 
-    private var conditionalDataList = emptyList<ConditionalData>()
+    private var dilemmaList = emptyList<Dilemma>()
     private var position: Int = 0
 
     private var votesYes: Long = 0
@@ -59,7 +59,7 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
     private fun setToolbar() {
         (activity as BedRockActivity).apply {
             backListener { onBackPressed() }
-            setToolbarText(R.string.nav_conditional)
+            setToolbarText(R.string.nav_dilemmas)
         }
     }
 
@@ -70,7 +70,7 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
 
             btnNext.btnNext.setOnClickListener {
                 position++
-                if (position < conditionalDataList.size) {
+                if (position < dilemmaList.size) {
 //                    showInterstitial()
                     llButtons.animate().alpha(1f).duration = 250
                     percents.root.animate().alpha(0.0f).duration = 250
@@ -103,18 +103,18 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is ConditionalsEvent.Data -> {
-                    conditionalDataList = event.data
+                is DilemmasEvent.Data -> {
+                    dilemmaList = event.data
                     setData()
                 }
 
-                is ConditionalsEvent.GetPercents -> setPercents(event.percents)
-                is ConditionalsEvent.GetComments -> {
+                is DilemmasEvent.GetPercents -> setPercents(event.percents)
+                is DilemmasEvent.GetComments -> {
                     comments = event.comments
                     setUpComments(comments.take(LAST_COMMENTS))
                 }
 
-                is ConditionalsEvent.SWW -> error()
+                is DilemmasEvent.SWW -> error()
             }
         }
     }
@@ -123,7 +123,7 @@ class ConditionalsFragment : BaseFragment<FragmentConditionalDataBinding, Condit
         try {
             binding.apply {
                 setInitialPercents()
-                val actualData = conditionalDataList[position]
+                val actualData = dilemmaList[position]
                 viewModel.getComments(actualData.id)
                 tvTextTop.text = actualData.topText
                 tvTextBottom.text = actualData.bottomText

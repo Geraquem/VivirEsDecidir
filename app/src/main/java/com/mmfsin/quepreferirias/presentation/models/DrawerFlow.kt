@@ -1,8 +1,8 @@
 package com.mmfsin.quepreferirias.presentation.models
 
 enum class DrawerFlow {
-    CONDITIONAL_DATA,
-    DUALISM_DATA,
+    DILEMMAS,
+    DUALISMS,
     USER_PROFILE,
     DATA_SAVED,
     DATA_SENT

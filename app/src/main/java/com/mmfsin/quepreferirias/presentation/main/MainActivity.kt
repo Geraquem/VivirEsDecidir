@@ -15,10 +15,10 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
-import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.CONDITIONAL_DATA
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DILEMMAS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DATA_SAVED
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DATA_SENT
-import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DUALISM_DATA
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DUALISMS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.USER_PROFILE
 import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigateDrawer(flow: DrawerFlow) {
         val navGraph = when (flow) {
-            CONDITIONAL_DATA -> R.navigation.nav_graph_conditional_data
-            DUALISM_DATA -> 0
+            DILEMMAS -> R.navigation.nav_graph_dilemmas
+            DUALISMS -> 0
             USER_PROFILE -> R.navigation.nav_graph_profile
             DATA_SAVED -> R.navigation.nav_graph_saved_data
             DATA_SENT -> 0
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.nav_conditional -> navigateDrawer(CONDITIONAL_DATA)
+                    R.id.nav_dilemmas -> navigateDrawer(DILEMMAS)
                     R.id.nav_dualism -> {}
                     //////////////////////
                     R.id.nav_profile -> viewModel.checkSession(USER_PROFILE)

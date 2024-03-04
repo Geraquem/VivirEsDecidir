@@ -8,8 +8,8 @@ const val UPDATE_SENT_DATA = "update_sent_data"
 
 //FIREBASE
 
-/** CONDITIONAL */
-const val CONDITIONAL_DATA = "conditional_data"
+/** DILEMMAS */
+const val DILEMMAS = "dilemmas"
 const val DATA_ID = "dataId"
 const val TXT_TOP = "txtTop"
 const val TXT_BOTTOM = "txtBottom"
