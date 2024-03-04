@@ -1,11 +1,16 @@
 package com.mmfsin.quepreferirias.data.repository
 
+import android.util.Log
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.mmfsin.quepreferirias.data.mappers.toCommentList
+import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
+import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
-import com.mmfsin.quepreferirias.domain.models.SavedData
+import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
@@ -57,35 +62,25 @@ class DataRepository @Inject constructor(
         return dilemmaList//.shuffled()
     }
 
-    override suspend fun vote(dataId: String, voteId: String) {
-//        Firebase.database.reference.child(PRUEBAS_ROOT).child(dataId).child(voteId).push()
-//            .setValue(true)
-    }
-
-    override suspend fun getDataGivenKeyList(idList: List<String>): List<SavedData> {
-//        val latch = CountDownLatch(1)
-//        val dataList = mutableListOf<SavedDataDTO>()
-//
-//        val collectionReference = Firebase.firestore.collection(CONDITIONAL_DATA)
-//        collectionReference.whereIn(DATA_ID, idList).get().addOnSuccessListener { querySnapshot ->
-//            for (document in querySnapshot) {
-//                val savedDataDTO = document.toObject(SavedDataDTO::class.java)
-//                dataList.add(savedDataDTO)
-//                realmDatabase.addObject { savedDataDTO }
-//            }
-//            latch.countDown()
-//        }.addOnFailureListener { latch.countDown() }
-//
-//        withContext(Dispatchers.IO) {
-//            latch.await()
-//        }
-//        return dataList.toSavedDataList()
-        return emptyList()
-    }
-
-    override suspend fun getSavedDataInRealm(): List<SavedData> {
-//        val dataList = realmDatabase.getObjectsFromRealm { where<SavedDataDTO>().findAll() }
-//        return dataList.toSavedDataList()
-        return emptyList()
+    override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
+        val comments = mutableListOf<CommentDTO>()
+        val latch = CountDownLatch(1)
+        Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
+            .collection(COMMENTS).get().addOnSuccessListener { d ->
+                for (document in d.documents) {
+                    try {
+                        document.toObject(CommentDTO::class.java)?.let { comment ->
+                            comments.add(comment)
+                        }
+                    } catch (e: Exception) {
+                        Log.e("error", "error parsing comment")
+                    }
+                }
+                latch.countDown()
+            }.addOnFailureListener {
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
+        return comments.toCommentList()
     }
 }

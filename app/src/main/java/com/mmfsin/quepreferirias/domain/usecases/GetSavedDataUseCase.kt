@@ -19,17 +19,18 @@ class GetSavedDataUseCase @Inject constructor(
     override suspend fun execute(): List<SavedData>? {
         val session = sessionRepository.getSession() ?: return null
 
-        var savedData = dataRepository.getSavedDataInRealm()
+//        var savedData = dataRepository.getSavedDataInRealm()
 
         val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
         val update = sharedPrefs.getBoolean(UPDATE_SAVED_DATA, true)
-        if (update) savedData = getSavedDataFromFirebase(session.email)
+//        if (update) savedData = getSavedDataFromFirebase(session.email)
 
-        return savedData
+        return emptyList()
     }
 
     private suspend fun getSavedDataFromFirebase(email: String): List<SavedData> {
         val keys = sessionRepository.getSavedDataKeys(email)
-        return dataRepository.getDataGivenKeyList(keys)
+//        return dataRepository.getDataGivenKeyList(keys)
+        return emptyList()
     }
 }

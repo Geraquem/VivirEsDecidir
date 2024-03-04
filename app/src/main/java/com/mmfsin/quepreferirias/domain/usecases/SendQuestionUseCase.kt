@@ -1,7 +1,6 @@
 package com.mmfsin.quepreferirias.domain.usecases
 
 import com.mmfsin.quepreferirias.base.BaseUseCase
-import com.mmfsin.quepreferirias.data.mappers.toQuestionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IQuestionsRepository
 import javax.inject.Inject
 
@@ -11,8 +10,7 @@ class SendQuestionUseCase @Inject constructor(private val repository: IQuestions
     override suspend fun execute(params: Params): Boolean {
         val name = params.creatorName
         if (name.isNotEmpty()) repository.saveCreatorName(name)
-        val question = toQuestionDTO(params.textTop, params.textBottom, name)
-        return repository.sendQuestion(question)
+        return false
     }
 
     data class Params(

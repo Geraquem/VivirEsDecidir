@@ -11,9 +11,7 @@ class DilemmasViewModel @Inject constructor(
     private val getDilemmas: GetDilemmas,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val userVoteUseCase: UserVoteUseCase,
-    private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
-    private val checkIfAlreadySavedUseCase: CheckIfAlreadySavedUseCase,
-    private val saveDataUseCase: SaveDataUseCase
+    private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase
 ) : BaseViewModel<DilemmasEvent>() {
 
     fun getConditionalData() {
@@ -47,9 +45,9 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun getComments(dataId: String) {
+    fun getComments(dilemmaId: String) {
         executeUseCase(
-            { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dataId)) },
+            { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dilemmaId)) },
             { result -> _event.value = DilemmasEvent.GetComments(result) },
             { _event.value = DilemmasEvent.SWW }
         )

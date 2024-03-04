@@ -10,7 +10,7 @@ class UserVoteUseCase @Inject constructor(private val repository: IDataRepositor
     override suspend fun execute(params: Params) {
 //        val voteId = if (params.isYes) YES else NO
         val voteId = "yes"
-        repository.vote(params.dataId, voteId)
+//        repository.vote(params.dataId, voteId)
     }
 
     data class Params(

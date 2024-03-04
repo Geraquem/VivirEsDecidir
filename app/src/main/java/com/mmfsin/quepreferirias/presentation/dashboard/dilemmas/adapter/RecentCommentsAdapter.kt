@@ -1,9 +1,10 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
@@ -15,8 +16,9 @@ class RecentCommentsAdapter(private val comments: List<Comment>) :
         val binding = ItemCommentBinding.bind(view)
         fun bind(comment: Comment) {
             binding.apply {
-                tvComment.text = comment.name
+                tvName.text = comment.name
                 tvComment.text = comment.comment
+                Glide.with(binding.root.context).load(comment.image).into(image.image)
             }
         }
     }
