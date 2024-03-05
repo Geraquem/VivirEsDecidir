@@ -35,6 +35,7 @@ fun SavedDataDTO.toSavedData() = SavedData(
 fun List<SavedDataDTO>.toSavedDataList() = this.map { element -> element.toSavedData() }.toList()
 
 fun CommentDTO.toComment() = Comment(
+    userId = userId,
     name = name,
     comment = comment,
     image = image,

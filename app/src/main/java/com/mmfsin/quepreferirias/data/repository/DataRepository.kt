@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.data.repository
 
 import android.util.Log
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toCommentList
@@ -11,8 +12,8 @@ import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.utils.COMMENTS
-import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
+import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
 import com.mmfsin.quepreferirias.utils.VOTES_NO
@@ -82,5 +83,20 @@ class DataRepository @Inject constructor(
             }
         withContext(Dispatchers.IO) { latch.await() }
         return comments.toCommentList()
+    }
+
+    override suspend fun setDilemmaComment(dilemmaId: String, comment: Comment): Boolean {
+        val latch = CountDownLatch(1)
+        var result = false
+        Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
+            .document(comment.date).set(comment, SetOptions.merge())
+            .addOnCompleteListener {
+                result = it.isSuccessful
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) {
+            latch.await()
+        }
+        return result
     }
 }

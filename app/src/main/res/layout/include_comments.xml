@@ -35,17 +35,29 @@
             tools:itemCount="0"
             tools:listitem="@layout/item_comment" />
 
-        <TextView
-            android:id="@+id/tv_see_more"
-            style="@style/SmallTextView"
+        <LinearLayout
+            android:id="@+id/ll_see_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.4"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:alpha="0.5"
             app:layout_constraintTop_toBottomOf="@id/rv_comments"
-            tools:text="@string/dashboard_see_more" />
+            android:orientation="vertical">
 
-           </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                style="@style/SmallTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dashboard_see_all"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         android:id="@+id/loading"

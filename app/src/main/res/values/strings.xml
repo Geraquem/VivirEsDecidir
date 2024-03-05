@@ -56,7 +56,7 @@
     <string name="dashboard_comments">Comentarios</string>
     <string name="dashboard_comments_title">%s Comentarios</string>
     <string name="dashboard_single_comment_title">1 Comentario</string>
-    <string name="dashboard_see_more">Ver más</string>
+    <string name="dashboard_see_all">Ver todos</string>
     <string name="dashboard_no_comments">No hay comentarios</string>
 
     <!-- PROFILE -->

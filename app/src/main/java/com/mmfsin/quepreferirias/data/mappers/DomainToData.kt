@@ -1,6 +1,8 @@
 package com.mmfsin.quepreferirias.data.mappers
 
+import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
+import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Session
 
 fun Session.toSessionDTO() = SessionDTO(
@@ -9,4 +11,13 @@ fun Session.toSessionDTO() = SessionDTO(
     email = email,
     name = name,
     fullName = fullName
+)
+
+fun Comment.toCommentDTO() = CommentDTO(
+    userId = userId,
+    name = name,
+    comment = comment,
+    image = image,
+    date = date,
+    likes = likes
 )

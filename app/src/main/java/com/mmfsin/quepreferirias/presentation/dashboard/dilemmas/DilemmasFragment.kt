@@ -18,7 +18,7 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.Comments
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
@@ -31,6 +31,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     override val viewModel: DilemmasViewModel by viewModels()
 
     private var dilemmaList = emptyList<Dilemma>()
+    private var actualData: Dilemma? = null
     private var position: Int = 0
 
     private var votesYes: Long = 0
@@ -71,10 +72,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
             ivFav.setOnClickListener { setFavDilemma() }
 
-            ivOpenComments.setOnClickListener {
-                val modalBottomSheet = Comments(this@DilemmasFragment.comments)
-                activity?.let { modalBottomSheet.show(it.supportFragmentManager, "") }
-            }
+            ivOpenComments.setOnClickListener { openAllComments() }
+            comments.llSeeAll.setOnClickListener { openAllComments() }
 
             btnNext.btnNext.setOnClickListener {
                 position++
@@ -109,6 +108,16 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
+    private fun openAllComments() {
+        actualData?.let { dilemma ->
+            val modalBottomSheet = CommentsSheet(
+                dilemmaId = dilemma.id,
+                comments = this@DilemmasFragment.comments
+            )
+            activity?.let { modalBottomSheet.show(it.supportFragmentManager, "") }
+        } ?: run { error() }
+    }
+
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
@@ -132,17 +141,19 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         try {
             binding.apply {
                 setInitialConfig()
-                val actualData = dilemmaList[position]
-                viewModel.getComments(actualData.id)
-                tvTextTop.text = actualData.topText
-                tvTextBottom.text = actualData.bottomText
-                actualData.creatorName?.let { name ->
-                    tvCreatorName.text = name
-                    llCreatorName.visibility = View.VISIBLE
-                } ?: run { llCreatorName.visibility = View.GONE }
-                votesYes = actualData.votesYes
-                votesNo = actualData.votesNo
-                loadingScreen.root.isVisible = false
+                actualData = dilemmaList[position]
+                actualData?.let { data ->
+                    viewModel.getComments(data.id)
+                    tvTextTop.text = data.topText
+                    tvTextBottom.text = data.bottomText
+                    data.creatorName?.let { name ->
+                        tvCreatorName.text = name
+                        llCreatorName.visibility = View.VISIBLE
+                    } ?: run { llCreatorName.visibility = View.GONE }
+                    votesYes = data.votesYes
+                    votesNo = data.votesNo
+                    loadingScreen.root.isVisible = false
+                }
             }
         } catch (e: Exception) {
             error()
@@ -196,7 +207,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 else -> getString(R.string.dashboard_comments_title, comments.size.toString())
             }
             tvTitle.text = title
-            tvSeeMore.visibility = if (comments.size < LAST_COMMENTS) View.GONE else View.VISIBLE
+            llSeeAll.visibility = if (comments.size < LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
                 adapter = RecentCommentsAdapter(lastComments)
