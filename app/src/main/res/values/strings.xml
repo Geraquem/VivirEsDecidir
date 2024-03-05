@@ -59,6 +59,9 @@
     <string name="dashboard_see_all">Ver todos</string>
     <string name="dashboard_no_comments">No hay comentarios</string>
 
+    <!-- COMMENTS -->
+    <string name="comments_hint">Añade un comentario</string>
+
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>
     <string name="profile_close_session">Cerrar sessión</string>

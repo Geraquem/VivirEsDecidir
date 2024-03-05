@@ -14,6 +14,7 @@
     <color name="blue">#4A44FF</color>
 
     <color name="background">#F3F3F3</color>
+    <color name="et_hint">#9E9E9E</color>
     <color name="bg_transparent">#41FFFFFF</color>
 
     <color name="transparent">#00FFFFFF</color>

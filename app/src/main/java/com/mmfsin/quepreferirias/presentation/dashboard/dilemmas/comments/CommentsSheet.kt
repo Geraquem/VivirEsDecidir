@@ -5,14 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.ViewGroup.LayoutParams
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.BsheetCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -37,15 +39,20 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogThemeNoFloating)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
             val bottomSheetDialog = it as BottomSheetDialog
             val parentLayout =
                 bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            parentLayout?.let { it ->
-                val behaviour = BottomSheetBehavior.from(it)
-                setupFullHeight(it)
+            parentLayout?.let { parent ->
+                val behaviour = BottomSheetBehavior.from(parent)
+                setupFullHeight(parent)
                 behaviour.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
@@ -54,7 +61,7 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
 
     private fun setupFullHeight(bottomSheet: View) {
         val layoutParams = bottomSheet.layoutParams
-        layoutParams.height = (resources.displayMetrics.heightPixels * 0.95).toInt()
+        layoutParams.height = LayoutParams.MATCH_PARENT
         bottomSheet.layoutParams = layoutParams
     }
 
@@ -69,7 +76,12 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
         binding.apply {
             ivSendComment.setOnClickListener {
                 val comment = etComment.text.toString()
-                userData?.let { viewModel.sendComment(dilemmaId, it, comment) }
+                if (comment.isNotBlank()) {
+                    ivSendComment.isEnabled = false
+                    ivSendComment.visibility = View.INVISIBLE
+                    commentLoading.visibility = View.VISIBLE
+                    userData?.let { viewModel.sendComment(dilemmaId, it, comment) }
+                }
             }
         }
     }
@@ -86,17 +98,26 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
                     }
                 }
 
-                is CommentsEvent.CommentResult -> {
-                    Toast.makeText(
-                        activity?.applicationContext,
-                        event.result.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                is CommentsEvent.CommentResult -> commentResult(event.result)
 
                 is CommentsEvent.SWW -> {}
             }
         }
+    }
+
+    private fun commentResult(success: Boolean) {
+        binding.apply {
+            ivSendComment.isEnabled = true
+            ivSendComment.visibility = View.VISIBLE
+            commentLoading.visibility = View.INVISIBLE
+            etComment.text = null
+        }
+
+        Toast.makeText(
+            activity?.applicationContext,
+            success.toString(),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun setUpComments() {
