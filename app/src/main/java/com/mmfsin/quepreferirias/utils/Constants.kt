@@ -10,13 +10,14 @@ const val UPDATE_SENT_DATA = "update_sent_data"
 
 /** DILEMMAS */
 const val DILEMMAS = "dilemmas"
-const val COMMENTS = "comments"
 const val TXT_TOP = "txtTop"
 const val TXT_BOTTOM = "txtBottom"
 const val CREATOR_NAME = "creatorName"
 const val VOTES = "votes"
 const val VOTES_YES = "votesYes"
 const val VOTES_NO = "votesNo"
+const val COMMENTS = "comments"
+const val COMMENT_LIKES = "likes"
 
 /** USERS */
 const val USERS = "users"

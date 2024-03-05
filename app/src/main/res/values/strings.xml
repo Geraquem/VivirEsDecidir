@@ -61,6 +61,18 @@
 
     <!-- COMMENTS -->
     <string name="comments_hint">Añade un comentario</string>
+    <string name="comments_today">Hoy</string>
+    <string name="comments_yesterday">Ayer</string>
+    <string name="comments_two_days">Antes de ayer</string>
+    <string name="comments_few_days">Hace unos días</string>
+    <string name="comments_one_week">Hace una semana</string>
+    <string name="comments_two_week">Hace 2 semanas</string>
+    <string name="comments_three_week">Hace 3 semanas</string>
+    <string name="comments_one_month">Hace un mes</string>
+    <string name="comments_two_month">Hace 2 meses</string>
+    <string name="comments_three_month">Hace 3 meses</string>
+    <string name="comments_more_than_three_month">Hace más de tres meses</string>
+    <string name="comments_error">Indefinido</string>
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>

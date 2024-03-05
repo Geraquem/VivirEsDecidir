@@ -12,6 +12,7 @@ import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.utils.COMMENTS
+import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
@@ -82,14 +83,15 @@ class DataRepository @Inject constructor(
                 latch.countDown()
             }
         withContext(Dispatchers.IO) { latch.await() }
-        return comments.toCommentList()
+        val sortedList = comments.sortedBy { it.timestamp }.reversed()
+        return sortedList.toCommentList()
     }
 
     override suspend fun setDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean {
         val latch = CountDownLatch(1)
         var result = false
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
-            .document(comment.timestamp).set(comment, SetOptions.merge())
+            .document(comment.commentId).set(comment, SetOptions.merge())
             .addOnCompleteListener {
                 result = it.isSuccessful
                 latch.countDown()
@@ -98,5 +100,22 @@ class DataRepository @Inject constructor(
             latch.await()
         }
         return result
+    }
+
+    override suspend fun voteDilemmaComment(dilemmaId: String, commentId: String, likes: Long) {
+        val documentReference = Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
+            .collection(COMMENTS).document(commentId)
+
+        val updatedLikes = hashMapOf<String, Any>(
+            COMMENT_LIKES to likes
+        )
+
+        documentReference.update(updatedLikes)
+            .addOnSuccessListener {
+                println("Nombre del usuario actualizado exitosamente.")
+            }
+            .addOnFailureListener { e ->
+                println("Error al actualizar el nombre del usuario: $e")
+            }
     }
 }

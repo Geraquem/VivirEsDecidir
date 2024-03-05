@@ -1,0 +1,32 @@
+package com.mmfsin.quepreferirias.domain.usecases
+
+import com.mmfsin.quepreferirias.base.BaseUseCase
+import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
+import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
+import com.mmfsin.quepreferirias.domain.models.CommentVote.*
+import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.domain.models.Session
+import java.time.LocalDate
+import java.util.UUID
+import javax.inject.Inject
+
+class VoteDilemmaCommentUseCase @Inject constructor(private val repository: IDataRepository) :
+    BaseUseCase<VoteDilemmaCommentUseCase.Params, Unit>() {
+
+    override suspend fun execute(params: Params) {
+        val actualLikes = params.comment.likes
+        val newLikes = when (params.vote) {
+            VOTE_UP -> actualLikes.plus(1)
+            VOTE_DOWN -> actualLikes.minus(1)
+        }
+        repository.voteDilemmaComment(params.dilemmaId, params.comment.commentId, newLikes)
+    }
+
+    data class Params(
+        val dilemmaId: String,
+        val vote: CommentVote,
+        val comment: Comment
+    )
+}

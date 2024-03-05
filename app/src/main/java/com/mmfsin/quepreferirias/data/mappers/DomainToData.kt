@@ -12,12 +12,3 @@ fun Session.toSessionDTO() = SessionDTO(
     name = name,
     fullName = fullName
 )
-
-fun Comment.toCommentDTO() = CommentDTO(
-    userId = userId,
-    name = name,
-    comment = comment,
-    image = image,
-    timestamp = timestamp,
-    likes = likes
-)

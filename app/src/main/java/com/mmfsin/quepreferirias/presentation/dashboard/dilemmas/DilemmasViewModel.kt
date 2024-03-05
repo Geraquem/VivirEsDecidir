@@ -2,7 +2,13 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
-import com.mmfsin.quepreferirias.domain.usecases.*
+import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
+import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
+import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.UserVoteUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -11,7 +17,8 @@ class DilemmasViewModel @Inject constructor(
     private val getDilemmas: GetDilemmas,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val userVoteUseCase: UserVoteUseCase,
-    private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase
+    private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
+    private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase
 ) : BaseViewModel<DilemmasEvent>() {
 
     fun getConditionalData() {
@@ -49,6 +56,18 @@ class DilemmasViewModel @Inject constructor(
         executeUseCase(
             { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dilemmaId)) },
             { result -> _event.value = DilemmasEvent.GetComments(result) },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun voteComment(dilemmaId: String, vote: CommentVote, comment: Comment) {
+        executeUseCase(
+            {
+                voteDilemmaCommentUseCase.execute(
+                    VoteDilemmaCommentUseCase.Params(dilemmaId, vote, comment)
+                )
+            },
+            { },
             { _event.value = DilemmasEvent.SWW }
         )
     }

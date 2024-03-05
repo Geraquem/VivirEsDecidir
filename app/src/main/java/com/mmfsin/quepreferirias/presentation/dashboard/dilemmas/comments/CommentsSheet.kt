@@ -17,13 +17,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.BsheetCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CommentsSheet(private val dilemmaId: String, private val comments: List<Comment>) :
-    BottomSheetDialogFragment() {
+    BottomSheetDialogFragment(), ICommentsListener {
 
     private val viewModel: CommentsViewModel by viewModels()
 
@@ -124,8 +126,18 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
         binding.apply {
             rvComments.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = CommentsAdapter(comments)
+                adapter = CommentsAdapter(this@CommentsSheet, comments)
             }
         }
+    }
+
+    override fun addNewComment() {
+    }
+
+    override fun respondComment() {
+    }
+
+    override fun voteComment(vote: CommentVote, comment: Comment) {
+        Toast.makeText(activity?.applicationContext, "sheet", Toast.LENGTH_SHORT).show()
     }
 }

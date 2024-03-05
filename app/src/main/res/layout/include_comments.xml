@@ -28,27 +28,27 @@
             style="@style/scroll_no_effects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:itemCount="0"
+            tools:itemCount="3"
             tools:listitem="@layout/item_comment" />
 
         <LinearLayout
             android:id="@+id/ll_see_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:alpha="0.5"
-            app:layout_constraintTop_toBottomOf="@id/rv_comments"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_comments">
 
             <TextView
                 style="@style/SmallTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dashboard_see_all"/>
+                android:text="@string/dashboard_see_all" />
 
             <FrameLayout
                 android:layout_width="match_parent"

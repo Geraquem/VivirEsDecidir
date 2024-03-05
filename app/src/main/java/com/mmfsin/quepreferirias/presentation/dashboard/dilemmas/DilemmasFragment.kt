@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +16,12 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
@@ -26,7 +29,8 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>() {
+class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(),
+    ICommentsListener {
 
     override val viewModel: DilemmasViewModel by viewModels()
 
@@ -207,10 +211,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 else -> getString(R.string.dashboard_comments_title, comments.size.toString())
             }
             tvTitle.text = title
-            llSeeAll.visibility = if (comments.size < LAST_COMMENTS) View.GONE else View.VISIBLE
+            llSeeAll.visibility = if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = CommentsAdapter(lastComments)
+                adapter = CommentsAdapter(this@DilemmasFragment, lastComments)
             }
             loading.root.visibility = View.GONE
         }
@@ -221,6 +225,16 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             ivFav.animate().rotation(360f).setDuration(350).start()
             ivFav.setImageResource(R.drawable.ic_fav_on)
         }
+    }
+
+    override fun addNewComment() {
+    }
+
+    override fun respondComment() {
+    }
+
+    override fun voteComment(vote: CommentVote, comment: Comment) {
+        actualData?.let { viewModel.voteComment(it.id, vote, comment) }
     }
 
     private fun error() {
