@@ -5,6 +5,6 @@ open class CommentDTO(
     val name: String = "",
     val comment: String = "",
     val image: String = "",
-    val date: String = "",
+    val timestamp: String = "",
     val likes: Long = 0
 )

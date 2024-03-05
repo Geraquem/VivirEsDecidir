@@ -18,7 +18,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.BsheetCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -124,7 +124,7 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
         binding.apply {
             rvComments.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = RecentCommentsAdapter(comments)
+                adapter = CommentsAdapter(comments)
             }
         }
     }

@@ -85,11 +85,11 @@ class DataRepository @Inject constructor(
         return comments.toCommentList()
     }
 
-    override suspend fun setDilemmaComment(dilemmaId: String, comment: Comment): Boolean {
+    override suspend fun setDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean {
         val latch = CountDownLatch(1)
         var result = false
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
-            .document(comment.date).set(comment, SetOptions.merge())
+            .document(comment.timestamp).set(comment, SetOptions.merge())
             .addOnCompleteListener {
                 result = it.isSuccessful
                 latch.countDown()

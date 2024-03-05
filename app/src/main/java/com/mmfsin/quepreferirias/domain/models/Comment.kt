@@ -5,6 +5,7 @@ open class Comment(
     val name: String,
     val comment: String,
     val image: String,
+    val timestamp: String,
     val date: String,
     val likes: Long
 )

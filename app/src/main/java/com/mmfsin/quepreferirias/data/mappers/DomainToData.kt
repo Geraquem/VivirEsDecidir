@@ -18,6 +18,6 @@ fun Comment.toCommentDTO() = CommentDTO(
     name = name,
     comment = comment,
     image = image,
-    date = date,
+    timestamp = timestamp,
     likes = likes
 )

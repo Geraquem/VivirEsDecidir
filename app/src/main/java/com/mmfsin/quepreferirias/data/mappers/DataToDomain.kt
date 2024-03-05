@@ -39,7 +39,8 @@ fun CommentDTO.toComment() = Comment(
     name = name,
     comment = comment,
     image = image,
-    date = date,
+    timestamp = timestamp,
+    date = "42 feb 2046",
     likes = likes
 )
 

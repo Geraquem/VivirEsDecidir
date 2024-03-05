@@ -9,8 +9,8 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 
-class RecentCommentsAdapter(private val comments: List<Comment>) :
-    RecyclerView.Adapter<RecentCommentsAdapter.ViewHolder>() {
+class CommentsAdapter(private val comments: List<Comment>) :
+    RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemCommentBinding.bind(view)

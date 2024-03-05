@@ -17,7 +17,7 @@ import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
@@ -210,7 +210,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             llSeeAll.visibility = if (comments.size < LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = RecentCommentsAdapter(lastComments)
+                adapter = CommentsAdapter(lastComments)
             }
             loading.root.visibility = View.GONE
         }
