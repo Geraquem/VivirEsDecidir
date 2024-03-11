@@ -2,13 +2,15 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
-import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,6 +60,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         binding.apply {
             loadingScreen.root.isVisible
             setToolbar()
+            btnComments.button.setImageResource(R.drawable.ic_comment)
+            btnFav.button.setImageResource(R.drawable.ic_fav_off)
             setInitialConfig()
         }
     }
@@ -74,9 +78,9 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
-            ivFav.setOnClickListener { setFavDilemma() }
+            btnFav.button.setOnClickListener { setFavDilemma() }
 
-            ivOpenComments.setOnClickListener { openAllComments() }
+            btnComments.button.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
 
             btnNext.btnNext.setOnClickListener {
@@ -175,8 +179,12 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 ivYes.visibility = View.INVISIBLE
                 ivNo.visibility = View.INVISIBLE
             }
-            ivFav.animate().rotation(0f).setDuration(0).start()
-            ivFav.setImageResource(R.drawable.ic_fav_off)
+
+            btnFav.button.apply {
+                animate().rotation(0f).setDuration(0).start()
+                setImageResource(R.drawable.ic_fav_off)
+                imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.black))
+            }
         }
     }
 
@@ -221,9 +229,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     }
 
     private fun setFavDilemma() {
-        binding.apply {
-            ivFav.animate().rotation(360f).setDuration(350).start()
-            ivFav.setImageResource(R.drawable.ic_fav_on)
+        binding.btnFav.button.apply {
+            animate().rotation(720f).setDuration(350).start()
+            setImageResource(R.drawable.ic_fav_on)
+            imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.saved))
         }
     }
 

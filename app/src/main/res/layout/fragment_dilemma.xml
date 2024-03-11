@@ -201,69 +201,47 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:id="@+id/cl_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:elevation="4dp"
-        android:paddingVertical="12dp"
+        android:paddingVertical="22dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl2_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl2_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/gl2_left"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/iv_fav"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_fav_off" />
-
-            <ImageView
-                android:id="@+id/iv_open_comments"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="4dp"
-                android:contentDescription="@string/content_description"
-                android:scaleX="-1"
-                android:src="@drawable/ic_comment" />
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <include
         android:id="@+id/btn_next"
-        layout="@layout/include_btn_next"
+        layout="@layout/include_btn_big"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cl_bottom" />
+
+    <include
+        android:id="@+id/btn_comments"
+        layout="@layout/include_btn_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+        app:layout_constraintRight_toLeftOf="@id/btn_next"
+        app:layout_constraintTop_toTopOf="@id/cl_bottom" />
+
+    <include
+        android:id="@+id/btn_fav"
+        layout="@layout/include_btn_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+        app:layout_constraintRight_toLeftOf="@id/btn_comments"
         app:layout_constraintTop_toTopOf="@id/cl_bottom" />
 
     <include

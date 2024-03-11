@@ -138,6 +138,6 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
     }
 
     override fun voteComment(vote: CommentVote, comment: Comment) {
-        Toast.makeText(activity?.applicationContext, "sheet", Toast.LENGTH_SHORT).show()
+//        viewModel.voteComment(dilemmaId, vote, comment)
     }
 }

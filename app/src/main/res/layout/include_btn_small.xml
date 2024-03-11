@@ -8,8 +8,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/bg_image"
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:background="@color/background"
         android:foreground="?attr/selectableItemBackground"
@@ -19,15 +19,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circular_image" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_next"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/content_description"
-        app:srcCompat="@drawable/ic_next"
         app:borderWidth="0dp"
+        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="@id/bg_image"
         app:layout_constraintLeft_toLeftOf="@id/bg_image"
         app:layout_constraintRight_toRightOf="@id/bg_image"
