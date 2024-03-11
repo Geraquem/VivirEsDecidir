@@ -1,10 +1,12 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SendDilemmaCommentUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -12,7 +14,8 @@ import javax.inject.Inject
 class CommentsViewModel @Inject constructor(
     private val getSessionUseCase: GetSessionUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
-    private val setDilemmaCommentUseCase: SendDilemmaCommentUseCase
+    private val setDilemmaCommentUseCase: SendDilemmaCommentUseCase,
+    private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase
 ) : BaseViewModel<CommentsEvent>() {
 
     fun getUserData() {
@@ -23,11 +26,11 @@ class CommentsViewModel @Inject constructor(
         )
     }
 
-    fun getComments(dilemmaId: String) {
+    fun getComments() {
         executeUseCase(
             {
                 getDilemmaCommentsUseCase.execute(
-                    GetDilemmaCommentsUseCase.Params(dilemmaId, fromRealm = true)
+                    GetDilemmaCommentsUseCase.Params(fromRealm = true)
                 )
             },
             { result -> _event.value = CommentsEvent.Comments(result) },
@@ -47,15 +50,21 @@ class CommentsViewModel @Inject constructor(
         )
     }
 
-//    fun voteComment(dilemmaId: String, vote: CommentVote, comment: Comment, position: Int) {
-//        executeUseCase(
-//            {
-//                voteDilemmaCommentUseCase.execute(
-//                    VoteDilemmaCommentUseCase.Params(dilemmaId, vote, comment)
-//                )
-//            },
-//            { _event.value = DilemmasEvent.CommentVoted(comment.commentId, vote, position) },
-//            { _event.value = DilemmasEvent.SWW }
-//        )
-//    }
+    fun voteComment(
+        dilemmaId: String,
+        commentId: String,
+        vote: CommentVote,
+        likes: Long,
+        position: Int
+    ) {
+        executeUseCase(
+            {
+                voteDilemmaCommentUseCase.execute(
+                    VoteDilemmaCommentUseCase.Params(dilemmaId, commentId, vote, likes)
+                )
+            },
+            { _event.value = CommentsEvent.CommentVotedResult(commentId, vote, position) },
+            { _event.value = CommentsEvent.SWW }
+        )
+    }
 }

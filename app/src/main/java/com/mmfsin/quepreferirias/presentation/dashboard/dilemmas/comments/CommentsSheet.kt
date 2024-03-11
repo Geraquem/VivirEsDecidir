@@ -96,12 +96,13 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
                     activity?.let {
                         Glide.with(it.applicationContext).load(event.data.imageUrl)
                             .into(binding.image.image)
-                        viewModel.getComments(dilemmaId)
+                        viewModel.getComments()
                     }
                 }
 
                 is CommentsEvent.Comments -> setUpComments(event.comments)
                 is CommentsEvent.CommentSentResult -> commentResult(event.result)
+                is CommentsEvent.CommentVotedResult -> viewModel.getComments()
                 is CommentsEvent.SWW -> {}
             }
         }
@@ -137,6 +138,8 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
     override fun respondComment() {
     }
 
-    override fun voteComment(vote: CommentVote, comment: Comment, position: Int) {
+    override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {
+        /** check if signed up */
+        viewModel.voteComment(dilemmaId, commentId, vote, likes, position)
     }
 }

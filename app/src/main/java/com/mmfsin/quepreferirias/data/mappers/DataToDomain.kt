@@ -46,8 +46,8 @@ fun CommentDTO.toComment() = Comment(
     image = image,
     since = getDateTime(date),
     likes = likes,
-    coloredUp = false,
-    coloredDown = false
+    votedUp = votedUp,
+    votedDown = votedDown
 )
 
 fun List<CommentDTO>.toCommentList() = this.map { comment -> comment.toComment() }.toList()

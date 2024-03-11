@@ -25,6 +25,9 @@
     <color name="percent_yes">#85DF8F</color>
     <color name="percent_no">#B66060</color>
 
+    <color name="voted_up">#3CB64A</color>
+    <color name="voted_down">#C12A2A</color>
+
     <color name="saved">#DDAE08</color>
 
     <color name="color_notification">#7DFF2B</color>

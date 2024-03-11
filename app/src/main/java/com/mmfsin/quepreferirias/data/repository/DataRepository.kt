@@ -12,6 +12,8 @@ import com.mmfsin.quepreferirias.data.models.UserNameDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
+import com.mmfsin.quepreferirias.domain.models.CommentVote.*
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
@@ -117,20 +119,32 @@ class DataRepository @Inject constructor(
         return result
     }
 
-    override suspend fun voteDilemmaComment(dilemmaId: String, commentId: String, likes: Long) {
+    override suspend fun voteDilemmaComment(
+        dilemmaId: String,
+        commentId: String,
+        likes: Long,
+        vote: CommentVote
+    ) {
         val documentReference = Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
             .collection(COMMENTS).document(commentId)
-
-        val updatedLikes = hashMapOf<String, Any>(
-            COMMENT_LIKES to likes
-        )
-
+        val updatedLikes = hashMapOf<String, Any>(COMMENT_LIKES to likes)
         documentReference.update(updatedLikes)
-            .addOnSuccessListener {
-                println("Nombre del usuario actualizado exitosamente.")
+
+        val comment = realmDatabase.getObjectsFromRealm {
+            where<CommentDTO>().equalTo("commentId", commentId).findAll()
+        }.first()
+        comment.likes = likes
+        when (vote) {
+            VOTE_UP -> {
+                comment.votedUp = true
+                comment.votedDown = false
             }
-            .addOnFailureListener { e ->
-                println("Error al actualizar el nombre del usuario: $e")
+
+            VOTE_DOWN -> {
+                comment.votedUp = false
+                comment.votedDown = true
             }
+        }
+        realmDatabase.addObject { comment }
     }
 }

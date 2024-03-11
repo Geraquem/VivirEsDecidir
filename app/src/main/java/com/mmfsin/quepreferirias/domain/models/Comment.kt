@@ -8,6 +8,6 @@ open class Comment(
     val image: String,
     val since: Int,
     val likes: Long,
-    val coloredUp: Boolean,
-    val coloredDown: Boolean,
+    val votedUp: Boolean,
+    val votedDown: Boolean,
 )

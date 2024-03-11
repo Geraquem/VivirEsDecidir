@@ -10,11 +10,12 @@ class GetDilemmaCommentsUseCase @Inject constructor(val repository: IDataReposit
 
     override suspend fun execute(params: Params): List<Comment> {
         return if (params.fromRealm) repository.getDilemmaCommentFromRealm()
-        else repository.getDilemmaComments(params.dilemmaId)
+        else params.dilemmaId?.let { repository.getDilemmaComments(params.dilemmaId) }
+            ?: run { emptyList() }
     }
 
     data class Params(
-        val dilemmaId: String,
+        val dilemmaId: String? = null,
         val fromRealm: Boolean = false
     )
 }

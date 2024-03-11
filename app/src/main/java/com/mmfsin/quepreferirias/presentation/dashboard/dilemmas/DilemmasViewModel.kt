@@ -1,8 +1,6 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
-import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
@@ -43,7 +41,7 @@ class DilemmasViewModel @Inject constructor(
 
     fun getComments(dilemmaId: String) {
         executeUseCase(
-            { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dilemmaId)) },
+            { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dilemmaId = dilemmaId)) },
             { result -> _event.value = DilemmasEvent.GetComments(result) },
             { _event.value = DilemmasEvent.SWW }
         )
