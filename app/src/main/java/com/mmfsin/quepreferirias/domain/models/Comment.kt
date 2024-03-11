@@ -7,5 +7,7 @@ open class Comment(
     val comment: String,
     val image: String,
     val since: Int,
-    val likes: Long
+    val likes: Long,
+    val coloredUp: Boolean,
+    val coloredDown: Boolean,
 )

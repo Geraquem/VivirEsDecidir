@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -18,12 +17,10 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
@@ -31,10 +28,10 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(),
-    ICommentsListener {
+class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>() {
 
     override val viewModel: DilemmasViewModel by viewModels()
+    private lateinit var mContext: Context
 
     private var dilemmaList = emptyList<Dilemma>()
     private var actualData: Dilemma? = null
@@ -44,8 +41,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private var votesNo: Long = 0
 
     private var comments = emptyList<Comment>()
-
-    private lateinit var mContext: Context
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -222,7 +217,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             llSeeAll.visibility = if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = CommentsAdapter(this@DilemmasFragment, lastComments)
+                adapter = RecentCommentsAdapter(lastComments)
             }
             loading.root.visibility = View.GONE
         }
@@ -234,16 +229,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             setImageResource(R.drawable.ic_fav_on)
             imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.saved))
         }
-    }
-
-    override fun addNewComment() {
-    }
-
-    override fun respondComment() {
-    }
-
-    override fun voteComment(vote: CommentVote, comment: Comment) {
-        actualData?.let { viewModel.voteComment(it.id, vote, comment) }
     }
 
     private fun error() {

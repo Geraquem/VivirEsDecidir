@@ -137,7 +137,6 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
     override fun respondComment() {
     }
 
-    override fun voteComment(vote: CommentVote, comment: Comment) {
-//        viewModel.voteComment(dilemmaId, vote, comment)
+    override fun voteComment(vote: CommentVote, comment: Comment, position: Int) {
     }
 }

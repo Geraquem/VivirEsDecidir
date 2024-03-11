@@ -1,13 +1,11 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
-import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
-import com.mmfsin.quepreferirias.domain.usecases.UserVoteUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +14,6 @@ import javax.inject.Inject
 class DilemmasViewModel @Inject constructor(
     private val getDilemmas: GetDilemmas,
     private val getPercentsUseCase: GetPercentsUseCase,
-    private val userVoteUseCase: UserVoteUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase
 ) : BaseViewModel<DilemmasEvent>() {
@@ -44,14 +41,6 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun vote(dataId: String, isYes: Boolean) {
-        executeUseCase(
-            { userVoteUseCase.execute(UserVoteUseCase.Params(dataId, isYes)) },
-            { Log.i("userVoteUseCase: ", "User voted successfully") },
-            { _event.value = DilemmasEvent.SWW }
-        )
-    }
-
     fun getComments(dilemmaId: String) {
         executeUseCase(
             { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dilemmaId)) },
@@ -59,40 +48,4 @@ class DilemmasViewModel @Inject constructor(
             { _event.value = DilemmasEvent.SWW }
         )
     }
-
-    fun voteComment(dilemmaId: String, vote: CommentVote, comment: Comment) {
-        executeUseCase(
-            {
-                voteDilemmaCommentUseCase.execute(
-                    VoteDilemmaCommentUseCase.Params(dilemmaId, vote, comment)
-                )
-            },
-            { },
-            { _event.value = DilemmasEvent.SWW }
-        )
-    }
-
-//    fun saveDataToUser(dataId: String) {
-//        executeUseCase(
-//            { saveDataUseCase.execute(SaveDataUseCase.Params(dataId)) },
-//            { result -> _event.value = ConditionalsEvent.DataSaved(result) },
-//            { _event.value = ConditionalsEvent.SWW }
-//        )
-//    }
-//
-//    fun checkIfAlreadyVoted(dataId: String) {
-//        executeUseCase(
-//            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
-//            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
-//            { _event.value = ConditionalsEvent.SWW }
-//        )
-//    }
-//
-//    fun checkIfAlreadySaved(dataId: String) {
-//        executeUseCase(
-//            { checkIfAlreadySavedUseCase.execute(CheckIfAlreadySavedUseCase.Params(dataId)) },
-//            { result -> _event.value = ConditionalsEvent.AlreadySaved(result) },
-//            { _event.value = ConditionalsEvent.SWW }
-//        )
-//    }
 }

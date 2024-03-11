@@ -55,6 +55,8 @@
     <string name="dashboard_sent_by">Enviado por</string>
     <string name="dashboard_comments">Comentarios</string>
     <string name="dashboard_comments_title">%s Comentarios</string>
+    <string name="dashboard_comment_votes">%s votos</string>
+    <string name="dashboard_comment_one_vote">%s voto</string>
     <string name="dashboard_single_comment_title">1 Comentario</string>
     <string name="dashboard_see_all">Ver todos</string>
     <string name="dashboard_no_comments">No hay comentarios</string>

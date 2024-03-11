@@ -1,7 +1,5 @@
 package com.mmfsin.quepreferirias.data.models
 
-import java.sql.Timestamp
-
 open class CommentDTO(
     val commentId: String = "",
     val userId: String = "",

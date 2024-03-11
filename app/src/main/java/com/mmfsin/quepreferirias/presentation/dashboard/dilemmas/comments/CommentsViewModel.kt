@@ -1,9 +1,13 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SendDilemmaCommentUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -32,4 +36,16 @@ class CommentsViewModel @Inject constructor(
             { _event.value = CommentsEvent.SWW }
         )
     }
+
+//    fun voteComment(dilemmaId: String, vote: CommentVote, comment: Comment, position: Int) {
+//        executeUseCase(
+//            {
+//                voteDilemmaCommentUseCase.execute(
+//                    VoteDilemmaCommentUseCase.Params(dilemmaId, vote, comment)
+//                )
+//            },
+//            { _event.value = DilemmasEvent.CommentVoted(comment.commentId, vote, position) },
+//            { _event.value = DilemmasEvent.SWW }
+//        )
+//    }
 }

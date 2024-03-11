@@ -1,6 +1,7 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.models.Percents
 
