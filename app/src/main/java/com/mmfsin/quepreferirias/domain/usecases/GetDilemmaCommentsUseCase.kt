@@ -8,10 +8,13 @@ import javax.inject.Inject
 class GetDilemmaCommentsUseCase @Inject constructor(val repository: IDataRepository) :
     BaseUseCase<GetDilemmaCommentsUseCase.Params, List<Comment>>() {
 
-    override suspend fun execute(params: Params): List<Comment> =
-        repository.getDilemmaComments(params.dilemmaId)
+    override suspend fun execute(params: Params): List<Comment> {
+        return if (params.fromRealm) repository.getDilemmaCommentFromRealm()
+        else repository.getDilemmaComments(params.dilemmaId)
+    }
 
     data class Params(
-        val dilemmaId: String
+        val dilemmaId: String,
+        val fromRealm: Boolean = false
     )
 }

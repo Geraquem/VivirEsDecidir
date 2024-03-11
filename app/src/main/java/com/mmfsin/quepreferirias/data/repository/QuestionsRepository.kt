@@ -7,8 +7,6 @@ import com.mmfsin.quepreferirias.domain.interfaces.IQuestionsRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.utils.SEND_QUESTIONS_ROOT
 import io.realm.kotlin.where
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject

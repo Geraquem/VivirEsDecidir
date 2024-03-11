@@ -40,8 +40,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private var votesYes: Long = 0
     private var votesNo: Long = 0
 
-    private var comments = emptyList<Comment>()
-
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentDilemmaBinding.inflate(inflater, container, false)
@@ -113,10 +111,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun openAllComments() {
         actualData?.let { dilemma ->
-            val modalBottomSheet = CommentsSheet(
-                dilemmaId = dilemma.id,
-                comments = this@DilemmasFragment.comments
-            )
+            val modalBottomSheet = CommentsSheet(dilemmaId = dilemma.id)
             activity?.let { modalBottomSheet.show(it.supportFragmentManager, "") }
         } ?: run { error() }
     }
@@ -130,11 +125,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 }
 
                 is DilemmasEvent.GetPercents -> setPercents(event.percents)
-                is DilemmasEvent.GetComments -> {
-                    comments = event.comments
-                    setUpComments(comments.take(LAST_COMMENTS))
-                }
-
+                is DilemmasEvent.GetComments -> setUpComments(event.comments)
                 is DilemmasEvent.SWW -> error()
             }
         }
@@ -206,7 +197,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         animation.start()
     }
 
-    private fun setUpComments(lastComments: List<Comment>) {
+    private fun setUpComments(comments: List<Comment>) {
         binding.comments.apply {
             val title = when (comments.size) {
                 0 -> getString(R.string.dashboard_no_comments)
@@ -217,7 +208,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             llSeeAll.visibility = if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = RecentCommentsAdapter(lastComments)
+                adapter = RecentCommentsAdapter(comments.take(LAST_COMMENTS))
             }
             loading.root.visibility = View.GONE
         }

@@ -57,4 +57,12 @@ class RealmDatabase(private val realmConfiguration: RealmConfiguration) : IRealm
             } else realm.cancelTransaction()
         } else realm.cancelTransaction()
     }
+
+    override fun <T : RealmModel> deleteAllObjects(action: Class<T>) {
+        val realm = getRealm()
+        realm.beginTransaction()
+        realm.delete(action)
+        realm.commitTransaction()
+        realm.close()
+    }
 }

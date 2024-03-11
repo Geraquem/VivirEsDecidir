@@ -24,8 +24,8 @@ import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IComme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CommentsSheet(private val dilemmaId: String, private val comments: List<Comment>) :
-    BottomSheetDialogFragment(), ICommentsListener {
+class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment(),
+    ICommentsListener {
 
     private val viewModel: CommentsViewModel by viewModels()
 
@@ -96,12 +96,12 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
                     activity?.let {
                         Glide.with(it.applicationContext).load(event.data.imageUrl)
                             .into(binding.image.image)
-                        setUpComments()
+                        viewModel.getComments(dilemmaId)
                     }
                 }
 
-                is CommentsEvent.CommentResult -> commentResult(event.result)
-
+                is CommentsEvent.Comments -> setUpComments(event.comments)
+                is CommentsEvent.CommentSentResult -> commentResult(event.result)
                 is CommentsEvent.SWW -> {}
             }
         }
@@ -122,7 +122,7 @@ class CommentsSheet(private val dilemmaId: String, private val comments: List<Co
         ).show()
     }
 
-    private fun setUpComments() {
+    private fun setUpComments(comments: List<Comment>) {
         binding.apply {
             rvComments.apply {
                 layoutManager = LinearLayoutManager(activity)

@@ -8,6 +8,7 @@ interface IDataRepository {
     /** DILEMMAS */
     suspend fun getDilemmas(): List<Dilemma>
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
+    suspend fun getDilemmaCommentFromRealm(): List<Comment>
     suspend fun setDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean
     suspend fun voteDilemmaComment(dilemmaId: String, commentId: String, likes: Long)
 }

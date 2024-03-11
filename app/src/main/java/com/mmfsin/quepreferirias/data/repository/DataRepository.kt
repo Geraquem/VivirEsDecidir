@@ -7,6 +7,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toCommentList
 import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.data.models.SessionDTO
+import com.mmfsin.quepreferirias.data.models.UserNameDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
@@ -19,6 +21,7 @@ import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
 import com.mmfsin.quepreferirias.utils.VOTES_NO
 import com.mmfsin.quepreferirias.utils.VOTES_YES
+import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
@@ -67,12 +70,15 @@ class DataRepository @Inject constructor(
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
         val comments = mutableListOf<CommentDTO>()
         val latch = CountDownLatch(1)
+
+        realmDatabase.deleteAllObjects(CommentDTO::class.java)
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
             .collection(COMMENTS).get().addOnSuccessListener { d ->
                 for (document in d.documents) {
                     try {
                         document.toObject(CommentDTO::class.java)?.let { comment ->
                             comments.add(comment)
+                            realmDatabase.addObject { comment }
                         }
                     } catch (e: Exception) {
                         Log.e("error", "error parsing comment")
@@ -83,6 +89,15 @@ class DataRepository @Inject constructor(
                 latch.countDown()
             }
         withContext(Dispatchers.IO) { latch.await() }
+        return sortedComments(comments)
+    }
+
+    override suspend fun getDilemmaCommentFromRealm(): List<Comment> {
+        val comments = realmDatabase.getObjectsFromRealm { where<CommentDTO>().findAll() }
+        return sortedComments(comments)
+    }
+
+    private fun sortedComments(comments: List<CommentDTO>): List<Comment> {
         val sortedList = comments.sortedBy { it.timestamp }.reversed()
         return sortedList.toCommentList()
     }
