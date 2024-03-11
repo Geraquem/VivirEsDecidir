@@ -39,9 +39,13 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun getComments(dilemmaId: String) {
+    fun getComments(dilemmaId: String? = null, fromRealm: Boolean) {
         executeUseCase(
-            { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dilemmaId = dilemmaId)) },
+            {
+                getDilemmaCommentsUseCase.execute(
+                    GetDilemmaCommentsUseCase.Params(dilemmaId = dilemmaId, fromRealm = fromRealm)
+                )
+            },
             { result -> _event.value = DilemmasEvent.GetComments(result) },
             { _event.value = DilemmasEvent.SWW }
         )

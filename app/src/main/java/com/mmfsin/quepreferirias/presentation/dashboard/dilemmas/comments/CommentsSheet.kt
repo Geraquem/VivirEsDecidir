@@ -2,6 +2,8 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.KeyEvent.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,12 +21,14 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
+import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment(),
-    ICommentsListener {
+class CommentsSheet(private val dilemmaId: String, val listener: IBSheetListener) :
+    BottomSheetDialogFragment(), ICommentsListener {
 
     private val viewModel: CommentsViewModel by viewModels()
 
@@ -108,7 +112,7 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
                     event.position
                 )
 
-                is CommentsEvent.SWW -> {}
+                is CommentsEvent.SWW -> error()
             }
         }
     }
@@ -120,6 +124,7 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
             commentLoading.visibility = View.INVISIBLE
             etComment.text = null
             viewModel.getComments()
+            listener.refreshComments()
         }
     }
 
@@ -133,10 +138,9 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
         }
     }
 
-    private fun updateCommentVotes(vote: CommentVote, position: Int) =
+    private fun updateCommentVotes(vote: CommentVote, position: Int) {
         commentsAdapter?.updateCommentVotes(vote, position)
-
-    override fun addNewComment() {
+        listener.refreshComments()
     }
 
     override fun respondComment() {
@@ -145,5 +149,9 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
     override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {
         /** check if signed up */
         viewModel.voteComment(dilemmaId, commentId, vote, likes, position)
+    }
+
+    private fun error() {
+        activity?.showErrorDialog { activity?.onBackPressedDispatcher?.onBackPressed() }
     }
 }

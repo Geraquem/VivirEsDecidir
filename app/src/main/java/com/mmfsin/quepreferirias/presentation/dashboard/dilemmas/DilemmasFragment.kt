@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -21,6 +22,7 @@ import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
@@ -28,7 +30,8 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>() {
+class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(),
+    IBSheetListener {
 
     override val viewModel: DilemmasViewModel by viewModels()
     private lateinit var mContext: Context
@@ -111,7 +114,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun openAllComments() {
         actualData?.let { dilemma ->
-            val modalBottomSheet = CommentsSheet(dilemmaId = dilemma.id)
+            val modalBottomSheet = CommentsSheet(dilemmaId = dilemma.id, this@DilemmasFragment)
             activity?.let { modalBottomSheet.show(it.supportFragmentManager, "") }
         } ?: run { error() }
     }
@@ -137,7 +140,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 setInitialConfig()
                 actualData = dilemmaList[position]
                 actualData?.let { data ->
-                    viewModel.getComments(data.id)
+                    viewModel.getComments(data.id, fromRealm = false)
                     tvTextTop.text = data.topText
                     tvTextBottom.text = data.bottomText
                     data.creatorName?.let { name ->
@@ -221,6 +224,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.saved))
         }
     }
+
+    override fun refreshComments() = viewModel.getComments(fromRealm = true)
 
     private fun error() {
         activity?.showErrorDialog { activity?.finish() }
