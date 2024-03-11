@@ -41,10 +41,6 @@ class CommentsAdapter(
         }
     }
 
-    fun updateCommentVoted(vote: CommentVote, position: Int) {
-        notifyItemChanged(position)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)

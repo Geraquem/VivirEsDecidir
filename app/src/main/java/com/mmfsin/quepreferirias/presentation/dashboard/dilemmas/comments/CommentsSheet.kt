@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +29,9 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
     private val viewModel: CommentsViewModel by viewModels()
 
     private lateinit var binding: BsheetCommentsBinding
+
     private var userData: Session? = null
+    private var commentsAdapter: CommentsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,7 +103,7 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
 
                 is CommentsEvent.Comments -> setUpComments(event.comments)
                 is CommentsEvent.CommentSentResult -> commentResult(event.result)
-                is CommentsEvent.CommentVotedResult -> viewModel.getComments()
+                is CommentsEvent.CommentVotedResult -> commentsAdapter?.notifyItemChanged(event.position)
                 is CommentsEvent.SWW -> {}
             }
         }
@@ -115,19 +116,14 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
             commentLoading.visibility = View.INVISIBLE
             etComment.text = null
         }
-
-        Toast.makeText(
-            activity?.applicationContext,
-            success.toString(),
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     private fun setUpComments(comments: List<Comment>) {
         binding.apply {
             rvComments.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = CommentsAdapter(this@CommentsSheet, comments)
+                commentsAdapter = CommentsAdapter(this@CommentsSheet, comments)
+                adapter = commentsAdapter
             }
         }
     }

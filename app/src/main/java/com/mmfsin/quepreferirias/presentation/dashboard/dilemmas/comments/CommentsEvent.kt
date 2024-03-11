@@ -8,8 +8,7 @@ sealed class CommentsEvent {
     class GetUserData(val data: Session) : CommentsEvent()
     class Comments(val comments: List<Comment>) : CommentsEvent()
     class CommentSentResult(val result: Boolean) : CommentsEvent()
-    class CommentVotedResult(val commentId: String, val voted: CommentVote, val position: Int) :
-        CommentsEvent()
+    class CommentVotedResult(val position: Int) : CommentsEvent()
 
     object SWW : CommentsEvent()
 }
