@@ -1,7 +1,6 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter
 
-import android.graphics.PorterDuff.Mode
-import android.graphics.PorterDuff.Mode.*
+import android.graphics.PorterDuff.Mode.SRC_IN
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +38,26 @@ class CommentsAdapter(
                 ivVoteDown.setColorFilter(if (comment.votedDown) down else neutro, SRC_IN)
             }
         }
+    }
+
+    fun updateCommentVotes(vote: CommentVote, position: Int) {
+        val comment = comments[position]
+        var likes = comment.likes
+        when (vote) {
+            VOTE_UP -> {
+                likes = likes.plus(1)
+                comment.votedUp = true
+                comment.votedDown = false
+            }
+
+            VOTE_DOWN -> {
+                likes = likes.minus(1)
+                comment.votedUp = false
+                comment.votedDown = true
+            }
+        }
+        comment.likes = likes
+        notifyItemChanged(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -45,7 +45,10 @@ class CommentsViewModel @Inject constructor(
                     SendDilemmaCommentUseCase.Params(dilemmaId, session, comment)
                 )
             },
-            { result -> _event.value = CommentsEvent.CommentSentResult(result) },
+            { result ->
+                _event.value = if (result) CommentsEvent.CommentSentResult
+                else CommentsEvent.SWW
+            },
             { _event.value = CommentsEvent.SWW }
         )
     }
@@ -63,7 +66,7 @@ class CommentsViewModel @Inject constructor(
                     VoteDilemmaCommentUseCase.Params(dilemmaId, commentId, vote, likes)
                 )
             },
-            { _event.value = CommentsEvent.CommentVotedResult(position) },
+            { _event.value = CommentsEvent.CommentVotedResult(vote, position) },
             { _event.value = CommentsEvent.SWW }
         )
     }

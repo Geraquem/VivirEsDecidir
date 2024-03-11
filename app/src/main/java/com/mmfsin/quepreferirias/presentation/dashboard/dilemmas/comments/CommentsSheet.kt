@@ -102,14 +102,18 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
                 }
 
                 is CommentsEvent.Comments -> setUpComments(event.comments)
-                is CommentsEvent.CommentSentResult -> commentResult(event.result)
-                is CommentsEvent.CommentVotedResult -> commentsAdapter?.notifyItemChanged(event.position)
+                is CommentsEvent.CommentSentResult -> commentResult()
+                is CommentsEvent.CommentVotedResult -> updateCommentVotes(
+                    event.vote,
+                    event.position
+                )
+
                 is CommentsEvent.SWW -> {}
             }
         }
     }
 
-    private fun commentResult(success: Boolean) {
+    private fun commentResult() {
         binding.apply {
             ivSendComment.isEnabled = true
             ivSendComment.visibility = View.VISIBLE
@@ -127,6 +131,9 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
             }
         }
     }
+
+    private fun updateCommentVotes(vote: CommentVote, position: Int) =
+        commentsAdapter?.updateCommentVotes(vote, position)
 
     override fun addNewComment() {
     }
