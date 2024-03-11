@@ -102,7 +102,7 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
                 }
 
                 is CommentsEvent.Comments -> setUpComments(event.comments)
-                is CommentsEvent.CommentSentResult -> commentResult()
+                is CommentsEvent.CommentSentResult -> commentSent()
                 is CommentsEvent.CommentVotedResult -> updateCommentVotes(
                     event.vote,
                     event.position
@@ -113,12 +113,13 @@ class CommentsSheet(private val dilemmaId: String) : BottomSheetDialogFragment()
         }
     }
 
-    private fun commentResult() {
+    private fun commentSent() {
         binding.apply {
             ivSendComment.isEnabled = true
             ivSendComment.visibility = View.VISIBLE
             commentLoading.visibility = View.INVISIBLE
             etComment.text = null
+            viewModel.getComments()
         }
     }
 

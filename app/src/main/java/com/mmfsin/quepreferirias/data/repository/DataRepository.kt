@@ -104,13 +104,14 @@ class DataRepository @Inject constructor(
         return sortedList.toCommentList()
     }
 
-    override suspend fun setDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean {
+    override suspend fun sendDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean {
         val latch = CountDownLatch(1)
         var result = false
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
             .document(comment.commentId).set(comment, SetOptions.merge())
             .addOnCompleteListener {
                 result = it.isSuccessful
+                realmDatabase.addObject { comment }
                 latch.countDown()
             }
         withContext(Dispatchers.IO) {

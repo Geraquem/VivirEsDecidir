@@ -3,7 +3,6 @@ package com.mmfsin.quepreferirias.domain.usecases
 import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
-import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Session
 import java.time.LocalDate
 import java.util.UUID
@@ -20,10 +19,9 @@ class SendDilemmaCommentUseCase @Inject constructor(private val repository: IDat
             comment = params.comment,
             image = params.session.imageUrl,
             timestamp = System.currentTimeMillis().toString(),
-            date = LocalDate.now().toString(),
-            likes = 0
+            date = LocalDate.now().toString()
         )
-        return repository.setDilemmaComment(params.dilemmaId, comment)
+        return repository.sendDilemmaComment(params.dilemmaId, comment)
     }
 
     data class Params(
