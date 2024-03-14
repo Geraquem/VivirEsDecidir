@@ -6,21 +6,26 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toCommentList
+import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
-import com.mmfsin.quepreferirias.data.models.UserNameDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.domain.models.CommentVote.*
+import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
+import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
+import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
+import com.mmfsin.quepreferirias.utils.USERS
 import com.mmfsin.quepreferirias.utils.VOTES_NO
 import com.mmfsin.quepreferirias.utils.VOTES_YES
 import io.realm.kotlin.where
@@ -147,5 +152,25 @@ class DataRepository @Inject constructor(
             }
         }
         realmDatabase.addObject { comment }
+    }
+
+    private fun getSession(): Session? {
+        val session = realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
+        return if (session.isEmpty()) null else session.first().toSession()
+    }
+
+    override suspend fun setFavDilemma(dilemma: DilemmaFavDTO) {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        session?.let {
+            Firebase.firestore.collection(USERS).document(session.id)
+                .collection(SAVED_DILEMMAS).document(dilemma.dilemmaId)
+                .set(dilemma, SetOptions.merge())
+                .addOnCompleteListener {
+                    realmDatabase.addObject { dilemma }
+                    latch.countDown()
+                }
+            withContext(Dispatchers.IO) { latch.await() }
+        }
     }
 }

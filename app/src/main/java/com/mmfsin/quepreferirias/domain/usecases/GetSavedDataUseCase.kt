@@ -4,7 +4,7 @@ import android.content.Context
 import com.mmfsin.quepreferirias.base.BaseUseCaseNoParams
 import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
-import com.mmfsin.quepreferirias.domain.models.SavedData
+import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -14,9 +14,9 @@ class GetSavedDataUseCase @Inject constructor(
     @ApplicationContext val context: Context,
     private val sessionRepository: IUserRepository,
     private val dataRepository: IDataRepository
-) : BaseUseCaseNoParams<List<SavedData>?>() {
+) : BaseUseCaseNoParams<List<DilemmaFav>?>() {
 
-    override suspend fun execute(): List<SavedData>? {
+    override suspend fun execute(): List<DilemmaFav>? {
         val session = sessionRepository.getSession() ?: return null
 
 //        var savedData = dataRepository.getSavedDataInRealm()
@@ -28,7 +28,7 @@ class GetSavedDataUseCase @Inject constructor(
         return emptyList()
     }
 
-    private suspend fun getSavedDataFromFirebase(email: String): List<SavedData> {
+    private suspend fun getSavedDataFromFirebase(email: String): List<DilemmaFav> {
         val keys = sessionRepository.getSavedDataKeys(email)
 //        return dataRepository.getDataGivenKeyList(keys)
         return emptyList()

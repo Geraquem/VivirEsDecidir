@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,13 +28,14 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CommentsSheet(private val dilemmaId: String, val listener: IBSheetListener) :
+class CommentsSheet(private val dilemmaId: String, private val listener: IBSheetListener) :
     BottomSheetDialogFragment(), ICommentsListener {
 
     private val viewModel: CommentsViewModel by viewModels()
 
     private lateinit var binding: BsheetCommentsBinding
 
+    private var hasSession = false
     private var userData: Session? = null
     private var commentsAdapter: CommentsAdapter? = null
 
@@ -74,7 +76,7 @@ class CommentsSheet(private val dilemmaId: String, val listener: IBSheetListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getUserData()
+        viewModel.checkSessionInitiated()
         observe()
         setListeners()
     }
@@ -96,6 +98,15 @@ class CommentsSheet(private val dilemmaId: String, val listener: IBSheetListener
     private fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is CommentsEvent.InitiatedSession -> {
+                    hasSession = event.initiatedSession
+                    if (hasSession) viewModel.getUserData()
+                    else {
+                        binding.etComment.visibility = View.INVISIBLE
+                        viewModel.getComments()
+                    }
+                }
+
                 is CommentsEvent.GetUserData -> {
                     userData = event.data
                     activity?.let {
@@ -147,8 +158,10 @@ class CommentsSheet(private val dilemmaId: String, val listener: IBSheetListener
     }
 
     override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {
-        /** check if signed up */
-        viewModel.voteComment(dilemmaId, commentId, vote, likes, position)
+        if (hasSession) viewModel.voteComment(dilemmaId, commentId, vote, likes, position)
+        else {
+            Toast.makeText(activity?.applicationContext, "no session", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun error() {

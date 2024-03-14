@@ -21,6 +21,8 @@ const val COMMENT_LIKES = "likes"
 
 /** USERS */
 const val USERS = "users"
+const val SAVED = "saved"
+const val SAVED_DILEMMAS = "saved_dilemmas"
 
 const val LAST_COMMENTS = 4
 

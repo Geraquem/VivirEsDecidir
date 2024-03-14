@@ -5,18 +5,29 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
+import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SendDilemmaCommentUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
+    private val initiatedSessionUseCase: InitiatedSessionUseCase,
     private val getSessionUseCase: GetSessionUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val setDilemmaCommentUseCase: SendDilemmaCommentUseCase,
     private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase
 ) : BaseViewModel<CommentsEvent>() {
+
+    fun checkSessionInitiated() {
+        executeUseCase(
+            { initiatedSessionUseCase.execute() },
+            { result -> _event.value = CommentsEvent.InitiatedSession(result) },
+            { _event.value = CommentsEvent.SWW }
+        )
+    }
 
     fun getUserData() {
         executeUseCase(

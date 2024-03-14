@@ -1,9 +1,11 @@
 package com.mmfsin.quepreferirias.domain.interfaces
 
 import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 
 interface IDataRepository {
     /** DILEMMAS */
@@ -17,4 +19,6 @@ interface IDataRepository {
         likes: Long,
         vote: CommentVote
     )
+
+    suspend fun setFavDilemma(dilemma: DilemmaFavDTO)
 }

@@ -3,11 +3,11 @@ package com.mmfsin.quepreferirias.data.mappers
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaDTO
-import com.mmfsin.quepreferirias.data.models.SavedDataDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
-import com.mmfsin.quepreferirias.domain.models.SavedData
+import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.Session
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -30,13 +30,13 @@ fun SessionDTO.toSession() = Session(
     fullName = fullName
 )
 
-fun SavedDataDTO.toSavedData() = SavedData(
-    dataId = dataId,
+fun DilemmaFavDTO.toSavedData() = DilemmaFav(
+    dilemmaId = dilemmaId,
     txtTop = txtTop,
     txtBottom = txtBottom
 )
 
-fun List<SavedDataDTO>.toSavedDataList() = this.map { element -> element.toSavedData() }.toList()
+fun List<DilemmaFavDTO>.toSavedDataList() = this.map { element -> element.toSavedData() }.toList()
 
 fun CommentDTO.toComment() = Comment(
     commentId = commentId,

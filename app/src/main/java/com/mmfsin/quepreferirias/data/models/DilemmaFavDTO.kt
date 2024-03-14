@@ -3,9 +3,9 @@ package com.mmfsin.quepreferirias.data.models
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class SavedDataDTO(
+open class DilemmaFavDTO(
     @PrimaryKey
-    var dataId: String = "",
+    var dilemmaId: String = "",
     var txtTop: String = "",
     var txtBottom: String = ""
 ) : RealmObject()

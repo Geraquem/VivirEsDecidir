@@ -6,6 +6,7 @@ import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.models.Percents
 
 sealed class DilemmasEvent {
+    class InitiatedSession(val initiatedSession: Boolean) : DilemmasEvent()
     class Data(val data: List<Dilemma>) : DilemmasEvent()
     class GetPercents(val percents: Percents) : DilemmasEvent()
     class GetComments(val comments: List<Comment>) : DilemmasEvent()

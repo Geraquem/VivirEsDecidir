@@ -7,7 +7,7 @@ interface IUserRepository {
     fun deleteSession()
     fun getSession(): Session?
 
+    /****************/
     suspend fun checkIfIsSavedData(dataId: String): Boolean?
-    suspend fun saveData(dataId: String): Boolean?
     suspend fun getSavedDataKeys(email: String): List<String>
 }

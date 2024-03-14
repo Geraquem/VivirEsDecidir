@@ -11,8 +11,11 @@ import com.mmfsin.quepreferirias.data.models.SavedDataIdDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
+import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.DATA_SAVED
+import com.mmfsin.quepreferirias.utils.SAVED
+import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
 import com.mmfsin.quepreferirias.utils.USERS
@@ -100,27 +103,6 @@ class UserRepository @Inject constructor(
             }
         withContext(Dispatchers.IO) { latch.await() }
         return data
-    }
-
-    override suspend fun saveData(dataId: String): Boolean? {
-        val session = getSession() ?: return null
-        var result: Boolean? = null
-        val data = hashMapOf(dataId to true)
-        val latch = CountDownLatch(1)
-
-
-
-
-
-        Firebase.firestore.collection(USERS).document(session.email)
-            .collection(USER_DATA).document(DATA_SAVED)
-            .set(data, SetOptions.merge())
-            .addOnCompleteListener {
-                result = it.isSuccessful
-                latch.countDown()
-            }
-        withContext(Dispatchers.IO) { latch.await() }
-        return result
     }
 
     override suspend fun getSavedDataKeys(email: String): List<String> {

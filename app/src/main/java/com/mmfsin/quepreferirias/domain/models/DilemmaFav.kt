@@ -1,7 +1,7 @@
 package com.mmfsin.quepreferirias.domain.models
 
-open class SavedData(
-    var dataId: String = "",
+open class DilemmaFav(
+    var dilemmaId: String = "",
     var txtTop: String = "",
     var txtBottom: String = ""
 )

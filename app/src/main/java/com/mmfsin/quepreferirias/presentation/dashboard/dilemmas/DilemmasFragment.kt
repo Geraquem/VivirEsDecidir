@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -35,6 +36,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     override val viewModel: DilemmasViewModel by viewModels()
     private lateinit var mContext: Context
 
+    private var hasSession = false
+
     private var dilemmaList = emptyList<Dilemma>()
     private var actualData: Dilemma? = null
     private var position: Int = 0
@@ -48,7 +51,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getConditionalData()
+        viewModel.checkSessionInitiated()
     }
 
     override fun setUI() {
@@ -73,7 +76,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
-            btnFav.button.setOnClickListener { setFavDilemma() }
+            btnFav.button.setOnClickListener { setDilemmaFav() }
 
             btnComments.button.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
@@ -121,6 +124,11 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is DilemmasEvent.InitiatedSession -> {
+                    hasSession = event.initiatedSession
+                    viewModel.getDilemmas()
+                }
+
                 is DilemmasEvent.Data -> {
                     dilemmaList = event.data
                     setData()
@@ -169,6 +177,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             }
 
             btnFav.button.apply {
+                isEnabled = true
                 animate().rotation(0f).setDuration(0).start()
                 setImageResource(R.drawable.ic_fav_off)
                 imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.black))
@@ -216,11 +225,19 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    private fun setFavDilemma() {
-        binding.btnFav.button.apply {
-            animate().rotation(720f).setDuration(350).start()
-            setImageResource(R.drawable.ic_fav_on)
-            imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.saved))
+    private fun setDilemmaFav() {
+        if (hasSession) {
+            binding.btnFav.button.apply {
+                actualData?.let { data ->
+                    isEnabled = false
+                    animate().rotation(720f).setDuration(350).start()
+                    setImageResource(R.drawable.ic_fav_on)
+                    imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.saved))
+                    viewModel.favDilemma(data.id, data.topText, data.bottomText)
+                } ?: run { error() }
+            }
+        } else {
+            Toast.makeText(mContext, "no session", Toast.LENGTH_SHORT).show()
         }
     }
 
