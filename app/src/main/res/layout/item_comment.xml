@@ -65,12 +65,23 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/tv_answer"
+                style="@style/SmallTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:text="@string/comments_answer"
+                android:textColor="@color/soft_black" />
+
             <ImageView
                 android:id="@+id/iv_vote_up"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_arrow_up" />
+                android:gravity="center"
+                android:src="@drawable/ic_plus" />
 
             <TextView
                 android:id="@+id/tv_likes"
@@ -80,16 +91,17 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="8dp"
                 android:gravity="center"
+                android:textColor="@color/soft_black"
                 android:textSize="16sp"
                 tools:text="120" />
 
             <ImageView
                 android:id="@+id/iv_vote_down"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:contentDescription="@string/content_description"
-                android:scaleY="-1"
-                android:src="@drawable/ic_arrow_up" />
+                android:gravity="center"
+                android:src="@drawable/ic_minus" />
 
         </LinearLayout>
 

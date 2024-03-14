@@ -146,7 +146,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="8dp"
                         android:contentDescription="@string/content_description"
-                        android:src="@drawable/ic_option_yes_trans" />
+                        android:src="@drawable/ic_dilemma_yes_trans" />
 
                     <TextView
                         style="@style/ButtonsTextView"
@@ -174,7 +174,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="8dp"
                         android:contentDescription="@string/content_description"
-                        android:src="@drawable/ic_option_no_trans" />
+                        android:src="@drawable/ic_dilemma_no_trans" />
 
                     <TextView
                         style="@style/ButtonsTextView"

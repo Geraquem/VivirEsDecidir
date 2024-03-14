@@ -72,7 +72,7 @@
         android:layout_height="32dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_option_yes"
+        android:src="@drawable/ic_dilemma_yes"
         app:layout_constraintLeft_toLeftOf="@id/tv_votes_yes"
         app:layout_constraintRight_toRightOf="@id/tv_votes_yes"
         app:layout_constraintTop_toBottomOf="@id/tv_votes_yes" />
@@ -94,7 +94,7 @@
         android:layout_height="32dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_option_no"
+        android:src="@drawable/ic_dilemma_no"
         app:layout_constraintLeft_toLeftOf="@id/tv_votes_no"
         app:layout_constraintRight_toRightOf="@id/tv_votes_no"
         app:layout_constraintTop_toBottomOf="@id/tv_votes_no" />

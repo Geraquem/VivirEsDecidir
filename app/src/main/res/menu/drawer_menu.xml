@@ -5,11 +5,11 @@
         <menu>
             <item
                 android:id="@+id/nav_dilemmas"
-                android:icon="@drawable/ic_option_yes_trans"
+                android:icon="@drawable/ic_dilemma_yes_trans"
                 android:title="@string/nav_dilemmas" />
             <item
                 android:id="@+id/nav_dualism"
-                android:icon="@drawable/ic_option_yes_trans"
+                android:icon="@drawable/ic_dilemma_yes_trans"
                 android:title="@string/nav_dualism" />
         </menu>
     </item>
@@ -18,15 +18,15 @@
         <menu>
             <item
                 android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_option_yes_trans"
+                android:icon="@drawable/ic_dilemma_yes_trans"
                 android:title="@string/nav_profile" />
             <item
                 android:id="@+id/nav_saved"
-                android:icon="@drawable/ic_option_yes_trans"
+                android:icon="@drawable/ic_dilemma_yes_trans"
                 android:title="@string/nav_saved" />
             <item
                 android:id="@+id/nav_sent"
-                android:icon="@drawable/ic_option_yes_trans"
+                android:icon="@drawable/ic_dilemma_yes_trans"
                 android:title="@string/nav_sent" />
         </menu>
     </item>

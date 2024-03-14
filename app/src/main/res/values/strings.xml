@@ -75,6 +75,7 @@
     <string name="comments_three_month">Hace 3 meses</string>
     <string name="comments_more_than_three_month">Hace más de tres meses</string>
     <string name="comments_error">Indefinido</string>
+    <string name="comments_answer">Responder</string>
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>

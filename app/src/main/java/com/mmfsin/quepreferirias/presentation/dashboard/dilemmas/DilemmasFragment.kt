@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -101,10 +100,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private fun yesOrNoClick(isYes: Boolean) {
         binding.apply {
             if (isYes) {
-                btnYes.setImageResource(R.drawable.ic_option_yes)
+                btnYes.setImageResource(R.drawable.ic_dilemma_yes)
                 percents.ivYes.visibility = View.VISIBLE
             } else {
-                btnNo.setImageResource(R.drawable.ic_option_no)
+                btnNo.setImageResource(R.drawable.ic_dilemma_no)
                 percents.ivNo.visibility = View.VISIBLE
             }
             llButtons.animate().alpha(0.0f).duration = 250
@@ -159,8 +158,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun setInitialConfig() {
         binding.apply {
-            btnYes.setImageResource(R.drawable.ic_option_yes_trans)
-            btnNo.setImageResource(R.drawable.ic_option_no_trans)
+            btnYes.setImageResource(R.drawable.ic_dilemma_yes_trans)
+            btnNo.setImageResource(R.drawable.ic_dilemma_no_trans)
             percents.apply {
                 root.animate().alpha(0.0f).duration = 250
                 animateProgress(progressBarLeft, 0, 0)

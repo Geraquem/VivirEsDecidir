@@ -14,7 +14,7 @@
         android:layout_height="84dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_option_no" />
+        android:src="@drawable/ic_dilemma_no" />
 
     <TextView
         android:id="@+id/tv_title"
