@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity() {
         setAds()
 
         /*****************************/
-        navigateDrawer(DILEMMAS)
+//        navigateDrawer(DILEMMAS)
+        openDrawer()
     }
 
     private fun observe() {

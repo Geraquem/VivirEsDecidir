@@ -21,5 +21,5 @@ interface IDilemmasRepository {
     )
 
     suspend fun setFavDilemma(dilemma: DilemmaFavDTO)
-    suspend fun getFavDilemmas(userId: String): List<DilemmaFav>
+    suspend fun getFavDilemmas(): List<DilemmaFav>
 }

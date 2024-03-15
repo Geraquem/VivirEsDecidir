@@ -41,7 +41,7 @@
     <string name="nav_dualism">Dualismos</string>
     <string name="nav_my_info">Mi información</string>
     <string name="nav_profile">Mi perfil</string>
-    <string name="nav_saved">Guardadas</string>
+    <string name="nav_saved">Guardado</string>
     <string name="nav_sent">Enviadas</string>
     <string name="nav_drawer_send_questions">Envía tus ideas</string>
     <string name="nav_drawer_more_apps">Aplicaciones parecidas</string>
@@ -82,7 +82,7 @@
     <string name="profile_close_session">Cerrar sessión</string>
 
     <!-- SAVED DATA -->
-    <string name="saved_data_title">Guardadas</string>
+    <string name="saved_data_title">Guardado</string>
     <string name="saved_data_empty">Parece que todavía no has guardado nada</string>
 
     <!-- SEND_QUESTION -->

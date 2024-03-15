@@ -33,7 +33,7 @@
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="5"
-        tools:listitem="@layout/item_data_saved" />
+        tools:listitem="@layout/item_dilemma_fav" />
 
     <TextView
         android:id="@+id/tv_empty"

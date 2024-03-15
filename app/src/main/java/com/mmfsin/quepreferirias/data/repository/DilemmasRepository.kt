@@ -85,7 +85,6 @@ class DilemmasRepository @Inject constructor(
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
         val comments = mutableListOf<CommentDTO>()
         val latch = CountDownLatch(1)
-
         realmDatabase.deleteAllObjects(CommentDTO::class.java)
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
             .collection(COMMENTS).get().addOnSuccessListener { d ->
@@ -182,18 +181,25 @@ class DilemmasRepository @Inject constructor(
         }
     }
 
-    override suspend fun getFavDilemmas(userId: String): List<DilemmaFav> {
+    override suspend fun getFavDilemmas(): List<DilemmaFav> {
         val session = getSession()
         val latch = CountDownLatch(1)
         return session?.let {
             val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(UPDATE_SAVED_DATA, true)) {
-                Toast.makeText(context, "buscando en firebase", Toast.LENGTH_SHORT).show()
+                realmDatabase.deleteAllObjects(DilemmaFavDTO::class.java)
                 val dilemmas = mutableListOf<DilemmaFavDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
                     .collection(SAVED_DILEMMAS).get().addOnSuccessListener { d ->
                         for (document in d.documents) {
-                            val a = 2
+                            try {
+                                document.toObject(DilemmaFavDTO::class.java)?.let { comment ->
+                                    dilemmas.add(comment)
+                                    realmDatabase.addObject { comment }
+                                }
+                            } catch (e: Exception) {
+                                Log.e("error", "error parsing dilemma fav")
+                            }
                         }
                         latch.countDown()
                     }.addOnFailureListener {
@@ -212,12 +218,5 @@ class DilemmasRepository @Inject constructor(
                 dilemmas.toDilemmaFavList()
             }
         } ?: run { emptyList() }
-    }
-
-    private fun searchFavDilemmasInFirebase(userId: String): List<DilemmaFavDTO> {
-        /**  buscar si el shared prefs esta a true */
-        /** una vez haya buscado, poner a false */
-        /** si está a false significa que no hay nada por lo que return emptylist */
-        return emptyList()
     }
 }
