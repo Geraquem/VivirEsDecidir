@@ -60,7 +60,6 @@ class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewMo
                 is SavedDataEvent.InitiatedSession -> {
                     hasSession = event.initiatedSession
                     if (hasSession) viewModel.getFavData()
-                    else Toast.makeText(mContext, "no session", Toast.LENGTH_SHORT).show()
                 }
 
                 is SavedDataEvent.Data -> setDilemmaFavs(event.data)
@@ -71,10 +70,13 @@ class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewMo
 
     private fun setDilemmaFavs(dilemmas: List<DilemmaFav>) {
         binding.apply {
+            val visible = dilemmas.isEmpty()
+            tvEmpty.isVisible = visible
             rvSavedData.apply {
                 layoutManager = LinearLayoutManager(mContext)
                 adapter = DilemmaFavsAdapter(dilemmas)
             }
+            rvSavedData.isVisible = !visible
             loading.root.visibility = View.GONE
         }
     }

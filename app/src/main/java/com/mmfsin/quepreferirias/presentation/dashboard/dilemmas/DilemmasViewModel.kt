@@ -1,6 +1,7 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
@@ -17,7 +18,8 @@ class DilemmasViewModel @Inject constructor(
     private val getPercentsUseCase: GetPercentsUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase,
-    private val setFavDilemmaUseCase: SetFavDilemmaUseCase
+    private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
+    private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase
 ) : BaseViewModel<DilemmasEvent>() {
 
     fun checkSessionInitiated() {
@@ -33,7 +35,7 @@ class DilemmasViewModel @Inject constructor(
             { getDilemmas.execute() },
             { result ->
                 _event.value =
-                    if (result.isEmpty()) DilemmasEvent.SWW else DilemmasEvent.Data(result)
+                    if (result.isEmpty()) DilemmasEvent.SWW else DilemmasEvent.Dilemmas(result)
             },
             { _event.value = DilemmasEvent.SWW }
         )
@@ -63,8 +65,15 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun favDilemma(dilemmaId: String, txtTop: String, txtBottom: String) {
+    fun checkIfIsFav(dilemmaId: String) {
+        executeUseCase(
+            { checkIfDilemmaIsFavUseCase.execute(CheckIfDilemmaIsFavUseCase.Params(dilemmaId)) },
+            { result -> _event.value = DilemmasEvent.CheckDilemmaFav(result) },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
 
+    fun setDilemmaFav(dilemmaId: String, txtTop: String, txtBottom: String) {
         executeUseCase(
             {
                 setFavDilemmaUseCase.execute(

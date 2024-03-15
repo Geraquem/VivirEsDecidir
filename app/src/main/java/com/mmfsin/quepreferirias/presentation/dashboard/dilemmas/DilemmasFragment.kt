@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentC
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.models.FavButtonTag
+import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.*
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -76,7 +79,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
-            btnFav.button.setOnClickListener { setDilemmaFav() }
+            btnFav.button.setOnClickListener { favOnClick() }
 
             btnComments.button.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
@@ -129,13 +132,22 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     viewModel.getDilemmas()
                 }
 
-                is DilemmasEvent.Data -> {
+                is DilemmasEvent.Dilemmas -> {
                     dilemmaList = event.data
                     setData()
                 }
 
                 is DilemmasEvent.GetPercents -> setPercents(event.percents)
-                is DilemmasEvent.GetComments -> setUpComments(event.comments)
+                is DilemmasEvent.GetComments -> {
+                    setUpComments(event.comments)
+                    actualData?.let { d -> viewModel.checkIfIsFav(d.id) }
+                }
+
+                is DilemmasEvent.CheckDilemmaFav -> {
+                    if (event.result) setFavButton(isOn = true)
+                    else setFavButton(isOn = false)
+                }
+
                 is DilemmasEvent.SWW -> error()
             }
         }
@@ -174,13 +186,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 animateProgress(progressBarRight, 0, 0)
                 ivYes.visibility = View.INVISIBLE
                 ivNo.visibility = View.INVISIBLE
-            }
-
-            btnFav.button.apply {
-                isEnabled = true
-                animate().rotation(0f).setDuration(0).start()
-                setImageResource(R.drawable.ic_fav_off)
-                imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.black))
             }
         }
     }
@@ -225,19 +230,42 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    private fun setDilemmaFav() {
+    private fun favOnClick() {
         if (hasSession) {
             binding.btnFav.button.apply {
                 actualData?.let { data ->
-                    isEnabled = false
-                    animate().rotation(720f).setDuration(350).start()
-                    setImageResource(R.drawable.ic_fav_on)
-                    imageTintList = ColorStateList.valueOf(getColor(mContext, R.color.saved))
-                    viewModel.favDilemma(data.id, data.topText, data.bottomText)
+                    when (tag) {
+                        FAV -> {
+
+                        }
+
+                        NO_FAV -> {
+                            setFavButton(isOn = true)
+                            viewModel.setDilemmaFav(data.id, data.topText, data.bottomText)
+                        }
+
+                        else -> Log.i("FavButton", "Unexpected click")
+                    }
                 } ?: run { error() }
             }
         } else {
             Toast.makeText(mContext, "no session", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setFavButton(isOn: Boolean) {
+        binding.btnFav.button.apply {
+            imageTintList = if (isOn) {
+                tag = FAV
+                animate().rotation(720f).setDuration(350).start()
+                setImageResource(R.drawable.ic_fav_on)
+                ColorStateList.valueOf(getColor(mContext, R.color.saved))
+            } else {
+                tag = NO_FAV
+                animate().rotation(0f).setDuration(350).start()
+                setImageResource(R.drawable.ic_fav_off)
+                ColorStateList.valueOf(getColor(mContext, R.color.black))
+            }
         }
     }
 

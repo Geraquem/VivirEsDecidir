@@ -212,11 +212,15 @@ class DilemmasRepository @Inject constructor(
                 }
                 dilemmas.toDilemmaFavList()
             } else {
-                Toast.makeText(context, "buscando en realm", Toast.LENGTH_SHORT).show()
                 val dilemmas =
                     realmDatabase.getObjectsFromRealm { where<DilemmaFavDTO>().findAll() }
                 dilemmas.toDilemmaFavList()
             }
         } ?: run { emptyList() }
+    }
+
+    override suspend fun checkIsDilemmaIsFav(dilemmaId: String): Boolean {
+        val dilemmas = getFavDilemmas()
+        return dilemmas.any{it.dilemmaId == dilemmaId}
     }
 }
