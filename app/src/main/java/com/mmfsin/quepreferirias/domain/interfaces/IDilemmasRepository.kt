@@ -7,7 +7,7 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 
-interface IDataRepository {
+interface IDilemmasRepository {
     /** DILEMMAS */
     suspend fun getDilemmas(): List<Dilemma>
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
@@ -21,4 +21,5 @@ interface IDataRepository {
     )
 
     suspend fun setFavDilemma(dilemma: DilemmaFavDTO)
+    suspend fun getFavDilemmas(userId: String): List<DilemmaFav>
 }

@@ -1,12 +1,13 @@
 package com.mmfsin.quepreferirias.utils
 
+/** INTENT */
+const val ROOT_ACTIVITY_NAV_GRAPH = "root_nav_graph"
+
 //SHARED PREFS
 const val SESSION = "user_session"
 const val SESSION_INITIATED = "session_initiated"
 const val UPDATE_SAVED_DATA = "update_saved_data"
 const val UPDATE_SENT_DATA = "update_sent_data"
-
-//FIREBASE
 
 /** DILEMMAS */
 const val DILEMMAS = "dilemmas"
@@ -19,19 +20,9 @@ const val VOTES_NO = "votesNo"
 const val COMMENTS = "comments"
 const val COMMENT_LIKES = "likes"
 
-/** USERS */
-const val USERS = "users"
-const val SAVED = "saved"
-const val SAVED_DILEMMAS = "saved_dilemmas"
-
+/** COMMENTS */
 const val LAST_COMMENTS = 4
 
-/*************************** delete */
-const val CREATOR_NAME_ID = 0
-const val SEND_QUESTIONS_ROOT = "user_questions"
-const val USER_DATA = "user_data"
-const val DATA_SAVED = "saved"
-const val DATA_CREATED = "created"
-
-//INTENT
-const val ROOT_ACTIVITY_NAV_GRAPH = "root_nav_graph"
+/** USERS */
+const val USERS = "users"
+const val SAVED_DILEMMAS = "saved_dilemmas"

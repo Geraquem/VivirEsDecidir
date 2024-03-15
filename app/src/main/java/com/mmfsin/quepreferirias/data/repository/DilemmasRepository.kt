@@ -1,42 +1,50 @@
 package com.mmfsin.quepreferirias.data.repository
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toCommentList
+import com.mmfsin.quepreferirias.data.mappers.toDilemmaFavList
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
-import com.mmfsin.quepreferirias.domain.interfaces.IDataRepository
+import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
+import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
+import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
 import com.mmfsin.quepreferirias.utils.USERS
 import com.mmfsin.quepreferirias.utils.VOTES_NO
 import com.mmfsin.quepreferirias.utils.VOTES_YES
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
-class DataRepository @Inject constructor(
+class DilemmasRepository @Inject constructor(
+    @ApplicationContext val context: Context,
     private val realmDatabase: IRealmDatabase
-) : IDataRepository {
+) : IDilemmasRepository {
 
     private val reference = Firebase.database.reference
 
@@ -172,5 +180,44 @@ class DataRepository @Inject constructor(
                 }
             withContext(Dispatchers.IO) { latch.await() }
         }
+    }
+
+    override suspend fun getFavDilemmas(userId: String): List<DilemmaFav> {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        return session?.let {
+            val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+            if (sharedPrefs.getBoolean(UPDATE_SAVED_DATA, true)) {
+                Toast.makeText(context, "buscando en firebase", Toast.LENGTH_SHORT).show()
+                val dilemmas = mutableListOf<DilemmaFavDTO>()
+                Firebase.firestore.collection(USERS).document(session.id)
+                    .collection(SAVED_DILEMMAS).get().addOnSuccessListener { d ->
+                        for (document in d.documents) {
+                            val a = 2
+                        }
+                        latch.countDown()
+                    }.addOnFailureListener {
+                        latch.countDown()
+                    }
+                withContext(Dispatchers.IO) { latch.await() }
+                sharedPrefs.edit().apply {
+                    putBoolean(UPDATE_SAVED_DATA, false)
+                    apply()
+                }
+                dilemmas.toDilemmaFavList()
+            } else {
+                Toast.makeText(context, "buscando en realm", Toast.LENGTH_SHORT).show()
+                val dilemmas =
+                    realmDatabase.getObjectsFromRealm { where<DilemmaFavDTO>().findAll() }
+                dilemmas.toDilemmaFavList()
+            }
+        } ?: run { emptyList() }
+    }
+
+    private fun searchFavDilemmasInFirebase(userId: String): List<DilemmaFavDTO> {
+        /**  buscar si el shared prefs esta a true */
+        /** una vez haya buscado, poner a false */
+        /** si está a false significa que no hay nada por lo que return emptylist */
+        return emptyList()
     }
 }

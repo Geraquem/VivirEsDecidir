@@ -75,3 +75,11 @@ private fun getDateTime(date: String): Int {
     }
     return text
 }
+
+fun DilemmaFavDTO.toDilemmaFav() = DilemmaFav(
+    dilemmaId = dilemmaId,
+    txtTop = txtTop,
+    txtBottom = txtBottom
+)
+
+fun List<DilemmaFavDTO>.toDilemmaFavList() = this.map { dilemma -> dilemma.toDilemmaFav() }.toList()

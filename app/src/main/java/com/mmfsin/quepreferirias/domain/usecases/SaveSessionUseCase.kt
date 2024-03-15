@@ -17,36 +17,19 @@ class SaveSessionUseCase @Inject constructor(
     private val sessionRepository: IUserRepository
 ) : BaseUseCase<SaveSessionUseCase.Params, Boolean>() {
 
-    /** Save in shared prefs, Firebase and Realm */
     override suspend fun execute(params: Params): Boolean {
-        /** Shared prefs */
-        val session = context.getSharedPreferences(SESSION, MODE_PRIVATE)
-        session.edit().apply() {
-            putBoolean(SESSION_INITIATED, true)
-            putBoolean(UPDATE_SAVED_DATA, true)
-            putBoolean(UPDATE_SENT_DATA, true)
-            apply()
+        val result = sessionRepository.saveSession(params.session)
+        if (result) {
+            /** Shared prefs */
+            val session = context.getSharedPreferences(SESSION, MODE_PRIVATE)
+            session.edit().apply() {
+                putBoolean(SESSION_INITIATED, true)
+                putBoolean(UPDATE_SAVED_DATA, true)
+                putBoolean(UPDATE_SENT_DATA, true)
+                apply()
+            }
         }
-
-        /** Firebase ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR*/
-//        val credential = GoogleAuthProvider.getCredential(params.id, null)
-//        val latch = CountDownLatch(1)
-//        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
-//            if (it.isSuccessful){
-//                val a = 2
-//                latch.countDown()
-//            }else{
-//                val a = 2
-//                latch.countDown()
-//            }
-//        }
-//
-//        withContext(Dispatchers.IO) {
-//            latch.await()
-//        }
-
-        /** Realm */
-        return sessionRepository.saveSession(params.session)
+        return result
     }
 
     data class Params(
