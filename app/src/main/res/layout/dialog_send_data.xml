@@ -23,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingVertical="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
@@ -32,24 +33,36 @@
             android:id="@+id/send_dilemma"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:orientation="vertical">
 
             <TextView
+                style="@style/MediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/send_data_dilemma_title" />
+                android:layout_marginBottom="2dp"
+                android:drawablePadding="8dp"
+                android:text="@string/send_data_dilemma_title"
+                app:drawableStartCompat="@drawable/ic_dilemma_yes_trans" />
 
             <TextView
+                style="@style/SmallTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.5"
                 android:text="@string/send_data_dilemma_subtitle" />
 
             <TextView
+                style="@style/SmallTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/send_data_for_example" />
+                android:layout_marginBottom="2dp"
+                android:text="@string/send_data_for_example"
+                android:textStyle="bold" />
 
             <TextView
+                style="@style/SmallTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/send_data_dilemma_example" />
@@ -63,21 +76,32 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/MediumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/send_data_dualism_title" />
+                android:layout_marginBottom="2dp"
+                android:drawablePadding="8dp"
+                android:text="@string/send_data_dualism_title"
+                app:drawableStartCompat="@drawable/ic_dilemma_yes_trans" />
 
             <TextView
+                style="@style/SmallTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.5"
                 android:text="@string/send_data_dualism_subtitle" />
 
             <TextView
+                style="@style/SmallTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/send_data_for_example" />
+                android:layout_marginBottom="2dp"
+                android:text="@string/send_data_for_example"
+                android:textStyle="bold" />
 
             <TextView
+                style="@style/SmallTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/send_data_dualism_example" />
