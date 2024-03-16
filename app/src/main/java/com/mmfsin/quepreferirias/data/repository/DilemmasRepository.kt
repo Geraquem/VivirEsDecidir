@@ -2,7 +2,6 @@ package com.mmfsin.quepreferirias.data.repository
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -26,6 +25,7 @@ import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
+import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
@@ -221,6 +221,27 @@ class DilemmasRepository @Inject constructor(
 
     override suspend fun checkIsDilemmaIsFav(dilemmaId: String): Boolean {
         val dilemmas = getFavDilemmas()
-        return dilemmas.any{it.dilemmaId == dilemmaId}
+        return dilemmas.any { it.dilemmaId == dilemmaId }
+    }
+
+    override suspend fun deleteFavDilemma(dilemmaId: String) {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        session?.let {
+            Firebase.firestore.collection(USERS).document(session.id)
+                .collection(SAVED_DILEMMAS).document(dilemmaId)
+                .delete().addOnCompleteListener {
+                    try {
+                        val dilemma = realmDatabase.getObjectsFromRealm {
+                            where<DilemmaFavDTO>().equalTo(DILEMMA_ID, dilemmaId).findAll()
+                        }.first()
+                        realmDatabase.deleteObject({ dilemma }, DILEMMA_ID, dilemmaId)
+                    } catch (e: Exception) {
+                        Log.i("Error:", "Error saving dilemma fav: ${e.message}")
+                    }
+                    latch.countDown()
+                }
+            withContext(Dispatchers.IO) { latch.await() }
+        }
     }
 }

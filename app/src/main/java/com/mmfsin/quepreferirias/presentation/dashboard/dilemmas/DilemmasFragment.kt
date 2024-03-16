@@ -25,8 +25,8 @@ import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentC
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
-import com.mmfsin.quepreferirias.presentation.models.FavButtonTag
-import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.*
+import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
+import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -59,7 +59,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     override fun setUI() {
         binding.apply {
-            loadingScreen.root.isVisible
+            loadingScreen.root.isVisible = true
             setToolbar()
             btnComments.button.setImageResource(R.drawable.ic_comment)
             btnFav.button.setImageResource(R.drawable.ic_fav_off)
@@ -138,16 +138,13 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 }
 
                 is DilemmasEvent.GetPercents -> setPercents(event.percents)
-                is DilemmasEvent.GetComments -> {
-                    setUpComments(event.comments)
-                    actualData?.let { d -> viewModel.checkIfIsFav(d.id) }
-                }
-
                 is DilemmasEvent.CheckDilemmaFav -> {
                     if (event.result) setFavButton(isOn = true)
                     else setFavButton(isOn = false)
+                    actualData?.let { d -> viewModel.getComments(d.id, fromRealm = false) }
                 }
 
+                is DilemmasEvent.GetComments -> setUpComments(event.comments)
                 is DilemmasEvent.SWW -> error()
             }
         }
@@ -159,7 +156,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 setInitialConfig()
                 actualData = dilemmaList[position]
                 actualData?.let { data ->
-                    viewModel.getComments(data.id, fromRealm = false)
+                    viewModel.checkIfIsFav(data.id)
                     tvTextTop.text = data.topText
                     tvTextBottom.text = data.bottomText
                     data.creatorName?.let { name ->
@@ -168,7 +165,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     } ?: run { llCreatorName.visibility = View.GONE }
                     votesYes = data.votesYes
                     votesNo = data.votesNo
-                    loadingScreen.root.isVisible = false
                 }
             }
         } catch (e: Exception) {
@@ -236,7 +232,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 actualData?.let { data ->
                     when (tag) {
                         FAV -> {
-
+                            setFavButton(isOn = false)
+                            viewModel.deleteDilemmaFav(data.id)
                         }
 
                         NO_FAV -> {
@@ -254,18 +251,21 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     }
 
     private fun setFavButton(isOn: Boolean) {
-        binding.btnFav.button.apply {
-            imageTintList = if (isOn) {
-                tag = FAV
-                animate().rotation(720f).setDuration(350).start()
-                setImageResource(R.drawable.ic_fav_on)
-                ColorStateList.valueOf(getColor(mContext, R.color.saved))
-            } else {
-                tag = NO_FAV
-                animate().rotation(0f).setDuration(350).start()
-                setImageResource(R.drawable.ic_fav_off)
-                ColorStateList.valueOf(getColor(mContext, R.color.black))
+        binding.apply {
+            btnFav.button.apply {
+                imageTintList = if (isOn) {
+                    tag = FAV
+                    animate().rotation(720f).setDuration(350).start()
+                    setImageResource(R.drawable.ic_fav_on)
+                    ColorStateList.valueOf(getColor(mContext, R.color.saved))
+                } else {
+                    tag = NO_FAV
+                    animate().rotation(0f).setDuration(350).start()
+                    setImageResource(R.drawable.ic_fav_off)
+                    ColorStateList.valueOf(getColor(mContext, R.color.black))
+                }
             }
+            loadingScreen.root.isVisible = false
         }
     }
 

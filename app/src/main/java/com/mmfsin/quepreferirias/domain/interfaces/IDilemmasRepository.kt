@@ -20,7 +20,8 @@ interface IDilemmasRepository {
         vote: CommentVote
     )
 
-    suspend fun setFavDilemma(dilemma: DilemmaFavDTO)
     suspend fun getFavDilemmas(): List<DilemmaFav>
+    suspend fun setFavDilemma(dilemma: DilemmaFavDTO)
+    suspend fun deleteFavDilemma(dilemmaId: String)
     suspend fun checkIsDilemmaIsFav(dilemmaId: String): Boolean
 }

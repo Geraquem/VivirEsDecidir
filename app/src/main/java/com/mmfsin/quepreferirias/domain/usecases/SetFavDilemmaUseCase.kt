@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class SetFavDilemmaUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: IDilemmasRepository
+    private val repository: IDilemmasRepository
 ) : BaseUseCase<SetFavDilemmaUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
@@ -19,7 +19,7 @@ class SetFavDilemmaUseCase @Inject constructor(
             txtTop = params.txtTop,
             txtBottom = params.txtBottom,
         )
-        sessionRepository.setFavDilemma(dilemmaFav.toDilemmaFavDTO())
+        repository.setFavDilemma(dilemmaFav.toDilemmaFavDTO())
     }
 
     data class Params(

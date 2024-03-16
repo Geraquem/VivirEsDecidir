@@ -44,12 +44,12 @@ class RealmDatabase(private val realmConfiguration: RealmConfiguration) : IRealm
         realm.close()
     }
 
-    override fun <T : RealmModel> deleteObject(action: Realm.() -> T, id: String) {
+    override fun <T : RealmModel> deleteObject(action: Realm.() -> T, idName: String, id: String) {
         val realm = getRealm()
         val realmModel = action(realm)
         realm.beginTransaction()
         if (realmModel.isValid()) {
-            val obj = realm.where(realmModel.javaClass).equalTo("id", id).findFirst()
+            val obj = realm.where(realmModel.javaClass).equalTo(idName, id).findFirst()
             if (obj != null) {
                 obj.deleteFromRealm()
                 realm.commitTransaction()

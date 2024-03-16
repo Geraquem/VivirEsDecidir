@@ -246,7 +246,6 @@
 
     <include
         android:id="@+id/loadingScreen"
-        layout="@layout/include_loading"
-        tools:visibility="gone" />
+        layout="@layout/include_loading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

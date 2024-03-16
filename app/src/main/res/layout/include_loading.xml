@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:clickable="true"
+    android:elevation="10dp"
     android:focusable="true">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -12,10 +13,10 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         app:indicatorColor="@color/black"
+        app:indicatorSize="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:indicatorSize="24dp"
         app:trackThickness="3dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,9 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
+import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
+import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
@@ -18,8 +20,9 @@ class DilemmasViewModel @Inject constructor(
     private val getPercentsUseCase: GetPercentsUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase,
+    private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
-    private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase
+    private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase
 ) : BaseViewModel<DilemmasEvent>() {
 
     fun checkSessionInitiated() {
@@ -80,7 +83,15 @@ class DilemmasViewModel @Inject constructor(
                     SetFavDilemmaUseCase.Params(dilemmaId, txtTop, txtBottom)
                 )
             },
-            { },
+            { Log.i("DILEMMA_FAV", "DilemmaFav added") },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun deleteDilemmaFav(dilemmaId: String) {
+        executeUseCase(
+            { deleteDilemmaFavUseCase.execute(DeleteDilemmaFavUseCase.Params(dilemmaId)) },
+            { Log.i("DILEMMA_FAV", "DilemmaFav deleted") },
             { _event.value = DilemmasEvent.SWW }
         )
     }
