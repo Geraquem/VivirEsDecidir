@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemDilemmaFavBinding
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.presentation.saved.interfaces.IDilemmaFavListener
 
 class DilemmaFavsAdapter(
-    private val comments: List<DilemmaFav>
+    private val favs: List<DilemmaFav>,
+    private val listener: IDilemmaFavListener
 ) : RecyclerView.Adapter<DilemmaFavsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -29,8 +31,10 @@ class DilemmaFavsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(comments[position])
+        val fav = favs[position]
+        holder.bind(fav)
+        holder.binding.llMain.setOnClickListener { listener.onDilemmaFavClick(fav.dilemmaId) }
     }
 
-    override fun getItemCount(): Int = comments.size
+    override fun getItemCount(): Int = favs.size
 }

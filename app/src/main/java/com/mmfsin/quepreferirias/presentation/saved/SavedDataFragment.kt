@@ -15,11 +15,13 @@ import com.mmfsin.quepreferirias.databinding.FragmentSavedDataBinding
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.saved.adapter.DilemmaFavsAdapter
+import com.mmfsin.quepreferirias.presentation.saved.interfaces.IDilemmaFavListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewModel>() {
+class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewModel>(),
+    IDilemmaFavListener {
 
     override val viewModel: SavedDataViewModel by viewModels()
     private lateinit var mContext: Context
@@ -74,11 +76,15 @@ class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewMo
             tvEmpty.isVisible = visible
             rvSavedData.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = DilemmaFavsAdapter(dilemmas)
+                adapter = DilemmaFavsAdapter(dilemmas, this@SavedDataFragment)
             }
             rvSavedData.isVisible = !visible
             loading.root.visibility = View.GONE
         }
+    }
+
+    override fun onDilemmaFavClick(dilemmaId: String) {
+        Toast.makeText(mContext, dilemmaId, Toast.LENGTH_SHORT).show()
     }
 
     private fun error() {
