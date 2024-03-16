@@ -42,7 +42,7 @@
     <string name="nav_my_info">Mi información</string>
     <string name="nav_profile">Mi perfil</string>
     <string name="nav_saved">Guardado</string>
-    <string name="nav_sent">Enviadas</string>
+    <string name="nav_sent">Mis ideas</string>
     <string name="nav_drawer_send_questions">Envía tus ideas</string>
     <string name="nav_drawer_more_apps">Aplicaciones parecidas</string>
 
@@ -83,7 +83,7 @@
 
     <!-- SAVED DATA -->
     <string name="saved_data_title">Guardado</string>
-    <string name="saved_data_empty">Parece que todavía no has guardado nada</string>
+    <string name="saved_data_empty">No hay nada guardado</string>
 
     <!-- SEND_QUESTION -->
     <string name="sq_send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>

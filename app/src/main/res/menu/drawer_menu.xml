@@ -18,15 +18,15 @@
         <menu>
             <item
                 android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_dilemma_yes_trans"
+                android:icon="@drawable/ic_profile"
                 android:title="@string/nav_profile" />
             <item
                 android:id="@+id/nav_saved"
-                android:icon="@drawable/ic_dilemma_yes_trans"
+                android:icon="@drawable/ic_fav_on"
                 android:title="@string/nav_saved" />
             <item
                 android:id="@+id/nav_sent"
-                android:icon="@drawable/ic_dilemma_yes_trans"
+                android:icon="@drawable/ic_lightbulb"
                 android:title="@string/nav_sent" />
         </menu>
     </item>
@@ -34,7 +34,7 @@
     <group>
         <item
             android:id="@+id/nav_send_questions"
-            android:icon="@drawable/ic_letter"
+            android:icon="@drawable/ic_send"
             android:title="@string/nav_drawer_send_questions" />
         <item
             android:id="@+id/nav_more_apps"
