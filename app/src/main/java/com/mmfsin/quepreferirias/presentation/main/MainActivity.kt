@@ -9,9 +9,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavGraph
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.mmfsin.quepreferirias.R
+import com.mmfsin.quepreferirias.base.dialog.ErrorDialog
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
@@ -19,7 +21,9 @@ import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DILEMMAS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DATA_SAVED
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DATA_SENT
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DUALISMS
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.SEND_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.USER_PROFILE
+import com.mmfsin.quepreferirias.presentation.send.dialogs.SendDataDialog
 import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,18 +78,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateDrawer(flow: DrawerFlow) {
-        val navGraph = when (flow) {
-            DILEMMAS -> R.navigation.nav_graph_dilemmas
-            DUALISMS -> 0
-            USER_PROFILE -> R.navigation.nav_graph_profile
-            DATA_SAVED -> R.navigation.nav_graph_saved_data
-            DATA_SENT -> 0
+        when (flow) {
+            DILEMMAS -> navigateTo(R.navigation.nav_graph_dilemmas)
+            DUALISMS -> {}
+            USER_PROFILE -> navigateTo(R.navigation.nav_graph_profile)
+            DATA_SAVED -> navigateTo(R.navigation.nav_graph_saved_data)
+            DATA_SENT -> {}
+            SEND_DATA -> openSendDataDialog()
         }
-        navGraph.let { navigation ->
-            val intent = Intent(this, BedRockActivity::class.java)
-            intent.putExtra(ROOT_ACTIVITY_NAV_GRAPH, navigation)
-            startActivity(intent)
-        }
+    }
+
+    private fun navigateTo(navigation: Int) {
+        val intent = Intent(this, BedRockActivity::class.java)
+        intent.putExtra(ROOT_ACTIVITY_NAV_GRAPH, navigation)
+        startActivity(intent)
     }
 
     private fun setNavigationDrawer() {
@@ -99,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.nav_saved -> viewModel.checkSession(DATA_SAVED)
                     R.id.nav_sent -> viewModel.checkSession(DATA_SENT)
                     //////////////////////
-                    R.id.nav_send_questions -> {}
+                    R.id.nav_send_data -> viewModel.checkSession(SEND_DATA)
                     R.id.nav_more_apps -> {
                         startActivity(
                             Intent(ACTION_VIEW, Uri.parse(getString(R.string.sq_mmfsin_url)))
@@ -117,6 +123,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
+
+    private fun openSendDataDialog() {
+        SendDataDialog { navGraph -> navigateTo(navGraph) }.show(supportFragmentManager, "")
+    }
 
     private fun setAds() {
         binding.apply {

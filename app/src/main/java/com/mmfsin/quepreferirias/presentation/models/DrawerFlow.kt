@@ -5,5 +5,6 @@ enum class DrawerFlow {
     DUALISMS,
     USER_PROFILE,
     DATA_SAVED,
-    DATA_SENT
+    DATA_SENT,
+    SEND_DATA,
 }

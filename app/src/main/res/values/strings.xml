@@ -46,6 +46,15 @@
     <string name="nav_drawer_send_questions">Envía tus ideas</string>
     <string name="nav_drawer_more_apps">Aplicaciones parecidas</string>
 
+    <!-- SEND DATA -->
+    <string name="send_data_dilemma_title">Enviar un dilema</string>
+    <string name="send_data_dilemma_subtitle">Un dilema consiste decidir si aceptas hacer realidad una buena situación a pesar de tener que cumplir con una consecuencia negativa.</string>
+    <string name="send_data_dilemma_example">Puedes teletransportarte pero pierdes una pierna.</string>
+    <string name="send_data_dualism_title">Enviar una dualidad</string>
+    <string name="send_data_dualism_subtitle">Una dualidad consiste en la tomar una decisón entre dos cosas enfrentadas</string>
+    <string name="send_data_dualism_example">Tortilla de patata con cebolla o sin cebolla.</string>
+    <string name="send_data_for_example">Por ejemplo</string>
+
     <!-- DASHBOARD -->
     <string name="dashboard_but">pero</string>
     <string name="dashboard_btn_yes">A tope</string>
