@@ -149,7 +149,7 @@
                         android:src="@drawable/ic_dilemma_yes_trans" />
 
                     <TextView
-                        style="@style/ButtonsTextView"
+                        style="@style/DilemmaButtonsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -177,7 +177,7 @@
                         android:src="@drawable/ic_dilemma_no_trans" />
 
                     <TextView
-                        style="@style/ButtonsTextView"
+                        style="@style/DilemmaButtonsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

@@ -33,16 +33,17 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="BigTextView_Bold">
-        <item name="android:fontFamily">@font/montserrat_bold</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="DilemmaButtonsTextView">
+        <item name="android:fontFamily">@font/btn_font</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="ButtonsTextView">
-        <item name="android:fontFamily">@font/btn_font</item>
-        <item name="android:textSize">26sp</item>
+    <style name="mButton">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">12dp</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

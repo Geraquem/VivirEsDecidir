@@ -16,6 +16,7 @@
     <color name="background">#FFFFFF</color>
     <color name="et_hint">#9E9E9E</color>
     <color name="bg_transparent">#41FFFFFF</color>
+    <color name="bg_button">#F3F3F3</color>
 
     <color name="transparent">#00FFFFFF</color>
 

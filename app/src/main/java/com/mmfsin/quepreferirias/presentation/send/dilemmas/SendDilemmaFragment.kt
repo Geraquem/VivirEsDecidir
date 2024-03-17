@@ -69,6 +69,8 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
                     tvLimitBottom.text = getString(R.string.send_dilemma_txt_max, text)
                 }
             })
+
+            btnSend.setOnClickListener {  }
         }
     }
 

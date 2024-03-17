@@ -54,6 +54,8 @@
     <string name="send_data_dualism_subtitle">Una dualidad consiste en la tomar una decisón entre dos cosas enfrentadas</string>
     <string name="send_data_dualism_example">Tortilla de patata con cebolla o sin cebolla.</string>
     <string name="send_data_for_example">Por ejemplo</string>
+    <string name="send_data_send_as">Enviar como</string>
+    <string name="send_data_send">Enviar</string>
 
     <!-- SEND DILEMMA -->
     <string name="send_dilemma_title">Enviar dilema</string>
