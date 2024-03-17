@@ -2,8 +2,6 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.KeyEvent.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,7 +105,7 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
                     }
                 }
 
-                is CommentsEvent.GetUserData -> {
+                is CommentsEvent.UserData -> {
                     userData = event.data
                     activity?.let {
                         Glide.with(it.applicationContext).load(event.data.imageUrl)

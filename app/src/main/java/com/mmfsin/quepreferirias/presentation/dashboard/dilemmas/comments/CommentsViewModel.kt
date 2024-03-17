@@ -8,7 +8,6 @@ import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SendDilemmaCommentUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -32,7 +31,7 @@ class CommentsViewModel @Inject constructor(
     fun getUserData() {
         executeUseCase(
             { getSessionUseCase.execute() },
-            { result -> _event.value = result?.let { CommentsEvent.GetUserData(it) } },
+            { result -> _event.value = result?.let { CommentsEvent.UserData(it) } },
             { _event.value = CommentsEvent.SWW }
         )
     }

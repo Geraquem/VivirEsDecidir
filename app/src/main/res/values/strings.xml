@@ -55,6 +55,13 @@
     <string name="send_data_dualism_example">Tortilla de patata con cebolla o sin cebolla.</string>
     <string name="send_data_for_example">Por ejemplo</string>
 
+    <!-- SEND DILEMMA -->
+    <string name="send_dilemma_title">Enviar dilema</string>
+    <string name="send_dilemma_txt_top">50 mil euros ahora mismo</string>
+    <string name="send_dilemma_txt_bottom">Tienes que pasar una semana sin comer</string>
+
+    <!-- SEND DUALISM -->
+
     <!-- DASHBOARD -->
     <string name="dashboard_but">pero</string>
     <string name="dashboard_btn_yes">A tope</string>
@@ -94,17 +101,6 @@
     <string name="saved_data_title">Guardado</string>
     <string name="saved_data_empty">No hay nada guardado</string>
 
-    <!-- SEND_QUESTION -->
-    <string name="sq_send_textA">Por ejemplo: Consigues 50 mil euros ahora mismo</string>
-    <string name="sq_send_textB">Por ejemplo: Pierdes el dedo pulgar izquierdo</string>
-    <string name="sq_creator_name">Tu nombre (opcional)</string>
-    <string name="sq_send">Enviar</string>
-
-    <string name="sq_loading">Un momentito, por favor</string>
-    <string name="sq_result_ok">¡Genial! Tu propuesta ha sido enviada</string>
-    <string name="sq_result_ko">Vaya, no se ha podido procesar</string>
-    <string name="sq_result_again">Enviar otra</string>
-    <string name="sq_result_error">Probar de nuevo</string>
-
+    <!-- MORE APPS -->
     <string name="sq_mmfsin_url">https://play.google.com/store/apps/developer?id=mmfsin</string>
 </resources>

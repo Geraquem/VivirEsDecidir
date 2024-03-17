@@ -2,14 +2,13 @@ package com.mmfsin.quepreferirias.presentation.send.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
-import androidx.navigation.NavGraph
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseDialog
 import com.mmfsin.quepreferirias.databinding.DialogSendDataBinding
-import com.mmfsin.quepreferirias.presentation.send.interfaces.IBSheetSendData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SendDataDialog(navigate: (navGraph: Int) -> Unit) : BaseDialog<DialogSendDataBinding>() {
+class SendDataDialog(val navigate: (navGraph: Int) -> Unit) : BaseDialog<DialogSendDataBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) = DialogSendDataBinding.inflate(inflater)
 
@@ -22,8 +21,13 @@ class SendDataDialog(navigate: (navGraph: Int) -> Unit) : BaseDialog<DialogSendD
     override fun setListeners() {
         binding.apply {
             ivClose.setOnClickListener { dismiss() }
-            sendDilemma.setOnClickListener {  }
-            sendDualism.setOnClickListener {  }
+            sendDilemma.setOnClickListener { pressButton(R.navigation.nav_graph_send_dilemma) }
+            sendDualism.setOnClickListener { pressButton(R.navigation.nav_graph_profile) }
         }
+    }
+
+    private fun pressButton(navGraph: Int) {
+        navigate(navGraph)
+        dismiss()
     }
 }
