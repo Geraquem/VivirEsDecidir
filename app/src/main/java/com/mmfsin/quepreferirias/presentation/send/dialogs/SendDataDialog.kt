@@ -21,6 +21,9 @@ class SendDataDialog(navigate: (navGraph: Int) -> Unit) : BaseDialog<DialogSendD
 
     override fun setListeners() {
         binding.apply {
+            ivClose.setOnClickListener { dismiss() }
+            sendDilemma.setOnClickListener {  }
+            sendDualism.setOnClickListener {  }
         }
     }
 }
