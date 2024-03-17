@@ -57,8 +57,10 @@
 
     <!-- SEND DILEMMA -->
     <string name="send_dilemma_title">Enviar dilema</string>
-    <string name="send_dilemma_txt_top">50 mil euros ahora mismo</string>
-    <string name="send_dilemma_txt_bottom">Tienes que pasar una semana sin comer</string>
+    <string name="send_dilemma_txt_top_hint">50 mil euros ahora mismo</string>
+    <string name="send_dilemma_txt_bottom_hint">5% de probabilidad de morir</string>
+    <string name="send_dilemma_txt_empty">0 / 200</string>
+    <string name="send_dilemma_txt_max">%s / 200</string>
 
     <!-- SEND DUALISM -->
 

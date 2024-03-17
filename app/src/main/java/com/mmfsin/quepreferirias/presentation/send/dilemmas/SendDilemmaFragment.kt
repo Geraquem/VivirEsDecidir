@@ -2,9 +2,14 @@ package com.mmfsin.quepreferirias.presentation.send.dilemmas
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputType
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -13,6 +18,7 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentSendDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.send.dilemmas.interfaces.TextWatcher
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,7 +42,10 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
         binding.apply {
             setToolbar()
             loading.root.isVisible = true
-
+            etTop.setOptions()
+            tvLimitTop.text = getString(R.string.send_dilemma_txt_empty)
+            etBottom.setOptions()
+            tvLimitBottom.text = getString(R.string.send_dilemma_txt_empty)
         }
     }
 
@@ -49,7 +58,23 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
 
     override fun setListeners() {
         binding.apply {
+            TextWatcher().addTextWatcher(etTop, object : TextWatcher.TextWatcherListener {
+                override fun onTextChanged(text: String) {
+                    tvLimitTop.text = getString(R.string.send_dilemma_txt_max, text)
+                }
+            })
+
+            TextWatcher().addTextWatcher(etBottom, object : TextWatcher.TextWatcherListener {
+                override fun onTextChanged(text: String) {
+                    tvLimitBottom.text = getString(R.string.send_dilemma_txt_max, text)
+                }
+            })
         }
+    }
+
+    private fun EditText.setOptions() {
+        this.imeOptions = EditorInfo.IME_ACTION_DONE;
+        this.setRawInputType(InputType.TYPE_CLASS_TEXT);
     }
 
     override fun observe() {
