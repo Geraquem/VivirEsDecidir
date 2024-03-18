@@ -9,14 +9,19 @@ import com.mmfsin.quepreferirias.presentation.send.interfaces.ISendDataResultLis
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ResultDialog(private val wasOk: Boolean, private val listener: ISendDataResultListener) :
+class SendDataResultDialog(
+    private val wasOk: Boolean,
+    private val listener: ISendDataResultListener
+) :
     BaseDialog<DialogSendDataResultBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) =
         DialogSendDataResultBinding.inflate(inflater)
 
+    override fun setCustomViewDialog(dialog: Dialog) = centerViewDialog(dialog)
+
     override fun setUI() {
-        isCancelable = true
+        isCancelable = false
         binding.apply {
             if (wasOk) {
                 ivImage.setImageResource(R.drawable.ic_success)
@@ -33,12 +38,13 @@ class ResultDialog(private val wasOk: Boolean, private val listener: ISendDataRe
         }
     }
 
-    override fun setCustomViewDialog(dialog: Dialog) = bottomViewDialog(dialog)
-
     override fun setListeners() {
         binding.apply {
-            btnResend.setOnClickListener { if (wasOk) listener.sendAnother() else listener.retry() }
-            btnExit.setOnClickListener { listener.close() }
+            btnResend.setOnClickListener { if (wasOk) listener.sendAnother() else dismiss() }
+            btnExit.setOnClickListener {
+                listener.close()
+                dismiss()
+            }
         }
     }
 }

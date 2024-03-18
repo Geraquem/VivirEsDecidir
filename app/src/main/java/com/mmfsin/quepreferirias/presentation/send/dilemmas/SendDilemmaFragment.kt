@@ -2,9 +2,7 @@ package com.mmfsin.quepreferirias.presentation.send.dilemmas
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputType
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +13,10 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.base.dialog.ErrorDialog
 import com.mmfsin.quepreferirias.databinding.FragmentSendDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
-import com.mmfsin.quepreferirias.presentation.send.dialogs.ResultDialog
+import com.mmfsin.quepreferirias.presentation.send.dialogs.SendDataResultDialog
 import com.mmfsin.quepreferirias.presentation.send.interfaces.ISendDataResultListener
 import com.mmfsin.quepreferirias.presentation.send.interfaces.TextWatcher
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -46,7 +43,8 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
     override fun setUI() {
         binding.apply {
             setToolbar()
-            loading.root.isVisible = true
+            loadingFull.root.visibility = View.VISIBLE
+            loadingTrans.root.visibility = View.GONE
             etTop.setOptions()
             tvLimitTop.text = getString(R.string.send_dilemma_txt_empty)
             etBottom.setOptions()
@@ -80,6 +78,7 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
                     val txtTop = etTop.text.toString()
                     val txtBottom = etBottom.text.toString()
                     if (txtTop.isNotBlank() && txtBottom.isNotBlank()) {
+                        loadingTrans.root.visibility = View.VISIBLE
                         viewModel.sendDilemma(txtTop, txtBottom, user.id, user.name)
                     }
                 } ?: run { error() }
@@ -97,8 +96,9 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
             when (event) {
                 is SendDilemmaEvent.UserData -> setUserData(event.session)
                 is SendDilemmaEvent.Result -> {
-                    val dialog = ResultDialog(event.result, this@SendDilemmaFragment)
+                    val dialog = SendDataResultDialog(event.result, this@SendDilemmaFragment)
                     activity?.let { dialog.show(it.supportFragmentManager, "") }
+                    binding.loadingTrans.root.visibility = View.GONE
                 }
 
                 is SendDilemmaEvent.SWW -> error()
@@ -111,7 +111,7 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
         binding.apply {
             Glide.with(mContext).load(data.imageUrl).into(ivImage.image)
             tvName.text = data.name
-            loading.root.visibility = View.GONE
+            loadingFull.root.visibility = View.GONE
         }
     }
 
@@ -125,12 +125,13 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
     }
 
     override fun sendAnother() {
-
-    }
-
-    override fun retry() {
+        binding.apply {
+            etTop.text = null
+            etBottom.text = null
+        }
     }
 
     override fun close() {
+        activity?.onBackPressedDispatcher?.onBackPressed()
     }
 }

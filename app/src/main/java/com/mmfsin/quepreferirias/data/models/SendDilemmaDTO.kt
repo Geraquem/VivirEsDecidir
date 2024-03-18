@@ -9,5 +9,6 @@ open class SendDilemmaDTO(
     var txtTop: String = "",
     var txtBottom: String = "",
     var creatorId: String = "",
-    var creatorName: String = ""
+    var creatorName: String = "",
+    var timestamp: Long = 0
 ) : RealmObject()

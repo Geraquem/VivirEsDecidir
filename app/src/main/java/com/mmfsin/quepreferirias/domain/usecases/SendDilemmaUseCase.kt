@@ -17,7 +17,8 @@ class SendDilemmaUseCase @Inject constructor(private val repository: IDilemmasRe
             txtTop = params.txtTop,
             txtBottom = params.txtBottom,
             creatorId = params.creatorId,
-            creatorName = params.creatorName
+            creatorName = params.creatorName,
+            timestamp = System.currentTimeMillis()
         )
         return repository.sendDilemma(dilemma.toSendDilemmaDTO())
     }
