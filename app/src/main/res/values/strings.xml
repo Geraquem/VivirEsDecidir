@@ -56,6 +56,7 @@
     <string name="send_data_for_example">Por ejemplo</string>
     <string name="send_data_send_as">Enviar como</string>
     <string name="send_data_send">Enviar</string>
+    <string name="send_data_error_empty">No has rellenado todos los campos</string>
 
     <!-- SEND DILEMMA -->
     <string name="send_dilemma_title">Enviar dilema</string>

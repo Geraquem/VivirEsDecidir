@@ -45,6 +45,7 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
             setToolbar()
             loadingFull.root.visibility = View.VISIBLE
             loadingTrans.root.visibility = View.GONE
+            tvError.visibility = View.GONE
             etTop.setOptions()
             tvLimitTop.text = getString(R.string.send_dilemma_txt_empty)
             etBottom.setOptions()
@@ -78,17 +79,18 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
                     val txtTop = etTop.text.toString()
                     val txtBottom = etBottom.text.toString()
                     if (txtTop.isNotBlank() && txtBottom.isNotBlank()) {
+                        tvError.visibility = View.GONE
                         loadingTrans.root.visibility = View.VISIBLE
                         viewModel.sendDilemma(txtTop, txtBottom, user.id, user.name)
-                    }
+                    } else tvError.visibility = View.VISIBLE
                 } ?: run { error() }
             }
         }
     }
 
     private fun EditText.setOptions() {
-        this.imeOptions = EditorInfo.IME_ACTION_DONE;
-        this.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        this.imeOptions = EditorInfo.IME_ACTION_DONE
+        this.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
     }
 
     override fun observe() {

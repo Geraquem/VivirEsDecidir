@@ -137,6 +137,15 @@
             app:layout_constraintRight_toRightOf="@id/gl2_right"
             app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:id="@+id/tv_error"
+                style="@style/SmallTextView_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/send_data_error_empty"
+                android:textColor="@color/design_default_color_error" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -195,12 +204,12 @@
 
     <include
         android:id="@+id/loading_full"
-        tools:visibility="gone"
-        layout="@layout/include_loading" />
+        layout="@layout/include_loading"
+        tools:visibility="gone" />
 
     <include
         android:id="@+id/loading_trans"
-        tools:visibility="gone"
-        layout="@layout/include_loading_transparent" />
+        layout="@layout/include_loading_transparent"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,10 @@ class SendDataResultDialog(
 
     override fun setListeners() {
         binding.apply {
-            btnResend.setOnClickListener { if (wasOk) listener.sendAnother() else dismiss() }
+            btnResend.setOnClickListener {
+                if (wasOk) listener.sendAnother()
+                dismiss()
+            }
             btnExit.setOnClickListener {
                 listener.close()
                 dismiss()
