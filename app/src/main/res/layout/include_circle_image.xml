@@ -5,7 +5,8 @@
     android:layout_width="50dp"
     android:layout_height="50dp"
     android:adjustViewBounds="true"
-    android:background="@color/black"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/black"
     android:fitsSystemWindows="true"
     android:scaleType="fitXY"
     app:shapeAppearanceOverlay="@style/circular_image" />

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingTop="24dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_left"
@@ -25,9 +26,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintRight_toLeftOf="@id/iv_edit"
         app:layout_constraintTop_toTopOf="parent">
 
         <include
@@ -84,6 +85,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ImageView
+        android:id="@+id/iv_edit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_close_session"

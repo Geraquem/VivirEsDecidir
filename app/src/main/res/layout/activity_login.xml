@@ -61,7 +61,6 @@
             tools:itemCount="4"
             tools:listitem="@layout/item_login_text" />
 
-
         <LinearLayout
             android:id="@+id/btn_google"
             android:layout_width="match_parent"
@@ -70,6 +69,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/bg_login_google"
             android:elevation="6dp"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
