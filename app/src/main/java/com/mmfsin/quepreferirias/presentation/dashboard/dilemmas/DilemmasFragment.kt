@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -11,9 +12,12 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
@@ -28,6 +32,7 @@ import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
+import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -131,6 +136,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     hasSession = event.initiatedSession
                     viewModel.getDilemmas()
                 }
+
+                is DilemmasEvent.ReCheckSession -> hasSession = event.initiatedSession
 
                 is DilemmasEvent.Dilemmas -> {
                     dilemmaList = event.data
@@ -245,9 +252,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     }
                 } ?: run { error() }
             }
-        } else {
-            Toast.makeText(mContext, "no session", Toast.LENGTH_SHORT).show()
-        }
+        } else localBroadcastOpenLogin()
     }
 
     private fun setFavButton(isOn: Boolean) {
@@ -271,8 +276,16 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     override fun refreshComments() = viewModel.getComments(fromRealm = true)
 
+    private fun localBroadcastOpenLogin() =
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
+
     private fun error() {
         activity?.showErrorDialog { activity?.finish() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.reCheckSession()
     }
 
     override fun onAttach(context: Context) {

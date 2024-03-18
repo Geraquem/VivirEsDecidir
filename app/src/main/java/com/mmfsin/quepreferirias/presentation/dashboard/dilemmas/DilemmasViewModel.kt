@@ -33,6 +33,14 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
+    fun reCheckSession(){
+        executeUseCase(
+            { initiatedSessionUseCase.execute() },
+            { result -> _event.value = DilemmasEvent.ReCheckSession(result) },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
     fun getDilemmas() {
         executeUseCase(
             { getDilemmas.execute() },

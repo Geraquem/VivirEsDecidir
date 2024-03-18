@@ -1,7 +1,10 @@
 package com.mmfsin.quepreferirias.presentation.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -9,11 +12,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavGraph
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.mmfsin.quepreferirias.R
-import com.mmfsin.quepreferirias.base.dialog.ErrorDialog
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
@@ -24,6 +26,7 @@ import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DUALISMS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.SEND_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.USER_PROFILE
 import com.mmfsin.quepreferirias.presentation.send.dialogs.SendDataDialog
+import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         init()
+        registerLocalBroadcast()
     }
 
     private fun init() {
@@ -140,6 +144,15 @@ class MainActivity : AppCompatActivity() {
         binding.adView.apply {
             loadAd(adRequest)
             visibility = View.VISIBLE
+        }
+    }
+
+    private fun registerLocalBroadcast() = LocalBroadcastManager.getInstance(this)
+        .registerReceiver(mReceiver, IntentFilter(LOGIN_BROADCAST))
+
+    private val mReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == LOGIN_BROADCAST) loginFlow()
         }
     }
 
