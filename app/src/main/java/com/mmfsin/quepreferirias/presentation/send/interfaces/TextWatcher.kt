@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.send.dilemmas.interfaces
+package com.mmfsin.quepreferirias.presentation.send.interfaces
 
 import android.text.Editable
 import android.widget.EditText

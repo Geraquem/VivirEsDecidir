@@ -27,3 +27,4 @@ const val LAST_COMMENTS = 4
 /** USERS */
 const val USERS = "users"
 const val SAVED_DILEMMAS = "saved_dilemmas"
+const val DILEMMAS_SENT = "dilemmas_sent"

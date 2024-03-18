@@ -13,15 +13,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-fun DilemmaDTO.toDilemma(id: String, votesYes: Long, votesNo: Long) = Dilemma(
-    id = id,
-    topText = txtTop,
-    bottomText = txtBottom,
-    votesYes = votesYes,
-    votesNo = votesNo,
-    creatorName = creatorName
-)
-
 fun SessionDTO.toSession() = Session(
     id = id,
     imageUrl = imageUrl,
@@ -29,14 +20,6 @@ fun SessionDTO.toSession() = Session(
     name = name,
     fullName = fullName
 )
-
-fun DilemmaFavDTO.toSavedData() = DilemmaFav(
-    dilemmaId = dilemmaId,
-    txtTop = txtTop,
-    txtBottom = txtBottom
-)
-
-fun List<DilemmaFavDTO>.toSavedDataList() = this.map { element -> element.toSavedData() }.toList()
 
 fun CommentDTO.toComment() = Comment(
     commentId = commentId,

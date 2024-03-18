@@ -65,6 +65,13 @@
     <string name="send_dilemma_txt_max">%s / 200</string>
 
     <!-- SEND DUALISM -->
+    <string name="send_dualism_result_perfect_title">Perfecto</string>
+    <string name="send_dualism_result_perfect_subtitle">¿Quieres enviar más?</string>
+    <string name="send_dualism_result_sww_title">Parece que algo ha salido mal</string>
+    <string name="send_dualism_result_sww_subtitle">¿Quieres intentarlo de nuevo?</string>
+    <string name="send_dualism_result_resend">Enviar otra</string>
+    <string name="send_dualism_result_retry">Reintentar</string>
+    <string name="send_dualism_result_exit">Cerrar</string>
 
     <!-- DASHBOARD -->
     <string name="dashboard_but">pero</string>
@@ -107,4 +114,5 @@
 
     <!-- MORE APPS -->
     <string name="sq_mmfsin_url">https://play.google.com/store/apps/developer?id=mmfsin</string>
+
 </resources>

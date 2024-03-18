@@ -11,6 +11,7 @@ import com.mmfsin.quepreferirias.data.mappers.toDilemmaFavList
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
+import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
@@ -20,11 +21,13 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
+import com.mmfsin.quepreferirias.utils.DILEMMAS_SENT
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SESSION
@@ -243,5 +246,20 @@ class DilemmasRepository @Inject constructor(
                 }
             withContext(Dispatchers.IO) { latch.await() }
         }
+    }
+
+    override suspend fun sendDilemma(dilemma: SendDilemmaDTO): Boolean {
+        val latch = CountDownLatch(1)
+        var result = false
+        Firebase.firestore.collection(USERS).document(dilemma.creatorId)
+            .collection(DILEMMAS_SENT).document(dilemma.dilemmaId)
+            .set(dilemma, SetOptions.merge())
+            .addOnCompleteListener {
+                realmDatabase.addObject { dilemma }
+                result = it.isSuccessful
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
+        return result
     }
 }

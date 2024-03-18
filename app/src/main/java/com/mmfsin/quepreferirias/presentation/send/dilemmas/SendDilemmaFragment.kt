@@ -15,19 +15,24 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
+import com.mmfsin.quepreferirias.base.dialog.ErrorDialog
 import com.mmfsin.quepreferirias.databinding.FragmentSendDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
-import com.mmfsin.quepreferirias.presentation.send.dilemmas.interfaces.TextWatcher
+import com.mmfsin.quepreferirias.presentation.send.dialogs.ResultDialog
+import com.mmfsin.quepreferirias.presentation.send.interfaces.ISendDataResultListener
+import com.mmfsin.quepreferirias.presentation.send.interfaces.TextWatcher
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemmaViewModel>() {
+class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemmaViewModel>(),
+    ISendDataResultListener {
 
     override val viewModel: SendDilemmaViewModel by viewModels()
     private lateinit var mContext: Context
 
+    private var session: Session? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -70,7 +75,15 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
                 }
             })
 
-            btnSend.setOnClickListener {  }
+            btnSend.setOnClickListener {
+                session?.let { user ->
+                    val txtTop = etTop.text.toString()
+                    val txtBottom = etBottom.text.toString()
+                    if (txtTop.isNotBlank() && txtBottom.isNotBlank()) {
+                        viewModel.sendDilemma(txtTop, txtBottom, user.id, user.name)
+                    }
+                } ?: run { error() }
+            }
         }
     }
 
@@ -83,13 +96,18 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
         viewModel.event.observe(this) { event ->
             when (event) {
                 is SendDilemmaEvent.UserData -> setUserData(event.session)
-                is SendDilemmaEvent.Result -> {}
+                is SendDilemmaEvent.Result -> {
+                    val dialog = ResultDialog(event.result, this@SendDilemmaFragment)
+                    activity?.let { dialog.show(it.supportFragmentManager, "") }
+                }
+
                 is SendDilemmaEvent.SWW -> error()
             }
         }
     }
 
     private fun setUserData(data: Session) {
+        session = data
         binding.apply {
             Glide.with(mContext).load(data.imageUrl).into(ivImage.image)
             tvName.text = data.name
@@ -104,5 +122,15 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
+    }
+
+    override fun sendAnother() {
+
+    }
+
+    override fun retry() {
+    }
+
+    override fun close() {
     }
 }

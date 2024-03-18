@@ -62,12 +62,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_transparent"
-            android:contentDescription="@string/content_description" />
-
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="wrap_content"
