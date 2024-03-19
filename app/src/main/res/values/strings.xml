@@ -111,6 +111,8 @@
     <string name="profile_close_session">Cerrar sessión</string>
 
     <!-- SAVED DATA -->
+    <string name="saved_data_dilemmas">Dilemas</string>
+    <string name="saved_data_dualisms">Dualismos</string>
     <string name="saved_data_title">Guardado</string>
     <string name="saved_data_empty">No hay nada guardado</string>
 

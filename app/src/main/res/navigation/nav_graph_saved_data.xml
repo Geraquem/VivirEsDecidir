@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/savedDataFragment"
-        android:name="com.mmfsin.quepreferirias.presentation.saved.SavedDataFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.saved.viewpager.ViewPagerFragment"
         android:label="savedDataFragment"
-        tools:layout="@layout/fragment_saved_data" />
+        tools:layout="@layout/fragment_viewpager" />
 
 </navigation>

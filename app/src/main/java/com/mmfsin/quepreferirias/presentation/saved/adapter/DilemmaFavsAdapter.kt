@@ -33,7 +33,7 @@ class DilemmaFavsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val fav = favs[position]
         holder.bind(fav)
-        holder.binding.llMain.setOnClickListener { listener.onDilemmaFavClick(fav.dilemmaId) }
+        holder.binding.clMain.setOnClickListener { listener.onDilemmaFavClick(fav.dilemmaId) }
     }
 
     override fun getItemCount(): Int = favs.size

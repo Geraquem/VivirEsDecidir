@@ -1,32 +1,30 @@
-package com.mmfsin.quepreferirias.presentation.saved
+package com.mmfsin.quepreferirias.presentation.saved.dilemmas
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.usecases.GetFavDilemmasUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
-import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SavedDataViewModel @Inject constructor(
+class DilemmaFavViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
     private val getFavDilemmasUseCase: GetFavDilemmasUseCase
-) : BaseViewModel<SavedDataEvent>() {
+) : BaseViewModel<DilemmaFavDataEvent>() {
 
     fun checkSessionInitiated() {
         executeUseCase(
             { initiatedSessionUseCase.execute() },
-            { result -> _event.value = SavedDataEvent.InitiatedSession(result) },
-            { _event.value = SavedDataEvent.SWW }
+            { result -> _event.value = DilemmaFavDataEvent.InitiatedSession(result) },
+            { _event.value = DilemmaFavDataEvent.SWW }
         )
     }
 
     fun getFavData() {
         executeUseCase(
             { getFavDilemmasUseCase.execute() },
-            { result -> _event.value = SavedDataEvent.Data(result) },
-            { _event.value = SavedDataEvent.SWW }
+            { result -> _event.value = DilemmaFavDataEvent.Data(result) },
+            { _event.value = DilemmaFavDataEvent.SWW }
         )
     }
 }

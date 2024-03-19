@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.saved
+package com.mmfsin.quepreferirias.presentation.saved.dilemmas
 
 import android.content.Context
 import android.os.Bundle
@@ -9,21 +9,19 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentSavedDataBinding
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
-import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.saved.adapter.DilemmaFavsAdapter
 import com.mmfsin.quepreferirias.presentation.saved.interfaces.IDilemmaFavListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewModel>(),
+class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavViewModel>(),
     IDilemmaFavListener {
 
-    override val viewModel: SavedDataViewModel by viewModels()
+    override val viewModel: DilemmaFavViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var hasSession = false
@@ -40,14 +38,6 @@ class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewMo
     override fun setUI() {
         binding.apply {
             loading.root.isVisible
-            setToolbar()
-        }
-    }
-
-    private fun setToolbar() {
-        (activity as BedRockActivity).apply {
-            backListener { onBackPressed() }
-            setToolbarText(R.string.saved_data_title)
         }
     }
 
@@ -59,13 +49,13 @@ class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewMo
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is SavedDataEvent.InitiatedSession -> {
+                is DilemmaFavDataEvent.InitiatedSession -> {
                     hasSession = event.initiatedSession
                     if (hasSession) viewModel.getFavData()
                 }
 
-                is SavedDataEvent.Data -> setDilemmaFavs(event.data)
-                is SavedDataEvent.SWW -> error()
+                is DilemmaFavDataEvent.Data -> setDilemmaFavs(event.data)
+                is DilemmaFavDataEvent.SWW -> error()
             }
         }
     }
@@ -76,7 +66,7 @@ class SavedDataFragment : BaseFragment<FragmentSavedDataBinding, SavedDataViewMo
             tvEmpty.isVisible = visible
             rvSavedData.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = DilemmaFavsAdapter(dilemmas, this@SavedDataFragment)
+                adapter = DilemmaFavsAdapter(dilemmas, this@DilemmaFavFragment)
             }
             rvSavedData.isVisible = !visible
             loading.root.visibility = View.GONE
