@@ -104,6 +104,7 @@
     <string name="comments_more_than_three_month">Hace más de tres meses</string>
     <string name="comments_error">Indefinido</string>
     <string name="comments_answer">Responder</string>
+    <string name="comments_log_in">Inicia sesión para dejar un comentario</string>
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>

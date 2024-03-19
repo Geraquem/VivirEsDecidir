@@ -98,11 +98,7 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
             when (event) {
                 is CommentsEvent.InitiatedSession -> {
                     hasSession = event.initiatedSession
-                    if (hasSession) viewModel.getUserData()
-                    else {
-                        binding.etComment.visibility = View.INVISIBLE
-                        viewModel.getComments()
-                    }
+                    sessionFlow()
                 }
 
                 is CommentsEvent.UserData -> {
@@ -153,6 +149,20 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
     }
 
     override fun respondComment() {
+    }
+
+    private fun sessionFlow() {
+        binding.apply {
+            if (hasSession) {
+                clSendComment.visibility = View.VISIBLE
+                tvNoSession.visibility = View.GONE
+                viewModel.getUserData()
+            } else {
+                clSendComment.visibility = View.INVISIBLE
+                tvNoSession.visibility = View.VISIBLE
+                viewModel.getComments()
+            }
+        }
     }
 
     override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {
