@@ -31,8 +31,8 @@ class RecentCommentsAdapter(
         private fun setUpLikes(likes: Long): String {
             return when (likes) {
                 0L -> ""
-                1L, -1L -> c.getString(R.string.dashboard_comment_one_vote, likes.toString())
-                else -> c.getString(R.string.dashboard_comment_votes, likes.toString())
+                1L, -1L -> c.getString(R.string.dashboard_comment_one_point, likes.toString())
+                else -> c.getString(R.string.dashboard_comment_points, likes.toString())
             }
         }
     }

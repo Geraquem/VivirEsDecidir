@@ -74,7 +74,7 @@
     <string name="send_dualism_result_retry">Reintentar</string>
     <string name="send_dualism_result_exit">Cerrar</string>
 
-    <!-- DASHBOARD -->
+    <!-- DASHBOARD DILEMMAS -->
     <string name="dashboard_but">pero</string>
     <string name="dashboard_btn_yes">A tope</string>
     <string name="dashboard_btn_no">No lo creo</string>
@@ -83,8 +83,8 @@
     <string name="dashboard_sent_by">Enviado por</string>
     <string name="dashboard_comments">Comentarios</string>
     <string name="dashboard_comments_title">%s Comentarios</string>
-    <string name="dashboard_comment_votes">%s votos</string>
-    <string name="dashboard_comment_one_vote">%s voto</string>
+    <string name="dashboard_comment_points">%s puntos</string>
+    <string name="dashboard_comment_one_point">%s punto</string>
     <string name="dashboard_single_comment_title">1 Comentario</string>
     <string name="dashboard_see_all">Ver todos</string>
     <string name="dashboard_no_comments">No hay comentarios</string>
