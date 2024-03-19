@@ -9,6 +9,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragmentNoVM
 import com.mmfsin.quepreferirias.databinding.FragmentViewpagerBinding
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.myideas.viewpager.adapter.MyIdeasViewPagerAdapter
 import com.mmfsin.quepreferirias.presentation.saved.viewpager.adapter.FavViewPagerAdapter
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +41,7 @@ class MyIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>() {
     private fun setUpViewPager() {
         binding.apply {
             activity?.let {
-                viewPager.adapter = FavViewPagerAdapter(it)
+                viewPager.adapter = MyIdeasViewPagerAdapter(it)
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     when (position) {
                         0 -> tab.setText(R.string.my_data_dilemmas)
