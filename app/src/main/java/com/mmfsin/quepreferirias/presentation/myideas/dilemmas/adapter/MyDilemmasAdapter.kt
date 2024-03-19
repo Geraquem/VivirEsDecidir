@@ -1,0 +1,40 @@
+package com.mmfsin.quepreferirias.presentation.myideas.dilemmas.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.mmfsin.quepreferirias.R
+import com.mmfsin.quepreferirias.databinding.ItemMyDilemmaBinding
+import com.mmfsin.quepreferirias.domain.models.SendDilemma
+import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmaListener
+
+class MyDilemmasAdapter(
+    private val data: List<SendDilemma>,
+    private val listener: IMyDilemmaListener
+) : RecyclerView.Adapter<MyDilemmasAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val binding = ItemMyDilemmaBinding.bind(view)
+        fun bind(dilemma: SendDilemma) {
+            binding.apply {
+                tvTxtTop.text = dilemma.txtTop
+                tvTxtBottom.text = dilemma.txtBottom
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_my_dilemma, parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val dilemma = data[position]
+        holder.bind(dilemma)
+        holder.binding.clMain.setOnClickListener { listener.onMyDilemmaClick(dilemma.dilemmaId) }
+    }
+
+    override fun getItemCount(): Int = data.size
+}

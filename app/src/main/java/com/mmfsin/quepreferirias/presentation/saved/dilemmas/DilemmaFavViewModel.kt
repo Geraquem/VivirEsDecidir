@@ -8,17 +8,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DilemmaFavViewModel @Inject constructor(
-    private val initiatedSessionUseCase: InitiatedSessionUseCase,
     private val getFavDilemmasUseCase: GetFavDilemmasUseCase
 ) : BaseViewModel<DilemmaFavEvent>() {
-
-    fun checkSessionInitiated() {
-        executeUseCase(
-            { initiatedSessionUseCase.execute() },
-            { result -> _event.value = DilemmaFavEvent.InitiatedSession(result) },
-            { _event.value = DilemmaFavEvent.SWW }
-        )
-    }
 
     fun getFavData() {
         executeUseCase(

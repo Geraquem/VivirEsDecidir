@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.saved.adapter
+package com.mmfsin.quepreferirias.presentation.saved.dilemmas.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemDilemmaFavBinding
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
-import com.mmfsin.quepreferirias.presentation.saved.interfaces.IDilemmaFavListener
+import com.mmfsin.quepreferirias.presentation.saved.dilemmas.interfaces.IDilemmaFavListener
 
 class DilemmaFavsAdapter(
     private val favs: List<DilemmaFav>,

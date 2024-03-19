@@ -9,71 +9,61 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.databinding.FragmentSavedDataBinding
-import com.mmfsin.quepreferirias.domain.models.DilemmaFav
-import com.mmfsin.quepreferirias.presentation.saved.adapter.DilemmaFavsAdapter
-import com.mmfsin.quepreferirias.presentation.saved.interfaces.IDilemmaFavListener
+import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
+import com.mmfsin.quepreferirias.domain.models.SendDilemma
+import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.adapter.MyDilemmasAdapter
+import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmaListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyDilemmasFragment : BaseFragment<FragmentSavedDataBinding, MyDilemmasViewModel>(),
-    IDilemmaFavListener {
+class MyDilemmasFragment : BaseFragment<FragmentRvDataBinding, MyDilemmasViewModel>(),
+    IMyDilemmaListener {
 
     override val viewModel: MyDilemmasViewModel by viewModels()
     private lateinit var mContext: Context
 
-    private var hasSession = false
-
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentSavedDataBinding.inflate(inflater, container, false)
+    ) = FragmentRvDataBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.checkSessionInitiated()
+        viewModel.getMyDilemmas()
     }
 
     override fun setUI() {
         binding.apply {
             loading.root.isVisible
-        }
-    }
-
-    override fun setListeners() {
-        binding.apply {
+            tvEmpty.text = getString(R.string.my_data_empty)
         }
     }
 
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is DilemmaFavDataEvent.InitiatedSession -> {
-                    hasSession = event.initiatedSession
-                    if (hasSession) viewModel.getFavData()
-                }
-
-                is DilemmaFavDataEvent.Data -> setDilemmaFavs(event.data)
-                is DilemmaFavDataEvent.SWW -> error()
+                is MyDilemmasEvent.Data -> setMyDilemmas(event.data)
+                is MyDilemmasEvent.SWW -> error()
             }
         }
     }
 
-    private fun setDilemmaFavs(dilemmas: List<DilemmaFav>) {
+    private fun setMyDilemmas(dilemmas: List<SendDilemma>) {
         binding.apply {
             val visible = dilemmas.isEmpty()
             tvEmpty.isVisible = visible
-            rvSavedData.apply {
+            rvData.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = DilemmaFavsAdapter(dilemmas, this@MyDilemmasFragment)
+                adapter = MyDilemmasAdapter(dilemmas, this@MyDilemmasFragment)
             }
-            rvSavedData.isVisible = !visible
+            rvData.isVisible = !visible
             loading.root.visibility = View.GONE
         }
     }
 
-    override fun onDilemmaFavClick(dilemmaId: String) {
+    override fun onMyDilemmaClick(dilemmaId: String) {
         Toast.makeText(mContext, dilemmaId, Toast.LENGTH_SHORT).show()
     }
 

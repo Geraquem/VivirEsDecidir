@@ -9,16 +9,17 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.databinding.FragmentSavedDataBinding
+import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
-import com.mmfsin.quepreferirias.presentation.saved.adapter.DilemmaFavsAdapter
-import com.mmfsin.quepreferirias.presentation.saved.interfaces.IDilemmaFavListener
+import com.mmfsin.quepreferirias.presentation.saved.dilemmas.adapter.DilemmaFavsAdapter
+import com.mmfsin.quepreferirias.presentation.saved.dilemmas.interfaces.IDilemmaFavListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavViewModel>(),
+class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewModel>(),
     IDilemmaFavListener {
 
     override val viewModel: DilemmaFavViewModel by viewModels()
@@ -28,16 +29,17 @@ class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavView
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentSavedDataBinding.inflate(inflater, container, false)
+    ) = FragmentRvDataBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.checkSessionInitiated()
+        viewModel.getFavData()
     }
 
     override fun setUI() {
         binding.apply {
             loading.root.isVisible
+            tvEmpty.text = getString(R.string.saved_data_empty)
         }
     }
 
@@ -49,11 +51,6 @@ class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavView
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is DilemmaFavEvent.InitiatedSession -> {
-                    hasSession = event.initiatedSession
-                    if (hasSession) viewModel.getFavData()
-                }
-
                 is DilemmaFavEvent.Data -> setDilemmaFavs(event.data)
                 is DilemmaFavEvent.SWW -> error()
             }
@@ -64,11 +61,11 @@ class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavView
         binding.apply {
             val visible = dilemmas.isEmpty()
             tvEmpty.isVisible = visible
-            rvSavedData.apply {
+            rvData.apply {
                 layoutManager = LinearLayoutManager(mContext)
                 adapter = DilemmaFavsAdapter(dilemmas, this@DilemmaFavFragment)
             }
-            rvSavedData.isVisible = !visible
+            rvData.isVisible = !visible
             loading.root.visibility = View.GONE
         }
     }

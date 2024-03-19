@@ -33,7 +33,7 @@ class MyIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>() {
     private fun setToolbar() {
         (activity as BedRockActivity).apply {
             backListener { onBackPressed() }
-            setToolbarText(R.string.saved_data_title)
+            setToolbarText(R.string.my_data_title)
         }
     }
 
@@ -43,8 +43,8 @@ class MyIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>() {
                 viewPager.adapter = FavViewPagerAdapter(it)
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     when (position) {
-                        0 -> tab.setText(R.string.saved_data_dilemmas)
-                        1 -> tab.setText(R.string.saved_data_dualisms)
+                        0 -> tab.setText(R.string.my_data_dilemmas)
+                        1 -> tab.setText(R.string.my_data_dualisms)
                     }
                 }.attach()
                 loading.root.visibility = View.GONE

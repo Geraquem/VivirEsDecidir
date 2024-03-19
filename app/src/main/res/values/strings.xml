@@ -116,6 +116,12 @@
     <string name="saved_data_title">Guardado</string>
     <string name="saved_data_empty">No hay nada guardado</string>
 
+    <!-- MY DATA -->
+    <string name="my_data_dilemmas">Dilemas</string>
+    <string name="my_data_dualisms">Dualismos</string>
+    <string name="my_data_title">Mis ideas</string>
+    <string name="my_data_empty">No has enviado nada</string>
+
     <!-- MORE APPS -->
     <string name="sq_mmfsin_url">https://play.google.com/store/apps/developer?id=mmfsin</string>
 

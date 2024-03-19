@@ -21,7 +21,7 @@ import com.mmfsin.quepreferirias.presentation.login.LoginActivity
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DILEMMAS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DATA_SAVED
-import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DATA_SENT
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.MY_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DUALISMS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.SEND_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.USER_PROFILE
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             DUALISMS -> {}
             USER_PROFILE -> navigateTo(R.navigation.nav_graph_profile)
             DATA_SAVED -> navigateTo(R.navigation.nav_graph_saved_data)
-            DATA_SENT -> {}
+            MY_DATA -> navigateTo(R.navigation.nav_graph_my_data)
             SEND_DATA -> openSendDataDialog()
         }
     }
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                     //////////////////////
                     R.id.nav_profile -> viewModel.checkSession(USER_PROFILE)
                     R.id.nav_saved -> viewModel.checkSession(DATA_SAVED)
-                    R.id.nav_sent -> viewModel.checkSession(DATA_SENT)
+                    R.id.nav_my_data -> viewModel.checkSession(MY_DATA)
                     //////////////////////
                     R.id.nav_send_data -> viewModel.checkSession(SEND_DATA)
                     R.id.nav_more_apps -> {
