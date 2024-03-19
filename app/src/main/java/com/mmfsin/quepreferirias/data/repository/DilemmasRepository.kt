@@ -295,7 +295,7 @@ class DilemmasRepository @Inject constructor(
                     }
                 withContext(Dispatchers.IO) { latch.await() }
                 sharedPrefs.edit().apply {
-                    putBoolean(UPDATE_SAVED_DATA, false)
+                    putBoolean(UPDATE_SENT_DATA, false)
                     apply()
                 }
                 dilemmas.toSendDilemmaList()
