@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: IUserRepository
+    private val repository: IUserRepository
 ) : BaseUseCase<LogoutUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
@@ -39,7 +39,7 @@ class LogoutUseCase @Inject constructor(
         }
 
         /** Realm */
-        sessionRepository.deleteSession()
+        repository.deleteSession()
     }
 
     data class Params(

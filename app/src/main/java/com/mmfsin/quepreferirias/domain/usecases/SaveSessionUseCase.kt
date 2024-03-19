@@ -14,11 +14,11 @@ import javax.inject.Inject
 
 class SaveSessionUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: IUserRepository
+    private val repository: IUserRepository
 ) : BaseUseCase<SaveSessionUseCase.Params, Boolean>() {
 
     override suspend fun execute(params: Params): Boolean {
-        val result = sessionRepository.saveSession(params.session)
+        val result = repository.saveSession(params.session)
         if (result) {
             /** Shared prefs */
             val session = context.getSharedPreferences(SESSION, MODE_PRIVATE)

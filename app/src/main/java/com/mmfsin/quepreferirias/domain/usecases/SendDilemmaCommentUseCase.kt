@@ -8,8 +8,9 @@ import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 
-class SendDilemmaCommentUseCase @Inject constructor(private val repository: IDilemmasRepository) :
-    BaseUseCase<SendDilemmaCommentUseCase.Params, Boolean>() {
+class SendDilemmaCommentUseCase @Inject constructor(
+    private val repository: IDilemmasRepository
+) : BaseUseCase<SendDilemmaCommentUseCase.Params, Boolean>() {
 
     override suspend fun execute(params: Params): Boolean {
         val comment = CommentDTO(

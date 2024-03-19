@@ -11,14 +11,14 @@ import javax.inject.Inject
 
 class GetSessionUseCase @Inject constructor(
     @ApplicationContext val context: Context,
-    private val sessionRepository: IUserRepository
+    private val repository: IUserRepository
 ) : BaseUseCaseNoParams<Session?>() {
 
     override suspend fun execute(): Session? {
         val session = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
         val isInitiated = session.getBoolean(SESSION_INITIATED, false)
         if (!isInitiated) return null
-        val userSession = sessionRepository.getSession()
+        val userSession = repository.getSession()
         userSession?.let { return it } ?: run {
             session.edit().apply {
                 putBoolean(SESSION_INITIATED, false)

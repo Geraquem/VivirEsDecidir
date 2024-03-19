@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.saved.dilemmas
+package com.mmfsin.quepreferirias.presentation.myideas.dilemmas
 
 import android.content.Context
 import android.os.Bundle
@@ -18,10 +18,10 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavViewModel>(),
+class MyDilemmasFragment : BaseFragment<FragmentSavedDataBinding, MyDilemmasViewModel>(),
     IDilemmaFavListener {
 
-    override val viewModel: DilemmaFavViewModel by viewModels()
+    override val viewModel: MyDilemmasViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var hasSession = false
@@ -49,13 +49,13 @@ class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavView
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is DilemmaFavEvent.InitiatedSession -> {
+                is DilemmaFavDataEvent.InitiatedSession -> {
                     hasSession = event.initiatedSession
                     if (hasSession) viewModel.getFavData()
                 }
 
-                is DilemmaFavEvent.Data -> setDilemmaFavs(event.data)
-                is DilemmaFavEvent.SWW -> error()
+                is DilemmaFavDataEvent.Data -> setDilemmaFavs(event.data)
+                is DilemmaFavDataEvent.SWW -> error()
             }
         }
     }
@@ -66,7 +66,7 @@ class DilemmaFavFragment : BaseFragment<FragmentSavedDataBinding, DilemmaFavView
             tvEmpty.isVisible = visible
             rvSavedData.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = DilemmaFavsAdapter(dilemmas, this@DilemmaFavFragment)
+                adapter = DilemmaFavsAdapter(dilemmas, this@MyDilemmasFragment)
             }
             rvSavedData.isVisible = !visible
             loading.root.visibility = View.GONE

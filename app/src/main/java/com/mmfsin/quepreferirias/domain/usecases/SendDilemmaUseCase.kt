@@ -4,12 +4,12 @@ import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.data.mappers.toSendDilemmaDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
-import com.mmfsin.quepreferirias.domain.models.Session
 import java.util.UUID
 import javax.inject.Inject
 
-class SendDilemmaUseCase @Inject constructor(private val repository: IDilemmasRepository) :
-    BaseUseCase<SendDilemmaUseCase.Params, Boolean>() {
+class SendDilemmaUseCase @Inject constructor(
+    private val repository: IDilemmasRepository
+) : BaseUseCase<SendDilemmaUseCase.Params, Boolean>() {
 
     override suspend fun execute(params: Params): Boolean {
         val dilemma = SendDilemma(

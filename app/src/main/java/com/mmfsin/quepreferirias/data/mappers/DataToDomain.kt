@@ -2,12 +2,12 @@ package com.mmfsin.quepreferirias.data.mappers
 
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.data.models.CommentDTO
-import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
+import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -66,3 +66,15 @@ fun DilemmaFavDTO.toDilemmaFav() = DilemmaFav(
 )
 
 fun List<DilemmaFavDTO>.toDilemmaFavList() = this.map { dilemma -> dilemma.toDilemmaFav() }.toList()
+
+fun SendDilemmaDTO.toSendDilemma() = SendDilemma(
+    dilemmaId = dilemmaId,
+    txtTop = txtTop,
+    txtBottom = txtBottom,
+    creatorName = creatorName,
+    timestamp = timestamp,
+    creatorId = creatorId
+)
+
+fun List<SendDilemmaDTO>.toSendDilemmaList() =
+    this.map { dilemma -> dilemma.toSendDilemma() }.toList()

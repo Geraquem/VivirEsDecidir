@@ -5,8 +5,9 @@ import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import javax.inject.Inject
 
-class GetDilemmas @Inject constructor(private val repository: IDilemmasRepository) :
-    BaseUseCaseNoParams<List<Dilemma>>() {
+class GetDilemmas @Inject constructor(
+    private val repository: IDilemmasRepository
+) : BaseUseCaseNoParams<List<Dilemma>>() {
 
     override suspend fun execute(): List<Dilemma> = repository.getDilemmas()//.shuffled()
 }

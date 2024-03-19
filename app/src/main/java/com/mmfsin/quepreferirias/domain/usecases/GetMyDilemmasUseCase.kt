@@ -2,12 +2,12 @@ package com.mmfsin.quepreferirias.domain.usecases
 
 import com.mmfsin.quepreferirias.base.BaseUseCaseNoParams
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
-import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import javax.inject.Inject
 
-class GetFavDilemmasUseCase @Inject constructor(
+class GetMyDilemmasUseCase @Inject constructor(
     private val repository: IDilemmasRepository
-) : BaseUseCaseNoParams<List<DilemmaFav>>() {
+) : BaseUseCaseNoParams<List<SendDilemma>>() {
 
-    override suspend fun execute(): List<DilemmaFav> = repository.getFavDilemmas()
+    override suspend fun execute(): List<SendDilemma> = repository.getMyDilemmas()
 }

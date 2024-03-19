@@ -5,8 +5,9 @@ import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.models.Comment
 import javax.inject.Inject
 
-class GetDilemmaCommentsUseCase @Inject constructor(val repository: IDilemmasRepository) :
-    BaseUseCase<GetDilemmaCommentsUseCase.Params, List<Comment>>() {
+class GetDilemmaCommentsUseCase @Inject constructor(
+    val repository: IDilemmasRepository
+) : BaseUseCase<GetDilemmaCommentsUseCase.Params, List<Comment>>() {
 
     override suspend fun execute(params: Params): List<Comment> {
         return if (params.fromRealm) repository.getDilemmaCommentFromRealm()
