@@ -8,6 +8,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemMyDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmaListener
+import com.mmfsin.quepreferirias.utils.timestampToDate
 
 class MyDilemmasAdapter(
     private val data: List<SendDilemma>,
@@ -16,10 +17,13 @@ class MyDilemmasAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemMyDilemmaBinding.bind(view)
+        private val c = binding.root.context
         fun bind(dilemma: SendDilemma) {
             binding.apply {
                 tvTxtTop.text = dilemma.txtTop
                 tvTxtBottom.text = dilemma.txtBottom
+                val date = dilemma.timestamp.timestampToDate()
+                tvDate.text = c.getString(R.string.my_data_item_date, date)
             }
         }
     }

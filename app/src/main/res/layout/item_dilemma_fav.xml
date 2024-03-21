@@ -31,6 +31,14 @@
             tools:text="Puedes volar" />
 
         <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:alpha="0.5"
+            android:text="@string/dashboard_but" />
+
+        <TextView
             android:id="@+id/tv_txt_bottom"
             style="@style/SmallTextView"
             android:layout_width="wrap_content"

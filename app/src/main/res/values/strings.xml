@@ -75,7 +75,7 @@
     <string name="send_dualism_result_exit">Cerrar</string>
 
     <!-- DASHBOARD DILEMMAS -->
-    <string name="dashboard_but">pero</string>
+    <string name="dashboard_but">Pero</string>
     <string name="dashboard_btn_yes">A tope</string>
     <string name="dashboard_btn_no">No lo creo</string>
     <string name="dashboard_votes">Votos</string>
@@ -120,6 +120,7 @@
     <string name="my_data_dilemmas">Dilemas</string>
     <string name="my_data_dualisms">Dualismos</string>
     <string name="my_data_title">Mis ideas</string>
+    <string name="my_data_item_date">Enviado el %s</string>
     <string name="my_data_empty">No has enviado nada</string>
 
     <!-- MORE APPS -->

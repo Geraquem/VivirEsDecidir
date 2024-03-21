@@ -2,7 +2,6 @@ package com.mmfsin.quepreferirias.data.repository
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -272,9 +271,6 @@ class DilemmasRepository @Inject constructor(
         return session?.let {
             val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(UPDATE_SENT_DATA, true)) {
-
-                Toast.makeText(context, "firebase", Toast.LENGTH_SHORT).show()
-
                 realmDatabase.deleteAllObjects(SendDilemmaDTO::class.java)
                 val dilemmas = mutableListOf<SendDilemmaDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
@@ -300,9 +296,6 @@ class DilemmasRepository @Inject constructor(
                 }
                 dilemmas.toSendDilemmaList()
             } else {
-
-                Toast.makeText(context, "realm", Toast.LENGTH_SHORT).show()
-
                 val dilemmas =
                     realmDatabase.getObjectsFromRealm { where<SendDilemmaDTO>().findAll() }
                 dilemmas.toSendDilemmaList()

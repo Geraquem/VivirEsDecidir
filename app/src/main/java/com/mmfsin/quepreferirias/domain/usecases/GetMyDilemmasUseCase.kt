@@ -9,5 +9,6 @@ class GetMyDilemmasUseCase @Inject constructor(
     private val repository: IDilemmasRepository
 ) : BaseUseCaseNoParams<List<SendDilemma>>() {
 
-    override suspend fun execute(): List<SendDilemma> = repository.getMyDilemmas()
+    override suspend fun execute(): List<SendDilemma> =
+        repository.getMyDilemmas().sortedBy { it.timestamp }.reversed()
 }
