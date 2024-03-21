@@ -33,6 +33,13 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="BigTextView_Bold">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="DilemmaButtonsTextView">
         <item name="android:fontFamily">@font/btn_font</item>
         <item name="android:textSize">26sp</item>

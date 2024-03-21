@@ -8,21 +8,24 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ActivityMainBinding
 import com.mmfsin.quepreferirias.presentation.login.LoginActivity
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
-import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DILEMMAS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DATA_SAVED
-import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.MY_DATA
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DILEMMAS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DUALISMS
+import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.MY_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.SEND_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.USER_PROFILE
 import com.mmfsin.quepreferirias.presentation.send.dialogs.SendDataDialog
@@ -43,9 +46,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         init()
         registerLocalBroadcast()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSession()
     }
 
     private fun init() {
@@ -65,6 +72,12 @@ class MainActivity : AppCompatActivity() {
                 is MainEvent.DrawerFlowDirection -> {
                     val hasSession = event.result.first
                     if (hasSession) navigateDrawer(event.result.second) else loginFlow()
+                }
+
+                is MainEvent.GetSession -> {
+                    event.session?.let { user ->
+                        customNavigationDrawer(user.imageUrl, user.name)
+                    } ?: run { drawerHeaderViewDefault() }
                 }
 
                 is MainEvent.SWW -> showErrorDialog() { finish() }
@@ -119,6 +132,24 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.closeDrawers()
                 true
             }
+        }
+    }
+
+    private fun drawerHeaderViewDefault() {
+        binding.apply {
+            val headerView = navigationView.getHeaderView(0)
+            headerView.findViewById<ImageView>(R.id.iv_image)
+                .setImageResource(R.drawable.ic_dilemma_yes)
+            headerView.findViewById<TextView>(R.id.tv_title).text = getString(R.string.app_name)
+        }
+    }
+
+    private fun customNavigationDrawer(image: String, name: String) {
+        binding.apply {
+            val headerView = navigationView.getHeaderView(0)
+            val headerImage = headerView.findViewById<ImageView>(R.id.iv_image)
+            Glide.with(this@MainActivity).load(image).into(headerImage)
+            headerView.findViewById<TextView>(R.id.tv_title).text = name
         }
     }
 
