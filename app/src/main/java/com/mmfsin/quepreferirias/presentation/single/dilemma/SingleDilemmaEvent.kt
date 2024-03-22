@@ -7,7 +7,7 @@ import com.mmfsin.quepreferirias.presentation.models.Percents
 sealed class SingleDilemmaEvent {
     class InitiatedSession(val initiatedSession: Boolean) : SingleDilemmaEvent()
     class ReCheckSession(val initiatedSession: Boolean) : SingleDilemmaEvent()
-    class Dilemmas(val data: List<Dilemma>) : SingleDilemmaEvent()
+    class GetDilemma(val data: Dilemma) : SingleDilemmaEvent()
     class GetPercents(val percents: Percents) : SingleDilemmaEvent()
     class GetComments(val comments: List<Comment>) : SingleDilemmaEvent()
     class CheckDilemmaFav(val result: Boolean) : SingleDilemmaEvent()

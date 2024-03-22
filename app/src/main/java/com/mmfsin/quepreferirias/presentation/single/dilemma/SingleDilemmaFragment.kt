@@ -11,9 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -32,8 +29,9 @@ import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
-import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
+import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
+import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,6 +43,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private lateinit var mContext: Context
 
     private var hasSession = false
+    var dilemmaId: String? = null
 
     private var dilemmaList = emptyList<Dilemma>()
     private var actualData: Dilemma? = null
@@ -56,6 +55,10 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentDilemmaBinding.inflate(inflater, container, false)
+
+    override fun getBundleArgs() {
+        arguments?.let { bundle -> dilemmaId = bundle.getString(DILEMMA_ID) }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -134,14 +137,15 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             when (event) {
                 is SingleDilemmaEvent.InitiatedSession -> {
                     hasSession = event.initiatedSession
-                    viewModel.getDilemmas()
+                    dilemmaId?.let { id -> viewModel.getDilemmaById(id) } ?: run { error() }
                 }
 
                 is SingleDilemmaEvent.ReCheckSession -> hasSession = event.initiatedSession
 
-                is SingleDilemmaEvent.Dilemmas -> {
-                    dilemmaList = event.data
-                    setData()
+                is SingleDilemmaEvent.GetDilemma -> {
+                    val a = 2
+//                    dilemmaList = event.data
+//                    setData()
                 }
 
                 is SingleDilemmaEvent.GetPercents -> setPercents(event.percents)

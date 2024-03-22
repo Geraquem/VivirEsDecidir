@@ -56,10 +56,10 @@ class FavViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), IView
     }
 
     override fun navigateToSingleDilemma(dilemmaId: String) =
-        findNavController().navigate(savedDataToSingleDilemma())
+        findNavController().navigate(savedDataToSingleDilemma(dilemmaId))
 
     override fun navigateToSingleDualism(dualismId: String) {
-
+        //TODO
     }
 
     private fun error() {

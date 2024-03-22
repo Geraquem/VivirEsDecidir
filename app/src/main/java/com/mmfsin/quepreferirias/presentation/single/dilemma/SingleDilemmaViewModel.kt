@@ -4,8 +4,8 @@ import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaById
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
-import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SingleDilemmaViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
-    private val getDilemmas: GetDilemmas,
+    private val getDilemmaById: GetDilemmaById,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase,
@@ -33,7 +33,7 @@ class SingleDilemmaViewModel @Inject constructor(
         )
     }
 
-    fun reCheckSession(){
+    fun reCheckSession() {
         executeUseCase(
             { initiatedSessionUseCase.execute() },
             { result -> _event.value = SingleDilemmaEvent.ReCheckSession(result) },
@@ -41,12 +41,12 @@ class SingleDilemmaViewModel @Inject constructor(
         )
     }
 
-    fun getDilemmas() {
+    fun getDilemmaById(dilemmaId: String) {
         executeUseCase(
-            { getDilemmas.execute() },
+            { getDilemmaById.execute(GetDilemmaById.Params(dilemmaId)) },
             { result ->
-                _event.value =
-                    if (result.isEmpty()) SingleDilemmaEvent.SWW else SingleDilemmaEvent.Dilemmas(result)
+                _event.value = result?.let { SingleDilemmaEvent.GetDilemma(it) }
+                    ?: run { SingleDilemmaEvent.SWW }
             },
             { _event.value = SingleDilemmaEvent.SWW }
         )

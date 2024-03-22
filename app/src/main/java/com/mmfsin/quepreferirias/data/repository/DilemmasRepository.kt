@@ -87,6 +87,32 @@ class DilemmasRepository @Inject constructor(
         return dilemmaList//.shuffled()
     }
 
+    override suspend fun getDilemmaById(dilemmaId: String): Dilemma? {
+        val latch = CountDownLatch(1)
+        var dilemma: Dilemma? = null
+        val root = reference.child(DILEMMAS).child(dilemmaId)
+        root.get().addOnCompleteListener { dataSnapshot ->
+            val result = dataSnapshot.result
+            if (result.exists()) {
+                dilemma = Dilemma(
+                    id = dilemmaId,
+                    topText = result.child(TXT_TOP).value.toString(),
+                    bottomText = result.child(TXT_BOTTOM).value.toString(),
+                    votesYes = result.child(VOTES_YES).childrenCount,
+                    votesNo = result.child(VOTES_NO).childrenCount,
+                    creatorName = result.child(CREATOR_NAME).value?.toString()
+                )
+            }
+            latch.countDown()
+        }.addOnFailureListener { latch.countDown() }
+
+        withContext(Dispatchers.IO)
+        {
+            latch.await()
+        }
+        return dilemma
+    }
+
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
         val comments = mutableListOf<CommentDTO>()
         val latch = CountDownLatch(1)
@@ -111,7 +137,7 @@ class DilemmasRepository @Inject constructor(
         return sortedComments(comments)
     }
 
-    override suspend fun getDilemmaCommentFromRealm(): List<Comment> {
+    override suspend fun getDilemmaCommentsFromRealm(): List<Comment> {
         val comments = realmDatabase.getObjectsFromRealm { where<CommentDTO>().findAll() }
         return sortedComments(comments)
     }

@@ -10,10 +10,11 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 
 interface IDilemmasRepository {
-    /** DILEMMAS */
     suspend fun getDilemmas(): List<Dilemma>
+    suspend fun getDilemmaById(dilemmaId: String): Dilemma?
+
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
-    suspend fun getDilemmaCommentFromRealm(): List<Comment>
+    suspend fun getDilemmaCommentsFromRealm(): List<Comment>
     suspend fun sendDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean
     suspend fun voteDilemmaComment(
         dilemmaId: String,
