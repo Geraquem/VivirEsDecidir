@@ -242,7 +242,7 @@ class DilemmasRepository @Inject constructor(
                         }.first()
                         realmDatabase.deleteObject({ dilemma }, DILEMMA_ID, dilemmaId)
                     } catch (e: Exception) {
-                        Log.i("Error:", "Error saving dilemma fav: ${e.message}")
+                        Log.i("Error:", "Error deleting dilemma fav: ${e.message}")
                     }
                     latch.countDown()
                 }

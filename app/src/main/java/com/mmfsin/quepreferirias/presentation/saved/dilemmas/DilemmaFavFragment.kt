@@ -13,6 +13,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.presentation.saved.delete.DeleteFavDataDialog
 import com.mmfsin.quepreferirias.presentation.saved.dilemmas.adapter.DilemmaFavsAdapter
 import com.mmfsin.quepreferirias.presentation.saved.dilemmas.interfaces.IDilemmaFavListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -25,7 +26,7 @@ class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewMod
     override val viewModel: DilemmaFavViewModel by viewModels()
     private lateinit var mContext: Context
 
-    private var hasSession = false
+    private var dialog: DeleteFavDataDialog? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -33,7 +34,7 @@ class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewMod
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getFavData()
+        viewModel.getFavDilemmasData()
     }
 
     override fun setUI() {
@@ -52,6 +53,11 @@ class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewMod
         viewModel.event.observe(this) { event ->
             when (event) {
                 is DilemmaFavEvent.Data -> setDilemmaFavs(event.data)
+                is DilemmaFavEvent.FavDeleted -> {
+                    dialog?.dismiss()
+                    viewModel.getFavDilemmasData()
+                }
+
                 is DilemmaFavEvent.SWW -> error()
             }
         }
@@ -72,6 +78,11 @@ class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewMod
 
     override fun onDilemmaFavClick(dilemmaId: String) {
         Toast.makeText(mContext, dilemmaId, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDilemmaFavLongClick(dilemmaId: String) {
+        dialog = DeleteFavDataDialog { viewModel.deleteDilemmaFav(dilemmaId) }
+        activity?.let { dialog?.show(it.supportFragmentManager, "") }
     }
 
     private fun error() {

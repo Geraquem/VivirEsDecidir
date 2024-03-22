@@ -4,5 +4,6 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 
 sealed class DilemmaFavEvent {
     class Data(val data: List<DilemmaFav>) : DilemmaFavEvent()
+    object FavDeleted : DilemmaFavEvent()
     object SWW : DilemmaFavEvent()
 }

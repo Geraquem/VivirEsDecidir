@@ -116,6 +116,11 @@
     <string name="saved_data_title">Guardado</string>
     <string name="saved_data_empty">No hay nada guardado</string>
 
+    <!-- DELETE FAV DATA -->
+    <string name="delete_fav_data_title">¿Eliminar de favoritos?</string>
+    <string name="delete_fav_data_accept">Si</string>
+    <string name="delete_fav_data_reject">No</string>
+
     <!-- MY DATA -->
     <string name="my_data_dilemmas">Dilemas</string>
     <string name="my_data_dualisms">Dualismos</string>
