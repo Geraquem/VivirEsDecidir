@@ -16,8 +16,10 @@
 
     <color name="background">#FFFFFF</color>
     <color name="error">#F27474</color>
-    <color name="cancel">#66F27474</color>
     <color name="drawer_header">#EEEEEE</color>
+
+    <color name="cancel">#66F27474</color>
+    <color name="success">#59BB88</color>
 
     <color name="et_hint">#9E9E9E</color>
     <color name="bg_button">#F3F3F3</color>

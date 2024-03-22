@@ -66,7 +66,7 @@
     <string name="send_dilemma_txt_max">%s / 200</string>
 
     <!-- SEND DUALISM -->
-    <string name="send_dualism_result_perfect_title">Perfecto</string>
+    <string name="send_dualism_result_perfect_title">¡Perfecto!</string>
     <string name="send_dualism_result_perfect_subtitle">¿Quieres enviar más?</string>
     <string name="send_dualism_result_sww_title">Parece que algo ha salido mal</string>
     <string name="send_dualism_result_sww_subtitle">¿Quieres intentarlo de nuevo?</string>
