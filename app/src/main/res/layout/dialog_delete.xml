@@ -66,9 +66,10 @@
                 android:layout_weight="0.475"
                 android:background="@drawable/bg_btn_cancel"
                 android:elevation="6dp"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:padding="12dp"
-                android:text="@string/delete_fav_data_reject" />
+                android:text="@string/common_no" />
 
             <Space
                 android:layout_width="0dp"
@@ -84,9 +85,10 @@
                 android:layout_weight="0.475"
                 android:background="@drawable/bg_btn_ok"
                 android:elevation="6dp"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:padding="12dp"
-                android:text="@string/delete_fav_data_accept" />
+                android:text="@string/common_yes" />
 
         </LinearLayout>
 

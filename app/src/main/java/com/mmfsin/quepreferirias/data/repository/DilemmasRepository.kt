@@ -302,4 +302,25 @@ class DilemmasRepository @Inject constructor(
             }
         } ?: run { emptyList() }
     }
+
+    override suspend fun deleteMyDilemma(dilemmaId: String) {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        session?.let {
+            Firebase.firestore.collection(USERS).document(session.id)
+                .collection(DILEMMAS_SENT).document(dilemmaId)
+                .delete().addOnCompleteListener {
+                    try {
+                        val dilemma = realmDatabase.getObjectsFromRealm {
+                            where<SendDilemmaDTO>().equalTo(DILEMMA_ID, dilemmaId).findAll()
+                        }.first()
+                        realmDatabase.deleteObject({ dilemma }, DILEMMA_ID, dilemmaId)
+                    } catch (e: Exception) {
+                        Log.i("Error:", "Error deleting my dilemma: ${e.message}")
+                    }
+                    latch.countDown()
+                }
+            withContext(Dispatchers.IO) { latch.await() }
+        }
+    }
 }

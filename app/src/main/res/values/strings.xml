@@ -12,6 +12,10 @@
     <string name="insterstitial">ca-app-pub-3940256099942544/1033173712</string>
     <!--        <string name="insterstitial">ca-app-pub-4515698012373396/6775142518</string>-->
 
+    <!-- COMMON -->
+    <string name="common_yes">Si</string>
+    <string name="common_no">No</string>
+
     <!-- ERROR -->
     <string name="error_title">Ha ocurrido un problema</string>
     <string name="error_description">Inténtalo de nuevo más tarde</string>
@@ -116,10 +120,10 @@
     <string name="saved_data_title">Guardado</string>
     <string name="saved_data_empty">No hay nada guardado</string>
 
-    <!-- DELETE FAV DATA -->
+    <!-- DELETE DATA -->
     <string name="delete_fav_data_title">¿Eliminar de favoritos?</string>
-    <string name="delete_fav_data_accept">Si</string>
-    <string name="delete_fav_data_reject">No</string>
+    <string name="delete_sent_dilemma_title">¿Quieres eliminar este dilema?</string>
+    <string name="delete_sent_dualism_title">¿Quieres eliminar este dualismo?</string>
 
     <!-- MY DATA -->
     <string name="my_data_dilemmas">Dilemas</string>

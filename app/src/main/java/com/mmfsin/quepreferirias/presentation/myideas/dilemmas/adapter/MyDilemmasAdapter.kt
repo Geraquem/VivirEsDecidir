@@ -38,6 +38,10 @@ class MyDilemmasAdapter(
         val dilemma = data[position]
         holder.bind(dilemma)
         holder.binding.clMain.setOnClickListener { listener.onMyDilemmaClick(dilemma.dilemmaId) }
+        holder.binding.clMain.setOnLongClickListener {
+            listener.onMyDilemmaLongClick(dilemma.dilemmaId)
+            true
+        }
     }
 
     override fun getItemCount(): Int = data.size

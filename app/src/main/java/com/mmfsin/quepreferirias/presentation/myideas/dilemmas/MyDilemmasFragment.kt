@@ -13,6 +13,8 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
+import com.mmfsin.quepreferirias.presentation.myideas.dialogs.DeleteMyDataDialog
+import com.mmfsin.quepreferirias.presentation.myideas.dialogs.SentType.DILEMMA
 import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.adapter.MyDilemmasAdapter
 import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmaListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -24,6 +26,8 @@ class MyDilemmasFragment : BaseFragment<FragmentRvDataBinding, MyDilemmasViewMod
 
     override val viewModel: MyDilemmasViewModel by viewModels()
     private lateinit var mContext: Context
+
+    private var dialog: DeleteMyDataDialog? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -45,6 +49,11 @@ class MyDilemmasFragment : BaseFragment<FragmentRvDataBinding, MyDilemmasViewMod
         viewModel.event.observe(this) { event ->
             when (event) {
                 is MyDilemmasEvent.Data -> setMyDilemmas(event.data)
+                is MyDilemmasEvent.Deleted -> {
+                    dialog?.dismiss()
+                    viewModel.getMyDilemmas()
+                }
+
                 is MyDilemmasEvent.SWW -> error()
             }
         }
@@ -65,6 +74,11 @@ class MyDilemmasFragment : BaseFragment<FragmentRvDataBinding, MyDilemmasViewMod
 
     override fun onMyDilemmaClick(dilemmaId: String) {
         Toast.makeText(mContext, dilemmaId, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onMyDilemmaLongClick(dilemmaId: String) {
+        dialog = DeleteMyDataDialog(type = DILEMMA) { viewModel.deleteMyDilemma(dilemmaId) }
+        activity?.let { dialog?.show(it.supportFragmentManager, "") }
     }
 
     private fun error() {

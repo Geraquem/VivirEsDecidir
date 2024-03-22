@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.saved.delete
+package com.mmfsin.quepreferirias.presentation.myideas.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
@@ -8,7 +8,8 @@ import com.mmfsin.quepreferirias.databinding.DialogDeleteBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DeleteFavDataDialog(val deleteFav: () -> Unit) : BaseDialog<DialogDeleteBinding>() {
+class DeleteMyDataDialog(private val type: SentType, val delete: () -> Unit) :
+    BaseDialog<DialogDeleteBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) = DialogDeleteBinding.inflate(inflater)
 
@@ -17,8 +18,12 @@ class DeleteFavDataDialog(val deleteFav: () -> Unit) : BaseDialog<DialogDeleteBi
     override fun setUI() {
         isCancelable = true
         binding.apply {
-            ivImage.setImageResource(R.drawable.ic_delete_fav)
-            tvTitle.text = getString(R.string.delete_fav_data_title)
+            ivImage.setImageResource(R.drawable.ic_delete)
+            val title = when (type) {
+                SentType.DILEMMA -> R.string.delete_sent_dilemma_title
+                SentType.DUALISM -> R.string.delete_sent_dualism_title
+            }
+            tvTitle.text = getString(title)
             btnAccept.text = getString(R.string.common_yes)
             btnCancel.text = getString(R.string.common_no)
         }
@@ -26,8 +31,13 @@ class DeleteFavDataDialog(val deleteFav: () -> Unit) : BaseDialog<DialogDeleteBi
 
     override fun setListeners() {
         binding.apply {
-            btnAccept.setOnClickListener { deleteFav() }
+            btnAccept.setOnClickListener { delete() }
             btnCancel.setOnClickListener { dismiss() }
         }
     }
+}
+
+enum class SentType {
+    DILEMMA,
+    DUALISM
 }
