@@ -4,17 +4,20 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragmentNoVM
 import com.mmfsin.quepreferirias.databinding.FragmentViewpagerBinding
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.saved.listeners.IViewPagerListener
+import com.mmfsin.quepreferirias.presentation.saved.viewpager.FavViewPagerFragmentDirections.Companion.savedDataToSingleDilemma
 import com.mmfsin.quepreferirias.presentation.saved.viewpager.adapter.FavViewPagerAdapter
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>() {
+class FavViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), IViewPagerListener {
 
     private lateinit var mContext: Context
 
@@ -40,7 +43,7 @@ class FavViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>() {
     private fun setUpViewPager() {
         binding.apply {
             activity?.let {
-                viewPager.adapter = FavViewPagerAdapter(it)
+                viewPager.adapter = FavViewPagerAdapter(it, this@FavViewPagerFragment)
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     when (position) {
                         0 -> tab.setText(R.string.saved_data_dilemmas)
@@ -50,6 +53,13 @@ class FavViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>() {
                 loading.root.visibility = View.GONE
             }
         }
+    }
+
+    override fun navigateToSingleDilemma(dilemmaId: String) =
+        findNavController().navigate(savedDataToSingleDilemma())
+
+    override fun navigateToSingleDualism(dualismId: String) {
+
     }
 
     private fun error() {

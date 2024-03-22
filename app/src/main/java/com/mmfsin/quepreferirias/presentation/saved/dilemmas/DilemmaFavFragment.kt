@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,12 +15,13 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.presentation.saved.delete.DeleteFavDataDialog
 import com.mmfsin.quepreferirias.presentation.saved.dilemmas.adapter.DilemmaFavsAdapter
 import com.mmfsin.quepreferirias.presentation.saved.dilemmas.interfaces.IDilemmaFavListener
+import com.mmfsin.quepreferirias.presentation.saved.listeners.IViewPagerListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewModel>(),
-    IDilemmaFavListener {
+class DilemmaFavFragment(val listener: IViewPagerListener) :
+    BaseFragment<FragmentRvDataBinding, DilemmaFavViewModel>(), IDilemmaFavListener {
 
     override val viewModel: DilemmaFavViewModel by viewModels()
     private lateinit var mContext: Context
@@ -41,11 +41,6 @@ class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewMod
         binding.apply {
             loading.root.isVisible
             tvEmpty.text = getString(R.string.saved_data_empty)
-        }
-    }
-
-    override fun setListeners() {
-        binding.apply {
         }
     }
 
@@ -76,9 +71,7 @@ class DilemmaFavFragment : BaseFragment<FragmentRvDataBinding, DilemmaFavViewMod
         }
     }
 
-    override fun onDilemmaFavClick(dilemmaId: String) {
-        Toast.makeText(mContext, dilemmaId, Toast.LENGTH_SHORT).show()
-    }
+    override fun onDilemmaFavClick(dilemmaId: String) = listener.navigateToSingleDilemma(dilemmaId)
 
     override fun onDilemmaFavLongClick(dilemmaId: String) {
         dialog = DeleteFavDataDialog { viewModel.deleteDilemmaFav(dilemmaId) }

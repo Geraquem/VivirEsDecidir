@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_single_dilemma"
+    app:startDestination="@id/singleDilemmaFragment">
+
+    <fragment
+        android:id="@+id/singleDilemmaFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.single.dilemma.SingleDilemmaFragment"
+        android:label="singleDilemmaFragment"
+        tools:layout="@layout/fragment_dilemma" />
+
+</navigation>
