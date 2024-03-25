@@ -112,6 +112,14 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
 
                 is CommentsEvent.Comments -> setUpComments(event.comments)
                 is CommentsEvent.CommentSentResult -> commentSent()
+                is CommentsEvent.CommentAlreadyVoted -> {
+                    Toast.makeText(
+                        activity?.applicationContext,
+                        "Ya has votado este comentario",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
                 is CommentsEvent.CommentVotedResult -> updateCommentVotes(
                     event.vote,
                     event.position

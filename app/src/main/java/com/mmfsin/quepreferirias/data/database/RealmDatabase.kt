@@ -6,7 +6,6 @@ import io.realm.RealmConfiguration
 import io.realm.RealmModel
 import io.realm.RealmResults
 import io.realm.kotlin.deleteFromRealm
-import io.realm.kotlin.isValid
 
 class RealmDatabase(private val realmConfiguration: RealmConfiguration) : IRealmDatabase {
 
@@ -35,6 +34,18 @@ class RealmDatabase(private val realmConfiguration: RealmConfiguration) : IRealm
         return list
     }
 
+    override fun <I : RealmModel> getObjectFromRealm(
+        model: Class<I>,
+        idName: String,
+        id: String
+    ): I? {
+        val realm = getRealm()
+        val obj = realm.where(model).equalTo(idName, id).findFirst()
+        val r = obj?.let { realm.copyFromRealm(it) }
+        realm.close()
+        return r
+    }
+
     override fun <T : RealmModel> addObject(action: () -> T) {
         val realm = getRealm()
         val realmModel = action()
@@ -44,17 +55,27 @@ class RealmDatabase(private val realmConfiguration: RealmConfiguration) : IRealm
         realm.close()
     }
 
-    override fun <T : RealmModel> deleteObject(action: Realm.() -> T, idName: String, id: String) {
+    override fun <T : RealmModel> isObjectSaved(
+        model: Class<T>,
+        idName: String,
+        id: String
+    ): Boolean {
         val realm = getRealm()
-        val realmModel = action(realm)
         realm.beginTransaction()
-        if (realmModel.isValid()) {
-            val obj = realm.where(realmModel.javaClass).equalTo(idName, id).findFirst()
-            if (obj != null) {
-                obj.deleteFromRealm()
-                realm.commitTransaction()
-                realm.close()
-            } else realm.cancelTransaction()
+        val obj = realm.where(model).equalTo(idName, id).findFirst()
+        realm.commitTransaction()
+        realm.close()
+        return (obj != null)
+    }
+
+    override fun <T : RealmModel> deleteObject(model: Class<T>, idName: String, id: String) {
+        val realm = getRealm()
+        realm.beginTransaction()
+        val obj = realm.where(model).equalTo(idName, id).findFirst()
+        if (obj != null) {
+            obj.deleteFromRealm()
+            realm.commitTransaction()
+            realm.close()
         } else realm.cancelTransaction()
     }
 

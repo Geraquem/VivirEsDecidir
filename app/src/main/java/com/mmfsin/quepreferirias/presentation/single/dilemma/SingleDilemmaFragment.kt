@@ -45,9 +45,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private var hasSession = false
     var dilemmaId: String? = null
 
-    private var dilemmaList = emptyList<Dilemma>()
     private var actualData: Dilemma? = null
-    private var position: Int = 0
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
@@ -69,6 +67,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         binding.apply {
             loadingScreen.root.isVisible = true
             setToolbar()
+            btnNext.root.visibility = View.GONE
             btnComments.button.setImageResource(R.drawable.ic_comment)
             btnFav.button.setImageResource(R.drawable.ic_fav_off)
             setInitialConfig()
@@ -91,23 +90,6 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
             btnComments.button.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
-
-            btnNext.btnNext.setOnClickListener {
-                position++
-                if (position < dilemmaList.size) {
-//                    showInterstitial()
-                    comments.loading.root.visibility = View.VISIBLE
-                    llButtons.animate().alpha(1f).duration = 250
-                    percents.root.animate().alpha(0.0f).duration = 250
-                    setInitialConfig()
-                    setData()
-                } else {
-                    activity?.let {
-                        val dialog = NoMoreDialog() { /** TODO */ }
-                        dialog.show(it.supportFragmentManager, "")
-                    }
-                }
-            }
         }
     }
 
@@ -142,11 +124,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
                 is SingleDilemmaEvent.ReCheckSession -> hasSession = event.initiatedSession
 
-                is SingleDilemmaEvent.GetDilemma -> {
-                    val a = 2
-//                    dilemmaList = event.data
-//                    setData()
-                }
+                is SingleDilemmaEvent.GetDilemma -> setData(event.data)
 
                 is SingleDilemmaEvent.GetPercents -> setPercents(event.percents)
                 is SingleDilemmaEvent.CheckDilemmaFav -> {
@@ -161,25 +139,22 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         }
     }
 
-    private fun setData() {
-        try {
-            binding.apply {
-                setInitialConfig()
-                actualData = dilemmaList[position]
-                actualData?.let { data ->
-                    viewModel.checkIfIsFav(data.id)
-                    tvTextTop.text = data.topText
-                    tvTextBottom.text = data.bottomText
-                    data.creatorName?.let { name ->
-                        tvCreatorName.text = name
-                        llCreatorName.visibility = View.VISIBLE
-                    } ?: run { llCreatorName.visibility = View.GONE }
-                    votesYes = data.votesYes
-                    votesNo = data.votesNo
-                }
+    private fun setData(data: Dilemma) {
+        binding.apply {
+            actualData = data
+            try {
+                viewModel.checkIfIsFav(data.id)
+                tvTextTop.text = data.topText
+                tvTextBottom.text = data.bottomText
+                data.creatorName?.let { name ->
+                    tvCreatorName.text = name
+                    llCreatorName.visibility = View.VISIBLE
+                } ?: run { llCreatorName.visibility = View.GONE }
+                votesYes = data.votesYes
+                votesNo = data.votesNo
+            } catch (e: Exception) {
+                error()
             }
-        } catch (e: Exception) {
-            error()
         }
     }
 

@@ -11,6 +11,7 @@ import com.mmfsin.quepreferirias.data.mappers.toDilemmaFavList
 import com.mmfsin.quepreferirias.data.mappers.toSendDilemmaList
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.data.models.CommentVotedDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
@@ -25,6 +26,7 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.COMMENTS
+import com.mmfsin.quepreferirias.utils.COMMENT_ID
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
@@ -163,6 +165,17 @@ class DilemmasRepository @Inject constructor(
         return result
     }
 
+    override suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): Boolean {
+        val voted =
+            realmDatabase.getObjectFromRealm(CommentVotedDTO::class.java, COMMENT_ID, commentId)
+        val result = voted?.let {
+            /** ok sólo si el voto que tengo guardado es distinto del voto actual */
+            if (it.votedUp && vote == VOTE_UP) true
+            else !it.votedUp && vote == VOTE_DOWN
+        } ?: run { false }
+        return result
+    }
+
     override suspend fun voteDilemmaComment(
         dilemmaId: String,
         commentId: String,
@@ -175,7 +188,7 @@ class DilemmasRepository @Inject constructor(
         documentReference.update(updatedLikes)
 
         val comment = realmDatabase.getObjectsFromRealm {
-            where<CommentDTO>().equalTo("commentId", commentId).findAll()
+            where<CommentDTO>().equalTo(COMMENT_ID, commentId).findAll()
         }.first()
         comment.likes = likes
         when (vote) {
@@ -190,6 +203,10 @@ class DilemmasRepository @Inject constructor(
             }
         }
         realmDatabase.addObject { comment }
+
+        /** save voted comment to not vote again */
+        val votedUp = vote == VOTE_UP
+        realmDatabase.addObject { CommentVotedDTO(commentId = commentId, votedUp = votedUp) }
     }
 
     private fun getSession(): Session? {
@@ -262,14 +279,7 @@ class DilemmasRepository @Inject constructor(
             Firebase.firestore.collection(USERS).document(session.id)
                 .collection(SAVED_DILEMMAS).document(dilemmaId)
                 .delete().addOnCompleteListener {
-                    try {
-                        val dilemma = realmDatabase.getObjectsFromRealm {
-                            where<DilemmaFavDTO>().equalTo(DILEMMA_ID, dilemmaId).findAll()
-                        }.first()
-                        realmDatabase.deleteObject({ dilemma }, DILEMMA_ID, dilemmaId)
-                    } catch (e: Exception) {
-                        Log.i("Error:", "Error deleting dilemma fav: ${e.message}")
-                    }
+                    realmDatabase.deleteObject(DilemmaFavDTO::class.java, DILEMMA_ID, dilemmaId)
                     latch.countDown()
                 }
             withContext(Dispatchers.IO) { latch.await() }
@@ -336,14 +346,7 @@ class DilemmasRepository @Inject constructor(
             Firebase.firestore.collection(USERS).document(session.id)
                 .collection(DILEMMAS_SENT).document(dilemmaId)
                 .delete().addOnCompleteListener {
-                    try {
-                        val dilemma = realmDatabase.getObjectsFromRealm {
-                            where<SendDilemmaDTO>().equalTo(DILEMMA_ID, dilemmaId).findAll()
-                        }.first()
-                        realmDatabase.deleteObject({ dilemma }, DILEMMA_ID, dilemmaId)
-                    } catch (e: Exception) {
-                        Log.i("Error:", "Error deleting my dilemma: ${e.message}")
-                    }
+                    realmDatabase.deleteObject(SendDilemmaDTO::class.java, DILEMMA_ID, dilemmaId)
                     latch.countDown()
                 }
             withContext(Dispatchers.IO) { latch.await() }

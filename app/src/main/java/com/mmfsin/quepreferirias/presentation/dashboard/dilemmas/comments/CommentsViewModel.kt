@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyCommentVotedUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
@@ -17,6 +18,7 @@ class CommentsViewModel @Inject constructor(
     private val getSessionUseCase: GetSessionUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val setDilemmaCommentUseCase: SendDilemmaCommentUseCase,
+    private val checkIfAlreadyCommentVotedUseCase: CheckIfAlreadyCommentVotedUseCase,
     private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase
 ) : BaseViewModel<CommentsEvent>() {
 
@@ -64,6 +66,27 @@ class CommentsViewModel @Inject constructor(
     }
 
     fun voteComment(
+        dilemmaId: String,
+        commentId: String,
+        vote: CommentVote,
+        likes: Long,
+        position: Int
+    ) {
+        executeUseCase(
+            {
+                checkIfAlreadyCommentVotedUseCase.execute(
+                    CheckIfAlreadyCommentVotedUseCase.Params(commentId, vote)
+                )
+            },
+            { alreadyVoted ->
+                if (alreadyVoted) _event.value = CommentsEvent.CommentAlreadyVoted
+                else voteDilemmaCommentFlow(dilemmaId, commentId, vote, likes, position)
+            },
+            { _event.value = CommentsEvent.SWW }
+        )
+    }
+
+    private fun voteDilemmaCommentFlow(
         dilemmaId: String,
         commentId: String,
         vote: CommentVote,
