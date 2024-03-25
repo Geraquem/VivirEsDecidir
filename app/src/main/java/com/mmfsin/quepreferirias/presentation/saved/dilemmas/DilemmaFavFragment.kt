@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,12 @@ class DilemmaFavFragment(val listener: IViewPagerListener) :
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentRvDataBinding.inflate(inflater, container, false)
 
+    override fun onResume() {
+        super.onResume()
+        val a = 2
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavDilemmasData()
@@ -41,6 +48,15 @@ class DilemmaFavFragment(val listener: IViewPagerListener) :
         binding.apply {
             loading.root.isVisible
             tvEmpty.text = getString(R.string.saved_data_empty)
+        }
+    }
+
+    override fun setListeners() {
+        binding.apply {
+            swipe.setOnRefreshListener {
+                viewModel.getFavDilemmasData()
+                swipe.isRefreshing = false
+            }
         }
     }
 

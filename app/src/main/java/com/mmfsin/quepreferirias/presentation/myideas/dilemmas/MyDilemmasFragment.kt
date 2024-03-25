@@ -41,6 +41,7 @@ class MyDilemmasFragment : BaseFragment<FragmentRvDataBinding, MyDilemmasViewMod
     override fun setUI() {
         binding.apply {
             loading.root.isVisible
+            swipe.isEnabled = false
             tvEmpty.text = getString(R.string.my_data_empty)
         }
     }
