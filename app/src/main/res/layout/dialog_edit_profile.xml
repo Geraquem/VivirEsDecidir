@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_edit_profile"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingVertical="24dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <TextView
+        android:id="@+id/tv_edit_profile"
+        style="@style/MediumTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="@string/edit_profile_rrss"
+        android:textAllCaps="true"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toLeftOf="@id/iv_close"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_cross"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        style="@style/scroll_no_effects"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toLeftOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/tv_edit_profile">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/iv_image"
+                layout="@layout/include_circle_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/MediumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                tools:text="Cristian" />
+
+            <EditText
+                style="@style/edit_text_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="null"
+                android:drawableStart="@drawable/ic_rrss_instagram"
+                android:drawablePadding="12dp"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                android:lines="1"
+                android:maxLines="1"
+                tools:ignore="LabelFor" />
+
+            <EditText
+                style="@style/edit_text_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="null"
+                android:drawableStart="@drawable/ic_rrss_x"
+                android:drawablePadding="12dp"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                android:lines="1"
+                android:maxLines="1"
+                tools:ignore="LabelFor" />
+
+            <EditText
+                style="@style/edit_text_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="null"
+                android:drawableStart="@drawable/ic_rrss_tiktok"
+                android:drawablePadding="12dp"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                android:lines="1"
+                android:maxLines="1"
+                tools:ignore="LabelFor" />
+
+            <EditText
+                style="@style/edit_text_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:autofillHints="null"
+                android:drawableStart="@drawable/ic_rrss_youtube"
+                android:drawablePadding="12dp"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                android:lines="1"
+                android:maxLines="1"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:id="@+id/btn_save"
+                style="@style/mButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_send_button"
+                android:elevation="6dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/edit_profile_save" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

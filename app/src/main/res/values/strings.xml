@@ -36,10 +36,6 @@
     </array>
     <string name="login_google">Iniciar sesión</string>
 
-    <!-- USER PROFILE -->
-    <string name="user_profile_hello">Hola</string>
-    <string name="user_profile_how_you_doing">¿Cómo te va?</string>
-
     <!-- NAVIGATION DRAWER -->
     <string name="nav_dilemmas">Dilemas</string>
     <string name="nav_dualism">Dualismos</string>
@@ -112,7 +108,19 @@
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>
+    <string name="user_profile_hello">Hola</string>
+    <string name="user_profile_how_you_doing">¿Cómo te va?</string>
+    <string name="profile_close_session_confirm">¿Quieres cerrar sessión?</string>
     <string name="profile_close_session">Cerrar sessión</string>
+
+    <!-- EDIT PROFILE -->
+    <string name="edit_profile">Editar perfil</string>
+    <string name="edit_profile_rrss">Redes sociales</string>
+    <string name="edit_profile_rrss_instagram">Instagram</string>
+    <string name="edit_profile_rrss_x">X</string>
+    <string name="edit_profile_rrss_tiktok">TikTok</string>
+    <string name="edit_profile_rrss_youtube">Youtube</string>
+    <string name="edit_profile_save">Guardar</string>
 
     <!-- SAVED DATA -->
     <string name="saved_data_dilemmas">Dilemas</string>

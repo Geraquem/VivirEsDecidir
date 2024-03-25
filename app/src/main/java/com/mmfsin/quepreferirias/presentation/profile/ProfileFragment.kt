@@ -12,6 +12,8 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentProfileBinding
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.profile.dialogs.CloseSessionDialog
+import com.mmfsin.quepreferirias.presentation.profile.dialogs.EditProfileDialog
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +24,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     private lateinit var mContext: Context
 
     private var session: Session? = null
+    private var closeSessionDialog: CloseSessionDialog? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -53,7 +56,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override fun setListeners() {
         binding.apply {
-            tvCloseSession.setOnClickListener { viewModel.closeSession() }
+            ivEdit.setOnClickListener {
+                session?.let { data ->
+                    val dialog = EditProfileDialog(data)
+                    activity?.let { dialog.show(it.supportFragmentManager, "") }
+                }
+            }
+
+            tvCloseSession.setOnClickListener {
+                closeSessionDialog = CloseSessionDialog { viewModel.closeSession() }
+                activity?.let { closeSessionDialog?.show(it.supportFragmentManager, "") }
+            }
         }
     }
 
@@ -66,7 +79,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
                     /** viewmodel ver mi actividad */
                 }
 
-                is ProfileEvent.SessionClosed -> activity?.finish()
+                is ProfileEvent.SessionClosed -> {
+                    activity?.finish()
+                    closeSessionDialog?.dismiss()
+                }
+
                 is ProfileEvent.SWW -> error()
             }
         }
