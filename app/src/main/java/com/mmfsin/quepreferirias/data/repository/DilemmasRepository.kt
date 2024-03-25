@@ -187,26 +187,27 @@ class DilemmasRepository @Inject constructor(
         val updatedLikes = hashMapOf<String, Any>(COMMENT_LIKES to likes)
         documentReference.update(updatedLikes)
 
-        val comment = realmDatabase.getObjectsFromRealm {
-            where<CommentDTO>().equalTo(COMMENT_ID, commentId).findAll()
-        }.first()
-        comment.likes = likes
-        when (vote) {
-            VOTE_UP -> {
-                comment.votedUp = true
-                comment.votedDown = false
-            }
+        val comment =
+            realmDatabase.getObjectFromRealm(CommentDTO::class.java, COMMENT_ID, commentId)
+        comment?.let {
+            comment.likes = likes
+            when (vote) {
+                VOTE_UP -> {
+                    comment.votedUp = true
+                    comment.votedDown = false
+                }
 
-            VOTE_DOWN -> {
-                comment.votedUp = false
-                comment.votedDown = true
+                VOTE_DOWN -> {
+                    comment.votedUp = false
+                    comment.votedDown = true
+                }
             }
+            realmDatabase.addObject { comment }
+
+            /** save voted comment to not vote again */
+            val votedUp = vote == VOTE_UP
+            realmDatabase.addObject { CommentVotedDTO(commentId = commentId, votedUp = votedUp) }
         }
-        realmDatabase.addObject { comment }
-
-        /** save voted comment to not vote again */
-        val votedUp = vote == VOTE_UP
-        realmDatabase.addObject { CommentVotedDTO(commentId = commentId, votedUp = votedUp) }
     }
 
     private fun getSession(): Session? {
