@@ -64,7 +64,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override fun setListeners() {
         binding.apply {
-            ivEdit.setOnClickListener {
+            tvEdit.setOnClickListener {
                 session?.let { data ->
                     updatedProfileDialog = RRSSDialog(data, this@ProfileFragment)
                     activity?.let { updatedProfileDialog?.show(it.supportFragmentManager, "") }

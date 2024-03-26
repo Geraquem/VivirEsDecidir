@@ -7,7 +7,7 @@
     android:background="@color/background"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingTop="24dp">
+    android:paddingTop="16dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_left"
@@ -23,100 +23,135 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_name"
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toLeftOf="@id/iv_edit"
+        app:layout_constraintRight_toLeftOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include
-            android:id="@+id/iv_image"
-            layout="@layout/include_circle_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/iv_image"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:id="@+id/ll_name"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="@id/gl_left"
-                app:layout_constraintRight_toRightOf="@id/gl_right"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    style="@style/MediumTextView"
+                <include
+                    android:id="@+id/iv_image"
+                    layout="@layout/include_circle_image"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_profile_hello" />
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/iv_image"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    style="@style/MediumTextView_Bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    tools:text="Cristian" />
+                    <LinearLayout
+                        android:id="@+id/ll_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+                        app:layout_constraintRight_toRightOf="@id/gl_right"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            </LinearLayout>
+                        <TextView
+                            style="@style/MediumTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/user_profile_hello" />
 
-            <TextView
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/tv_name"
+                            style="@style/MediumTextView_Bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            tools:text="Cristian" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/SmallTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_profile_how_you_doing" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_rrss"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/user_profile_how_you_doing" />
+                android:layout_marginTop="16dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_name"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_rrss" />
 
-        </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_dilemmas_sent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_name"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_rrss" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_edit"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_edit"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent" />
+    </androidx.core.widget.NestedScrollView>
 
-    <TextView
-        android:id="@+id/tv_close_session"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/profile_close_session"
-        android:textColor="@color/percent_no"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_rrss"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/cl_name"
-        tools:itemCount="4"
-        tools:listitem="@layout/item_rrss" />
+        app:layout_constraintRight_toRightOf="@id/gl_right">
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="@string/edit_profile"
+            app:layout_constraintRight_toRightOf="@id/gl_right"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_close_session"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_close_session"
+            android:textColor="@color/error" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/loading"

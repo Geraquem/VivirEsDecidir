@@ -9,6 +9,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseDialog
 import com.mmfsin.quepreferirias.databinding.DialogSendDataResultBinding
 import com.mmfsin.quepreferirias.presentation.send.interfaces.ISendDataResultListener
+import com.mmfsin.quepreferirias.utils.changeBgColor
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -31,27 +32,23 @@ class SendDataResultDialog(
                 ivImage.setImageResource(R.drawable.ic_success)
                 tvTitle.text = getString(R.string.send_dualism_result_perfect_title)
                 btnResend.text = getString(R.string.send_dualism_result_resend)
-                changeBgColor(rlTop.background, R.color.success)
-                changeBgColor(btnResend.background, R.color.white)
-                changeBgColor(btnExit.background, R.color.white)
+                activity?.apply {
+                    changeBgColor(rlTop.background, R.color.success)
+                    changeBgColor(btnResend.background, R.color.white)
+                    changeBgColor(btnExit.background, R.color.white)
+                }
 
             } else {
                 ivImage.setImageResource(R.drawable.ic_error)
                 tvTitle.text = getString(R.string.send_dualism_result_sww_title)
                 btnResend.text = getString(R.string.send_dualism_result_retry)
-                changeBgColor(rlTop.background, R.color.cancel)
-                changeBgColor(btnResend.background, R.color.white)
-                changeBgColor(btnExit.background, R.color.cancel)
+                activity?.apply {
+                    changeBgColor(rlTop.background, R.color.cancel)
+                    changeBgColor(btnResend.background, R.color.white)
+                    changeBgColor(btnExit.background, R.color.cancel)
+                }
             }
             btnExit.text = getString(R.string.send_dualism_result_exit)
-        }
-    }
-
-    private fun changeBgColor(background: Drawable, color: Int) {
-        context?.let {
-            if (background is GradientDrawable) {
-                background.setColor(ContextCompat.getColor(it, color))
-            }
         }
     }
 

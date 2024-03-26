@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseDialog
 import com.mmfsin.quepreferirias.databinding.DialogDeleteBinding
+import com.mmfsin.quepreferirias.utils.changeBgColor
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +18,7 @@ class CloseSessionDialog(val exit: () -> Unit) : BaseDialog<DialogDeleteBinding>
     override fun setUI() {
         isCancelable = true
         binding.apply {
+            activity?.changeBgColor(rlTop.background, R.color.cancel)
             ivImage.setImageResource(R.drawable.ic_exit)
             tvTitle.text = getString(R.string.profile_close_session_confirm)
             btnAccept.text = getString(R.string.common_yes)

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseDialog
 import com.mmfsin.quepreferirias.databinding.DialogDeleteBinding
+import com.mmfsin.quepreferirias.utils.changeBgColor
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +18,7 @@ class DeleteFavDataDialog(val deleteFav: () -> Unit) : BaseDialog<DialogDeleteBi
     override fun setUI() {
         isCancelable = true
         binding.apply {
+            activity?.changeBgColor(rlTop.background, R.color.cancel)
             ivImage.setImageResource(R.drawable.ic_delete_fav)
             tvTitle.text = getString(R.string.delete_fav_data_title)
             btnAccept.text = getString(R.string.common_yes)

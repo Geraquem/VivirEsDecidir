@@ -1,7 +1,10 @@
 package com.mmfsin.quepreferirias.utils
 
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.os.CountDownTimer
 import android.text.Editable
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.mmfsin.quepreferirias.base.dialog.ErrorDialog
 import java.text.SimpleDateFormat
@@ -41,4 +44,10 @@ fun Long.timestampToDate(): String {
 
 fun String.checkIfEmpty(): String? {
     return this.ifBlank { null }
+}
+
+fun FragmentActivity.changeBgColor(background: Drawable, color: Int) {
+    if (background is GradientDrawable) {
+        background.setColor(ContextCompat.getColor(this, color))
+    }
 }
