@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         setAds()
 
         /*****************************/
-        navigateDrawer(USER_PROFILE)
+//        navigateDrawer(USER_PROFILE)
 //        openDrawer()
     }
 

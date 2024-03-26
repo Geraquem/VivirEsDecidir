@@ -18,7 +18,7 @@ class GetSessionUseCase @Inject constructor(
         val session = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
         val isInitiated = session.getBoolean(SESSION_INITIATED, false)
         if (!isInitiated) return null
-        val userSession = repository.getSession()
+        val userSession = repository.getUserSession()
         userSession?.let { return it } ?: run {
             session.edit().apply {
                 putBoolean(SESSION_INITIATED, false)

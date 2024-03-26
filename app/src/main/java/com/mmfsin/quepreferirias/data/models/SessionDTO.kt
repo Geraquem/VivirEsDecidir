@@ -10,10 +10,6 @@ open class SessionDTO(
     var email: String = "",
     var name: String = "",
     var fullName: String = "",
-    var rrss: RRSSDTO? = null
-) : RealmObject()
-
-open class RRSSDTO(
     var instagram: String? = null,
     var twitter: String? = null,
     var tiktok: String? = null,

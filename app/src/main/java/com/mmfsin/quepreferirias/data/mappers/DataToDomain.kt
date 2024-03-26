@@ -3,7 +3,6 @@ package com.mmfsin.quepreferirias.data.mappers
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
-import com.mmfsin.quepreferirias.data.models.RRSSDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
@@ -21,14 +20,7 @@ fun SessionDTO.toSession() = Session(
     email = email,
     name = name,
     fullName = fullName,
-    rrss = rrss?.toRRSS()
-)
-
-fun RRSSDTO.toRRSS() = RRSS(
-    instagram = instagram,
-    twitter = twitter,
-    tiktok = tiktok,
-    youtube = youtube
+    rrss = RRSS(instagram, twitter, tiktok, youtube)
 )
 
 fun CommentDTO.toComment() = Comment(

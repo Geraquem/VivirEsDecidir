@@ -6,7 +6,7 @@ import com.mmfsin.quepreferirias.domain.models.Session
 interface IUserRepository {
     suspend fun saveSession(session: Session): Boolean
     fun deleteSession()
-    fun getSession(): Session?
+    suspend fun getUserSession(): Session?
 
     fun updateProfile(rrss: RRSS)
 }
