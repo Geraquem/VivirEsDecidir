@@ -97,8 +97,9 @@ class UserRepository @Inject constructor(
 
     override fun deleteSession() = realmDatabase.deleteAllData()
 
-    override fun updateProfile(rrss: RRSS) {
+    override suspend fun updateProfile(rrss: RRSS) {
         val session = getSession()
+        val latch = CountDownLatch(1)
         session?.let { user ->
             val documentReference = Firebase.firestore.collection(USERS).document(user.id)
             val updatedRRSS = hashMapOf<String, Any>()
@@ -110,8 +111,10 @@ class UserRepository @Inject constructor(
                 if (it.isSuccessful) {
                     user.rrss = rrss
                     realmDatabase.addObject { user.toSessionDTO() }
+                    latch.countDown()
                 }
             }
         }
+        withContext(Dispatchers.IO) { latch.await() }
     }
 }

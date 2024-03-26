@@ -5,17 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.data.mappers.toSessionDTO
 import com.mmfsin.quepreferirias.databinding.FragmentProfileBinding
 import com.mmfsin.quepreferirias.domain.models.RRSS
+import com.mmfsin.quepreferirias.domain.models.RRSSType
+import com.mmfsin.quepreferirias.domain.models.RRSSType.*
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.domain.usecases.UpdateProfileUseCase
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.profile.adapter.RRSSAdapter
 import com.mmfsin.quepreferirias.presentation.profile.dialogs.CloseSessionDialog
 import com.mmfsin.quepreferirias.presentation.profile.dialogs.RRSSDialog
 import com.mmfsin.quepreferirias.presentation.profile.listeners.IRRSSListener
@@ -56,7 +57,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
                 Glide.with(mContext).load(it.imageUrl).into(ivImage.image)
                 tvName.text = it.name
                 loading.root.visibility = View.GONE
-                Toast.makeText(mContext, it.rrss?.instagram ?: "nop", Toast.LENGTH_SHORT).show()
+                it.rrss?.let { rrss -> setRRSS(rrss) }
             }
         }
     }
@@ -91,13 +92,29 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
                     closeSessionDialog?.dismiss()
                 }
 
-                is ProfileEvent.UpdatedProfile -> updatedProfileDialog?.dismiss()
+                is ProfileEvent.UpdatedProfile -> {
+                    viewModel.getSession()
+                    updatedProfileDialog?.dismiss()
+                }
+
                 is ProfileEvent.SWW -> error()
             }
         }
     }
 
     override fun updateRRSS(rrss: RRSS) = viewModel.updateRRSS(rrss)
+
+    private fun setRRSS(rrss: RRSS) {
+        val data = mutableListOf<Pair<RRSSType, String>>()
+        rrss.instagram?.let { data.add(Pair(INSTAGRAM, it)) }
+        rrss.twitter?.let { data.add(Pair(TWITTER, it)) }
+        rrss.tiktok?.let { data.add(Pair(TIKTOK, it)) }
+        rrss.youtube?.let { data.add(Pair(YOUTUBE, it)) }
+        binding.rvRrss.apply {
+            layoutManager = LinearLayoutManager(mContext)
+            adapter = RRSSAdapter(data)
+        }
+    }
 
     private fun error() = activity?.showErrorDialog() { activity?.finish() }
 

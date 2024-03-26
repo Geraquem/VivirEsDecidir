@@ -8,5 +8,5 @@ interface IUserRepository {
     fun deleteSession()
     suspend fun getUserSession(): Session?
 
-    fun updateProfile(rrss: RRSS)
+    suspend fun updateProfile(rrss: RRSS)
 }
