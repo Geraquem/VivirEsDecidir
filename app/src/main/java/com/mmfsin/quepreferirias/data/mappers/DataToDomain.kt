@@ -3,10 +3,12 @@ package com.mmfsin.quepreferirias.data.mappers
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
+import com.mmfsin.quepreferirias.data.models.RRSSDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
 import java.time.LocalDate
@@ -18,7 +20,15 @@ fun SessionDTO.toSession() = Session(
     imageUrl = imageUrl,
     email = email,
     name = name,
-    fullName = fullName
+    fullName = fullName,
+    rrss = rrss?.toRRSS()
+)
+
+fun RRSSDTO.toRRSS() = RRSS(
+    instagram = instagram,
+    twitter = twitter,
+    tiktok = tiktok,
+    youtube = youtube
 )
 
 fun CommentDTO.toComment() = Comment(

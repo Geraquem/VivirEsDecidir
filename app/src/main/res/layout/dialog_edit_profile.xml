@@ -85,6 +85,7 @@
                 tools:text="Cristian" />
 
             <EditText
+                android:id="@+id/et_instagram"
                 style="@style/edit_text_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,6 +100,7 @@
                 tools:ignore="LabelFor" />
 
             <EditText
+                android:id="@+id/et_x"
                 style="@style/edit_text_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,6 +115,7 @@
                 tools:ignore="LabelFor" />
 
             <EditText
+                android:id="@+id/et_tiktok"
                 style="@style/edit_text_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,6 +130,7 @@
                 tools:ignore="LabelFor" />
 
             <EditText
+                android:id="@+id/et_youtube"
                 style="@style/edit_text_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

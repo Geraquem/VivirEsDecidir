@@ -9,6 +9,7 @@ import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
 import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
 import com.mmfsin.quepreferirias.utils.UPDATE_SENT_DATA
+import com.mmfsin.quepreferirias.utils.UPDATE_USER_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ class SaveSessionUseCase @Inject constructor(
             val session = context.getSharedPreferences(SESSION, MODE_PRIVATE)
             session.edit().apply() {
                 putBoolean(SESSION_INITIATED, true)
+                putBoolean(UPDATE_USER_DATA, true)
                 putBoolean(UPDATE_SAVED_DATA, true)
                 putBoolean(UPDATE_SENT_DATA, true)
                 apply()

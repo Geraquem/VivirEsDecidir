@@ -38,3 +38,7 @@ fun Long.timestampToDate(): String {
     val dateFormat = SimpleDateFormat("dd / MM / yyyy", Locale.getDefault())
     return dateFormat.format(Date(this))
 }
+
+fun String.checkIfEmpty(): String? {
+    return this.ifBlank { null }
+}

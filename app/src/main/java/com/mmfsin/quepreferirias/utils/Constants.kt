@@ -6,6 +6,7 @@ const val ROOT_ACTIVITY_NAV_GRAPH = "root_nav_graph"
 /** SHARED PREFS */
 const val SESSION = "user_session"
 const val SESSION_INITIATED = "session_initiated"
+const val UPDATE_USER_DATA = "update_user_data"
 const val UPDATE_SAVED_DATA = "update_saved_data"
 const val UPDATE_SENT_DATA = "update_sent_data"
 
@@ -32,3 +33,9 @@ const val COMMENT_ID = "commentId"
 const val USERS = "users"
 const val SAVED_DILEMMAS = "saved_dilemmas"
 const val DILEMMAS_SENT = "dilemmas_sent"
+
+/** RRSS */
+const val INSTAGRAM = "instagram"
+const val TWITTER = "twitter"
+const val TIKTOK = "tiktok"
+const val YOUTUBE = "youtube"
