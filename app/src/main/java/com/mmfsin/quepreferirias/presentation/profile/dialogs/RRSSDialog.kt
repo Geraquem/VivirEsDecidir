@@ -34,9 +34,9 @@ class RRSSDialog(val session: Session, val listener: IRRSSListener) :
             ivClose.setOnClickListener { dismiss() }
             btnSave.setOnClickListener {
                 val instagram = etInstagram.text.toString().checkIfEmpty()
-                val x = etInstagram.text.toString().checkIfEmpty()
-                val tiktok = etInstagram.text.toString().checkIfEmpty()
-                val youtube = etInstagram.text.toString().checkIfEmpty()
+                val x = etX.text.toString().checkIfEmpty()
+                val tiktok = etTiktok.text.toString().checkIfEmpty()
+                val youtube = etYoutube.text.toString().checkIfEmpty()
 
                 /** si no se ha cambiado ninguna no llamar a server */
                 if (instagram != null && x != null && tiktok != null && youtube != null) {
