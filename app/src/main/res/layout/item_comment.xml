@@ -81,7 +81,7 @@
                 android:layout_height="16dp"
                 android:contentDescription="@string/content_description"
                 android:gravity="center"
-                android:src="@drawable/ic_plus" />
+                android:src="@drawable/ic_arrow_vote" />
 
             <TextView
                 android:id="@+id/tv_likes"
@@ -101,7 +101,8 @@
                 android:layout_height="16dp"
                 android:contentDescription="@string/content_description"
                 android:gravity="center"
-                android:src="@drawable/ic_minus" />
+                android:scaleY="-1"
+                android:src="@drawable/ic_arrow_vote" />
 
         </LinearLayout>
 

@@ -63,7 +63,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/bg_dilemma_top"
-                    android:elevation="6dp"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="28dp"
@@ -78,7 +77,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/bg_dilemma_bottom"
-                    android:elevation="6dp"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="28dp"
@@ -247,6 +245,7 @@
     <include
         android:id="@+id/loadingScreen"
         layout="@layout/include_loading"
+        android:elevation="10dp"
         tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
