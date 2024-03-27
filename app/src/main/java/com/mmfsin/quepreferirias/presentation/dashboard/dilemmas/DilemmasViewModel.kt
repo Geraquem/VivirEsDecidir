@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
+import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
@@ -20,7 +21,8 @@ class DilemmasViewModel @Inject constructor(
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
-    private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase
+    private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
+    private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase
 ) : BaseViewModel<DilemmasEvent>() {
 
     fun checkSessionInitiated() {
@@ -31,10 +33,18 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun reCheckSession(){
+    fun reCheckSession() {
         executeUseCase(
             { initiatedSessionUseCase.execute() },
             { result -> _event.value = DilemmasEvent.ReCheckSession(result) },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun checkIfIsMe(userId: String) {
+        executeUseCase(
+            { checkIfUserIdIsMeUseCase.execute(CheckIfUserIdIsMeUseCase.Params(userId)) },
+            { result -> _event.value =  DilemmasEvent.NavigateToProfile(result, userId) },
             { _event.value = DilemmasEvent.SWW }
         )
     }

@@ -157,6 +157,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 }
 
                 is DilemmasEvent.GetComments -> setUpComments(event.comments)
+                is DilemmasEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is DilemmasEvent.SWW -> error()
             }
         }
@@ -284,10 +285,12 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
 
-    override fun navigateToUserProfile(userId: String) {
-        (activity as BedRockActivity).openActivity(
-            R.navigation.nav_graph_other_profile, USER_ID, userId
-        )
+    override fun navigateToUserProfile(userId: String) = viewModel.checkIfIsMe(userId)
+
+    private fun toUserProfile(isMe: Boolean, userId: String) {
+        val navGraph = if (isMe) R.navigation.nav_graph_profile
+        else R.navigation.nav_graph_other_profile
+        (activity as BedRockActivity).openActivity(navGraph, USER_ID, userId)
     }
 
     override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)

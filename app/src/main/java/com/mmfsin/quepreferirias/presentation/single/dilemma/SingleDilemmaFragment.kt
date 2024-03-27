@@ -23,6 +23,7 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
@@ -34,6 +35,7 @@ import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
+import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -136,6 +138,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                 }
 
                 is SingleDilemmaEvent.GetComments -> setUpComments(event.comments)
+                is SingleDilemmaEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is SingleDilemmaEvent.SWW -> error()
             }
         }
@@ -261,8 +264,12 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
 
-    override fun navigateToUserProfile(userId: String) {
-        //TODO("Not yet implemented")
+    override fun navigateToUserProfile(userId: String) = viewModel.checkIfIsMe(userId)
+
+    private fun toUserProfile(isMe: Boolean, userId: String) {
+        val navGraph = if (isMe) R.navigation.nav_graph_profile
+        else R.navigation.nav_graph_other_profile
+        (activity as BedRockActivity).openActivity(navGraph, USER_ID, userId)
     }
 
     override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
