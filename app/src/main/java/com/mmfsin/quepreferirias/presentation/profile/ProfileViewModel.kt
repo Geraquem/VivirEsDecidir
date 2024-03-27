@@ -3,10 +3,12 @@ package com.mmfsin.quepreferirias.presentation.profile
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.RRSS
+import com.mmfsin.quepreferirias.domain.usecases.GetMyDilemmasUseCase
 import com.mmfsin.quepreferirias.domain.usecases.LogoutUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GoogleLoginUseCase
 import com.mmfsin.quepreferirias.domain.usecases.UpdateProfileUseCase
+import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.MyDilemmasEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,6 +16,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getSessionUseCase: GetSessionUseCase,
     private val googleLoginUseCase: GoogleLoginUseCase,
+    private val getMyDilemmasUseCase: GetMyDilemmasUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase
 ) : BaseViewModel<ProfileEvent>() {
@@ -32,6 +35,14 @@ class ProfileViewModel @Inject constructor(
         executeUseCase(
             { updateProfileUseCase.execute(UpdateProfileUseCase.Params(rrss)) },
             { _event.value = ProfileEvent.UpdatedProfile },
+            { _event.value = ProfileEvent.SWW }
+        )
+    }
+
+    fun getMyDilemmas() {
+        executeUseCase(
+            { getMyDilemmasUseCase.execute() },
+            { result -> _event.value = ProfileEvent.MyDilemmas(result) },
             { _event.value = ProfileEvent.SWW }
         )
     }

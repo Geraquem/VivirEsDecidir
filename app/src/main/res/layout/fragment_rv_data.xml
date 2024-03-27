@@ -38,6 +38,7 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:paddingBottom="16dp"
+            style="@style/scroll_no_effects"
             tools:itemCount="5"
             tools:listitem="@layout/item_dilemma_fav" />
 

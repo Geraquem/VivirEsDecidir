@@ -110,11 +110,15 @@
     <string name="profile_title">Mi perfil</string>
     <string name="user_profile_hello">Hola</string>
     <string name="user_profile_how_you_doing">¿Cómo te va?</string>
+    <string name="user_profile_my_dilemmas">Mis dilemas</string>
+    <string name="user_profile_my_dualisms">Mis dualismos</string>
+    <string name="user_profile_see_more">Ver más</string>
     <string name="profile_close_session_confirm">¿Quieres cerrar sessión?</string>
     <string name="profile_close_session">Cerrar sessión</string>
 
     <!-- EDIT PROFILE -->
     <string name="edit_profile">Editar perfil</string>
+    <string name="edit_profile_add_rrss"><u>Añadir redes sociales</u></string>
     <string name="edit_profile_rrss">Redes sociales</string>
     <string name="edit_profile_rrss_instagram">Instagram</string>
     <string name="edit_profile_rrss_x">X</string>
