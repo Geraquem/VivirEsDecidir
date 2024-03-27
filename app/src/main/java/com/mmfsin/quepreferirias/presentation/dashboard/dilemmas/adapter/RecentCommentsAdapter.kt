@@ -48,7 +48,10 @@ class RecentCommentsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment = comments[position]
         holder.bind(comment)
-        holder.binding.tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+        holder.binding.apply {
+            image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+            tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+        }
     }
 
     override fun getItemCount(): Int = comments.size

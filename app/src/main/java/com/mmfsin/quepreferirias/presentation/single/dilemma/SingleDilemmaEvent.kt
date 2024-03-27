@@ -14,5 +14,6 @@ sealed class SingleDilemmaEvent {
     class GetPercents(val percents: Percents) : SingleDilemmaEvent()
     class GetComments(val comments: List<Comment>) : SingleDilemmaEvent()
     class CheckDilemmaFav(val result: Boolean) : SingleDilemmaEvent()
+
     object SWW : SingleDilemmaEvent()
 }

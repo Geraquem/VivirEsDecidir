@@ -70,6 +70,7 @@ class CommentsAdapter(
         val comment = comments[position]
         holder.bind(comment)
         holder.binding.apply {
+            image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             ivVoteUp.setOnClickListener {
                 if (!comment.votedUp) vote(comment, VOTE_UP, position)

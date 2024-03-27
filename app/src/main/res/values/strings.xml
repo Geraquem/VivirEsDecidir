@@ -105,6 +105,7 @@
     <string name="comments_error">Indefinido</string>
     <string name="comments_answer">Responder</string>
     <string name="comments_log_in">Inicia sesión para dejar un comentario</string>
+    <string name="comment_already_voted">Ya votaste así este comentario</string>
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>
