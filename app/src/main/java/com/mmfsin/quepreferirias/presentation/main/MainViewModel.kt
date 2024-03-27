@@ -4,7 +4,6 @@ import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.NavigationDrawerFlowUseCase
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow
-import com.mmfsin.quepreferirias.presentation.profile.ProfileEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -117,4 +117,22 @@ class UserRepository @Inject constructor(
         }
         withContext(Dispatchers.IO) { latch.await() }
     }
+
+    override suspend fun getUserById(userId: String): Session? {
+        var user: SessionDTO? = null
+        val latch = CountDownLatch(1)
+        Firebase.firestore.collection(USERS).document(userId).get()
+            .addOnSuccessListener { d ->
+                try {
+                    user = d.toObject(SessionDTO::class.java)
+                } catch (e: Exception) {
+                    Log.e("error", "error parsing user data")
+                }
+                latch.countDown()
+            }.addOnFailureListener {
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
+        return user?.toSession()
+    }
 }

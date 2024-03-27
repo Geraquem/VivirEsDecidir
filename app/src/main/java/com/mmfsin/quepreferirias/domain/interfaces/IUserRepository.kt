@@ -5,8 +5,10 @@ import com.mmfsin.quepreferirias.domain.models.Session
 
 interface IUserRepository {
     suspend fun saveSession(session: Session): Boolean
-    fun deleteSession()
     suspend fun getUserSession(): Session?
+    fun deleteSession()
 
     suspend fun updateProfile(rrss: RRSS)
+
+    suspend fun getUserById(userId: String): Session?
 }

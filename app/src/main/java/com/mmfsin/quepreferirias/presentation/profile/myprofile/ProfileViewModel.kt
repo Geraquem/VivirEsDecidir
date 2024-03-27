@@ -1,14 +1,12 @@
-package com.mmfsin.quepreferirias.presentation.profile
+package com.mmfsin.quepreferirias.presentation.profile.myprofile
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.RRSS
-import com.mmfsin.quepreferirias.domain.usecases.GetMyDilemmasUseCase
 import com.mmfsin.quepreferirias.domain.usecases.LogoutUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GoogleLoginUseCase
 import com.mmfsin.quepreferirias.domain.usecases.UpdateProfileUseCase
-import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.MyDilemmasEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

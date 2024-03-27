@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.profile
+package com.mmfsin.quepreferirias.presentation.profile.myprofile
 
 import com.mmfsin.quepreferirias.domain.models.Session
 

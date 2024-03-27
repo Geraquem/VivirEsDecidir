@@ -8,9 +8,11 @@ import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemRecentCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 
 class RecentCommentsAdapter(
-    private val comments: List<Comment>
+    private val comments: List<Comment>,
+    private val listener: ICommentsListener
 ) : RecyclerView.Adapter<RecentCommentsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,7 +46,9 @@ class RecentCommentsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(comments[position])
+        val comment = comments[position]
+        holder.bind(comment)
+        holder.binding.tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
     }
 
     override fun getItemCount(): Int = comments.size

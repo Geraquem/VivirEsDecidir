@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.profile.dialogs
+package com.mmfsin.quepreferirias.presentation.profile.myprofile.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater

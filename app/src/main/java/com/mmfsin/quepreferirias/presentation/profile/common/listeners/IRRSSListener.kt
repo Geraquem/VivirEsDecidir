@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.profile.listeners
+package com.mmfsin.quepreferirias.presentation.profile.common.listeners
 
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.RRSSType

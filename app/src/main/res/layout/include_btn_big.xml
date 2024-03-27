@@ -24,7 +24,6 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_next"
         android:backgroundTint="@color/white"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="@id/bg_image"

@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.profile.dialogs
+package com.mmfsin.quepreferirias.presentation.profile.myprofile.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.mmfsin.quepreferirias.base.BaseDialog
 import com.mmfsin.quepreferirias.databinding.DialogEditProfileBinding
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.presentation.profile.listeners.IRRSSListener
+import com.mmfsin.quepreferirias.presentation.profile.common.listeners.IRRSSListener
 import com.mmfsin.quepreferirias.utils.checkIfEmpty
 import dagger.hilt.android.AndroidEntryPoint
 

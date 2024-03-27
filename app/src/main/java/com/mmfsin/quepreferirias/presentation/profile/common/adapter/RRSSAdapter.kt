@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.profile.adapter
+package com.mmfsin.quepreferirias.presentation.profile.common.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemRrssBinding
 import com.mmfsin.quepreferirias.domain.models.RRSSType
 import com.mmfsin.quepreferirias.domain.models.getRRSSIcon
-import com.mmfsin.quepreferirias.presentation.profile.listeners.IRRSSListener
+import com.mmfsin.quepreferirias.presentation.profile.common.listeners.IRRSSListener
 
 class RRSSAdapter(
     private val data: List<Pair<RRSSType, String>>,

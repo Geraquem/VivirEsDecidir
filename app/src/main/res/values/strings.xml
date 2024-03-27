@@ -117,6 +117,10 @@
     <string name="profile_close_session_confirm">¿Quieres cerrar sessión?</string>
     <string name="profile_close_session">Cerrar sessión</string>
 
+    <!-- OTHERPROFILE -->
+    <string name="other_profile_dilemmas">Ideas de %s</string>
+    <string name="other_profile_dilemmas_description">Pulsa aquí para ver los dilemas y los dualismos que %s ha enviado.</string>
+
     <!-- EDIT PROFILE -->
     <string name="edit_profile">Editar perfil</string>
     <string name="edit_profile_add_rrss"><u>Añadir redes sociales</u></string>

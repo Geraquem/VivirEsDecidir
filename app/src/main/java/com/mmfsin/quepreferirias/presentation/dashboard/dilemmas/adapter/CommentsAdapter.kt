@@ -16,8 +16,8 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 
 class CommentsAdapter(
-    private val listener: ICommentsListener,
-    private val comments: List<Comment>
+    private val comments: List<Comment>,
+    private val listener: ICommentsListener
 ) : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -70,6 +70,7 @@ class CommentsAdapter(
         val comment = comments[position]
         holder.bind(comment)
         holder.binding.apply {
+            tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             ivVoteUp.setOnClickListener {
                 if (!comment.votedUp) vote(comment, VOTE_UP, position)
             }

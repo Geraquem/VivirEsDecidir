@@ -5,41 +5,45 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasFragmentDirections.Companion.actionToUserProfile
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
-import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
+import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
+import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
+import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(),
-    IBSheetListener {
+    IBSheetListener, ICommentsListener {
 
     override val viewModel: DilemmasViewModel by viewModels()
     private lateinit var mContext: Context
@@ -89,7 +93,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnComments.button.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
 
-            btnNext.btnNext.setOnClickListener {
+            btnNext.root.setOnClickListener {
                 position++
                 if (position < dilemmaList.size) {
 //                    showInterstitial()
@@ -228,7 +232,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             llSeeAll.visibility = if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = RecentCommentsAdapter(comments.take(LAST_COMMENTS))
+                adapter = RecentCommentsAdapter(comments.take(LAST_COMMENTS), this@DilemmasFragment)
             }
             loading.root.visibility = View.GONE
         }
@@ -279,6 +283,16 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
+
+    override fun navigateToUserProfile(userId: String) {
+        (activity as BedRockActivity).openActivity(
+            R.navigation.nav_graph_other_profile, USER_ID, userId
+        )
+    }
+
+    override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
+    override fun respondComment() {}
+    override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {}
 
     private fun error() {
         activity?.showErrorDialog { activity?.finish() }

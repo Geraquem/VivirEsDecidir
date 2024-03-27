@@ -130,6 +130,20 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
         }
     }
 
+    private fun sessionFlow() {
+        binding.apply {
+            if (hasSession) {
+                clSendComment.visibility = View.VISIBLE
+                tvNoSession.visibility = View.GONE
+                viewModel.getUserData()
+            } else {
+                clSendComment.visibility = View.INVISIBLE
+                tvNoSession.visibility = View.VISIBLE
+                viewModel.getComments()
+            }
+        }
+    }
+
     private fun commentSent() {
         binding.apply {
             ivSendComment.isEnabled = true
@@ -145,7 +159,7 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
         binding.apply {
             rvComments.apply {
                 layoutManager = LinearLayoutManager(activity)
-                commentsAdapter = CommentsAdapter(this@CommentsSheet, comments)
+                commentsAdapter = CommentsAdapter(comments, this@CommentsSheet)
                 adapter = commentsAdapter
             }
         }
@@ -157,21 +171,10 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
     }
 
     override fun respondComment() {
+        //TODO("Not yet implemented")
     }
 
-    private fun sessionFlow() {
-        binding.apply {
-            if (hasSession) {
-                clSendComment.visibility = View.VISIBLE
-                tvNoSession.visibility = View.GONE
-                viewModel.getUserData()
-            } else {
-                clSendComment.visibility = View.INVISIBLE
-                tvNoSession.visibility = View.VISIBLE
-                viewModel.getComments()
-            }
-        }
-    }
+    override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
 
     override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {
         if (hasSession) viewModel.voteComment(dilemmaId, commentId, vote, likes, position)

@@ -20,11 +20,13 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
@@ -37,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemmaViewModel>(),
-    IBSheetListener {
+    IBSheetListener, ICommentsListener {
 
     override val viewModel: SingleDilemmaViewModel by viewModels()
     private lateinit var mContext: Context
@@ -206,7 +208,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             llSeeAll.visibility = if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
             rvComments.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = RecentCommentsAdapter(comments.take(LAST_COMMENTS))
+                adapter =
+                    RecentCommentsAdapter(comments.take(LAST_COMMENTS), this@SingleDilemmaFragment)
             }
             loading.root.visibility = View.GONE
         }
@@ -257,6 +260,14 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
+
+    override fun navigateToUserProfile(userId: String) {
+        //TODO("Not yet implemented")
+    }
+
+    override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
+    override fun respondComment() {}
+    override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {}
 
     private fun error() {
         activity?.showErrorDialog { activity?.finish() }

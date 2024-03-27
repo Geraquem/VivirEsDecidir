@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.profile
+package com.mmfsin.quepreferirias.presentation.profile.myprofile
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,12 +20,12 @@ import com.mmfsin.quepreferirias.domain.models.RRSSType
 import com.mmfsin.quepreferirias.domain.models.RRSSType.*
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
-import com.mmfsin.quepreferirias.presentation.profile.ProfileFragmentDirections.Companion.actionToMyData
-import com.mmfsin.quepreferirias.presentation.profile.ProfileFragmentDirections.Companion.actionToSavedData
-import com.mmfsin.quepreferirias.presentation.profile.adapter.RRSSAdapter
-import com.mmfsin.quepreferirias.presentation.profile.dialogs.CloseSessionDialog
-import com.mmfsin.quepreferirias.presentation.profile.dialogs.RRSSDialog
-import com.mmfsin.quepreferirias.presentation.profile.listeners.IRRSSListener
+import com.mmfsin.quepreferirias.presentation.profile.common.adapter.RRSSAdapter
+import com.mmfsin.quepreferirias.presentation.profile.common.listeners.IRRSSListener
+import com.mmfsin.quepreferirias.presentation.profile.myprofile.ProfileFragmentDirections.Companion.actionToMyData
+import com.mmfsin.quepreferirias.presentation.profile.myprofile.ProfileFragmentDirections.Companion.actionToSavedData
+import com.mmfsin.quepreferirias.presentation.profile.myprofile.dialogs.CloseSessionDialog
+import com.mmfsin.quepreferirias.presentation.profile.myprofile.dialogs.RRSSDialog
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
