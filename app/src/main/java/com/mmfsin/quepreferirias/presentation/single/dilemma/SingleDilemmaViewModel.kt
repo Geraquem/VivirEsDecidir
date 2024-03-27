@@ -9,7 +9,6 @@ import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
-import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -19,7 +18,6 @@ class SingleDilemmaViewModel @Inject constructor(
     private val getDilemmaById: GetDilemmaById,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
-    private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase,
     private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase

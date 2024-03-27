@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_error"
+    android:background="@drawable/bg_white_box"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -12,8 +12,9 @@
         android:id="@+id/rl_top"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_delete_top"
-        android:paddingVertical="12dp"
+        android:background="@drawable/bg_bottom_dialog"
+        android:backgroundTint="@color/cancel"
+        android:paddingVertical="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,7 +37,7 @@
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -47,7 +48,7 @@
             style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             tools:text="@string/delete_fav_data_title" />
 
@@ -64,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.475"
-                android:background="@drawable/bg_btn_cancel"
+                android:background="@drawable/bg_white_box"
+                android:backgroundTint="@color/cancel"
                 android:elevation="6dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
@@ -83,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.475"
-                android:background="@drawable/bg_btn_ok"
+                android:background="@drawable/bg_white_box"
                 android:elevation="6dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"

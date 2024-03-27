@@ -13,6 +13,8 @@ interface IDilemmasRepository {
     suspend fun getDilemmas(): List<Dilemma>
     suspend fun getDilemmaById(dilemmaId: String): Dilemma?
 
+    suspend fun voteDilemma(dilemmaId: String)
+
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
     suspend fun getDilemmaCommentsFromRealm(): List<Comment>
     suspend fun sendDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean

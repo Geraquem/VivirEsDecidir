@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:background="@drawable/bg_send_data"
+    android:background="@drawable/bg_bottom_dialog"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/bg_send_data_button"
+            android:background="@drawable/bg_white_box"
             android:elevation="6dp"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"
@@ -94,7 +94,7 @@
             android:id="@+id/send_dualism"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_send_data_button"
+            android:background="@drawable/bg_white_box"
             android:elevation="6dp"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"

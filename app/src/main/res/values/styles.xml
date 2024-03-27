@@ -75,7 +75,8 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:textColorHint">@color/et_hint</item>
         <item name="android:singleLine">true</item>
-        <item name="android:background">@drawable/bg_send_comment</item>
+        <item name="backgroundTint">@color/grey</item>
+        <item name="android:background">@drawable/bg_white_box</item>
     </style>
 
     <style name="edit_text_dilemma">

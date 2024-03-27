@@ -118,6 +118,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 percents.ivNo.visibility = View.VISIBLE
             }
             llButtons.animate().alpha(0.0f).duration = 250
+//            viewModel.voteDilemma()
             viewModel.getPercents(votesYes, votesNo)
         }
     }

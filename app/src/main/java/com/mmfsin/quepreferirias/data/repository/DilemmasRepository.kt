@@ -115,6 +115,10 @@ class DilemmasRepository @Inject constructor(
         return dilemma
     }
 
+    override suspend fun voteDilemma(dilemmaId: String) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
         val comments = mutableListOf<CommentDTO>()
         val latch = CountDownLatch(1)

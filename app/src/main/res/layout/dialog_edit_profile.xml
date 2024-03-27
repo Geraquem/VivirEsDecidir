@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_edit_profile"
+    android:background="@drawable/bg_bottom_dialog"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:paddingVertical="24dp">
@@ -158,7 +158,7 @@
                 style="@style/mButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_send_button"
+                android:background="@drawable/bg_white_box"
                 android:elevation="6dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
