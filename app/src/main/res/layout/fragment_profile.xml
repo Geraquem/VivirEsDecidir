@@ -9,172 +9,215 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
-
     <androidx.core.widget.NestedScrollView
         style="@style/scroll_no_effects"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toLeftOf="@id/gl_right"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp">
+            android:clipToPadding="false">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_name"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_left"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="32dp"
+                app:layout_constraintLeft_toLeftOf="@id/gl_left"
+                app:layout_constraintRight_toRightOf="@id/gl_right"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <include
-                    android:id="@+id/iv_image"
-                    layout="@layout/include_circle_image"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/iv_image"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <include
+                        android:id="@+id/iv_image"
+                        layout="@layout/include_circle_image"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <LinearLayout
-                        android:id="@+id/ll_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-                        app:layout_constraintRight_toRightOf="@id/gl_right"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/iv_image"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
-                            style="@style/MediumTextView"
+                        <LinearLayout
+                            android:id="@+id/ll_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/user_profile_hello" />
+                            android:layout_marginBottom="2dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintLeft_toLeftOf="@id/gl_left"
+                            app:layout_constraintRight_toRightOf="@id/gl_right"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                style="@style/MediumTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_profile_hello" />
+
+                            <TextView
+                                android:id="@+id/tv_name"
+                                style="@style/MediumTextView_Bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                tools:text="Cristian" />
+
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/tv_name"
-                            style="@style/MediumTextView_Bold"
+                            style="@style/SmallTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            tools:text="Cristian" />
+                            android:text="@string/user_profile_how_you_doing" />
 
                     </LinearLayout>
 
-                    <TextView
-                        style="@style/SmallTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/user_profile_how_you_doing" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/tv_add_rrss"
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:alpha="0.5"
-                android:text="@string/edit_profile_add_rrss" />
-
-            <LinearLayout
-                android:id="@+id/ll_bg_rrss"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_white_box"
-                android:backgroundTint="@color/rrss"
-                android:orientation="vertical"
-                android:padding="8dp">
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/tv_rrss"
+                    android:id="@+id/tv_add_rrss"
                     style="@style/SmallTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/edit_profile_rrss" />
+                    android:layout_marginTop="16dp"
+                    android:alpha="0.5"
+                    android:text="@string/edit_profile_add_rrss" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_rrss"
-                    style="@style/scroll_no_effects"
+                <LinearLayout
+                    android:id="@+id/ll_bg_rrss"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    tools:itemCount="4"
-                    tools:listitem="@layout/item_rrss" />
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_white_box"
+                    android:backgroundTint="@color/rrss"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_rrss"
+                        style="@style/SmallTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit_profile_rrss" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_rrss"
+                        style="@style/scroll_no_effects"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_rrss" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_my_ideas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_white_box"
+                    android:elevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp">
+
+                    <TextView
+                        style="@style/MediumTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="4dp"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/user_profile_my_dilemmas"
+                        app:drawableStartCompat="@drawable/ic_dilemma_yes" />
+
+                    <TextView
+                        style="@style/SmallTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/user_profile_my_dilemmas_description" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_my_favs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_white_box"
+                    android:elevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp">
+
+                    <TextView
+                        style="@style/MediumTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="4dp"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/user_profile_my_favs"
+                        app:drawableStartCompat="@drawable/ic_fav_on" />
+
+                    <TextView
+                        style="@style/SmallTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/user_profile_my_favs_description" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_my_dilemmas"
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/user_profile_my_dilemmas" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_dilemmas_sent"
-                style="@style/scroll_no_effects"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_name"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_my_dilemma" />
-
-            <TextView
-                android:id="@+id/btn_my_dilemmas"
-                style="@style/SmallTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="8dp"
-                android:background="@drawable/bg_white_box"
-                android:elevation="6dp"
-                android:gravity="center"
-                android:paddingVertical="8dp"
-                android:text="@string/user_profile_see_more" />
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -185,8 +228,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <TextView
             android:id="@+id/tv_edit"

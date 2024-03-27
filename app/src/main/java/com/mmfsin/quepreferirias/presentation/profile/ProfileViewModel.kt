@@ -16,7 +16,6 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getSessionUseCase: GetSessionUseCase,
     private val googleLoginUseCase: GoogleLoginUseCase,
-    private val getMyDilemmasUseCase: GetMyDilemmasUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase
 ) : BaseViewModel<ProfileEvent>() {
@@ -35,14 +34,6 @@ class ProfileViewModel @Inject constructor(
         executeUseCase(
             { updateProfileUseCase.execute(UpdateProfileUseCase.Params(rrss)) },
             { _event.value = ProfileEvent.UpdatedProfile },
-            { _event.value = ProfileEvent.SWW }
-        )
-    }
-
-    fun getMyDilemmas() {
-        executeUseCase(
-            { getMyDilemmasUseCase.execute() },
-            { result -> _event.value = ProfileEvent.MyDilemmas(result) },
             { _event.value = ProfileEvent.SWW }
         )
     }
