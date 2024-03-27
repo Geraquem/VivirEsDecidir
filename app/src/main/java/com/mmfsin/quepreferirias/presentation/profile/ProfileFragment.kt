@@ -1,10 +1,13 @@
 package com.mmfsin.quepreferirias.presentation.profile
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -110,8 +113,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         }
     }
 
-    override fun updateRRSS(rrss: RRSS) = viewModel.updateRRSS(rrss)
-
     private fun setRRSS(rrss: RRSS) {
         val data = mutableListOf<Pair<RRSSType, String>>()
         rrss.instagram?.let { data.add(Pair(INSTAGRAM, it)) }
@@ -123,10 +124,22 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             llBgRrss.isVisible = data.isNotEmpty()
             rvRrss.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = RRSSAdapter(data)
+                adapter = RRSSAdapter(data, this@ProfileFragment)
             }
             loading.root.visibility = View.GONE
         }
+    }
+
+    override fun updateRRSS(rrss: RRSS) = viewModel.updateRRSS(rrss)
+
+    override fun onRRSSClick(type: RRSSType, name: String) {
+        val url = when (type) {
+            INSTAGRAM -> getString(R.string.instagram_url, name)
+            TWITTER -> getString(R.string.twitter_url, name)
+            TIKTOK -> getString(R.string.tiktok_url, name)
+            YOUTUBE -> getString(R.string.youtube_url, name)
+        }
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
     private fun error() = activity?.showErrorDialog() { activity?.finish() }

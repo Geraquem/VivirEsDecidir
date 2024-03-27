@@ -121,6 +121,7 @@
     <string name="edit_profile">Editar perfil</string>
     <string name="edit_profile_add_rrss"><u>Añadir redes sociales</u></string>
     <string name="edit_profile_rrss">Redes sociales</string>
+    <string name="edit_profile_rrss_no_ats">Escribe solo el nombre, sin @</string>
     <string name="edit_profile_rrss_instagram">Instagram</string>
     <string name="edit_profile_rrss_x">X</string>
     <string name="edit_profile_rrss_tiktok">TikTok</string>
@@ -145,7 +146,11 @@
     <string name="my_data_item_date">Enviado el %s</string>
     <string name="my_data_empty">No has enviado nada</string>
 
-    <!-- MORE APPS -->
+    <!-- ULRs -->
     <string name="sq_mmfsin_url">https://play.google.com/store/apps/developer?id=mmfsin</string>
+    <string name="instagram_url">https://www.instagram.com/%s</string>
+    <string name="twitter_url">https://twitter.com/%s</string>
+    <string name="tiktok_url">https://www.tiktok.com/@%s</string>
+    <string name="youtube_url">https://www.youtube.com/@%s</string>
 
 </resources>

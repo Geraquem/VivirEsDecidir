@@ -1,6 +1,5 @@
 package com.mmfsin.quepreferirias.presentation.profile
 
-import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
 
 sealed class ProfileEvent {

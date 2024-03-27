@@ -8,9 +8,11 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemRrssBinding
 import com.mmfsin.quepreferirias.domain.models.RRSSType
 import com.mmfsin.quepreferirias.domain.models.getRRSSIcon
+import com.mmfsin.quepreferirias.presentation.profile.listeners.IRRSSListener
 
 class RRSSAdapter(
     private val data: List<Pair<RRSSType, String>>,
+    private val listener: IRRSSListener
 ) : RecyclerView.Adapter<RRSSAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -30,7 +32,11 @@ class RRSSAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+        val data = data[position]
+        holder.bind(data)
+        holder.binding.llContainer.setOnClickListener {
+            listener.onRRSSClick(data.first, data.second)
+        }
     }
 
     override fun getItemCount(): Int = data.size
