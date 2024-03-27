@@ -23,6 +23,7 @@ import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.profile.common.adapter.RRSSAdapter
 import com.mmfsin.quepreferirias.presentation.profile.common.listeners.IRRSSListener
 import com.mmfsin.quepreferirias.utils.USER_ID
+import com.mmfsin.quepreferirias.utils.openRRSS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,10 +63,11 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
             userData?.let { user ->
                 setToolbar(user.name)
                 Glide.with(mContext).load(user.imageUrl).into(ivImage.image)
-                user.rrss?.let { rrss -> setRRSS(rrss) }
+                tvName.text = user.name
                 tvDilemmasTitle.text = getString(R.string.other_profile_dilemmas, user.name)
                 tvDilemmasDesc.text =
                     getString(R.string.other_profile_dilemmas_description, user.name)
+                user.rrss?.let { rrss -> setRRSS(rrss) }
             }
         }
     }
@@ -80,7 +82,8 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
         viewModel.event.observe(this) { event ->
             when (event) {
                 is OtherProfileEvent.Profile -> {
-
+                    userData = event.userData
+                    setUI()
                 }
 
                 is OtherProfileEvent.SWW -> error()
@@ -109,13 +112,7 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
     }
 
     override fun onRRSSClick(type: RRSSType, name: String) {
-//        val url = when (type) {
-//            INSTAGRAM -> getString(R.string.instagram_url, name)
-//            TWITTER -> getString(R.string.twitter_url, name)
-//            TIKTOK -> getString(R.string.tiktok_url, name)
-//            YOUTUBE -> getString(R.string.youtube_url, name)
-//        }
-//        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        activity?.openRRSS(type, name)
     }
 
     private fun error() = activity?.showErrorDialog() { activity?.finish() }

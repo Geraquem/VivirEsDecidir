@@ -1,12 +1,17 @@
 package com.mmfsin.quepreferirias.utils
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.CountDownTimer
 import android.text.Editable
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.dialog.ErrorDialog
+import com.mmfsin.quepreferirias.domain.models.RRSSType
+import com.mmfsin.quepreferirias.domain.models.RRSSType.*
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -50,4 +55,14 @@ fun FragmentActivity.changeBgColor(background: Drawable, color: Int) {
     if (background is GradientDrawable) {
         background.setColor(ContextCompat.getColor(this, color))
     }
+}
+
+fun FragmentActivity.openRRSS(type: RRSSType, name: String) {
+    val url = when (type) {
+        RRSSType.INSTAGRAM -> getString(R.string.instagram_url, name)
+        RRSSType.TWITTER -> getString(R.string.twitter_url, name)
+        RRSSType.TIKTOK -> getString(R.string.tiktok_url, name)
+        RRSSType.YOUTUBE -> getString(R.string.youtube_url, name)
+    }
+    this.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }

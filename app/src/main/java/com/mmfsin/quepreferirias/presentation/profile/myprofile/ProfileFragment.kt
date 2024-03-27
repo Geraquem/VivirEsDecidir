@@ -26,6 +26,7 @@ import com.mmfsin.quepreferirias.presentation.profile.myprofile.ProfileFragmentD
 import com.mmfsin.quepreferirias.presentation.profile.myprofile.ProfileFragmentDirections.Companion.actionToSavedData
 import com.mmfsin.quepreferirias.presentation.profile.myprofile.dialogs.CloseSessionDialog
 import com.mmfsin.quepreferirias.presentation.profile.myprofile.dialogs.RRSSDialog
+import com.mmfsin.quepreferirias.utils.openRRSS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -132,13 +133,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     override fun updateRRSS(rrss: RRSS) = viewModel.updateRRSS(rrss)
 
     override fun onRRSSClick(type: RRSSType, name: String) {
-        val url = when (type) {
-            INSTAGRAM -> getString(R.string.instagram_url, name)
-            TWITTER -> getString(R.string.twitter_url, name)
-            TIKTOK -> getString(R.string.tiktok_url, name)
-            YOUTUBE -> getString(R.string.youtube_url, name)
-        }
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        activity?.openRRSS(type, name)
     }
 
     private fun error() = activity?.showErrorDialog() { activity?.finish() }

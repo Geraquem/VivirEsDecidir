@@ -9,7 +9,7 @@ class GetUserByIdUseCase @Inject constructor(
     private val repository: IUserRepository
 ) : BaseUseCase<GetUserByIdUseCase.Params, Session?>() {
 
-    override suspend fun execute(params: Params): Session? = repository.getUserSession()
+    override suspend fun execute(params: Params): Session? = repository.getUserById(params.userId)
 
     data class Params(
         val userId: String
