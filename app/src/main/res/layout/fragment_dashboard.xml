@@ -100,7 +100,7 @@
                     android:elevation="6dp"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
-                    android:paddingVertical="@dimen/margin_padding_large_small"
+                    android:paddingVertical="24dp"
                     tools:text="Opción 1 a elegir" />
 
                 <include layout="@layout/include_but" />
@@ -115,7 +115,7 @@
                     android:elevation="6dp"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
-                    android:paddingVertical="@dimen/margin_padding_large_small"
+                    android:paddingVertical="24dp"
                     tools:text="Opción 2 a elegir" />
 
                 <LinearLayout

@@ -11,14 +11,14 @@ plugins {
 
 android {
     namespace 'com.mmfsin.quepreferirias'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.mmfsin.quepreferirias"
         minSdk 26
-        targetSdk 32
-        versionCode 17
-        versionName "2.1.6"
+        targetSdk 33
+        versionCode 18
+        versionName "2.1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
