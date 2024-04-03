@@ -4,6 +4,8 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
         loadInterstitial(AdRequest.Builder().build())
         binding.apply {
+            window?.statusBarColor = getColor(this@MainActivity, R.color.black)
             adView.visibility = View.GONE
             val animationDrawable = clMain.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(6000)
@@ -75,7 +78,6 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
-
 
 
 }
