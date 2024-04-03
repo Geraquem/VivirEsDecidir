@@ -5,8 +5,8 @@ import com.mmfsin.quepreferirias.domain.models.Data
 
 fun DataDTO.toData(id: String, votesYes: Long, votesNo: Long) = Data(
     id = id,
-    topText = txtA,
-    bottomText = txtB,
+    topText = txtTop,
+    bottomText = txtBottom,
     votesYes = votesYes,
     votesNo = votesNo,
     creatorName = creatorName
