@@ -3,10 +3,10 @@
     <string name="content_description">image</string>
 
     <!-- ADS -->
-    <string name="banner">ca-app-pub-3940256099942544/6300978111</string>
-<!--        <string name="banner">ca-app-pub-4515698012373396/8033411533</string>-->
-    <string name="insterstitial">ca-app-pub-3940256099942544/1033173712</string>
-<!--        <string name="insterstitial">ca-app-pub-4515698012373396/6775142518</string>-->
+<!--    <string name="banner">ca-app-pub-3940256099942544/6300978111</string>-->
+        <string name="banner">ca-app-pub-4515698012373396/8033411533</string>
+<!--    <string name="insterstitial">ca-app-pub-3940256099942544/1033173712</string>-->
+        <string name="insterstitial">ca-app-pub-4515698012373396/6775142518</string>
 
     <!-- ERROR -->
     <string name="error_title">Ha ocurrido un problema</string>
