@@ -6,9 +6,9 @@ const val ROOT_ACTIVITY_NAV_GRAPH = "root_nav_graph"
 /** SHARED PREFS */
 const val SESSION = "user_session"
 const val SESSION_INITIATED = "session_initiated"
-const val UPDATE_USER_DATA = "update_user_data"
-const val UPDATE_SAVED_DATA = "update_saved_data"
-const val UPDATE_SENT_DATA = "update_sent_data"
+const val SERVER_USER_DATA = "update_user_data"
+const val SERVER_SAVED_DATA = "update_saved_data"
+const val SERVER_SENT_DATA = "update_sent_data"
 
 /** BROADCAST */
 const val LOGIN_BROADCAST = "login_broadcast"

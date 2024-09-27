@@ -1,7 +1,6 @@
 package com.mmfsin.quepreferirias.domain.models
 
-open class DilemmaFav(
+open class DilemmaVoted(
     var dilemmaId: String,
-    var txtTop: String,
-    var txtBottom: String
+    var votedYes: Boolean,
 )

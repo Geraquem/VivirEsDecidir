@@ -2,10 +2,12 @@ package com.mmfsin.quepreferirias.data.mappers
 
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
@@ -60,6 +62,14 @@ private fun getDateTime(date: String): Int {
     }
     return text
 }
+
+fun DilemmaDTO.toDilemma() = Dilemma(
+    id = dilemmaId,
+    txtTop = txtTop,
+    txtBottom = txtBottom,
+    creatorId = creatorId,
+    creatorName = creatorName
+)
 
 fun DilemmaFavDTO.toDilemmaFav() = DilemmaFav(
     dilemmaId = dilemmaId,

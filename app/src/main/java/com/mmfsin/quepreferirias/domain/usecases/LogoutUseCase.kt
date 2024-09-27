@@ -9,9 +9,9 @@ import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.SESSION_INITIATED
-import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
-import com.mmfsin.quepreferirias.utils.UPDATE_SENT_DATA
-import com.mmfsin.quepreferirias.utils.UPDATE_USER_DATA
+import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DATA
+import com.mmfsin.quepreferirias.utils.SERVER_SENT_DATA
+import com.mmfsin.quepreferirias.utils.SERVER_USER_DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -34,9 +34,9 @@ class LogoutUseCase @Inject constructor(
         val session = context.getSharedPreferences(SESSION, MODE_PRIVATE)
         session.edit().apply() {
             putBoolean(SESSION_INITIATED, false)
-            putBoolean(UPDATE_USER_DATA, false)
-            putBoolean(UPDATE_SAVED_DATA, false)
-            putBoolean(UPDATE_SENT_DATA, false)
+            putBoolean(SERVER_USER_DATA, false)
+            putBoolean(SERVER_SAVED_DATA, false)
+            putBoolean(SERVER_SENT_DATA, false)
             apply()
         }
 

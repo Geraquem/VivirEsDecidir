@@ -8,12 +8,15 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toCommentList
+import com.mmfsin.quepreferirias.data.mappers.toDilemma
 import com.mmfsin.quepreferirias.data.mappers.toDilemmaFavList
 import com.mmfsin.quepreferirias.data.mappers.toSendDilemmaList
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.CommentVotedDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaVotedDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
@@ -35,11 +38,11 @@ import com.mmfsin.quepreferirias.utils.DILEMMAS_SENT
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.FILTER_VALUE
 import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
+import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DATA
+import com.mmfsin.quepreferirias.utils.SERVER_SENT_DATA
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
-import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
-import com.mmfsin.quepreferirias.utils.UPDATE_SENT_DATA
 import com.mmfsin.quepreferirias.utils.USERS
 import com.mmfsin.quepreferirias.utils.VOTES_NO
 import com.mmfsin.quepreferirias.utils.VOTES_YES
@@ -105,29 +108,24 @@ class DilemmasRepository @Inject constructor(
     }
 
     override suspend fun getDilemmaById(dilemmaId: String): Dilemma? {
-//        val latch = CountDownLatch(1)
-//        var dilemma: Dilemma? = null
-//        val root = reference.child(DILEMMAS).child(dilemmaId)
-//        root.get().addOnCompleteListener { dataSnapshot ->
-//            val result = dataSnapshot.result
-//            if (result.exists()) {
-//                dilemma = Dilemma(
-//                    id = dilemmaId,
-//                    txtTop = result.child(TXT_TOP).value.toString(),
-//                    txtBottom = result.child(TXT_BOTTOM).value.toString(),
-//                    votesYes = result.child(VOTES_YES).childrenCount,
-//                    votesNo = result.child(VOTES_NO).childrenCount,
-//                    creatorName = result.child(CREATOR_NAME).value?.toString()
-//                )
-//            }
-//            latch.countDown()
-//        }.addOnFailureListener { latch.countDown() }
-//
-//        withContext(Dispatchers.IO)
-//        {
-//            latch.await()
-//        }
-        return null
+        val latch = CountDownLatch(1)
+        var dilemma: DilemmaDTO? = null
+        Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
+            .get().addOnSuccessListener { d ->
+                try {
+                    d.toObject(DilemmaDTO::class.java)?.let {
+                        dilemma = it
+                    }
+                } catch (e: Exception) {
+                    Log.e("error", "error parsing comment")
+                }
+                latch.countDown()
+            }.addOnFailureListener {
+                latch.countDown()
+            }
+
+        withContext(Dispatchers.IO) { latch.await() }
+        return dilemma?.toDilemma()
     }
 
     override suspend fun getDilemmaVotes(dilemmaId: String): DilemmaVotes? {
@@ -152,12 +150,13 @@ class DilemmasRepository @Inject constructor(
         return votes
     }
 
-    override suspend fun voteDilemma(dilemmaId: String, isYes: Boolean) {
+    override suspend fun voteDilemma(dilemmaId: String, isYes: Boolean, voted: DilemmaVotedDTO) {
         val latch = CountDownLatch(1)
         val secondChild = if (isYes) VOTES_YES else VOTES_NO
         reference.child(DILEMMAS).child(dilemmaId).child(secondChild)
             .updateChildren(mapOf(UUID.randomUUID().toString() to isYes)).addOnCompleteListener {
                 it.isSuccessful
+                realmDatabase.addObject { voted }
                 latch.countDown()
             }
 
@@ -307,7 +306,7 @@ class DilemmasRepository @Inject constructor(
         return session?.let {
             val sharedPrefs =
                 context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
-            if (sharedPrefs.getBoolean(UPDATE_SAVED_DATA, true)) {
+            if (sharedPrefs.getBoolean(SERVER_SAVED_DATA, true)) {
                 realmDatabase.deleteAllObjects(DilemmaFavDTO::class.java)
                 val dilemmas = mutableListOf<DilemmaFavDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
@@ -329,7 +328,7 @@ class DilemmasRepository @Inject constructor(
                     }
                 withContext(Dispatchers.IO) { latch.await() }
                 sharedPrefs.edit().apply {
-                    putBoolean(UPDATE_SAVED_DATA, false)
+                    putBoolean(SERVER_SAVED_DATA, false)
                     apply()
                 }
                 dilemmas.toDilemmaFavList()
@@ -398,7 +397,7 @@ class DilemmasRepository @Inject constructor(
         return session?.let {
             val sharedPrefs =
                 context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
-            if (sharedPrefs.getBoolean(UPDATE_SENT_DATA, true)) {
+            if (sharedPrefs.getBoolean(SERVER_SENT_DATA, true)) {
                 realmDatabase.deleteAllObjects(SendDilemmaDTO::class.java)
                 val dilemmas = mutableListOf<SendDilemmaDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
@@ -420,7 +419,7 @@ class DilemmasRepository @Inject constructor(
                     }
                 withContext(Dispatchers.IO) { latch.await() }
                 sharedPrefs.edit().apply {
-                    putBoolean(UPDATE_SENT_DATA, false)
+                    putBoolean(SERVER_SENT_DATA, false)
                     apply()
                 }
                 dilemmas.toSendDilemmaList()

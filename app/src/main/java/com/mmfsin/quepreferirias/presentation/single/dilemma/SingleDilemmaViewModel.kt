@@ -5,24 +5,28 @@ import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
-import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaById
+import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaByIdUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SingleDilemmaViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
-    private val getDilemmaById: GetDilemmaById,
+    private val getDilemmaByIdUseCase: GetDilemmaByIdUseCase,
+    private val getDilemmaVotesUseCase: GetDilemmaVotesUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
-    private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase
+    private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
+    private val voteDilemmaUseCase: VoteDilemmaUseCase
 ) : BaseViewModel<SingleDilemmaEvent>() {
 
     fun checkSessionInitiated() {
@@ -49,12 +53,24 @@ class SingleDilemmaViewModel @Inject constructor(
         )
     }
 
-    fun getDilemmaById(dilemmaId: String) {
+    fun getSingleDilemma(dilemmaId: String) {
         executeUseCase(
-            { getDilemmaById.execute(GetDilemmaById.Params(dilemmaId)) },
+            { getDilemmaByIdUseCase.execute(GetDilemmaByIdUseCase.Params(dilemmaId)) },
             { result ->
-                _event.value = result?.let { SingleDilemmaEvent.GetDilemma(it) }
+                _event.value = result?.let { SingleDilemmaEvent.SingleDilemma(it) }
                     ?: run { SingleDilemmaEvent.SWW }
+            },
+            { _event.value = SingleDilemmaEvent.SWW }
+        )
+    }
+
+    fun getVotes(dilemmaId: String) {
+        executeUseCase(
+            { getDilemmaVotesUseCase.execute(GetDilemmaVotesUseCase.Params(dilemmaId)) },
+            { result ->
+                _event.value =
+                    result?.let { SingleDilemmaEvent.GetVotes(it) }
+                        ?: run { SingleDilemmaEvent.SWW }
             },
             { _event.value = SingleDilemmaEvent.SWW }
         )
@@ -100,6 +116,14 @@ class SingleDilemmaViewModel @Inject constructor(
                 )
             },
             { Log.i("DILEMMA_FAV", "DilemmaFav added") },
+            { _event.value = SingleDilemmaEvent.SWW }
+        )
+    }
+
+    fun voteDilemma(dilemmaId: String, isYes: Boolean) {
+        executeUseCase(
+            { voteDilemmaUseCase.execute(VoteDilemmaUseCase.Params(dilemmaId, isYes)) },
+            { _event.value = SingleDilemmaEvent.VoteDilemma(wasYes = isYes) },
             { _event.value = SingleDilemmaEvent.SWW }
         )
     }

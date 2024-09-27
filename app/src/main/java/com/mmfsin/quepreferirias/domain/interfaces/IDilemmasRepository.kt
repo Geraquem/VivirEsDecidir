@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.domain.interfaces
 
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
+import com.mmfsin.quepreferirias.data.models.DilemmaVotedDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
@@ -15,7 +16,7 @@ interface IDilemmasRepository {
     suspend fun getDilemmaById(dilemmaId: String): Dilemma?
 
     suspend fun getDilemmaVotes(dilemmaId: String): DilemmaVotes?
-    suspend fun voteDilemma(dilemmaId: String, isYes: Boolean)
+    suspend fun voteDilemma(dilemmaId: String, isYes: Boolean, voted: DilemmaVotedDTO)
 
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
     suspend fun getDilemmaCommentsFromRealm(): List<Comment>

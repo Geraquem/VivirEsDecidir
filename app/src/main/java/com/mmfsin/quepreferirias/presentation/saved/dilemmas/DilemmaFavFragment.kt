@@ -33,12 +33,6 @@ class DilemmaFavFragment(val listener: IViewPagerListener) :
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentRvDataBinding.inflate(inflater, container, false)
 
-    override fun onResume() {
-        super.onResume()
-        val a = 2
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavDilemmasData()

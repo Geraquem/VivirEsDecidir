@@ -5,25 +5,18 @@ import android.util.Log
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.mmfsin.quepreferirias.data.mappers.toDilemmaFavList
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.mappers.toSessionDTO
-import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
-import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
-import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.INSTAGRAM
-import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TIKTOK
 import com.mmfsin.quepreferirias.utils.TWITTER
-import com.mmfsin.quepreferirias.utils.UPDATE_SAVED_DATA
-import com.mmfsin.quepreferirias.utils.UPDATE_USER_DATA
+import com.mmfsin.quepreferirias.utils.SERVER_USER_DATA
 import com.mmfsin.quepreferirias.utils.USERS
 import com.mmfsin.quepreferirias.utils.YOUTUBE
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -71,7 +64,7 @@ class UserRepository @Inject constructor(
         val latch = CountDownLatch(1)
         return session?.let {
             val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
-            if (sharedPrefs.getBoolean(UPDATE_USER_DATA, true)) {
+            if (sharedPrefs.getBoolean(SERVER_USER_DATA, true)) {
                 realmDatabase.deleteAllObjects(SessionDTO::class.java)
                 Firebase.firestore.collection(USERS).document(session.id).get()
                     .addOnSuccessListener { d ->
@@ -87,7 +80,7 @@ class UserRepository @Inject constructor(
                     }
                 withContext(Dispatchers.IO) { latch.await() }
                 sharedPrefs.edit().apply {
-                    putBoolean(UPDATE_USER_DATA, false)
+                    putBoolean(SERVER_USER_DATA, false)
                     apply()
                 }
                 newSession?.toSession()
