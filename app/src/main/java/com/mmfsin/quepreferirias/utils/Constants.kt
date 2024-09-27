@@ -24,6 +24,7 @@ const val VOTES_YES = "votesYes"
 const val VOTES_NO = "votesNo"
 const val COMMENTS = "comments"
 const val COMMENT_LIKES = "likes"
+const val FILTER_VALUE = "filterValue"
 
 /** COMMENTS */
 const val LAST_COMMENTS = 4

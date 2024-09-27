@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.data.repository
 import android.content.Context
 import android.util.Log
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -28,10 +29,10 @@ import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_ID
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
-import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.DILEMMAS_SENT
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
+import com.mmfsin.quepreferirias.utils.FILTER_VALUE
 import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
@@ -45,6 +46,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.UUID
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
@@ -57,66 +59,86 @@ class DilemmasRepository @Inject constructor(
 
     override suspend fun getDilemmas(): List<Dilemma> {
         val latch = CountDownLatch(1)
-        val dilemmaList = mutableListOf<Dilemma>()
-        val root = reference.child(DILEMMAS)
-        root.get().addOnCompleteListener { dataSnapshot ->
-            for (child in dataSnapshot.result.children) {
-                if (child.exists()) {
-                    val id = child.key ?: child.ref.key
-                    val textTop = child.child(TXT_TOP).value.toString()
-                    val textBottom = child.child(TXT_BOTTOM).value.toString()
-                    val votesYes = child.child(VOTES_YES).childrenCount
-                    val votesNo = child.child(VOTES_NO).childrenCount
-                    val creator = child.child(CREATOR_NAME).value?.toString()
-                    val data = Dilemma(
-                        id.toString(),
-                        textTop,
-                        textBottom,
-                        votesYes,
-                        votesNo,
-                        creator
-                    )
-                    dilemmaList.add(data)
-                }
-            }
-            latch.countDown()
-        }.addOnFailureListener { latch.countDown() }
+        val db = FirebaseFirestore.getInstance()
+//        val randomValue = Math.random()
+        val randomValue = 0.0001
+        val totalLimit = 2L
+        val finalDataList = mutableListOf<Dilemma>()
 
-        withContext(Dispatchers.IO)
-        {
-            latch.await()
-        }
-        return dilemmaList//.shuffled()
+        db.collection(DILEMMAS)
+            .whereGreaterThan(FILTER_VALUE, randomValue)
+            .limit(totalLimit)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.size() < totalLimit) {
+                    db.collection(DILEMMAS)
+                        .whereLessThan(FILTER_VALUE, randomValue)
+                        .limit(totalLimit - documents.size())
+                        .get()
+                        .addOnSuccessListener { moreDocuments ->
+                            for (moreDoc in moreDocuments) {
+                                val moreData = Dilemma(
+                                    id = moreDoc.id,
+                                    txtTop = moreDoc.getString(TXT_TOP) ?: "",
+                                    txtBottom = moreDoc.getString(TXT_BOTTOM) ?: "",
+                                )
+                                finalDataList.add(moreData)
+                            }
+                        }
+                } else {
+                    for (doc in documents) {
+                        val data = Dilemma(
+                            id = doc.id,
+                            txtTop = doc.getString(TXT_TOP) ?: "",
+                            txtBottom = doc.getString(TXT_BOTTOM) ?: "",
+                        )
+                        finalDataList.add(data)
+                    }
+                }
+                latch.countDown()
+            }
+
+        withContext(Dispatchers.IO) { latch.await() }
+
+        return finalDataList
     }
 
     override suspend fun getDilemmaById(dilemmaId: String): Dilemma? {
-        val latch = CountDownLatch(1)
-        var dilemma: Dilemma? = null
-        val root = reference.child(DILEMMAS).child(dilemmaId)
-        root.get().addOnCompleteListener { dataSnapshot ->
-            val result = dataSnapshot.result
-            if (result.exists()) {
-                dilemma = Dilemma(
-                    id = dilemmaId,
-                    topText = result.child(TXT_TOP).value.toString(),
-                    bottomText = result.child(TXT_BOTTOM).value.toString(),
-                    votesYes = result.child(VOTES_YES).childrenCount,
-                    votesNo = result.child(VOTES_NO).childrenCount,
-                    creatorName = result.child(CREATOR_NAME).value?.toString()
-                )
-            }
-            latch.countDown()
-        }.addOnFailureListener { latch.countDown() }
-
-        withContext(Dispatchers.IO)
-        {
-            latch.await()
-        }
-        return dilemma
+//        val latch = CountDownLatch(1)
+//        var dilemma: Dilemma? = null
+//        val root = reference.child(DILEMMAS).child(dilemmaId)
+//        root.get().addOnCompleteListener { dataSnapshot ->
+//            val result = dataSnapshot.result
+//            if (result.exists()) {
+//                dilemma = Dilemma(
+//                    id = dilemmaId,
+//                    txtTop = result.child(TXT_TOP).value.toString(),
+//                    txtBottom = result.child(TXT_BOTTOM).value.toString(),
+//                    votesYes = result.child(VOTES_YES).childrenCount,
+//                    votesNo = result.child(VOTES_NO).childrenCount,
+//                    creatorName = result.child(CREATOR_NAME).value?.toString()
+//                )
+//            }
+//            latch.countDown()
+//        }.addOnFailureListener { latch.countDown() }
+//
+//        withContext(Dispatchers.IO)
+//        {
+//            latch.await()
+//        }
+        return null
     }
 
-    override suspend fun voteDilemma(dilemmaId: String) {
-        TODO("Not yet implemented")
+    override suspend fun voteDilemma(dilemmaId: String, isYes: Boolean) {
+        val latch = CountDownLatch(1)
+        val secondChild = if(isYes) VOTES_YES else VOTES_NO
+        reference.child(DILEMMAS).child(dilemmaId).child(secondChild)
+            .updateChildren(mapOf(UUID.randomUUID().toString() to isYes)).addOnCompleteListener {
+                it.isSuccessful
+                latch.countDown()
+            }
+
+        withContext(Dispatchers.IO) { latch.await() }
     }
 
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
@@ -144,7 +166,8 @@ class DilemmasRepository @Inject constructor(
     }
 
     override suspend fun getDilemmaCommentsFromRealm(): List<Comment> {
-        val comments = realmDatabase.getObjectsFromRealm { where<CommentDTO>().findAll() }
+        val comments =
+            realmDatabase.getObjectsFromRealm { where<CommentDTO>().findAll() }
         return sortedComments(comments)
     }
 
@@ -153,7 +176,10 @@ class DilemmasRepository @Inject constructor(
         return sortedList.toCommentList()
     }
 
-    override suspend fun sendDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean {
+    override suspend fun sendDilemmaComment(
+        dilemmaId: String,
+        comment: CommentDTO
+    ): Boolean {
         val latch = CountDownLatch(1)
         var result = false
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
@@ -169,9 +195,16 @@ class DilemmasRepository @Inject constructor(
         return result
     }
 
-    override suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): Boolean {
+    override suspend fun alreadyCommentVoted(
+        commentId: String,
+        vote: CommentVote
+    ): Boolean {
         val voted =
-            realmDatabase.getObjectFromRealm(CommentVotedDTO::class.java, COMMENT_ID, commentId)
+            realmDatabase.getObjectFromRealm(
+                CommentVotedDTO::class.java,
+                COMMENT_ID,
+                commentId
+            )
         val result = voted?.let {
             /** ok sólo si el voto que tengo guardado es distinto del voto actual */
             if (it.votedUp && vote == VOTE_UP) true
@@ -186,13 +219,18 @@ class DilemmasRepository @Inject constructor(
         likes: Long,
         vote: CommentVote
     ) {
-        val documentReference = Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
-            .collection(COMMENTS).document(commentId)
+        val documentReference =
+            Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
+                .collection(COMMENTS).document(commentId)
         val updatedLikes = hashMapOf<String, Any>(COMMENT_LIKES to likes)
         documentReference.update(updatedLikes)
 
         val comment =
-            realmDatabase.getObjectFromRealm(CommentDTO::class.java, COMMENT_ID, commentId)
+            realmDatabase.getObjectFromRealm(
+                CommentDTO::class.java,
+                COMMENT_ID,
+                commentId
+            )
         comment?.let {
             comment.likes = likes
             when (vote) {
@@ -210,12 +248,18 @@ class DilemmasRepository @Inject constructor(
 
             /** save voted comment to not vote again */
             val votedUp = vote == VOTE_UP
-            realmDatabase.addObject { CommentVotedDTO(commentId = commentId, votedUp = votedUp) }
+            realmDatabase.addObject {
+                CommentVotedDTO(
+                    commentId = commentId,
+                    votedUp = votedUp
+                )
+            }
         }
     }
 
     private fun getSession(): Session? {
-        val session = realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
+        val session =
+            realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
         return if (session.isEmpty()) null else session.first().toSession()
     }
 
@@ -238,7 +282,8 @@ class DilemmasRepository @Inject constructor(
         val session = getSession()
         val latch = CountDownLatch(1)
         return session?.let {
-            val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+            val sharedPrefs =
+                context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(UPDATE_SAVED_DATA, true)) {
                 realmDatabase.deleteAllObjects(DilemmaFavDTO::class.java)
                 val dilemmas = mutableListOf<DilemmaFavDTO>()
@@ -246,10 +291,11 @@ class DilemmasRepository @Inject constructor(
                     .collection(SAVED_DILEMMAS).get().addOnSuccessListener { d ->
                         for (document in d.documents) {
                             try {
-                                document.toObject(DilemmaFavDTO::class.java)?.let { favDilemma ->
-                                    dilemmas.add(favDilemma)
-                                    realmDatabase.addObject { favDilemma }
-                                }
+                                document.toObject(DilemmaFavDTO::class.java)
+                                    ?.let { favDilemma ->
+                                        dilemmas.add(favDilemma)
+                                        realmDatabase.addObject { favDilemma }
+                                    }
                             } catch (e: Exception) {
                                 Log.e("error", "error parsing dilemma fav")
                             }
@@ -284,7 +330,11 @@ class DilemmasRepository @Inject constructor(
             Firebase.firestore.collection(USERS).document(session.id)
                 .collection(SAVED_DILEMMAS).document(dilemmaId)
                 .delete().addOnCompleteListener {
-                    realmDatabase.deleteObject(DilemmaFavDTO::class.java, DILEMMA_ID, dilemmaId)
+                    realmDatabase.deleteObject(
+                        DilemmaFavDTO::class.java,
+                        DILEMMA_ID,
+                        dilemmaId
+                    )
                     latch.countDown()
                 }
             withContext(Dispatchers.IO) { latch.await() }
@@ -294,14 +344,27 @@ class DilemmasRepository @Inject constructor(
     override suspend fun sendDilemma(dilemma: SendDilemmaDTO): Boolean {
         val latch = CountDownLatch(1)
         var result = false
-        Firebase.firestore.collection(USERS).document(dilemma.creatorId)
-            .collection(DILEMMAS_SENT).document(dilemma.dilemmaId)
+//        Firebase.firestore.collection(USERS).document(dilemma.creatorId)
+//            .collection(DILEMMAS_SENT).document(dilemma.dilemmaId)
+//            .set(dilemma, SetOptions.merge())
+//            .addOnCompleteListener {
+//                realmDatabase.addObject { dilemma }
+//                result = it.isSuccessful
+//                latch.countDown()
+//            }
+//
+        Firebase.firestore.collection(DILEMMAS).document(dilemma.dilemmaId)
             .set(dilemma, SetOptions.merge())
             .addOnCompleteListener {
-                realmDatabase.addObject { dilemma }
-                result = it.isSuccessful
                 latch.countDown()
             }
+
+
+        val root = reference.child(DILEMMAS).child(dilemma.dilemmaId)
+        root.setValue(dilemma.dilemmaId).addOnSuccessListener {
+            latch.countDown()
+        }
+
         withContext(Dispatchers.IO) { latch.await() }
         return result
     }
@@ -310,7 +373,8 @@ class DilemmasRepository @Inject constructor(
         val session = getSession()
         val latch = CountDownLatch(1)
         return session?.let {
-            val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+            val sharedPrefs =
+                context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(UPDATE_SENT_DATA, true)) {
                 realmDatabase.deleteAllObjects(SendDilemmaDTO::class.java)
                 val dilemmas = mutableListOf<SendDilemmaDTO>()
@@ -318,10 +382,11 @@ class DilemmasRepository @Inject constructor(
                     .collection(DILEMMAS_SENT).get().addOnSuccessListener { d ->
                         for (document in d.documents) {
                             try {
-                                document.toObject(SendDilemmaDTO::class.java)?.let { sentDilemma ->
-                                    dilemmas.add(sentDilemma)
-                                    realmDatabase.addObject { sentDilemma }
-                                }
+                                document.toObject(SendDilemmaDTO::class.java)
+                                    ?.let { sentDilemma ->
+                                        dilemmas.add(sentDilemma)
+                                        realmDatabase.addObject { sentDilemma }
+                                    }
                             } catch (e: Exception) {
                                 Log.e("error", "error parsing sent dilemma")
                             }
@@ -351,7 +416,11 @@ class DilemmasRepository @Inject constructor(
             Firebase.firestore.collection(USERS).document(session.id)
                 .collection(DILEMMAS_SENT).document(dilemmaId)
                 .delete().addOnCompleteListener {
-                    realmDatabase.deleteObject(SendDilemmaDTO::class.java, DILEMMA_ID, dilemmaId)
+                    realmDatabase.deleteObject(
+                        SendDilemmaDTO::class.java,
+                        DILEMMA_ID,
+                        dilemmaId
+                    )
                     latch.countDown()
                 }
             withContext(Dispatchers.IO) { latch.await() }

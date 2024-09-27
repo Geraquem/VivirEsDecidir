@@ -6,5 +6,5 @@ import io.realm.annotations.PrimaryKey
 open class DilemmaVotedDTO(
     @PrimaryKey
     var dilemmaId: String = "",
-    var votedOk: Boolean = false
+    var votedYes: Boolean = false
 ) : RealmObject()

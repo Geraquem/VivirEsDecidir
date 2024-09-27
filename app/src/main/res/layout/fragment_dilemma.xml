@@ -243,7 +243,7 @@
         app:layout_constraintTop_toTopOf="@id/cl_bottom" />
 
     <include
-        android:id="@+id/loadingScreen"
+        android:id="@+id/loading_full"
         layout="@layout/include_loading"
         android:elevation="10dp"
         tools:visibility="gone" />

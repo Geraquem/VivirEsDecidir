@@ -7,4 +7,5 @@ open class SendDilemma(
     var creatorId: String,
     var creatorName: String,
     var timestamp: Long,
+    var filterValue: Double
 )

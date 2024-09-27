@@ -22,8 +22,6 @@ import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
-import com.mmfsin.quepreferirias.presentation.dashboard.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
@@ -69,7 +67,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     override fun setUI() {
         binding.apply {
-            loadingScreen.root.isVisible = true
+            loadingFull.root.isVisible = true
             setToolbar()
             btnNext.root.visibility = View.GONE
             btnComments.button.setImageResource(R.drawable.ic_comment)
@@ -149,14 +147,14 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             actualData = data
             try {
                 viewModel.checkIfIsFav(data.id)
-                tvTextTop.text = data.topText
-                tvTextBottom.text = data.bottomText
+                tvTextTop.text = data.txtTop
+                tvTextBottom.text = data.txtBottom
                 data.creatorName?.let { name ->
                     tvCreatorName.text = name
                     llCreatorName.visibility = View.VISIBLE
                 } ?: run { llCreatorName.visibility = View.GONE }
-                votesYes = data.votesYes
-                votesNo = data.votesNo
+//                votesYes = data.votesYes
+//                votesNo = data.votesNo
             } catch (e: Exception) {
                 error()
             }
@@ -230,7 +228,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
                         NO_FAV -> {
                             setFavButton(isOn = true)
-                            viewModel.setDilemmaFav(data.id, data.topText, data.bottomText)
+                            viewModel.setDilemmaFav(data.id, data.txtTop, data.txtBottom)
                         }
 
                         else -> Log.i("FavButton", "Unexpected click")
@@ -255,7 +253,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                     ColorStateList.valueOf(getColor(mContext, R.color.black))
                 }
             }
-            loadingScreen.root.isVisible = false
+            loadingFull.root.isVisible = false
         }
     }
 

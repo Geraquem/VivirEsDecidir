@@ -31,5 +31,6 @@ fun SendDilemma.toSendDilemmaDTO() = SendDilemmaDTO(
     txtBottom = txtBottom,
     creatorId = creatorId,
     creatorName = creatorName,
-    timestamp = timestamp
+    timestamp = timestamp,
+    filterValue = filterValue
 )

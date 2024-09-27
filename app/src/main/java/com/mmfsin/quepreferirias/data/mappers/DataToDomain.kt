@@ -75,7 +75,9 @@ fun SendDilemmaDTO.toSendDilemma() = SendDilemma(
     txtBottom = txtBottom,
     creatorName = creatorName,
     timestamp = timestamp,
-    creatorId = creatorId
+    creatorId = creatorId,
+    filterValue = filterValue
+
 )
 
 fun List<SendDilemmaDTO>.toSendDilemmaList() =

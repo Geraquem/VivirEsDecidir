@@ -10,6 +10,7 @@ import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -22,7 +23,8 @@ class DilemmasViewModel @Inject constructor(
     private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
-    private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase
+    private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
+    private val voteDilemmaUseCase: VoteDilemmaUseCase
 ) : BaseViewModel<DilemmasEvent>() {
 
     fun checkSessionInitiated() {
@@ -44,7 +46,7 @@ class DilemmasViewModel @Inject constructor(
     fun checkIfIsMe(userId: String) {
         executeUseCase(
             { checkIfUserIdIsMeUseCase.execute(CheckIfUserIdIsMeUseCase.Params(userId)) },
-            { result -> _event.value =  DilemmasEvent.NavigateToProfile(result, userId) },
+            { result -> _event.value = DilemmasEvent.NavigateToProfile(result, userId) },
             { _event.value = DilemmasEvent.SWW }
         )
     }
@@ -100,6 +102,14 @@ class DilemmasViewModel @Inject constructor(
                 )
             },
             { Log.i("DILEMMA_FAV", "DilemmaFav added") },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun voteDilemma(dilemmaId: String, isYes: Boolean) {
+        executeUseCase(
+            { voteDilemmaUseCase.execute(VoteDilemmaUseCase.Params(dilemmaId, isYes)) },
+            { _event.value = DilemmasEvent.VoteDilemma(wasYes = isYes) },
             { _event.value = DilemmasEvent.SWW }
         )
     }

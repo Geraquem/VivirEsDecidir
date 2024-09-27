@@ -18,7 +18,8 @@ class SendDilemmaUseCase @Inject constructor(
             txtBottom = params.txtBottom,
             creatorId = params.creatorId,
             creatorName = params.creatorName,
-            timestamp = System.currentTimeMillis()
+            timestamp = System.currentTimeMillis(),
+            filterValue = Math.random()
         )
         return repository.sendDilemma(dilemma.toSendDilemmaDTO())
     }

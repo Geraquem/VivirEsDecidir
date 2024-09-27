@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.presentation.models.Percents
 
 sealed class DilemmasEvent {
@@ -10,9 +11,12 @@ sealed class DilemmasEvent {
     class NavigateToProfile(val isMe: Boolean, val userId: String) : DilemmasEvent()
 
     class Dilemmas(val data: List<Dilemma>) : DilemmasEvent()
-    class GetPercents(val percents: Percents) : DilemmasEvent()
-    class GetComments(val comments: List<Comment>) : DilemmasEvent()
     class CheckDilemmaFav(val result: Boolean) : DilemmasEvent()
+    class GetComments(val comments: List<Comment>) : DilemmasEvent()
+    class GetVotes(val votes: DilemmaVotes) : DilemmasEvent()
+    class GetPercents(val percents: Percents) : DilemmasEvent()
+
+    class VoteDilemma(val wasYes: Boolean) : DilemmasEvent()
 
     object SWW : DilemmasEvent()
 }
