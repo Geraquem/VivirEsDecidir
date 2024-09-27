@@ -5,7 +5,7 @@ import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import javax.inject.Inject
 
-class GetDilemmas @Inject constructor(
+class GetDilemmasUseCase @Inject constructor(
     private val repository: IDilemmasRepository
 ) : BaseUseCaseNoParams<List<Dilemma>>() {
 

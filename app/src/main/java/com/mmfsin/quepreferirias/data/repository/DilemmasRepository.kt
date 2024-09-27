@@ -24,6 +24,7 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.COMMENTS
@@ -129,9 +130,31 @@ class DilemmasRepository @Inject constructor(
         return null
     }
 
+    override suspend fun getDilemmaVotes(dilemmaId: String): DilemmaVotes? {
+        val latch = CountDownLatch(1)
+        var votes: DilemmaVotes? = null
+        val root = reference.child(DILEMMAS).child(dilemmaId)
+        root.get().addOnCompleteListener { dataSnapshot ->
+            val result = dataSnapshot.result
+            if (result.exists()) {
+                votes = DilemmaVotes(
+                    votesYes = result.child(VOTES_YES).childrenCount,
+                    votesNo = result.child(VOTES_NO).childrenCount,
+                )
+            }
+            latch.countDown()
+        }.addOnFailureListener { latch.countDown() }
+
+        withContext(Dispatchers.IO)
+        {
+            latch.await()
+        }
+        return votes
+    }
+
     override suspend fun voteDilemma(dilemmaId: String, isYes: Boolean) {
         val latch = CountDownLatch(1)
-        val secondChild = if(isYes) VOTES_YES else VOTES_NO
+        val secondChild = if (isYes) VOTES_YES else VOTES_NO
         reference.child(DILEMMAS).child(dilemmaId).child(secondChild)
             .updateChildren(mapOf(UUID.randomUUID().toString() to isYes)).addOnCompleteListener {
                 it.isSuccessful

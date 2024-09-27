@@ -6,7 +6,8 @@ import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
-import com.mmfsin.quepreferirias.domain.usecases.GetDilemmas
+import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaVotesUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetDilemmasUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DilemmasViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
-    private val getDilemmas: GetDilemmas,
+    private val getDilemmasUseCase: GetDilemmasUseCase,
+    private val getDilemmaVotesUseCase: GetDilemmaVotesUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
@@ -53,10 +55,22 @@ class DilemmasViewModel @Inject constructor(
 
     fun getDilemmas() {
         executeUseCase(
-            { getDilemmas.execute() },
+            { getDilemmasUseCase.execute() },
             { result ->
                 _event.value =
                     if (result.isEmpty()) DilemmasEvent.SWW else DilemmasEvent.Dilemmas(result)
+            },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun getVotes(dilemmaId: String) {
+        executeUseCase(
+            { getDilemmaVotesUseCase.execute(GetDilemmaVotesUseCase.Params(dilemmaId)) },
+            { result ->
+                _event.value =
+                    result?.let { DilemmasEvent.GetVotes(it) }
+                        ?: run { DilemmasEvent.SWW }
             },
             { _event.value = DilemmasEvent.SWW }
         )

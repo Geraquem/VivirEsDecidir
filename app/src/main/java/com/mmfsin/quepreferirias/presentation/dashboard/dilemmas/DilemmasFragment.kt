@@ -37,6 +37,7 @@ import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
+
 @AndroidEntryPoint
 class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(),
     IBSheetListener, ICommentsListener {
@@ -64,7 +65,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     override fun setUI() {
         binding.apply {
-            loadingFull.root.isVisible = false
+            loadingFull.root.isVisible = true
             setToolbar()
             btnComments.button.setImageResource(R.drawable.ic_comment)
             btnFav.button.setImageResource(R.drawable.ic_fav_off)
@@ -132,16 +133,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         } ?: run { error() }
     }
 
-//
-//    get dilemmas
-//    check si fav
-//    get comments
-//    get votes
-//
-//    mostrar datos
-
-
-
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
@@ -165,15 +156,15 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
                 is DilemmasEvent.GetComments -> {
                     setUpComments(event.comments)
-//                    viewModel.getVotes()
+                    actualData?.let { d -> viewModel.getVotes(d.id) }
                 }
 
                 is DilemmasEvent.GetPercents -> setPercents(event.percents)
-
                 is DilemmasEvent.GetVotes -> setUpVotes(event.votes)
 
                 is DilemmasEvent.VoteDilemma -> {
-//                    viewModel.getPercents()
+                    if (event.wasYes) votesYes++ else votesNo++
+                    viewModel.getPercents(votesYes, votesNo)
                 }
 
                 is DilemmasEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
@@ -301,7 +292,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     ColorStateList.valueOf(getColor(mContext, R.color.black))
                 }
             }
-            loadingFull.root.isVisible = false
         }
     }
 

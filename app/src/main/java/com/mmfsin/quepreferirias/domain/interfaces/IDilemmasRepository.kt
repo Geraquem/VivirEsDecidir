@@ -7,12 +7,14 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 
 interface IDilemmasRepository {
     suspend fun getDilemmas(): List<Dilemma>
     suspend fun getDilemmaById(dilemmaId: String): Dilemma?
 
+    suspend fun getDilemmaVotes(dilemmaId: String): DilemmaVotes?
     suspend fun voteDilemma(dilemmaId: String, isYes: Boolean)
 
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
