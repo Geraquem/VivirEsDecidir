@@ -115,6 +115,7 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
             tvName.text = data.name
             loadingFull.root.visibility = View.GONE
         }
+        setResult(false)
     }
 
     private fun error() {

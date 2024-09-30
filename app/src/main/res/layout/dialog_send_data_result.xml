@@ -13,7 +13,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bottom_dialog"
-        android:backgroundTint="@color/cancel"
         android:paddingVertical="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -21,8 +20,8 @@
 
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_centerInParent="true"
             android:contentDescription="@string/content_description"
             app:tint="@color/white"
@@ -52,32 +51,23 @@
             android:gravity="center"
             tools:text="@string/error_title" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_resend"
-            style="@style/MediumTextView"
+            style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_white_box"
-            android:elevation="6dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:padding="12dp"
+            android:layout_marginBottom="6dp"
             tools:text="@string/error_btn" />
 
         <TextView
             android:id="@+id/btn_exit"
-            style="@style/MediumTextView"
-            android:layout_width="match_parent"
+            style="@style/MediumTextView_Bold"
+            android:layout_width="wrap_content"
+            android:background="@drawable/click_effect"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/bg_white_box"
-            android:backgroundTint="@color/cancel"
-            android:elevation="6dp"
-            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
-            android:padding="12dp"
+            android:padding="8dp"
             tools:text="@string/error_btn" />
 
     </LinearLayout>

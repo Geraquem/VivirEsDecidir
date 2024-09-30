@@ -1,7 +1,6 @@
 package com.mmfsin.quepreferirias.presentation.send.dialogs
 
 import android.app.Dialog
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
@@ -12,13 +11,11 @@ import com.mmfsin.quepreferirias.presentation.send.interfaces.ISendDataResultLis
 import com.mmfsin.quepreferirias.utils.changeBgColor
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class SendDataResultDialog(
     private val wasOk: Boolean,
     private val listener: ISendDataResultListener
-) :
-    BaseDialog<DialogSendDataResultBinding>() {
+) : BaseDialog<DialogSendDataResultBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) =
         DialogSendDataResultBinding.inflate(inflater)
@@ -32,21 +29,14 @@ class SendDataResultDialog(
                 ivImage.setImageResource(R.drawable.ic_success)
                 tvTitle.text = getString(R.string.send_dualism_result_perfect_title)
                 btnResend.text = getString(R.string.send_dualism_result_resend)
-                activity?.apply {
-                    changeBgColor(rlTop.background, R.color.success)
-                    changeBgColor(btnResend.background, R.color.white)
-                    changeBgColor(btnExit.background, R.color.white)
-                }
+                activity?.changeBgColor(rlTop.background, R.color.main_color)
 
             } else {
                 ivImage.setImageResource(R.drawable.ic_error)
                 tvTitle.text = getString(R.string.send_dualism_result_sww_title)
                 btnResend.text = getString(R.string.send_dualism_result_retry)
-                activity?.apply {
-                    changeBgColor(rlTop.background, R.color.cancel)
-                    changeBgColor(btnResend.background, R.color.white)
-                    changeBgColor(btnExit.background, R.color.cancel)
-                }
+                activity?.changeBgColor(rlTop.background, R.color.cancel)
+
             }
             btnExit.text = getString(R.string.send_dualism_result_exit)
         }
