@@ -443,8 +443,9 @@ class DilemmasRepository @Inject constructor(
 
     override suspend fun deleteMyDilemma(dilemmaId: String) {
         val session = getSession()
-        val latch = CountDownLatch(1)
+        val latch = CountDownLatch(3)
         session?.let {
+            /** Delete user dilemma */
             Firebase.firestore.collection(USERS).document(session.id)
                 .collection(DILEMMAS_SENT).document(dilemmaId)
                 .delete().addOnCompleteListener {
@@ -455,6 +456,24 @@ class DilemmasRepository @Inject constructor(
                     )
                     latch.countDown()
                 }
+
+            /** Delete in total dilemmas */
+            Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
+                .delete().addOnCompleteListener {
+                    realmDatabase.deleteObject(
+                        DilemmaFavDTO::class.java,
+                        DILEMMA_ID,
+                        dilemmaId
+                    )
+                    latch.countDown()
+                }
+
+            /** Delete in Realmtime and votes */
+            val root = reference.child(DILEMMAS).child(dilemmaId)
+            root.removeValue().addOnCompleteListener{
+                latch.countDown()
+            }
+
             withContext(Dispatchers.IO) { latch.await() }
         }
     }

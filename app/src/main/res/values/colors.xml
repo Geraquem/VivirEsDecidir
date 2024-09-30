@@ -8,17 +8,22 @@
 
     <color name="black">#FF000000</color>
     <color name="soft_black">#7C7C7C</color>
+
     <color name="white">#FFFFFFFF</color>
     <color name="soft_white">#F8F8F8</color>
+
     <color name="grey">#F5F5F5</color>
     <color name="grey_strong">#CACACA</color>
+
     <color name="blue">#4A44FF</color>
 
-    <color name="background">#FFFFFF</color>
+    <color name="main_color">#67A0FF</color>
+
+    <color name="background">#F8F8F8</color>
     <color name="error">#F27474</color>
     <color name="drawer_header">#EEEEEE</color>
 
-    <color name="cancel">#FFA0A0</color>
+    <color name="cancel">#F1A4A4</color>
     <color name="success">#59BB88</color>
 
     <color name="et_hint">#9E9E9E</color>
@@ -26,8 +31,8 @@
 
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="color_top">#79C7FFCD</color>
-    <color name="color_bottom">#79FF9B9B</color>
+    <color name="color_top">#B3EFBB</color>
+    <color name="color_bottom">#E8B2B2</color>
 
     <color name="percent_yes">#85DF8F</color>
     <color name="percent_no">#B66060</color>

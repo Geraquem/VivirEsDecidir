@@ -25,8 +25,8 @@
             android:layout_height="42dp"
             android:layout_centerInParent="true"
             android:contentDescription="@string/content_description"
-            app:tint="@color/white"
-            tools:src="@drawable/ic_warning" />
+            android:src="@drawable/ic_warning"
+            app:tint="@color/white" />
 
     </RelativeLayout>
 
@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:gravity="center"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,54 +44,40 @@
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/MediumTextView"
+            style="@style/SmallTextView_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="@string/saved_error_title" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/saved_error_description" />
+
+        <TextView
+            android:id="@+id/tv_description_two"
+            style="@style/SmallTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:gravity="center"
-            tools:text="@string/delete_fav_data_title" />
+            tools:text="@string/saved_error_description_two" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/btn_back"
+            style="@style/MediumTextView_Bold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:id="@+id/btn_cancel"
-                style="@style/MediumTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.475"
-                android:background="@drawable/bg_white_box"
-                android:backgroundTint="@color/cancel"
-                android:elevation="6dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="@string/common_no" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.05" />
-
-            <TextView
-                android:id="@+id/btn_accept"
-                style="@style/MediumTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.475"
-                android:background="@drawable/bg_white_box"
-                android:elevation="6dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="@string/common_yes" />
-
-        </LinearLayout>
+            android:padding="6dp"
+            android:background="@drawable/click_effect"
+            android:layout_gravity="end"
+            android:textColor="@color/error"
+            android:textStyle="bold"
+            android:text="@string/saved_error_button" />
 
     </LinearLayout>
 

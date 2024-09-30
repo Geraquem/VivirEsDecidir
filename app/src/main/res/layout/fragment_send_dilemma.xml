@@ -64,7 +64,8 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="null"
                     android:background="@drawable/bg_dilemma_top"
-                    android:hint="@string/send_dilemma_txt_top_hint" />
+                    android:hint="@string/send_dilemma_txt_top_hint"
+                    android:textColorHint="@color/soft_black" />
 
                 <include
                     layout="@layout/include_but"
@@ -79,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="null"
                     android:background="@drawable/bg_dilemma_bottom"
-                    android:hint="@string/send_dilemma_txt_bottom_hint" />
+                    android:hint="@string/send_dilemma_txt_bottom_hint"
+                    android:textColorHint="@color/soft_black" />
 
                 <TextView
                     android:id="@+id/tv_limit_bottom"
@@ -130,8 +132,7 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp"
+            android:paddingVertical="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/gl2_left"
             app:layout_constraintRight_toRightOf="@id/gl2_right"
@@ -187,15 +188,11 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_send"
-                style="@style/mButton"
+                style="@style/CustomButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_box"
-                android:elevation="6dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
                 android:text="@string/send_data_send" />
 
         </LinearLayout>

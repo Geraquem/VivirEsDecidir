@@ -60,8 +60,8 @@
 
     <!-- SEND DILEMMA -->
     <string name="send_dilemma_title">Enviar dilema</string>
-    <string name="send_dilemma_txt_top_hint">50 mil euros ahora mismo</string>
-    <string name="send_dilemma_txt_bottom_hint">5% de probabilidad de morir</string>
+    <string name="send_dilemma_txt_top_hint">Algo bueno</string>
+    <string name="send_dilemma_txt_bottom_hint">Consecuencia mala</string>
     <string name="send_dilemma_txt_empty">0 / 200</string>
     <string name="send_dilemma_txt_max">%s / 200</string>
 
@@ -138,6 +138,10 @@
     <string name="saved_data_dualisms">Dualismos</string>
     <string name="saved_data_title">Guardado</string>
     <string name="saved_data_empty">No hay nada guardado</string>
+    <string name="saved_error_title">Vaya, algo ha salido mal…</string>
+    <string name="saved_error_description">Parece que ha ocurrido un error intentando recuperar la información.</string>
+    <string name="saved_error_description_two">Puede que el dilema haya sido borrado.</string>
+    <string name="saved_error_button">Volver</string>
 
     <!-- DELETE DATA -->
     <string name="delete_fav_data_title">¿Eliminar de favoritos?</string>

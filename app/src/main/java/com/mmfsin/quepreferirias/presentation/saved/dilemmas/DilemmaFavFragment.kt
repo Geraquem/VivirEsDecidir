@@ -12,7 +12,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
-import com.mmfsin.quepreferirias.presentation.saved.delete.DeleteFavDataDialog
+import com.mmfsin.quepreferirias.presentation.saved.dialogs.DeleteFavDataDialog
 import com.mmfsin.quepreferirias.presentation.saved.dilemmas.adapter.DilemmaFavsAdapter
 import com.mmfsin.quepreferirias.presentation.saved.dilemmas.interfaces.IDilemmaFavListener
 import com.mmfsin.quepreferirias.presentation.saved.listeners.ISavedDataListener

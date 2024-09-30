@@ -31,11 +31,11 @@ import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
+import com.mmfsin.quepreferirias.presentation.single.dialogs.ErrorDataDialog
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
-import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -322,7 +322,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {}
 
     private fun error() {
-        activity?.showErrorDialog { activity?.finish() }
+        val dialog = ErrorDataDialog { activity?.onBackPressedDispatcher?.onBackPressed() }
+        activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
     override fun onResume() {

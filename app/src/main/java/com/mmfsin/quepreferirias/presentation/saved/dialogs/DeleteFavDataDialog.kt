@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.saved.delete
+package com.mmfsin.quepreferirias.presentation.saved.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
