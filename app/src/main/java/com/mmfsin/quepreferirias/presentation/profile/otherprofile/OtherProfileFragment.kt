@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
@@ -22,6 +23,7 @@ import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.profile.common.adapter.RRSSAdapter
 import com.mmfsin.quepreferirias.presentation.profile.common.listeners.IRRSSListener
+import com.mmfsin.quepreferirias.presentation.profile.otherprofile.OtherProfileFragmentDirections.Companion.otherUserProfileToOtherUserIdeas
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.openRRSS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -74,7 +76,11 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
 
     override fun setListeners() {
         binding.apply {
-            llMyIdeas.setOnClickListener { }
+            tvNavigateDilemmas.setOnClickListener {
+                userId?.let { id ->
+                    findNavController().navigate(otherUserProfileToOtherUserIdeas(userId = id))
+                }
+            }
         }
     }
 

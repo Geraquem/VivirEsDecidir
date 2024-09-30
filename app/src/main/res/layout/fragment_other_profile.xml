@@ -103,7 +103,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_white_box"
-                    android:elevation="6dp"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -119,8 +118,8 @@
                         android:layout_marginBottom="4dp"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical"
-                        tools:text="@string/other_profile_dilemmas"
-                        app:drawableStartCompat="@drawable/ic_dilemma_yes" />
+                        app:drawableStartCompat="@drawable/ic_dilemma_yes"
+                        tools:text="@string/other_profile_dilemmas" />
 
                     <TextView
                         android:id="@+id/tv_dilemmas_desc"
@@ -128,7 +127,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="@string/user_profile_my_dilemmas_description" />
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/other_profile_dilemmas_description" />
+
+                    <TextView
+                        android:id="@+id/tv_navigate_dilemmas"
+                        style="@style/SmallTextView_Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/click_effect"
+                        android:gravity="center_vertical"
+                        android:padding="8dp"
+                        android:text="@string/user_profile_navigate"
+                        android:textColor="@color/main_color" />
 
                 </LinearLayout>
 

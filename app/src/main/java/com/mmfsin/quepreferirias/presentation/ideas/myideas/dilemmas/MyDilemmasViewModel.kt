@@ -1,12 +1,8 @@
-package com.mmfsin.quepreferirias.presentation.myideas.dilemmas
+package com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
-import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteMyDilemmaUseCase
-import com.mmfsin.quepreferirias.domain.usecases.GetFavDilemmasUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetMyDilemmasUseCase
-import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
-import com.mmfsin.quepreferirias.presentation.saved.dilemmas.DilemmaFavEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -19,7 +15,7 @@ class MyDilemmasViewModel @Inject constructor(
     fun getMyDilemmas() {
         executeUseCase(
             { getMyDilemmasUseCase.execute() },
-            { result -> _event.value = MyDilemmasEvent.Data(result) },
+            { result -> _event.value = MyDilemmasEvent.Dilemmas(result) },
             { _event.value = MyDilemmasEvent.SWW }
         )
     }

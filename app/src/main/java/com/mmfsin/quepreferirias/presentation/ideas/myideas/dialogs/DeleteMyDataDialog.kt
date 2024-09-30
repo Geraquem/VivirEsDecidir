@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.myideas.dialogs
+package com.mmfsin.quepreferirias.presentation.ideas.myideas.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater

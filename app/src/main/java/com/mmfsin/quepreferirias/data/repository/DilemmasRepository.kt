@@ -441,6 +441,47 @@ class DilemmasRepository @Inject constructor(
         } ?: run { emptyList() }
     }
 
+    override suspend fun getOtherUserDilemmas(userId: String): List<SendDilemma> {
+//        val session = getSession()
+//        val latch = CountDownLatch(1)
+//        return session?.let {
+//            val sharedPrefs =
+//                context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+//            if (sharedPrefs.getBoolean(SERVER_SENT_DATA, true)) {
+//                realmDatabase.deleteAllObjects(SendDilemmaDTO::class.java)
+//                val dilemmas = mutableListOf<SendDilemmaDTO>()
+//                Firebase.firestore.collection(USERS).document(session.id)
+//                    .collection(DILEMMAS_SENT).get().addOnSuccessListener { d ->
+//                        for (document in d.documents) {
+//                            try {
+//                                document.toObject(SendDilemmaDTO::class.java)
+//                                    ?.let { sentDilemma ->
+//                                        dilemmas.add(sentDilemma)
+//                                        realmDatabase.addObject { sentDilemma }
+//                                    }
+//                            } catch (e: Exception) {
+//                                Log.e("error", "error parsing sent dilemma")
+//                            }
+//                        }
+//                        latch.countDown()
+//                    }.addOnFailureListener {
+//                        latch.countDown()
+//                    }
+//                withContext(Dispatchers.IO) { latch.await() }
+//                sharedPrefs.edit().apply {
+//                    putBoolean(SERVER_SENT_DATA, false)
+//                    apply()
+//                }
+//                dilemmas.toSendDilemmaList()
+//            } else {
+//                val dilemmas =
+//                    realmDatabase.getObjectsFromRealm { where<SendDilemmaDTO>().findAll() }
+//                dilemmas.toSendDilemmaList()
+//            }
+//        } ?: run { emptyList() }
+        return emptyList()
+    }
+
     override suspend fun deleteMyDilemma(dilemmaId: String) {
         val session = getSession()
         val latch = CountDownLatch(3)
@@ -470,7 +511,7 @@ class DilemmasRepository @Inject constructor(
 
             /** Delete in Realmtime and votes */
             val root = reference.child(DILEMMAS).child(dilemmaId)
-            root.removeValue().addOnCompleteListener{
+            root.removeValue().addOnCompleteListener {
                 latch.countDown()
             }
 

@@ -1,14 +1,14 @@
-package com.mmfsin.quepreferirias.presentation.myideas.viewpager.adapter
+package com.mmfsin.quepreferirias.presentation.ideas.myideas.viewpager.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.MyDilemmasFragment
-import com.mmfsin.quepreferirias.presentation.myideas.interfaces.IMyIdeasListener
+import com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.MyDilemmasFragment
+import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
 
 class MyIdeasViewPagerAdapter(
     fragmentActivity: FragmentActivity,
-    val listener: IMyIdeasListener
+    val listener: IIdeasListener
 ) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = 2

@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.myideas.dilemmas
+package com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas
 
 import android.content.Context
 import android.os.Bundle
@@ -12,16 +12,16 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
-import com.mmfsin.quepreferirias.presentation.myideas.dialogs.DeleteMyDataDialog
-import com.mmfsin.quepreferirias.presentation.myideas.dialogs.SentType.DILEMMA
-import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.adapter.MyDilemmasAdapter
-import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmasListener
-import com.mmfsin.quepreferirias.presentation.myideas.interfaces.IMyIdeasListener
+import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
+import com.mmfsin.quepreferirias.presentation.ideas.myideas.dialogs.DeleteMyDataDialog
+import com.mmfsin.quepreferirias.presentation.ideas.myideas.dialogs.SentType.DILEMMA
+import com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.adapter.MyDilemmasAdapter
+import com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.interfaces.IMyDilemmasListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyDilemmasFragment(val listener: IMyIdeasListener) :
+class MyDilemmasFragment(val listener: IIdeasListener) :
     BaseFragment<FragmentRvDataBinding, MyDilemmasViewModel>(), IMyDilemmasListener {
 
     override val viewModel: MyDilemmasViewModel by viewModels()
@@ -49,7 +49,7 @@ class MyDilemmasFragment(val listener: IMyIdeasListener) :
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is MyDilemmasEvent.Data -> setMyDilemmas(event.data)
+                is MyDilemmasEvent.Dilemmas -> setMyDilemmas(event.data)
                 is MyDilemmasEvent.Deleted -> {
                     dialog?.dismiss()
                     viewModel.getMyDilemmas()

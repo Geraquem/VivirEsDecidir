@@ -35,6 +35,7 @@ import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
+import com.mmfsin.quepreferirias.utils.checkNotNulls
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -85,6 +86,12 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         binding.apply {
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
+
+            tvCreatorName.setOnClickListener {
+                checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
+//                    viewModel.checkIfIsMe(creatorId)
+                }
+            }
 
             btnFav.setOnClickListener { favOnClick() }
 

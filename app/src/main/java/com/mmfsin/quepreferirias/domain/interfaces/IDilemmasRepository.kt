@@ -38,4 +38,6 @@ interface IDilemmasRepository {
     suspend fun sendDilemma(dilemma: SendDilemmaDTO)
     suspend fun getMyDilemmas(): List<SendDilemma>
     suspend fun deleteMyDilemma(dilemmaId: String)
+
+    suspend fun getOtherUserDilemmas(userId: String): List<SendDilemma>
 }

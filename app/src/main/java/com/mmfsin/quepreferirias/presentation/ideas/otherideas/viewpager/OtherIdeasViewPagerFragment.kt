@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.myideas.viewpager
+package com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,27 +9,34 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragmentNoVM
 import com.mmfsin.quepreferirias.databinding.FragmentViewpagerBinding
+import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
+import com.mmfsin.quepreferirias.presentation.ideas.otherideas.dilemmas.OtherDilemmasFragmentDirections.Companion.otherIdeasToSingleDilemma
+import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.adapter.OtherIdeasViewPagerAdapter
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
-import com.mmfsin.quepreferirias.presentation.myideas.interfaces.IMyIdeasListener
-import com.mmfsin.quepreferirias.presentation.myideas.viewpager.MyIdeasViewPagerFragmentDirections.Companion.myIdeasToSingleDilemma
-import com.mmfsin.quepreferirias.presentation.myideas.viewpager.adapter.MyIdeasViewPagerAdapter
+import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), IMyIdeasListener {
+class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), IIdeasListener {
 
     private lateinit var mContext: Context
+
+    var userId: String? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentViewpagerBinding.inflate(inflater, container, false)
 
+    override fun getBundleArgs() {
+        userId = activity?.intent?.getStringExtra(USER_ID)
+    }
+
     override fun setUI() {
         binding.apply {
             loading.root.visibility = View.VISIBLE
             setToolbar()
-            setUpViewPager()
+            userId?.let { id -> setUpViewPager(userId = id) } ?: run { error() }
         }
     }
 
@@ -40,10 +47,14 @@ class MyIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), I
         }
     }
 
-    private fun setUpViewPager() {
+    private fun setUpViewPager(userId: String) {
         binding.apply {
             activity?.let {
-                viewPager.adapter = MyIdeasViewPagerAdapter(it, this@MyIdeasViewPagerFragment)
+                viewPager.adapter = OtherIdeasViewPagerAdapter(
+                    it,
+                    userId = userId,
+                    listener = this@OtherIdeasViewPagerFragment
+                )
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     when (position) {
                         0 -> tab.setText(R.string.my_data_dilemmas)
@@ -56,7 +67,7 @@ class MyIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), I
     }
 
     override fun navigateToSingleDilemma(dilemmaId: String) =
-        findNavController().navigate(myIdeasToSingleDilemma(dilemmaId))
+        findNavController().navigate(otherIdeasToSingleDilemma(dilemmaId))
 
     override fun navigateToSingleDualism(dualismId: String) {
         TODO("Not yet implemented")

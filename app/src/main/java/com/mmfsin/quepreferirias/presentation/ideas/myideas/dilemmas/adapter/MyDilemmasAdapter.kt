@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.myideas.dilemmas.adapter
+package com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemMyDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
-import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmasListener
-import com.mmfsin.quepreferirias.presentation.myideas.interfaces.IMyIdeasListener
+import com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.interfaces.IMyDilemmasListener
 import com.mmfsin.quepreferirias.utils.timestampToDate
 
 class MyDilemmasAdapter(

@@ -1,6 +1,6 @@
-package com.mmfsin.quepreferirias.presentation.myideas.interfaces
+package com.mmfsin.quepreferirias.presentation.ideas.interfaces
 
-interface IMyIdeasListener {
+interface IIdeasListener {
     fun navigateToSingleDilemma(dilemmaId: String)
     fun navigateToSingleDualism(dualismId: String)
 }

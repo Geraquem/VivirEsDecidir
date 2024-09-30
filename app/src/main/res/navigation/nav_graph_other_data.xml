@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_my_data"
-    app:startDestination="@id/myDataFragment">
+    app:startDestination="@id/otherDataFragment">
 
     <fragment
-        android:id="@+id/myDataFragment"
-        android:name="com.mmfsin.quepreferirias.presentation.ideas.myideas.viewpager.MyIdeasViewPagerFragment"
-        android:label="myDataFragment"
+        android:id="@+id/otherDataFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.ideas.otherideas.dilemmas.OtherDilemmasFragment"
+        android:label="otherDataFragment"
         tools:layout="@layout/fragment_viewpager">
         <action
-            android:id="@+id/myIdeas_to_singleDilemma"
+            android:id="@+id/otherIdeas_to_singleDilemma"
             app:destination="@id/nav_graph_single_dilemma">
             <argument
                 android:name="dilemmaId"
