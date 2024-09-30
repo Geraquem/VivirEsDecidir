@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
         setAds()
 
         /*****************************/
-        navigateDrawer(USER_PROFILE)
-//        openDrawer()
+//        navigateDrawer(USER_PROFILE)
+        openDrawer()
     }
 
     private fun observe() {

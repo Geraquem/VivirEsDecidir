@@ -199,9 +199,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:background="@drawable/click_effect"
                         android:gravity="center_vertical"
                         android:padding="8dp"
-                        android:background="@drawable/click_effect"
                         android:text="@string/user_profile_navigate"
                         android:textColor="@color/main_color" />
 
@@ -242,8 +242,8 @@
                         style="@style/SmallTextView_Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/click_effect"
                         android:layout_gravity="end"
+                        android:background="@drawable/click_effect"
                         android:gravity="center_vertical"
                         android:padding="8dp"
                         android:text="@string/user_profile_navigate"
