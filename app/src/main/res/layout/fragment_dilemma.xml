@@ -90,10 +90,11 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/MediumTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="6dp"
-                        android:fontFamily="sans-serif-condensed"
+                        android:alpha="0.6"
                         android:text="@string/dashboard_sent_by"
                         android:textSize="16sp" />
 

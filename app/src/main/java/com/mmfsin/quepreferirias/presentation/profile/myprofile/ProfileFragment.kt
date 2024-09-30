@@ -1,8 +1,6 @@
 package com.mmfsin.quepreferirias.presentation.profile.myprofile
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +15,10 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentProfileBinding
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.RRSSType
-import com.mmfsin.quepreferirias.domain.models.RRSSType.*
+import com.mmfsin.quepreferirias.domain.models.RRSSType.INSTAGRAM
+import com.mmfsin.quepreferirias.domain.models.RRSSType.TIKTOK
+import com.mmfsin.quepreferirias.domain.models.RRSSType.TWITTER
+import com.mmfsin.quepreferirias.domain.models.RRSSType.YOUTUBE
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.profile.common.adapter.RRSSAdapter
@@ -72,20 +73,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         binding.apply {
             tvAddRrss.setOnClickListener { openEditDialog() }
 
-            llMyIdeas.setOnClickListener { findNavController().navigate(actionToMyData()) }
-            llMyFavs.setOnClickListener { findNavController().navigate(actionToSavedData()) }
+            tvNavigateMyIdeas.setOnClickListener { findNavController().navigate(actionToMyData()) }
+            tvNavigateFavs.setOnClickListener { findNavController().navigate(actionToSavedData()) }
 
             tvEdit.setOnClickListener { openEditDialog() }
-            tvCloseSession.setOnClickListener {
-                closeSessionDialog = CloseSessionDialog { viewModel.closeSession() }
-                activity?.let { closeSessionDialog?.show(it.supportFragmentManager, "") }
-            }
         }
     }
 
     private fun openEditDialog() {
         session?.let { data ->
-            updatedProfileDialog = RRSSDialog(data, this@ProfileFragment)
+            updatedProfileDialog = RRSSDialog(data, this@ProfileFragment) {
+                closeSessionDialog = CloseSessionDialog { viewModel.closeSession() }
+                activity?.let { closeSessionDialog?.show(it.supportFragmentManager, "") }
+            }
             activity?.let { updatedProfileDialog?.show(it.supportFragmentManager, "") }
         }
     }

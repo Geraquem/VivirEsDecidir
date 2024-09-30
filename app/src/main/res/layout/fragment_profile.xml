@@ -112,19 +112,33 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
+                    android:id="@+id/tv_edit"
+                    style="@style/SmallTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:alpha="0.6"
+                    android:background="@drawable/click_effect"
+                    android:backgroundTint="@color/background"
+                    android:padding="8dp"
+                    android:text="@string/edit_profile" />
+
+                <TextView
                     android:id="@+id/tv_add_rrss"
                     style="@style/SmallTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:alpha="0.5"
+                    android:alpha="0.6"
+                    android:background="@drawable/click_effect"
+                    android:backgroundTint="@color/background"
+                    android:padding="8dp"
                     android:text="@string/edit_profile_add_rrss" />
 
                 <LinearLayout
                     android:id="@+id/ll_bg_rrss"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_white_box"
                     android:backgroundTint="@color/rrss"
                     android:orientation="vertical"
@@ -155,8 +169,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_white_box"
-                    android:elevation="6dp"
-                    android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingHorizontal="12dp"
@@ -167,7 +179,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="8dp"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical"
                         android:text="@string/user_profile_my_dilemmas"
@@ -178,7 +190,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
                         android:text="@string/user_profile_my_dilemmas_description" />
+
+                    <TextView
+                        android:id="@+id/tv_navigate_my_ideas"
+                        style="@style/SmallTextView_Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="center_vertical"
+                        android:padding="8dp"
+                        android:background="@drawable/click_effect"
+                        android:text="@string/user_profile_navigate"
+                        android:textColor="@color/main_color" />
 
                 </LinearLayout>
 
@@ -188,8 +213,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_white_box"
-                    android:elevation="6dp"
-                    android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingHorizontal="12dp"
@@ -200,7 +223,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="8dp"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical"
                         android:text="@string/user_profile_my_favs"
@@ -211,7 +234,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
                         android:text="@string/user_profile_my_favs_description" />
+
+                    <TextView
+                        android:id="@+id/tv_navigate_favs"
+                        style="@style/SmallTextView_Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/click_effect"
+                        android:layout_gravity="end"
+                        android:gravity="center_vertical"
+                        android:padding="8dp"
+                        android:text="@string/user_profile_navigate"
+                        android:textColor="@color/main_color" />
 
                 </LinearLayout>
 
@@ -220,34 +256,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <TextView
-            android:id="@+id/tv_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:text="@string/edit_profile"
-            app:layout_constraintRight_toRightOf="@id/gl_right"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_close_session"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_close_session"
-            android:textColor="@color/error" />
-
-    </LinearLayout>
 
     <include
         android:id="@+id/loading"

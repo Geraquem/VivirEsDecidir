@@ -14,7 +14,7 @@ import com.mmfsin.quepreferirias.utils.checkIfEmpty
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RRSSDialog(val session: Session, val listener: IRRSSListener) :
+class RRSSDialog(val session: Session, val listener: IRRSSListener, val closeSession: () -> Unit) :
     BaseDialog<DialogEditProfileBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) = DialogEditProfileBinding.inflate(inflater)
@@ -40,7 +40,7 @@ class RRSSDialog(val session: Session, val listener: IRRSSListener) :
         binding.apply {
             ivClose.setOnClickListener { dismiss() }
             btnSave.setOnClickListener {
-                btnSave.visibility = View.INVISIBLE
+                llButtons.visibility = View.INVISIBLE
                 loading.visibility = View.VISIBLE
                 etInstagram.disableET()
                 etX.disableET()
@@ -58,6 +58,10 @@ class RRSSDialog(val session: Session, val listener: IRRSSListener) :
                         youtube = youtube
                     )
                 )
+            }
+            btnCloseSession.setOnClickListener {
+                dismiss()
+                closeSession()
             }
         }
     }
