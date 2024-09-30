@@ -67,12 +67,11 @@
             <TextView
                 android:id="@+id/tv_likes"
                 style="@style/SmallTextView"
-                android:alpha="0.5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="16sp"
-                tools:text="48 votos" />
+                android:alpha="0.5"
+                tools:text="48 puntos" />
 
         </LinearLayout>
 
