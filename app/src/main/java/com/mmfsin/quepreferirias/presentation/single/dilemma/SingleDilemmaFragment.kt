@@ -69,10 +69,11 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     override fun setUI() {
         binding.apply {
             loadingFull.root.isVisible = true
+            loadingComments.root.isVisible = true
             setToolbar()
-            btnNext.root.isVisible = false
-            btnComments.button.setImageResource(R.drawable.ic_comment)
-            btnFav.button.setImageResource(R.drawable.ic_fav_off)
+            btnNext.isVisible = false
+            btnComments.setImageResource(R.drawable.ic_comment)
+            btnFav.setImageResource(R.drawable.ic_fav_off)
             setInitialConfig()
         }
     }
@@ -89,9 +90,9 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
-            btnFav.button.setOnClickListener { favOnClick() }
+            btnFav.setOnClickListener { favOnClick() }
 
-            btnComments.button.setOnClickListener { openAllComments() }
+            btnComments.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
         }
     }
@@ -229,20 +230,29 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     }
 
     private fun setUpComments(comments: List<Comment>) {
-        binding.comments.apply {
-            val title = when (comments.size) {
-                0 -> getString(R.string.dashboard_no_comments)
-                1 -> getString(R.string.dashboard_single_comment_title)
-                else -> getString(R.string.dashboard_comments_title, comments.size.toString())
+        binding.apply {
+            tvNumComments.text = "${comments.size}"
+            binding.comments.apply {
+                when (comments.size) {
+                    0 -> {
+                        tvTitle.text = getString(R.string.dashboard_no_comments)
+                        tvTitle.isVisible = true
+                    }
+
+                    else -> tvTitle.isVisible = false
+                }
+                llSeeAll.visibility =
+                    if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
+                rvComments.apply {
+                    layoutManager = LinearLayoutManager(mContext)
+                    adapter =
+                        RecentCommentsAdapter(
+                            comments.take(LAST_COMMENTS),
+                            this@SingleDilemmaFragment
+                        )
+                }
             }
-            tvTitle.text = title
-            llSeeAll.visibility = if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
-            rvComments.apply {
-                layoutManager = LinearLayoutManager(mContext)
-                adapter =
-                    RecentCommentsAdapter(comments.take(LAST_COMMENTS), this@SingleDilemmaFragment)
-            }
-            loading.root.visibility = View.GONE
+            loadingComments.root.isVisible = false
         }
     }
 
@@ -266,7 +276,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     private fun favOnClick() {
         if (hasSession) {
-            binding.btnFav.button.apply {
+            binding.btnFav.apply {
                 actualDilemma?.let { data ->
                     when (tag) {
                         FAV -> {
@@ -288,7 +298,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     private fun setFavButton(isOn: Boolean) {
         binding.apply {
-            btnFav.button.apply {
+            btnFav.apply {
                 imageTintList = if (isOn) {
                     tag = FAV
                     animate().rotation(720f).setDuration(350).start()

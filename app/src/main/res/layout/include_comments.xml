@@ -19,6 +19,7 @@
             style="@style/MediumTextView_Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
             android:text="@string/dashboard_comments_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,8 +40,10 @@
             android:id="@+id/ll_see_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.5"
+            android:alpha="0.6"
+            android:background="@drawable/click_effect"
             android:orientation="vertical"
+            android:padding="6dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_comments">
 
@@ -58,14 +61,5 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <include
-        android:id="@+id/loading"
-        layout="@layout/include_loading"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

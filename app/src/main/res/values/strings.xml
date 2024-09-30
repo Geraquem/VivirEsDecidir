@@ -24,7 +24,7 @@
     <!-- NO_MORE -->
     <string name="no_more_title">Has acabado con todo</string>
     <string name="no_more_description">No hay más decisiones que tengas que tomar por el momento</string>
-    <string name="no_more_btn">Empezar de nuevo</string>
+    <string name="no_more_btn">Salir</string>
 
     <!-- LOGIN -->
     <string name="login_title">Inicia sesión para</string>

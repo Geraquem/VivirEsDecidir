@@ -5,13 +5,13 @@
     android:background="@drawable/bg_white_box"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:gravity="center"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="16dp">
 
     <ImageView
         android:layout_width="84dp"
         android:layout_height="84dp"
+        android:layout_gravity="center"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/content_description"
         android:src="@drawable/ic_dilemma_no" />
@@ -21,30 +21,25 @@
         style="@style/MediumTextView_Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="@string/no_more_title"
-        android:textAllCaps="true" />
+        android:layout_marginBottom="8dp"
+        android:text="@string/no_more_title" />
 
     <TextView
         android:id="@+id/tv_description"
         style="@style/SmallTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:gravity="center"
-        android:text="@string/no_more_description"
-        android:textAllCaps="true" />
+        android:layout_marginBottom="16dp"
+        android:text="@string/no_more_description" />
 
     <TextView
         android:id="@+id/btn_accept"
-        style="@style/MediumTextView_Bold"
-        android:layout_width="match_parent"
+        style="@style/SmallTextView_Bold"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_white_box"
-        android:elevation="6dp"
-        android:gravity="center"
-        android:padding="12dp"
+        android:layout_gravity="end"
+        android:background="@drawable/click_effect"
+        android:padding="8dp"
         android:text="@string/no_more_btn"
         android:textAllCaps="true" />
 

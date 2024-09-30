@@ -66,9 +66,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     override fun setUI() {
         binding.apply {
             loadingFull.root.isVisible = true
+            loadingComments.root.isVisible = true
             setToolbar()
-            btnComments.button.setImageResource(R.drawable.ic_comment)
-            btnFav.button.setImageResource(R.drawable.ic_fav_off)
+            btnComments.setImageResource(R.drawable.ic_comment)
+            btnFav.setImageResource(R.drawable.ic_fav_off)
             setInitialConfig()
         }
     }
@@ -85,23 +86,25 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
-            btnFav.button.setOnClickListener { favOnClick() }
+            btnFav.setOnClickListener { favOnClick() }
 
-            btnComments.button.setOnClickListener { openAllComments() }
+            btnComments.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
 
-            btnNext.button.setOnClickListener {
+            btnNext.setOnClickListener {
                 position++
                 if (position < dilemmaList.size) {
 //                    showInterstitial()
-                    comments.loading.root.visibility = View.VISIBLE
+                    loadingComments.root.isVisible = true
                     llButtons.animate().alpha(1f).duration = 250
                     percents.root.animate().alpha(0.0f).duration = 250
                     setInitialConfig()
                     setData()
                 } else {
                     activity?.let {
-                        val dialog = NoMoreDialog() { /** TODO */ }
+                        val dialog = NoMoreDialog {
+                            activity?.onBackPressedDispatcher?.onBackPressed()
+                        }
                         dialog.show(it.supportFragmentManager, "")
                     }
                 }
@@ -234,20 +237,28 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         animation.start()
     }
 
+
     private fun setUpComments(comments: List<Comment>) {
-        binding.comments.apply {
-            val title = when (comments.size) {
-                0 -> getString(R.string.dashboard_no_comments)
-                1 -> getString(R.string.dashboard_single_comment_title)
-                else -> getString(R.string.dashboard_comments_title, comments.size.toString())
+        binding.apply {
+            tvNumComments.text = "${comments.size}"
+            binding.comments.apply {
+                when (comments.size) {
+                    0 -> {
+                        tvTitle.text = getString(R.string.dashboard_no_comments)
+                        tvTitle.isVisible = true
+                    }
+
+                    else -> tvTitle.isVisible = false
+                }
+                llSeeAll.visibility =
+                    if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
+                rvComments.apply {
+                    layoutManager = LinearLayoutManager(mContext)
+                    adapter =
+                        RecentCommentsAdapter(comments.take(LAST_COMMENTS), this@DilemmasFragment)
+                }
             }
-            tvTitle.text = title
-            llSeeAll.visibility = if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
-            rvComments.apply {
-                layoutManager = LinearLayoutManager(mContext)
-                adapter = RecentCommentsAdapter(comments.take(LAST_COMMENTS), this@DilemmasFragment)
-            }
-            loading.root.visibility = View.GONE
+            loadingComments.root.isVisible = false
         }
     }
 
@@ -261,7 +272,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun favOnClick() {
         if (hasSession) {
-            binding.btnFav.button.apply {
+            binding.btnFav.apply {
                 actualData?.let { data ->
                     when (tag) {
                         FAV -> {
@@ -283,7 +294,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun setFavButton(isOn: Boolean) {
         binding.apply {
-            btnFav.button.apply {
+            btnFav.apply {
                 imageTintList = if (isOn) {
                     tag = FAV
                     animate().rotation(720f).setDuration(350).start()
