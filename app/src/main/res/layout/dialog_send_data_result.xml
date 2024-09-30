@@ -12,11 +12,12 @@
         android:id="@+id/rl_top"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_bottom_dialog"
+        android:background="@drawable/bg_send_data_result"
         android:paddingVertical="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:backgroundTint="@color/main_color">
 
         <ImageView
             android:id="@+id/iv_image"
@@ -63,9 +64,9 @@
             android:id="@+id/btn_exit"
             style="@style/MediumTextView_Bold"
             android:layout_width="wrap_content"
-            android:background="@drawable/click_effect"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@drawable/click_effect"
             android:gravity="center"
             android:padding="8dp"
             tools:text="@string/error_btn" />

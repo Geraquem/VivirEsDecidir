@@ -62,8 +62,7 @@ class MainActivity : AppCompatActivity() {
         setAds()
 
         /*****************************/
-//        navigateDrawer(SEND_DATA)
-        navigateTo(R.navigation.nav_graph_send_dilemma)
+        navigateDrawer(DATA_SAVED)
 //        openDrawer()
     }
 

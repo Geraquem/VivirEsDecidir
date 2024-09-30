@@ -12,7 +12,7 @@ class ErrorDialog(val action: () -> Unit?) : BaseDialog<DialogErrorBinding>() {
     override fun setCustomViewDialog(dialog: Dialog) = centerViewDialog(dialog)
 
     override fun setListeners() {
-        binding.btnAccept.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             action()
             dismiss()
         }

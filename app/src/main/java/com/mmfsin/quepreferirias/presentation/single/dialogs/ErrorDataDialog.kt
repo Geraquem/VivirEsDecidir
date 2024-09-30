@@ -4,13 +4,13 @@ import android.app.Dialog
 import android.view.LayoutInflater
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseDialog
-import com.mmfsin.quepreferirias.databinding.DialogErrorFavDataBinding
+import com.mmfsin.quepreferirias.databinding.DialogErrorSingleDataBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ErrorDataDialog(val action: () -> Unit) : BaseDialog<DialogErrorFavDataBinding>() {
+class ErrorDataDialog(val action: () -> Unit) : BaseDialog<DialogErrorSingleDataBinding>() {
 
-    override fun inflateView(inflater: LayoutInflater) = DialogErrorFavDataBinding.inflate(inflater)
+    override fun inflateView(inflater: LayoutInflater) = DialogErrorSingleDataBinding.inflate(inflater)
 
     override fun setCustomViewDialog(dialog: Dialog) = centerViewDialog(dialog)
 
