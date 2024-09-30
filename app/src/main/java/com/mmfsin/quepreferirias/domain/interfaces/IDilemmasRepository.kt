@@ -17,6 +17,7 @@ interface IDilemmasRepository {
 
     suspend fun getDilemmaVotes(dilemmaId: String): DilemmaVotes?
     suspend fun voteDilemma(dilemmaId: String, isYes: Boolean, voted: DilemmaVotedDTO)
+    suspend fun alreadyDilemmaVoted(dilemmaId: String): Boolean?
 
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
     suspend fun getDilemmaCommentsFromRealm(): List<Comment>

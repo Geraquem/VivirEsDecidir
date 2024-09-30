@@ -49,7 +49,6 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     private var dilemmaId: String? = null
     private var actualDilemma: Dilemma? = null
-    private var position: Int = 0
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
@@ -98,18 +97,24 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     }
 
     private fun yesOrNoClick(isYes: Boolean) {
+        actualDilemma?.let { data ->
+            viewModel.voteDilemma(data.id, isYes)
+            hideButtons(isYes)
+        } ?: run { error() }
+    }
+
+    private fun hideButtons(isYes: Boolean) {
         binding.apply {
-            actualDilemma?.let { data ->
-                viewModel.voteDilemma(data.id, isYes)
-                if (isYes) {
-                    btnYes.setImageResource(R.drawable.ic_dilemma_yes)
-                    percents.ivYes.visibility = View.VISIBLE
-                } else {
-                    btnNo.setImageResource(R.drawable.ic_dilemma_no)
-                    percents.ivNo.visibility = View.VISIBLE
-                }
-                llButtons.animate().alpha(0.0f).duration = 250
-            } ?: run { error() }
+            if (isYes) {
+                btnYes.setImageResource(R.drawable.ic_dilemma_yes)
+                percents.ivYes.visibility = View.VISIBLE
+            } else {
+                btnNo.setImageResource(R.drawable.ic_dilemma_no)
+                percents.ivNo.visibility = View.VISIBLE
+            }
+            btnYes.isEnabled = false
+            btnNo.isEnabled = false
+            llButtons.animate().alpha(0.0f).duration = 250
         }
     }
 
@@ -147,13 +152,18 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                 }
 
                 is SingleDilemmaEvent.GetPercents -> setPercents(event.percents)
-                is SingleDilemmaEvent.GetVotes -> setUpVotes(event.votes)
+
+                is SingleDilemmaEvent.GetVotes -> {
+                    setUpVotes(event.votes)
+                    actualDilemma?.let { viewModel.checkIfVoted(it.id) }
+                }
 
                 is SingleDilemmaEvent.VoteDilemma -> {
                     if (event.wasYes) votesYes++ else votesNo++
                     viewModel.getPercents(votesYes, votesNo)
                 }
 
+                is SingleDilemmaEvent.AlreadyVoted -> checkAlreadyVoted(event.voted)
                 is SingleDilemmaEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is SingleDilemmaEvent.SWW -> error()
             }
@@ -189,6 +199,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                 animateProgress(progressBarRight, 0, 0)
                 ivYes.visibility = View.INVISIBLE
                 ivNo.visibility = View.INVISIBLE
+                btnYes.isEnabled = true
+                btnNo.isEnabled = true
             }
         }
     }
@@ -238,6 +250,16 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         binding.apply {
             votesYes = dilemmaVotes.votesYes
             votesNo = dilemmaVotes.votesNo
+        }
+    }
+
+    private fun checkAlreadyVoted(voted: Boolean?) {
+        /** if null -> no voted */
+        binding.apply {
+            voted?.let {
+                hideButtons(it)
+                viewModel.getPercents(votesYes, votesNo)
+            }
             loadingFull.root.isVisible = false
         }
     }

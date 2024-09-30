@@ -163,6 +163,15 @@ class DilemmasRepository @Inject constructor(
         withContext(Dispatchers.IO) { latch.await() }
     }
 
+    override suspend fun alreadyDilemmaVoted(dilemmaId: String): Boolean? {
+        val voted = realmDatabase.getObjectFromRealm(
+            DilemmaVotedDTO::class.java,
+            DILEMMA_ID,
+            dilemmaId
+        )
+        return voted?.votedYes
+    }
+
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
         val comments = mutableListOf<CommentDTO>()
         val latch = CountDownLatch(1)

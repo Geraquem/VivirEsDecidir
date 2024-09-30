@@ -17,6 +17,7 @@ sealed class SingleDilemmaEvent {
     class GetPercents(val percents: Percents) : SingleDilemmaEvent()
 
     class VoteDilemma(val wasYes: Boolean) : SingleDilemmaEvent()
+    class AlreadyVoted(val voted: Boolean?) : SingleDilemmaEvent()
 
     object SWW : SingleDilemmaEvent()
 }

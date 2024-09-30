@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.single.dilemma
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyVotedDilemmaUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
@@ -26,7 +27,8 @@ class SingleDilemmaViewModel @Inject constructor(
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
-    private val voteDilemmaUseCase: VoteDilemmaUseCase
+    private val voteDilemmaUseCase: VoteDilemmaUseCase,
+    private val checkIfAlreadyVotedDilemmaUseCase: CheckIfAlreadyVotedDilemmaUseCase
 ) : BaseViewModel<SingleDilemmaEvent>() {
 
     fun checkSessionInitiated() {
@@ -72,6 +74,18 @@ class SingleDilemmaViewModel @Inject constructor(
                     result?.let { SingleDilemmaEvent.GetVotes(it) }
                         ?: run { SingleDilemmaEvent.SWW }
             },
+            { _event.value = SingleDilemmaEvent.SWW }
+        )
+    }
+
+    fun checkIfVoted(dilemmaId: String) {
+        executeUseCase(
+            {
+                checkIfAlreadyVotedDilemmaUseCase.execute(
+                    CheckIfAlreadyVotedDilemmaUseCase.Params(dilemmaId)
+                )
+            },
+            { result -> _event.value = SingleDilemmaEvent.AlreadyVoted(result) },
             { _event.value = SingleDilemmaEvent.SWW }
         )
     }

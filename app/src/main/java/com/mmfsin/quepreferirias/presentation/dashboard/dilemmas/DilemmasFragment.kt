@@ -121,6 +121,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     btnNo.setImageResource(R.drawable.ic_dilemma_no)
                     percents.ivNo.visibility = View.VISIBLE
                 }
+                btnYes.isEnabled = false
+                btnNo.isEnabled = false
                 llButtons.animate().alpha(0.0f).duration = 250
             } ?: run { error() }
         }
@@ -203,6 +205,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 animateProgress(progressBarRight, 0, 0)
                 ivYes.visibility = View.INVISIBLE
                 ivNo.visibility = View.INVISIBLE
+                btnYes.isEnabled = true
+                btnNo.isEnabled = true
             }
         }
     }
