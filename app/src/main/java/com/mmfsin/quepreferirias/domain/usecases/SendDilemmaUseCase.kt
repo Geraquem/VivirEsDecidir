@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class SendDilemmaUseCase @Inject constructor(
     private val repository: IDilemmasRepository
-) : BaseUseCase<SendDilemmaUseCase.Params, Boolean>() {
+) : BaseUseCase<SendDilemmaUseCase.Params, Unit>() {
 
-    override suspend fun execute(params: Params): Boolean {
+    override suspend fun execute(params: Params) {
         val dilemma = SendDilemma(
             dilemmaId = UUID.randomUUID().toString(),
             txtTop = params.txtTop,

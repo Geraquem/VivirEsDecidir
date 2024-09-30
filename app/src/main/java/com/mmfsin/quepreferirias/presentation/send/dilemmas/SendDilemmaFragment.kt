@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
@@ -97,15 +96,16 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
         viewModel.event.observe(this) { event ->
             when (event) {
                 is SendDilemmaEvent.UserData -> setUserData(event.session)
-                is SendDilemmaEvent.Result -> {
-                    val dialog = SendDataResultDialog(event.result, this@SendDilemmaFragment)
-                    activity?.let { dialog.show(it.supportFragmentManager, "") }
-                    binding.loadingTrans.root.visibility = View.GONE
-                }
-
-                is SendDilemmaEvent.SWW -> error()
+                is SendDilemmaEvent.DataSent -> setResult(true)
+                is SendDilemmaEvent.SWW -> setResult(false)
             }
         }
+    }
+
+    private fun setResult(result: Boolean){
+        val dialog = SendDataResultDialog(result, this@SendDilemmaFragment)
+        activity?.let { dialog.show(it.supportFragmentManager, "") }
+        binding.loadingTrans.root.visibility = View.GONE
     }
 
     private fun setUserData(data: Session) {

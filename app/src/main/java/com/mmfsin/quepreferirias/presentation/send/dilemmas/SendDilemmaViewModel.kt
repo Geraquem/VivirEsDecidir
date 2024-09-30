@@ -27,7 +27,7 @@ class SendDilemmaViewModel @Inject constructor(
                     SendDilemmaUseCase.Params(txtTop, txtBottom, creatorId, creatorName)
                 )
             },
-            { result -> _event.value = SendDilemmaEvent.Result(result) },
+            { _event.value = SendDilemmaEvent.DataSent },
             { _event.value = SendDilemmaEvent.SWW }
         )
     }

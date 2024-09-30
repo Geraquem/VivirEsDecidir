@@ -4,6 +4,6 @@ import com.mmfsin.quepreferirias.domain.models.Session
 
 sealed class SendDilemmaEvent {
     class UserData(val session: Session) : SendDilemmaEvent()
-    class Result(val result: Boolean) : SendDilemmaEvent()
+    object DataSent : SendDilemmaEvent()
     object SWW : SendDilemmaEvent()
 }

@@ -372,32 +372,33 @@ class DilemmasRepository @Inject constructor(
         }
     }
 
-    override suspend fun sendDilemma(dilemma: SendDilemmaDTO): Boolean {
-        val latch = CountDownLatch(1)
-        var result = false
-//        Firebase.firestore.collection(USERS).document(dilemma.creatorId)
-//            .collection(DILEMMAS_SENT).document(dilemma.dilemmaId)
-//            .set(dilemma, SetOptions.merge())
-//            .addOnCompleteListener {
-//                realmDatabase.addObject { dilemma }
-//                result = it.isSuccessful
-//                latch.countDown()
-//            }
-//
+    override suspend fun sendDilemma(dilemma: SendDilemmaDTO) {
+        val latch = CountDownLatch(3)
+
+        /** Set in User Dilemmas */
+        Firebase.firestore.collection(USERS).document(dilemma.creatorId)
+            .collection(DILEMMAS_SENT).document(dilemma.dilemmaId)
+            .set(dilemma, SetOptions.merge())
+            .addOnCompleteListener {
+                realmDatabase.addObject { dilemma }
+                latch.countDown()
+            }
+
+
+        /** Set in total dilemmas */
         Firebase.firestore.collection(DILEMMAS).document(dilemma.dilemmaId)
             .set(dilemma, SetOptions.merge())
             .addOnCompleteListener {
                 latch.countDown()
             }
 
-
+        /** Set in Realtime for votes */
         val root = reference.child(DILEMMAS).child(dilemma.dilemmaId)
         root.setValue(dilemma.dilemmaId).addOnSuccessListener {
             latch.countDown()
         }
 
         withContext(Dispatchers.IO) { latch.await() }
-        return result
     }
 
     override suspend fun getMyDilemmas(): List<SendDilemma> {
