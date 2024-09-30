@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/savedDataFragment"
-        android:name="com.mmfsin.quepreferirias.presentation.saved.viewpager.FavViewPagerFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.saved.viewpager.FavSavedDataFragment"
         android:label="savedDataFragment"
         tools:layout="@layout/fragment_viewpager">
         <action

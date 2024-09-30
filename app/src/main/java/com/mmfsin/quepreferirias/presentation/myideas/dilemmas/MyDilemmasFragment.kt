@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,13 +15,14 @@ import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.presentation.myideas.dialogs.DeleteMyDataDialog
 import com.mmfsin.quepreferirias.presentation.myideas.dialogs.SentType.DILEMMA
 import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.adapter.MyDilemmasAdapter
-import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmaListener
+import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmasListener
+import com.mmfsin.quepreferirias.presentation.myideas.interfaces.IMyIdeasListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyDilemmasFragment : BaseFragment<FragmentRvDataBinding, MyDilemmasViewModel>(),
-    IMyDilemmaListener {
+class MyDilemmasFragment(val listener: IMyIdeasListener) :
+    BaseFragment<FragmentRvDataBinding, MyDilemmasViewModel>(), IMyDilemmasListener {
 
     override val viewModel: MyDilemmasViewModel by viewModels()
     private lateinit var mContext: Context
@@ -74,7 +74,7 @@ class MyDilemmasFragment : BaseFragment<FragmentRvDataBinding, MyDilemmasViewMod
     }
 
     override fun onMyDilemmaClick(dilemmaId: String) {
-        Toast.makeText(mContext, dilemmaId, Toast.LENGTH_SHORT).show()
+        listener.navigateToSingleDilemma(dilemmaId)
     }
 
     override fun onMyDilemmaLongClick(dilemmaId: String) {

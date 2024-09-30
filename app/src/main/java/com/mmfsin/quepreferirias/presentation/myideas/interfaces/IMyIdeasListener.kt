@@ -1,6 +1,6 @@
-package com.mmfsin.quepreferirias.presentation.saved.listeners
+package com.mmfsin.quepreferirias.presentation.myideas.interfaces
 
-interface IViewPagerListener {
+interface IMyIdeasListener {
     fun navigateToSingleDilemma(dilemmaId: String)
     fun navigateToSingleDualism(dualismId: String)
 }

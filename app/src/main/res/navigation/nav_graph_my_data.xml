@@ -9,6 +9,16 @@
         android:id="@+id/myDataFragment"
         android:name="com.mmfsin.quepreferirias.presentation.myideas.viewpager.MyIdeasViewPagerFragment"
         android:label="myDataFragment"
-        tools:layout="@layout/fragment_viewpager" />
+        tools:layout="@layout/fragment_viewpager">
+        <action
+            android:id="@+id/myIdeas_to_single_Dilemma"
+            app:destination="@id/nav_graph_single_dilemma">
+            <argument
+                android:name="dilemmaId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <include app:graph="@navigation/nav_graph_single_dilemma" />
 
 </navigation>

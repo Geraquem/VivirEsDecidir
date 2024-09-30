@@ -10,14 +10,14 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragmentNoVM
 import com.mmfsin.quepreferirias.databinding.FragmentViewpagerBinding
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
-import com.mmfsin.quepreferirias.presentation.saved.listeners.IViewPagerListener
-import com.mmfsin.quepreferirias.presentation.saved.viewpager.FavViewPagerFragmentDirections.Companion.savedDataToSingleDilemma
+import com.mmfsin.quepreferirias.presentation.saved.listeners.ISavedDataListener
+import com.mmfsin.quepreferirias.presentation.saved.viewpager.FavSavedDataFragmentDirections.Companion.savedDataToSingleDilemma
 import com.mmfsin.quepreferirias.presentation.saved.viewpager.adapter.FavViewPagerAdapter
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), IViewPagerListener {
+class FavSavedDataFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), ISavedDataListener {
 
     private lateinit var mContext: Context
 
@@ -43,7 +43,7 @@ class FavViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), IView
     private fun setUpViewPager() {
         binding.apply {
             activity?.let {
-                viewPager.adapter = FavViewPagerAdapter(it, this@FavViewPagerFragment)
+                viewPager.adapter = FavViewPagerAdapter(it, this@FavSavedDataFragment)
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     when (position) {
                         0 -> tab.setText(R.string.saved_data_dilemmas)

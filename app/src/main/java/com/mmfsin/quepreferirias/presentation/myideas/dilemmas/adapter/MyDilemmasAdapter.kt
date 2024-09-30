@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemMyDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
-import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmaListener
+import com.mmfsin.quepreferirias.presentation.myideas.dilemmas.interfaces.IMyDilemmasListener
+import com.mmfsin.quepreferirias.presentation.myideas.interfaces.IMyIdeasListener
 import com.mmfsin.quepreferirias.utils.timestampToDate
 
 class MyDilemmasAdapter(
     private val data: List<SendDilemma>,
-    private val listener: IMyDilemmaListener
+    private val listener: IMyDilemmasListener
 ) : RecyclerView.Adapter<MyDilemmasAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

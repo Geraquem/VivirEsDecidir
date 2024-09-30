@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mmfsin.quepreferirias.presentation.saved.dilemmas.DilemmaFavFragment
-import com.mmfsin.quepreferirias.presentation.saved.listeners.IViewPagerListener
+import com.mmfsin.quepreferirias.presentation.saved.listeners.ISavedDataListener
 
-class FavViewPagerAdapter(fragmentActivity: FragmentActivity, val listener: IViewPagerListener) :
+class FavViewPagerAdapter(fragmentActivity: FragmentActivity, val listener: ISavedDataListener) :
     FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = 2
