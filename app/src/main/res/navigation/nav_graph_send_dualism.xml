@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_send_dualism"
+    app:startDestination="@id/sendDualismFragment">
+
+    <fragment
+        android:id="@+id/sendDualismFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.send.dualisms.SendDualismsFragment"
+        android:label="sendDualismFragment"
+        tools:layout="@layout/fragment_send_dualism" />
+
+</navigation>

@@ -1,16 +1,15 @@
 package com.mmfsin.quepreferirias.data.mappers
 
-import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaVotedDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
+import com.mmfsin.quepreferirias.data.models.SendDualismDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.DilemmaVoted
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
+import com.mmfsin.quepreferirias.domain.models.SendDualism
 import com.mmfsin.quepreferirias.domain.models.Session
-import java.time.LocalDate
-import java.util.UUID
 
 fun Session.toSessionDTO() = SessionDTO(
     id = id,
@@ -37,6 +36,16 @@ fun DilemmaVoted.toDilemmaVotedDTO() = DilemmaVotedDTO(
 
 fun SendDilemma.toSendDilemmaDTO() = SendDilemmaDTO(
     dilemmaId = dilemmaId,
+    txtTop = txtTop,
+    txtBottom = txtBottom,
+    creatorId = creatorId,
+    creatorName = creatorName,
+    timestamp = timestamp,
+    filterValue = filterValue
+)
+
+fun SendDualism.toSendDualismDTO() = SendDualismDTO(
+    dualismId = dualismId,
     txtTop = txtTop,
     txtBottom = txtBottom,
     creatorId = creatorId,

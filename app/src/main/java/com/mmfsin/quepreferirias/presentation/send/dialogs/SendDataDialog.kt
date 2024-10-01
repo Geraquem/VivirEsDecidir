@@ -22,7 +22,7 @@ class SendDataDialog(val navigate: (navGraph: Int) -> Unit) : BaseDialog<DialogS
         binding.apply {
             ivClose.setOnClickListener { dismiss() }
             sendDilemma.setOnClickListener { pressButton(R.navigation.nav_graph_send_dilemma) }
-            sendDualism.setOnClickListener { pressButton(R.navigation.nav_graph_profile) }
+            sendDualism.setOnClickListener { pressButton(R.navigation.nav_graph_send_dualism) }
         }
     }
 

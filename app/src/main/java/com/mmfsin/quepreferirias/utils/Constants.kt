@@ -13,9 +13,11 @@ const val SERVER_SENT_DATA = "update_sent_data"
 /** BROADCAST */
 const val LOGIN_BROADCAST = "login_broadcast"
 
-/** DILEMMAS */
+/** DILEMMAS & DUALISMS */
 const val DILEMMAS = "dilemmas"
+const val DUALISMS = "dualisms"
 const val DILEMMA_ID = "dilemmaId"
+const val DUALISM_ID = "dualismId"
 const val TXT_TOP = "txtTop"
 const val TXT_BOTTOM = "txtBottom"
 const val CREATOR_NAME = "creatorName"
@@ -35,7 +37,9 @@ const val USERS = "users"
 const val USER_ID = "userId"
 const val USER_NAME = "userName"
 const val SAVED_DILEMMAS = "saved_dilemmas"
+const val SAVED_DUALISMS = "saved_dualisms"
 const val DILEMMAS_SENT = "dilemmas_sent"
+const val DUALISMS_SENT = "dualisms_sent"
 
 /** RRSS */
 const val INSTAGRAM = "instagram"
