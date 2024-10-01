@@ -10,18 +10,15 @@
         android:name="com.mmfsin.quepreferirias.presentation.profile.otherprofile.OtherProfileFragment"
         android:label="otherProfileFragment"
         tools:layout="@layout/fragment_profile">
-        <action android:id="@+id/otherUserProfile_to_OtherUserIdeas"
-            app:destination="@id/otherUserIdeasFragment">
+        <action
+            android:id="@+id/otherUserProfile_to_OtherUserIdeas"
+            app:destination="@id/nav_graph_other_data">
             <argument
                 android:name="userId"
                 app:argType="string" />
         </action>
     </fragment>
 
-    <fragment
-        android:id="@+id/otherUserIdeasFragment"
-        android:name="com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.OtherIdeasViewPagerFragment"
-        android:label="otherUserIdeasFragment"
-        tools:layout="@layout/fragment_viewpager" />
+    <include app:graph="@navigation/nav_graph_other_data" />
 
 </navigation>

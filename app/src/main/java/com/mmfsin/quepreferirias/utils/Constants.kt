@@ -33,6 +33,7 @@ const val COMMENT_ID = "commentId"
 /** USERS */
 const val USERS = "users"
 const val USER_ID = "userId"
+const val USER_NAME = "userName"
 const val SAVED_DILEMMAS = "saved_dilemmas"
 const val DILEMMAS_SENT = "dilemmas_sent"
 

@@ -2,12 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_my_data"
+    android:id="@+id/nav_graph_other_data"
     app:startDestination="@id/otherDataFragment">
 
     <fragment
         android:id="@+id/otherDataFragment"
-        android:name="com.mmfsin.quepreferirias.presentation.ideas.otherideas.dilemmas.OtherDilemmasFragment"
+        android:name="com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.OtherIdeasViewPagerFragment"
         android:label="otherDataFragment"
         tools:layout="@layout/fragment_viewpager">
         <action

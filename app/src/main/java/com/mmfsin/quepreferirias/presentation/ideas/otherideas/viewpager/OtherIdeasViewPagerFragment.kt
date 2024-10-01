@@ -10,26 +10,32 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragmentNoVM
 import com.mmfsin.quepreferirias.databinding.FragmentViewpagerBinding
 import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
-import com.mmfsin.quepreferirias.presentation.ideas.otherideas.dilemmas.OtherDilemmasFragmentDirections.Companion.otherIdeasToSingleDilemma
+import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.OtherIdeasViewPagerFragmentDirections.Companion.otherIdeasToSingleDilemma
 import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.adapter.OtherIdeasViewPagerAdapter
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.utils.USER_ID
+import com.mmfsin.quepreferirias.utils.USER_NAME
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), IIdeasListener {
+class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(),
+    IIdeasListener {
 
     private lateinit var mContext: Context
 
-    var userId: String? = null
+    private var userId: String? = null
+    private var userName: String? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentViewpagerBinding.inflate(inflater, container, false)
 
     override fun getBundleArgs() {
-        userId = activity?.intent?.getStringExtra(USER_ID)
+        arguments?.let {
+            userId = it.getString(USER_ID)
+            userName = it.getString(USER_NAME)
+        }
     }
 
     override fun setUI() {
@@ -42,8 +48,8 @@ class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>()
 
     private fun setToolbar() {
         (activity as BedRockActivity).apply {
+            userName?.let { name -> setToolbarText(getString(R.string.other_data_title, name)) }
             backListener { onBackPressed() }
-            setToolbarText(R.string.my_data_title)
         }
     }
 

@@ -25,6 +25,7 @@ import com.mmfsin.quepreferirias.presentation.profile.common.adapter.RRSSAdapter
 import com.mmfsin.quepreferirias.presentation.profile.common.listeners.IRRSSListener
 import com.mmfsin.quepreferirias.presentation.profile.otherprofile.OtherProfileFragmentDirections.Companion.otherUserProfileToOtherUserIdeas
 import com.mmfsin.quepreferirias.utils.USER_ID
+import com.mmfsin.quepreferirias.utils.checkNotNulls
 import com.mmfsin.quepreferirias.utils.openRRSS
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,18 +53,17 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
         userId?.let { id -> viewModel.getUserById(id) } ?: run { error() }
     }
 
-    private fun setToolbar(name: String) {
+    private fun setToolbar() {
         (activity as BedRockActivity).apply {
             backListener { onBackPressed() }
-            setToolbarText(name)
         }
     }
 
     override fun setUI() {
         binding.apply {
             loading.root.visibility = View.VISIBLE
+            setToolbar()
             userData?.let { user ->
-                setToolbar(user.name)
                 Glide.with(mContext).load(user.imageUrl).into(ivImage.image)
                 tvName.text = user.name
                 tvDilemmasTitle.text = getString(R.string.other_profile_dilemmas, user.name)
@@ -77,8 +77,8 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
     override fun setListeners() {
         binding.apply {
             tvNavigateDilemmas.setOnClickListener {
-                userId?.let { id ->
-                    findNavController().navigate(otherUserProfileToOtherUserIdeas(userId = id))
+                checkNotNulls(userId, userData) { id, user ->
+                    findNavController().navigate(otherUserProfileToOtherUserIdeas(id))
                 }
             }
         }
