@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/bg_bottom_dialog">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/btn_see_comments"
+            style="@style/MediumTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            android:text="@string/menu_dashboard_comments"
+            app:drawableStartCompat="@drawable/ic_comment" />
+
+        <TextView
+            android:id="@+id/btn_favorite"
+            style="@style/MediumTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            android:text="@string/menu_dashboard_set_fav"
+            app:drawableStartCompat="@drawable/ic_fav_off" />
+
+        <TextView
+            android:id="@+id/btn_copy_text"
+            style="@style/MediumTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            android:text="@string/menu_dashboard_copy"
+            app:drawableStartCompat="@drawable/ic_copy" />
+
+        <TextView
+            android:id="@+id/btn_share"
+            style="@style/MediumTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            android:text="@string/menu_dashboard_share"
+            app:drawableStartCompat="@drawable/ic_share" />
+
+        <TextView
+            android:id="@+id/btn_report"
+            style="@style/MediumTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            android:text="@string/menu_dashboard_report"
+            app:drawableStartCompat="@drawable/ic_warning" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

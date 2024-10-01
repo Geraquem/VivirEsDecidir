@@ -1,6 +1,8 @@
 package com.mmfsin.quepreferirias.presentation.single.dilemma
 
 import android.animation.ObjectAnimator
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -11,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -23,6 +26,8 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
@@ -36,11 +41,12 @@ import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
+import com.mmfsin.quepreferirias.utils.checkNotNulls
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemmaViewModel>(),
-    IBSheetListener, ICommentsListener {
+    IBSheetListener, ICommentsListener, IMenuDashboardListener {
 
     override val viewModel: SingleDilemmaViewModel by viewModels()
     private lateinit var mContext: Context
@@ -49,6 +55,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     private var dilemmaId: String? = null
     private var actualDilemma: Dilemma? = null
+
+    private var isFav: Boolean? = null
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
@@ -90,7 +98,15 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             btnYes.setOnClickListener { yesOrNoClick(isYes = true) }
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
+            tvCreatorName.setOnClickListener {
+//                checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
+//                    viewModel.checkIfIsMe(creatorId)
+//                }
+            }
+
+            btnComments.setOnClickListener { openAllComments() }
             btnFav.setOnClickListener { favOnClick() }
+            btnMenu.setOnClickListener { openMenu() }
 
             btnComments.setOnClickListener { openAllComments() }
             comments.llSeeAll.setOnClickListener { openAllComments() }
@@ -126,6 +142,31 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         } ?: run { error() }
     }
 
+    private fun openMenu() {
+        val dialog = MenuDashboardDialog(isFav, this@SingleDilemmaFragment)
+        activity?.let { dialog.show(it.supportFragmentManager, "") }
+    }
+
+    override fun openComments() = openAllComments()
+    override fun setFavorite() = favOnClick()
+
+    override fun copyText() {
+        checkNotNulls(activity, actualDilemma) { a, data ->
+            val clipboard = a.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val text = "${data.txtTop} ${getString(R.string.dashboard_but)} ${data.txtBottom}"
+            val clip = ClipData.newPlainText("label", text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(
+                mContext,
+                getString(R.string.menu_dashboard_dilemma_copied),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun share() {}
+    override fun report() {}
+
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
@@ -144,6 +185,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                 is SingleDilemmaEvent.CheckDilemmaFav -> {
                     if (event.result) setFavButton(isOn = true)
                     else setFavButton(isOn = false)
+                    isFav = event.result
                     actualDilemma?.let { d -> viewModel.getComments(d.id, fromRealm = false) }
                 }
 
@@ -301,11 +343,13 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             btnFav.apply {
                 imageTintList = if (isOn) {
                     tag = FAV
+                    isFav = true
                     animate().rotation(720f).setDuration(350).start()
                     setImageResource(R.drawable.ic_fav_on)
                     ColorStateList.valueOf(getColor(mContext, R.color.saved))
                 } else {
                     tag = NO_FAV
+                    isFav = false
                     animate().rotation(0f).setDuration(350).start()
                     setImageResource(R.drawable.ic_fav_off)
                     ColorStateList.valueOf(getColor(mContext, R.color.black))

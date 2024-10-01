@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dialog
+package com.mmfsin.quepreferirias.presentation.dashboard.common.dialog
 
 import android.app.Dialog
 import android.view.LayoutInflater
