@@ -120,8 +120,11 @@
     <string name="profile_close_session">Cerrar sessión</string>
 
     <!-- OTHER PROFILE -->
-    <string name="other_profile_dilemmas">Dilemas creados por %s</string>
+    <string name="other_profile_ideas_title">Enviado por %s</string>
+    <string name="other_profile_dilemmas">Dilemas</string>
+    <string name="other_profile_dualisms">Dualismos</string>
     <string name="other_profile_dilemmas_description">ADhlksjdkl para ver los dilemas y los dualismos que ha enviado %s.</string>
+    <string name="other_profile_dualisms_description">ADhlksjdkl para ver los dualismosss y los dualismos que ha enviado %s.</string>
 
     <!-- EDIT PROFILE -->
     <string name="edit_profile">Editar perfil</string>

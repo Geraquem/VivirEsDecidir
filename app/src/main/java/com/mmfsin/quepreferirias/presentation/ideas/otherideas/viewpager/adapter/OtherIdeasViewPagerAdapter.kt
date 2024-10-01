@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.adapte
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasFragment
 import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
 import com.mmfsin.quepreferirias.presentation.ideas.otherideas.dilemmas.OtherDilemmasFragment
 
@@ -17,7 +18,7 @@ class OtherIdeasViewPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> OtherDilemmasFragment(userId, listener)
-            else -> OtherDilemmasFragment(userId, listener)
+            else -> DilemmasFragment()
         }
     }
 }

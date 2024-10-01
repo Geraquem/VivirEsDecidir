@@ -13,8 +13,8 @@ import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
 import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.OtherIdeasViewPagerFragmentDirections.Companion.otherIdeasToSingleDilemma
 import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.adapter.OtherIdeasViewPagerAdapter
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.utils.POSITION
 import com.mmfsin.quepreferirias.utils.USER_ID
-import com.mmfsin.quepreferirias.utils.USER_NAME
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +25,7 @@ class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>()
     private lateinit var mContext: Context
 
     private var userId: String? = null
-    private var userName: String? = null
+    private var tabPosition: Int = 0
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -34,7 +34,7 @@ class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>()
     override fun getBundleArgs() {
         arguments?.let {
             userId = it.getString(USER_ID)
-            userName = it.getString(USER_NAME)
+            tabPosition = it.getInt(POSITION, 0)
         }
     }
 
@@ -48,7 +48,6 @@ class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>()
 
     private fun setToolbar() {
         (activity as BedRockActivity).apply {
-            userName?.let { name -> setToolbarText(getString(R.string.other_data_title, name)) }
             backListener { onBackPressed() }
         }
     }
@@ -67,6 +66,9 @@ class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>()
                         1 -> tab.setText(R.string.my_data_dualisms)
                     }
                 }.attach()
+
+
+                viewPager.setCurrentItem(tabPosition, false)
                 loading.root.visibility = View.GONE
             }
         }

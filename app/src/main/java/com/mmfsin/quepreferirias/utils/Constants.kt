@@ -42,3 +42,5 @@ const val INSTAGRAM = "instagram"
 const val TWITTER = "twitter"
 const val TIKTOK = "tiktok"
 const val YOUTUBE = "youtube"
+
+const val POSITION = "position"

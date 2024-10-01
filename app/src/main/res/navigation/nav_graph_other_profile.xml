@@ -16,6 +16,9 @@
             <argument
                 android:name="userId"
                 app:argType="string" />
+            <argument
+                android:name="position"
+                app:argType="integer" />
         </action>
     </fragment>
 

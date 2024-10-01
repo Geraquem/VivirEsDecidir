@@ -66,9 +66,11 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
             userData?.let { user ->
                 Glide.with(mContext).load(user.imageUrl).into(ivImage.image)
                 tvName.text = user.name
-                tvDilemmasTitle.text = getString(R.string.other_profile_dilemmas, user.name)
+                tvIdeasTitle.text = getString(R.string.other_profile_ideas_title, user.name)
                 tvDilemmasDesc.text =
                     getString(R.string.other_profile_dilemmas_description, user.name)
+                tvDualismDesc.text =
+                    getString(R.string.other_profile_dualisms_description, user.name)
                 user.rrss?.let { rrss -> setRRSS(rrss) }
             }
         }
@@ -77,8 +79,14 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
     override fun setListeners() {
         binding.apply {
             tvNavigateDilemmas.setOnClickListener {
-                checkNotNulls(userId, userData) { id, user ->
-                    findNavController().navigate(otherUserProfileToOtherUserIdeas(id))
+                userId?.let { id ->
+                    findNavController().navigate(otherUserProfileToOtherUserIdeas(id,0))
+                }
+            }
+
+            tvNavigateDualisms.setOnClickListener {
+                userId?.let { id ->
+                    findNavController().navigate(otherUserProfileToOtherUserIdeas(id,1))
                 }
             }
         }
@@ -113,9 +121,7 @@ class OtherProfileFragment : BaseFragment<FragmentOtherProfileBinding, OtherProf
         }
     }
 
-    override fun updateRRSS(rrss: RRSS) {
-        /** Do nothing */
-    }
+    override fun updateRRSS(rrss: RRSS) {}
 
     override fun onRRSSClick(type: RRSSType, name: String) {
         activity?.openRRSS(type, name)
