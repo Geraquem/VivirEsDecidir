@@ -22,6 +22,7 @@ import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
@@ -229,19 +230,21 @@ class DilemmasRepository @Inject constructor(
     override suspend fun alreadyCommentVoted(
         commentId: String,
         vote: CommentVote
-    ): Boolean {
+    ): CommentAlreadyVoted {
         val voted =
             realmDatabase.getObjectFromRealm(
                 CommentVotedDTO::class.java,
                 COMMENT_ID,
                 commentId
             )
-        val result = voted?.let {
+        val alreadyVoted = (voted != null)
+        val hasVotedTheSame = voted?.let {
             /** ok sólo si el voto que tengo guardado es distinto del voto actual */
             if (it.votedUp && vote == VOTE_UP) true
             else !it.votedUp && vote == VOTE_DOWN
         } ?: run { false }
-        return result
+
+        return CommentAlreadyVoted(alreadyVoted, hasVotedTheSame)
     }
 
     override suspend fun voteDilemmaComment(
@@ -256,12 +259,11 @@ class DilemmasRepository @Inject constructor(
         val updatedLikes = hashMapOf<String, Any>(COMMENT_LIKES to likes)
         documentReference.update(updatedLikes)
 
-        val comment =
-            realmDatabase.getObjectFromRealm(
-                CommentDTO::class.java,
-                COMMENT_ID,
-                commentId
-            )
+        val comment = realmDatabase.getObjectFromRealm(
+            CommentDTO::class.java,
+            COMMENT_ID,
+            commentId
+        )
         comment?.let {
             comment.likes = likes
             when (vote) {

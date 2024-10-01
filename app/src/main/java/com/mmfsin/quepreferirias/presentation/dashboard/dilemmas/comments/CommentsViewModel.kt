@@ -1,6 +1,7 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyCommentVotedUseCase
@@ -78,9 +79,9 @@ class CommentsViewModel @Inject constructor(
                     CheckIfAlreadyCommentVotedUseCase.Params(commentId, vote)
                 )
             },
-            { alreadyVoted ->
-                if (alreadyVoted) _event.value = CommentsEvent.CommentAlreadyVoted
-                else voteDilemmaCommentFlow(dilemmaId, commentId, vote, likes, position)
+            { result ->
+                if (result.hasVotedTheSame) _event.value = CommentsEvent.CommentAlreadyVoted
+                else voteDilemmaCommentFlow(dilemmaId, commentId, vote, likes, position, result)
             },
             { _event.value = CommentsEvent.SWW }
         )
@@ -91,12 +92,13 @@ class CommentsViewModel @Inject constructor(
         commentId: String,
         vote: CommentVote,
         likes: Long,
-        position: Int
+        position: Int,
+        commentData: CommentAlreadyVoted
     ) {
         executeUseCase(
             {
                 voteDilemmaCommentUseCase.execute(
-                    VoteDilemmaCommentUseCase.Params(dilemmaId, commentId, vote, likes)
+                    VoteDilemmaCommentUseCase.Params(dilemmaId, commentId, vote, likes, commentData)
                 )
             },
             { _event.value = CommentsEvent.CommentVotedResult(vote, position) },
