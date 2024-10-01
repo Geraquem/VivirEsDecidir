@@ -15,7 +15,9 @@
     <color name="grey">#F5F5F5</color>
     <color name="grey_strong">#CACACA</color>
 
-    <color name="blue">#4A44FF</color>
+    <color name="blue">#C2BFFF</color>
+
+    <color name="orange">#FFD7AA</color>
 
     <color name="main_color">#67A0FF</color>
 

@@ -66,6 +66,12 @@
     <string name="send_dilemma_txt_max">%s / 200</string>
 
     <!-- SEND DUALISM -->
+    <string name="send_dualism_title">Enviar dualismo</string>
+    <string name="send_dualism_txt_hint">Esto</string>
+    <string name="send_dualism_txt_empty">0 / 200</string>
+    <string name="send_dualism_txt_max">%s / 200</string>
+
+    <!-- SEND DUALISM -->
     <string name="send_dualism_result_perfect_title">¡Perfecto!</string>
     <string name="send_dualism_result_perfect_subtitle">¿Quieres enviar más?</string>
     <string name="send_dualism_result_sww_title">Vaya, parece que algo ha salido mal…</string>
@@ -74,8 +80,9 @@
     <string name="send_dualism_result_retry">Reintentar</string>
     <string name="send_dualism_result_exit">Cerrar</string>
 
-    <!-- DASHBOARD DILEMMAS -->
+    <!-- DASHBOARD -->
     <string name="dashboard_but">Pero</string>
+    <string name="dashboard_or">O</string>
     <string name="dashboard_btn_yes">A tope</string>
     <string name="dashboard_btn_no">No lo creo</string>
     <string name="dashboard_votes">Votos</string>

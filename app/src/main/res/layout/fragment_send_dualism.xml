@@ -63,12 +63,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="null"
-                    android:background="@drawable/bg_dilemma_top"
-                    android:hint="@string/send_dilemma_txt_top_hint"
+                    android:background="@drawable/bg_dualism"
+                    android:hint="@string/send_dualism_txt_hint"
                     android:textColorHint="@color/soft_black" />
 
                 <include
-                    layout="@layout/include_but"
+                    layout="@layout/include_or"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp" />
@@ -79,8 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="null"
-                    android:background="@drawable/bg_dilemma_bottom"
-                    android:hint="@string/send_dilemma_txt_bottom_hint"
+                    android:background="@drawable/bg_dualism"
+                    android:hint="@string/send_dualism_txt_hint"
                     android:textColorHint="@color/soft_black" />
 
                 <TextView
