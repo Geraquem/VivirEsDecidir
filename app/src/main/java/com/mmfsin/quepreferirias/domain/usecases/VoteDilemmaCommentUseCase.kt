@@ -4,8 +4,8 @@ import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
 import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
-import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
+import com.mmfsin.quepreferirias.domain.models.CommentVote.UNVOTE
+import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE
 import javax.inject.Inject
 
 class VoteDilemmaCommentUseCase @Inject constructor(
@@ -18,13 +18,13 @@ class VoteDilemmaCommentUseCase @Inject constructor(
 
         val newLikes = if (params.commentData.alreadyVoted) {
             when (params.vote) {
-                VOTE_UP -> actualLikes.plus(2)
-                VOTE_DOWN -> actualLikes.minus(2)
+                VOTE -> actualLikes.plus(2)
+                UNVOTE -> actualLikes.minus(2)
             }
         } else {
             when (params.vote) {
-                VOTE_UP -> actualLikes.plus(1)
-                VOTE_DOWN -> actualLikes.minus(1)
+                VOTE -> actualLikes.plus(1)
+                UNVOTE -> actualLikes.minus(1)
             }
         }
 

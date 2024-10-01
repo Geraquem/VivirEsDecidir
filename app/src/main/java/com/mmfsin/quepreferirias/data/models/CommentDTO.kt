@@ -13,6 +13,5 @@ open class CommentDTO(
     var timestamp: String = "",
     var date: String = "",
     var likes: Long = 0,
-    var votedUp: Boolean = false,
-    var votedDown: Boolean = false
+    var voted: Boolean = false,
 ) : RealmObject()
