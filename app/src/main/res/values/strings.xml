@@ -95,6 +95,10 @@
     <string name="dashboard_single_comment_title">1 Comentario</string>
     <string name="dashboard_see_all">Ver todos</string>
     <string name="dashboard_no_comments">No hay comentarios</string>
+    <string name="dashboard_share_question">¿Aceptas?</string>
+    <string name="dashboard_share_which_take">¿Cuál eliges?</string>
+    <string name="dashboard_share_more_in">Todo esto y mucho más en</string>
+    <string name="dashboard_share_url">https://play.google.com/store/apps/details?id=com.mmfsin.estereotipia&amp;hl=es_CL&amp;gl=KR</string>
 
     <!-- MENU DASHBOARD -->
     <string name="menu_dashboard_share">Compartir</string>

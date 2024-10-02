@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.single.dilemma
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import com.mmfsin.quepreferirias.presentation.models.Percents
 
 sealed class SingleDilemmaEvent {
@@ -19,5 +20,6 @@ sealed class SingleDilemmaEvent {
     class VoteDilemma(val wasYes: Boolean) : SingleDilemmaEvent()
     class AlreadyVoted(val voted: Boolean?) : SingleDilemmaEvent()
 
+    object Reported : SingleDilemmaEvent()
     object SWW : SingleDilemmaEvent()
 }

@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
@@ -10,8 +11,10 @@ import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmasUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
+import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaUseCase
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMAS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -26,7 +29,8 @@ class DilemmasViewModel @Inject constructor(
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
-    private val voteDilemmaUseCase: VoteDilemmaUseCase
+    private val voteDilemmaUseCase: VoteDilemmaUseCase,
+    private val reportDataUseCase: ReportDataUseCase,
 ) : BaseViewModel<DilemmasEvent>() {
 
     fun checkSessionInitiated() {
@@ -132,6 +136,14 @@ class DilemmasViewModel @Inject constructor(
         executeUseCase(
             { deleteDilemmaFavUseCase.execute(DeleteDilemmaFavUseCase.Params(dilemmaId)) },
             { Log.i("DILEMMA_FAV", "DilemmaFav deleted") },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun reportDilemma(dilemma: Dilemma) {
+        executeUseCase(
+            { reportDataUseCase.execute(ReportDataUseCase.Params(dilemma, DILEMMAS)) },
+            { _event.value = DilemmasEvent.Reported },
             { _event.value = DilemmasEvent.SWW }
         )
     }

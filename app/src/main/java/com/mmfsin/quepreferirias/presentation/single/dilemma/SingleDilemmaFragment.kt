@@ -164,8 +164,26 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         }
     }
 
-    override fun share() {}
-    override fun report() {}
+    override fun share() {
+        actualDilemma?.let { data ->
+            val text = "${data.txtTop} ${getString(R.string.dashboard_but)} ${data.txtBottom}, " +
+                    "${getString(R.string.dashboard_share_question)} \n\n" +
+                    "${getString(R.string.dashboard_share_more_in)}\n" +
+                    getString(R.string.dashboard_share_url)
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, text)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+    }
+
+    override fun report() {
+        actualDilemma?.let { data -> viewModel.reportDilemma(data) }
+    }
 
     override fun observe() {
         viewModel.event.observe(this) { event ->
@@ -208,6 +226,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
                 is SingleDilemmaEvent.AlreadyVoted -> checkAlreadyVoted(event.voted)
                 is SingleDilemmaEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
+                is SingleDilemmaEvent.Reported -> reported()
                 is SingleDilemmaEvent.SWW -> error()
             }
         }
@@ -373,7 +392,17 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
     override fun respondComment() {}
-    override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {}
+    override fun voteComment(
+        commentId: String,
+        vote: CommentVote,
+        likes: Long,
+        position: Int
+    ) {
+    }
+
+    private fun reported() {
+        Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
+    }
 
     private fun error() {
         val dialog = ErrorDataDialog { activity?.onBackPressedDispatcher?.onBackPressed() }

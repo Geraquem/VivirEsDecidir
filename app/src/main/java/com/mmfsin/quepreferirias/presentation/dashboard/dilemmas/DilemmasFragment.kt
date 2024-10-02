@@ -175,8 +175,26 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    override fun share() {}
-    override fun report() {}
+    override fun share() {
+        actualData?.let { data ->
+            val text = "${data.txtTop} ${getString(R.string.dashboard_but)} ${data.txtBottom}, " +
+                    "${getString(R.string.dashboard_share_question)} \n\n" +
+                    "${getString(R.string.dashboard_share_more_in)}\n" +
+                    getString(R.string.dashboard_share_url)
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, text)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+    }
+
+    override fun report() {
+        actualData?.let { data -> viewModel.reportDilemma(data) }
+    }
 
     override fun observe() {
         viewModel.event.observe(this) { event ->
@@ -214,6 +232,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 }
 
                 is DilemmasEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
+                is DilemmasEvent.Reported -> reported()
                 is DilemmasEvent.SWW -> error()
             }
         }
@@ -296,7 +315,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 rvComments.apply {
                     layoutManager = LinearLayoutManager(mContext)
                     adapter =
-                        RecentCommentsAdapter(comments.take(LAST_COMMENTS), this@DilemmasFragment)
+                        RecentCommentsAdapter(
+                            comments.take(LAST_COMMENTS),
+                            this@DilemmasFragment
+                        )
                 }
             }
             loadingComments.root.isVisible = false
@@ -368,7 +390,17 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
     override fun respondComment() {}
-    override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {}
+    override fun voteComment(
+        commentId: String,
+        vote: CommentVote,
+        likes: Long,
+        position: Int
+    ) {
+    }
+
+    private fun reported() {
+        Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
+    }
 
     private fun error() {
         activity?.showErrorDialog { activity?.finish() }

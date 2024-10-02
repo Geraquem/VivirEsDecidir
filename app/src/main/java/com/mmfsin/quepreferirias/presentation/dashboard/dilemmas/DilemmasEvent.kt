@@ -18,5 +18,6 @@ sealed class DilemmasEvent {
 
     class VoteDilemma(val wasYes: Boolean) : DilemmasEvent()
 
+    object Reported : DilemmasEvent()
     object SWW : DilemmasEvent()
 }

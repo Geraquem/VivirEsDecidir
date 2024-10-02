@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.single.dilemma
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyVotedDilemmaUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
@@ -11,8 +12,10 @@ import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
+import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaUseCase
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -28,7 +31,8 @@ class SingleDilemmaViewModel @Inject constructor(
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
     private val voteDilemmaUseCase: VoteDilemmaUseCase,
-    private val checkIfAlreadyVotedDilemmaUseCase: CheckIfAlreadyVotedDilemmaUseCase
+    private val checkIfAlreadyVotedDilemmaUseCase: CheckIfAlreadyVotedDilemmaUseCase,
+    private val reportDataUseCase: ReportDataUseCase,
 ) : BaseViewModel<SingleDilemmaEvent>() {
 
     fun checkSessionInitiated() {
@@ -146,6 +150,21 @@ class SingleDilemmaViewModel @Inject constructor(
         executeUseCase(
             { deleteDilemmaFavUseCase.execute(DeleteDilemmaFavUseCase.Params(dilemmaId)) },
             { Log.i("DILEMMA_FAV", "DilemmaFav deleted") },
+            { _event.value = SingleDilemmaEvent.SWW }
+        )
+    }
+
+    fun reportDilemma(dilemma: Dilemma) {
+        executeUseCase(
+            {
+                reportDataUseCase.execute(
+                    ReportDataUseCase.Params(
+                        dilemma,
+                        DashboardType.DILEMMAS
+                    )
+                )
+            },
+            { _event.value = SingleDilemmaEvent.Reported },
             { _event.value = SingleDilemmaEvent.SWW }
         )
     }

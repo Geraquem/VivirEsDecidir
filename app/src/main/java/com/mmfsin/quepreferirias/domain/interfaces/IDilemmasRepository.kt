@@ -41,4 +41,6 @@ interface IDilemmasRepository {
     suspend fun deleteMyDilemma(dilemmaId: String)
 
     suspend fun getOtherUserDilemmas(userId: String): List<SendDilemma>
+
+    suspend fun reportDilemma(dilemma: Dilemma)
 }

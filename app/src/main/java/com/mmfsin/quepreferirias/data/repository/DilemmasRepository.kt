@@ -38,6 +38,7 @@ import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.DILEMMAS_SENT
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.FILTER_VALUE
+import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DATA
 import com.mmfsin.quepreferirias.utils.SERVER_SENT_DATA
@@ -502,5 +503,16 @@ class DilemmasRepository @Inject constructor(
 
             withContext(Dispatchers.IO) { latch.await() }
         }
+    }
+
+    override suspend fun reportDilemma(dilemma: Dilemma) {
+        val latch = CountDownLatch(1)
+        Firebase.firestore.collection(REPORTED)
+            .document(DILEMMAS).collection(dilemma.id)
+            .document(dilemma.id).set(dilemma)
+            .addOnCompleteListener {
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
     }
 }

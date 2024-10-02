@@ -10,6 +10,7 @@ import com.mmfsin.quepreferirias.domain.interfaces.IDualismsRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.utils.DUALISMS
 import com.mmfsin.quepreferirias.utils.DUALISMS_SENT
+import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.USERS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -51,5 +52,9 @@ class DualismsRepository @Inject constructor(
         }
 
         withContext(Dispatchers.IO) { latch.await() }
+    }
+
+    override suspend fun reportDualism(dualismId: String) {
+
     }
 }
