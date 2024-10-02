@@ -1,16 +1,18 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter
 
+import android.graphics.PorterDuff.Mode.SRC_IN
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.domain.models.CommentVote.UNVOTE
-import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE
+import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
+import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 
 class CommentsAdapter(
@@ -29,24 +31,30 @@ class CommentsAdapter(
                 tvDate.text = binding.root.context.getString(comment.since)
                 tvLikes.text = comment.likes.toString()
 
-                val icon = if (comment.voted) R.drawable.ic_heart_on else R.drawable.ic_heart_off
-                ivLike.setImageResource(icon)
+                val up = getColor(c, R.color.voted_up)
+                val down = getColor(c, R.color.voted_down)
+                val neutro = getColor(c, R.color.soft_black)
+                ivVoteUp.setColorFilter(if (comment.votedUp) up else neutro, SRC_IN)
+                ivVoteDown.setColorFilter(if (comment.votedDown) down else neutro, SRC_IN)
             }
         }
     }
 
-    fun updateCommentVotes(vote: CommentVote, position: Int) {
+    fun updateCommentVotes(vote: CommentVote, position: Int, alreadyVoted: Boolean) {
         val comment = comments[position]
         var likes = comment.likes
+        val count = if(alreadyVoted) 2 else 1
         when (vote) {
-            VOTE -> {
-                likes = likes.plus(1)
-                comment.voted = true
+            VOTE_UP -> {
+                likes = likes.plus(count)
+                comment.votedUp = true
+                comment.votedDown = false
             }
 
-            UNVOTE -> {
-                likes = likes.minus(1)
-                comment.voted = false
+            VOTE_DOWN -> {
+                likes = likes.minus(count)
+                comment.votedUp = false
+                comment.votedDown = true
             }
         }
         comment.likes = likes
@@ -65,9 +73,11 @@ class CommentsAdapter(
         holder.binding.apply {
             image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
-            ivLike.setOnClickListener {
-                if (comment.voted) vote(comment, UNVOTE, position)
-                else vote(comment, VOTE, position)
+            ivVoteUp.setOnClickListener {
+                if (!comment.votedUp) vote(comment, VOTE_UP, position)
+            }
+            ivVoteDown.setOnClickListener {
+                if (!comment.votedDown) vote(comment, VOTE_DOWN, position)
             }
         }
     }

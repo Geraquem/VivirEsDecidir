@@ -6,5 +6,5 @@ import io.realm.annotations.PrimaryKey
 open class CommentVotedDTO(
     @PrimaryKey
     var commentId: String = "",
-    var voted: Boolean = false
+    var votedUp: Boolean = false
 ) : RealmObject()

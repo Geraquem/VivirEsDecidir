@@ -122,7 +122,8 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
 
                 is CommentsEvent.CommentVotedResult -> updateCommentVotes(
                     event.vote,
-                    event.position
+                    event.position,
+                    event.alreadyVoted
                 )
 
                 is CommentsEvent.SWW -> error()
@@ -165,8 +166,8 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
         }
     }
 
-    private fun updateCommentVotes(vote: CommentVote, position: Int) {
-        commentsAdapter?.updateCommentVotes(vote, position)
+    private fun updateCommentVotes(vote: CommentVote, position: Int, alreadyVoted: Boolean) {
+        commentsAdapter?.updateCommentVotes(vote, position, alreadyVoted)
         listener.refreshComments()
     }
 

@@ -101,7 +101,10 @@ class CommentsViewModel @Inject constructor(
                     VoteDilemmaCommentUseCase.Params(dilemmaId, commentId, vote, likes, commentData)
                 )
             },
-            { _event.value = CommentsEvent.CommentVotedResult(vote, position) },
+            {
+                _event.value =
+                    CommentsEvent.CommentVotedResult(vote, position, commentData.alreadyVoted)
+            },
             { _event.value = CommentsEvent.SWW }
         )
     }

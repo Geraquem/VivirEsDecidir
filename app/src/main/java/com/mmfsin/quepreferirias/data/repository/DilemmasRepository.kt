@@ -24,8 +24,8 @@ import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
 import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.domain.models.CommentVote.UNVOTE
-import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE
+import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
+import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
@@ -240,8 +240,8 @@ class DilemmasRepository @Inject constructor(
         val alreadyVoted = (voted != null)
         val hasVotedTheSame = voted?.let {
             /** ok sólo si el voto que tengo guardado es distinto del voto actual */
-            if (it.voted && vote == VOTE) true
-            else !it.voted && vote == UNVOTE
+            if (it.votedUp && vote == VOTE_UP) true
+            else !it.votedUp && vote == VOTE_DOWN
         } ?: run { false }
 
         return CommentAlreadyVoted(alreadyVoted, hasVotedTheSame)
@@ -266,18 +266,25 @@ class DilemmasRepository @Inject constructor(
         )
         comment?.let {
             comment.likes = likes
-            comment.voted = when (vote) {
-                VOTE -> true
-                UNVOTE -> false
+            when (vote) {
+                VOTE_UP -> {
+                    comment.votedUp = true
+                    comment.votedDown = false
+                }
+
+                VOTE_DOWN -> {
+                    comment.votedUp = false
+                    comment.votedDown = true
+                }
             }
             realmDatabase.addObject { comment }
 
             /** save voted comment to not vote again */
-            val voted = (vote == VOTE)
+            val votedUp = vote == VOTE_UP
             realmDatabase.addObject {
                 CommentVotedDTO(
                     commentId = commentId,
-                    voted = voted
+                    votedUp = votedUp
                 )
             }
         }
