@@ -15,12 +15,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_no_comments"
             style="@style/MediumTextView_Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="8dp"
-            android:text="@string/dashboard_comments_title"
+            android:text="@string/dashboard_no_comments"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,33 +32,22 @@
             android:layout_marginTop="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_no_comments"
             tools:itemCount="3"
             tools:listitem="@layout/item_comment" />
 
-        <LinearLayout
-            android:id="@+id/ll_see_all"
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.6"
-            android:background="@drawable/click_effect"
-            android:orientation="vertical"
-            android:padding="6dp"
+            android:layout_marginTop="8dp"
+            android:indeterminate="true"
+            app:indicatorColor="@color/black"
+            app:indicatorSize="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_comments">
-
-            <TextView
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_see_all" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/black" />
-
-        </LinearLayout>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_comments"
+            app:trackThickness="2dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

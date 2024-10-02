@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
@@ -28,7 +27,6 @@ import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
@@ -38,7 +36,6 @@ import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.presentation.single.dialogs.ErrorDataDialog
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
-import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.checkNotNulls
@@ -109,7 +106,6 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             btnMenu.setOnClickListener { openMenu() }
 
             btnComments.setOnClickListener { openAllComments() }
-            comments.llSeeAll.setOnClickListener { openAllComments() }
         }
     }
 
@@ -291,30 +287,29 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     }
 
     private fun setUpComments(comments: List<Comment>) {
-        binding.apply {
-            tvNumComments.text = "${comments.size}"
-            binding.comments.apply {
-                when (comments.size) {
-                    0 -> {
-                        tvTitle.text = getString(R.string.dashboard_no_comments)
-                        tvTitle.isVisible = true
-                    }
-
-                    else -> tvTitle.isVisible = false
-                }
-                llSeeAll.visibility =
-                    if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
-                rvComments.apply {
-                    layoutManager = LinearLayoutManager(mContext)
-                    adapter =
-                        RecentCommentsAdapter(
-                            comments.take(LAST_COMMENTS),
-                            this@SingleDilemmaFragment
-                        )
-                }
-            }
-            loadingComments.root.isVisible = false
-        }
+//        binding.apply {
+//            binding.comments.apply {
+//                when (comments.size) {
+//                    0 -> {
+//                        tvTitle.text = getString(R.string.dashboard_no_comments)
+//                        tvTitle.isVisible = true
+//                    }
+//
+//                    else -> tvTitle.isVisible = false
+//                }
+//                llSeeAll.visibility =
+//                    if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
+//                rvComments.apply {
+//                    layoutManager = LinearLayoutManager(mContext)
+//                    adapter =
+//                        RecentCommentsAdapter(
+//                            comments.take(LAST_COMMENTS),
+//                            this@SingleDilemmaFragment
+//                        )
+//                }
+//            }
+//            loadingComments.root.isVisible = false
+//        }
     }
 
     private fun setUpVotes(dilemmaVotes: DilemmaVotes) {
@@ -377,7 +372,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         }
     }
 
-    override fun refreshComments() = viewModel.getComments(fromRealm = true)
+    override fun refreshComments() {}//= viewModel.getComments(fromRealm = true)
 
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))

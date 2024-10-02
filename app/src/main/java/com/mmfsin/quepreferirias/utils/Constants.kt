@@ -32,6 +32,7 @@ const val REPORTED = "reported"
 /** COMMENTS */
 const val LAST_COMMENTS = 4
 const val COMMENT_ID = "commentId"
+const val TIMESTAMP = "timestamp"
 
 /** USERS */
 const val USERS = "users"

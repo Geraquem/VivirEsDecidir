@@ -21,6 +21,9 @@ interface IDilemmasRepository {
     suspend fun alreadyDilemmaVoted(dilemmaId: String): Boolean?
 
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
+    /** ********* */
+    suspend fun loadComments(dilemmaId: String, isInitialLoad: Boolean): List<Comment>
+    /** ********* */
     suspend fun getDilemmaCommentsFromRealm(): List<Comment>
     suspend fun sendDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean
     suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): CommentAlreadyVoted

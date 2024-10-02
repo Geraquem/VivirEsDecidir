@@ -16,6 +16,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +30,7 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.RecentCommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
@@ -37,7 +38,6 @@ import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
-import com.mmfsin.quepreferirias.utils.LAST_COMMENTS
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.checkNotNulls
@@ -59,6 +59,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private var isFav: Boolean? = null
 
+    private var commentsAdapter: CommentsAdapter? = null
+
     private var votesYes: Long = 0
     private var votesNo: Long = 0
 
@@ -76,9 +78,19 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             loadingFull.root.isVisible = true
             loadingComments.root.isVisible = true
             setToolbar()
-            btnComments.setImageResource(R.drawable.ic_comment)
-            btnFav.setImageResource(R.drawable.ic_fav_off)
             setInitialConfig()
+
+            nsvContainer.setOnScrollChangeListener(OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
+                if (v.getChildAt(v.childCount - 1) != null) {
+                    if (
+                        (scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight)) &&
+                        scrollY > oldScrollY
+                    ) {
+                        comments.loadingMore.isVisible = true
+                        actualData?.let { d -> viewModel.getComments(d.id, initialLoad = false) }
+                    }
+                }
+            })
         }
     }
 
@@ -103,8 +115,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnComments.setOnClickListener { openAllComments() }
             btnFav.setOnClickListener { favOnClick() }
             btnMenu.setOnClickListener { openMenu() }
-
-            comments.llSeeAll.setOnClickListener { openAllComments() }
 
             btnNext.setOnClickListener {
                 position++
@@ -215,7 +225,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     if (event.result) setFavButton(isOn = true)
                     else setFavButton(isOn = false)
                     isFav = event.result
-                    actualData?.let { d -> viewModel.getComments(d.id, fromRealm = false) }
+                    actualData?.let { d -> viewModel.getComments(d.id, initialLoad = true) }
                 }
 
                 is DilemmasEvent.GetComments -> {
@@ -223,13 +233,27 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     actualData?.let { d -> viewModel.getVotes(d.id) }
                 }
 
-                is DilemmasEvent.GetPercents -> setPercents(event.percents)
                 is DilemmasEvent.GetVotes -> setUpVotes(event.votes)
+                is DilemmasEvent.GetPercents -> setPercents(event.percents)
 
                 is DilemmasEvent.VoteDilemma -> {
                     if (event.wasYes) votesYes++ else votesNo++
                     viewModel.getPercents(votesYes, votesNo)
                 }
+
+                is DilemmasEvent.CommentAlreadyVoted -> {
+                    Toast.makeText(
+                        activity?.applicationContext,
+                        getString(R.string.comment_already_voted),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                is DilemmasEvent.CommentVotedResult -> updateCommentVotes(
+                    event.vote,
+                    event.position,
+                    event.alreadyVoted
+                )
 
                 is DilemmasEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is DilemmasEvent.Reported -> reported()
@@ -259,6 +283,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     }
 
     private fun setInitialConfig() {
+        commentsAdapter?.clearData()
+        commentsAdapter = null
         binding.apply {
             btnYes.setImageResource(R.drawable.ic_dilemma_yes_trans)
             btnNo.setImageResource(R.drawable.ic_dilemma_no_trans)
@@ -297,29 +323,21 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         animation.start()
     }
 
-
     private fun setUpComments(comments: List<Comment>) {
         binding.apply {
-            tvNumComments.text = "${comments.size}"
             binding.comments.apply {
-                when (comments.size) {
-                    0 -> {
-                        tvTitle.text = getString(R.string.dashboard_no_comments)
-                        tvTitle.isVisible = true
-                    }
-
-                    else -> tvTitle.isVisible = false
-                }
-                llSeeAll.visibility =
-                    if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
-                rvComments.apply {
-                    layoutManager = LinearLayoutManager(mContext)
-                    adapter =
-                        RecentCommentsAdapter(
-                            comments.take(LAST_COMMENTS),
+                if (rvComments.adapter == null) {
+                    tvNoComments.isVisible = comments.isEmpty()
+                    rvComments.apply {
+                        layoutManager = LinearLayoutManager(mContext)
+                        commentsAdapter = CommentsAdapter(
+                            comments as MutableList<Comment>,
                             this@DilemmasFragment
                         )
-                }
+                        adapter = commentsAdapter
+                    }
+                } else commentsAdapter?.addComments(comments)
+                loadingMore.isVisible = false
             }
             loadingComments.root.isVisible = false
         }
@@ -375,7 +393,9 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    override fun refreshComments() = viewModel.getComments(fromRealm = true)
+    override fun refreshComments() {
+//         viewModel.getComments(initialLoad = true)
+    }
 
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
@@ -389,13 +409,26 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     }
 
     override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
+
     override fun respondComment() {}
+
     override fun voteComment(
         commentId: String,
         vote: CommentVote,
         likes: Long,
         position: Int
     ) {
+        actualData?.let { data ->
+            if (hasSession) viewModel.voteComment(data.id, commentId, vote, likes, position)
+            else {
+                Toast.makeText(activity?.applicationContext, "no session", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun updateCommentVotes(vote: CommentVote, position: Int, alreadyVoted: Boolean) {
+        commentsAdapter?.updateCommentVotes(vote, position, alreadyVoted)
     }
 
     private fun reported() {

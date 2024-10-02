@@ -1,5 +1,6 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.PorterDuff.Mode.SRC_IN
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,7 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 
 class CommentsAdapter(
-    private val comments: List<Comment>,
+    private val comments: MutableList<Comment>,
     private val listener: ICommentsListener
 ) : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
@@ -80,6 +81,18 @@ class CommentsAdapter(
                 if (!comment.votedDown) vote(comment, VOTE_DOWN, position)
             }
         }
+    }
+
+    fun addComments(newComments: List<Comment>) {
+        val startPosition = comments.size
+        comments.addAll(newComments)
+        notifyItemRangeInserted(startPosition, newComments.size)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearData() {
+        comments.clear()
+        notifyDataSetChanged()
     }
 
     private fun vote(comment: Comment, vote: CommentVote, position: Int) {

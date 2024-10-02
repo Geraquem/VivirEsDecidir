@@ -1,8 +1,10 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsEvent
 import com.mmfsin.quepreferirias.presentation.models.Percents
 
 sealed class DilemmasEvent {
@@ -17,6 +19,13 @@ sealed class DilemmasEvent {
     class GetPercents(val percents: Percents) : DilemmasEvent()
 
     class VoteDilemma(val wasYes: Boolean) : DilemmasEvent()
+
+    object CommentAlreadyVoted : DilemmasEvent()
+    class CommentVotedResult(
+        val vote: CommentVote,
+        val position: Int,
+        val alreadyVoted: Boolean
+    ) : DilemmasEvent()
 
     object Reported : DilemmasEvent()
     object SWW : DilemmasEvent()

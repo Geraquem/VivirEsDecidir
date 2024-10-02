@@ -2,7 +2,10 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas
 
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
+import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyCommentVotedUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
@@ -13,7 +16,9 @@ import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaUseCase
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsEvent
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMAS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -30,6 +35,8 @@ class DilemmasViewModel @Inject constructor(
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
     private val voteDilemmaUseCase: VoteDilemmaUseCase,
+    private val checkIfAlreadyCommentVotedUseCase: CheckIfAlreadyCommentVotedUseCase,
+    private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase,
     private val reportDataUseCase: ReportDataUseCase,
 ) : BaseViewModel<DilemmasEvent>() {
 
@@ -92,11 +99,11 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun getComments(dilemmaId: String? = null, fromRealm: Boolean) {
+    fun getComments(dilemmaId: String, initialLoad: Boolean) {
         executeUseCase(
             {
                 getDilemmaCommentsUseCase.execute(
-                    GetDilemmaCommentsUseCase.Params(dilemmaId = dilemmaId, fromRealm = fromRealm)
+                    GetDilemmaCommentsUseCase.Params(dilemmaId, initialLoad)
                 )
             },
             { result -> _event.value = DilemmasEvent.GetComments(result) },
@@ -124,6 +131,14 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
+    fun deleteDilemmaFav(dilemmaId: String) {
+        executeUseCase(
+            { deleteDilemmaFavUseCase.execute(DeleteDilemmaFavUseCase.Params(dilemmaId)) },
+            { Log.i("DILEMMA_FAV", "DilemmaFav deleted") },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
     fun voteDilemma(dilemmaId: String, isYes: Boolean) {
         executeUseCase(
             { voteDilemmaUseCase.execute(VoteDilemmaUseCase.Params(dilemmaId, isYes)) },
@@ -132,10 +147,45 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun deleteDilemmaFav(dilemmaId: String) {
+    fun voteComment(
+        dilemmaId: String,
+        commentId: String,
+        vote: CommentVote,
+        likes: Long,
+        position: Int
+    ) {
         executeUseCase(
-            { deleteDilemmaFavUseCase.execute(DeleteDilemmaFavUseCase.Params(dilemmaId)) },
-            { Log.i("DILEMMA_FAV", "DilemmaFav deleted") },
+            {
+                checkIfAlreadyCommentVotedUseCase.execute(
+                    CheckIfAlreadyCommentVotedUseCase.Params(commentId, vote)
+                )
+            },
+            { result ->
+                if (result.hasVotedTheSame) _event.value = DilemmasEvent.CommentAlreadyVoted
+                else voteDilemmaCommentFlow(dilemmaId, commentId, vote, likes, position, result)
+            },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    private fun voteDilemmaCommentFlow(
+        dilemmaId: String,
+        commentId: String,
+        vote: CommentVote,
+        likes: Long,
+        position: Int,
+        commentData: CommentAlreadyVoted
+    ) {
+        executeUseCase(
+            {
+                voteDilemmaCommentUseCase.execute(
+                    VoteDilemmaCommentUseCase.Params(dilemmaId, commentId, vote, likes, commentData)
+                )
+            },
+            {
+                _event.value =
+                    DilemmasEvent.CommentVotedResult(vote, position, commentData.alreadyVoted)
+            },
             { _event.value = DilemmasEvent.SWW }
         )
     }

@@ -24,6 +24,7 @@
         app:layout_constraintGuide_percent="0.95" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_container"
         style="@style/scroll_no_effects"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -206,33 +207,14 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <ImageView
+                        android:id="@+id/btn_comments"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
                         android:layout_gravity="center"
-                        android:orientation="horizontal"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:id="@+id/btn_comments"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/content_description"
-                            android:src="@drawable/ic_comment" />
-
-                        <TextView
-                            android:id="@+id/tv_num_comments"
-                            style="@style/MediumTextView_Bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="4dp"
-                            android:gravity="center"
-                            tools:text="40" />
-
-                    </LinearLayout>
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/content_description"
+                        android:src="@drawable/ic_comment" />
 
                     <Space
                         android:layout_width="12dp"
@@ -240,8 +222,8 @@
 
                     <ImageView
                         android:id="@+id/btn_fav"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/content_description"
                         tools:src="@drawable/ic_fav_off" />
@@ -290,7 +272,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/comments"
-                tools:visibility="" />
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

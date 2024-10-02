@@ -22,7 +22,7 @@
     <string name="error_btn">Cerrar</string>
 
     <!-- NO_MORE -->
-    <string name="no_more_title">Has acabado con todo.</string>
+    <string name="no_more_title">Has acabado con todo</string>
     <string name="no_more_description">No hay más decisiones que tengas que tomar por el momento.</string>
     <string name="no_more_btn">Salir</string>
 
@@ -88,13 +88,7 @@
     <string name="dashboard_votes">Votos</string>
     <string name="dashboard_next">Siguiente</string>
     <string name="dashboard_sent_by">Enviado por</string>
-    <string name="dashboard_comments">Comentarios</string>
-    <string name="dashboard_comments_title">%s Comentarios</string>
-    <string name="dashboard_comment_points">%s puntos</string>
-    <string name="dashboard_comment_one_point">%s punto</string>
-    <string name="dashboard_single_comment_title">1 Comentario</string>
-    <string name="dashboard_see_all">Ver todos</string>
-    <string name="dashboard_no_comments">No hay comentarios</string>
+    <string name="dashboard_no_comments">No hay comentarios, ¡da el primer paso!</string>
     <string name="dashboard_share_question">¿Aceptas?</string>
     <string name="dashboard_share_which_take">¿Cuál eliges?</string>
     <string name="dashboard_share_more_in">Todo esto y mucho más en</string>

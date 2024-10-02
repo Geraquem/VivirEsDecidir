@@ -43,7 +43,7 @@ class CommentsViewModel @Inject constructor(
         executeUseCase(
             {
                 getDilemmaCommentsUseCase.execute(
-                    GetDilemmaCommentsUseCase.Params(fromRealm = true)
+                    GetDilemmaCommentsUseCase.Params("",isInitialLoad = false)
                 )
             },
             { result -> _event.value = CommentsEvent.Comments(result) },

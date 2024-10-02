@@ -106,7 +106,7 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
                     activity?.let {
                         Glide.with(it.applicationContext).load(event.data.imageUrl)
                             .into(binding.image.image)
-                        viewModel.getComments()
+//                        viewModel.getComments()
                     }
                 }
 
@@ -151,18 +151,18 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
             ivSendComment.visibility = View.VISIBLE
             commentLoading.visibility = View.INVISIBLE
             etComment.text = null
-            viewModel.getComments()
-            listener.refreshComments()
+//            viewModel.getComments()
+//            listener.refreshComments()
         }
     }
 
     private fun setUpComments(comments: List<Comment>) {
         binding.apply {
-            rvComments.apply {
-                layoutManager = LinearLayoutManager(activity)
-                commentsAdapter = CommentsAdapter(comments, this@CommentsSheet)
-                adapter = commentsAdapter
-            }
+//            rvComments.apply {
+//                layoutManager = LinearLayoutManager(activity)
+//                commentsAdapter = CommentsAdapter(comments, this@CommentsSheet)
+//                adapter = commentsAdapter
+//            }
         }
     }
 

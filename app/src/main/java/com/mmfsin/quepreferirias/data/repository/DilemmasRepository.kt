@@ -3,7 +3,9 @@ package com.mmfsin.quepreferirias.data.repository
 import android.content.Context
 import android.util.Log
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -62,6 +64,9 @@ class DilemmasRepository @Inject constructor(
 ) : IDilemmasRepository {
 
     private val reference = Firebase.database.reference
+
+//    private var lastCommentVisible: DocumentSnapshot? = null
+    private var lastCommentVisible: CommentDTO? = null
 
     override suspend fun getDilemmas(): List<Dilemma> {
         val latch = CountDownLatch(1)
@@ -177,14 +182,13 @@ class DilemmasRepository @Inject constructor(
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
         val comments = mutableListOf<CommentDTO>()
         val latch = CountDownLatch(1)
-        realmDatabase.deleteAllObjects(CommentDTO::class.java)
+
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
             .collection(COMMENTS).get().addOnSuccessListener { d ->
                 for (document in d.documents) {
                     try {
                         document.toObject(CommentDTO::class.java)?.let { comment ->
                             comments.add(comment)
-                            realmDatabase.addObject { comment }
                         }
                     } catch (e: Exception) {
                         Log.e("error", "error parsing comment")
@@ -196,6 +200,81 @@ class DilemmasRepository @Inject constructor(
             }
         withContext(Dispatchers.IO) { latch.await() }
         return sortedComments(comments)
+    }
+
+
+    override suspend fun loadComments(
+        dilemmaId: String,
+        isInitialLoad: Boolean
+    ): List<Comment> {
+
+        val latch = CountDownLatch(1)
+        var result = mutableListOf<CommentDTO>()
+
+        val commentsRef =
+            Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
+
+        val query = if (lastCommentVisible != null) {
+
+//            println("-------*************-------- lastComment retrieved: ${lastCommentVisible!!.toObject(CommentDTO::class.java)?.comment}")
+            commentsRef
+//                .orderBy("likes", Query.Direction.DESCENDING)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .startAfter(lastCommentVisible!!.timestamp)
+                .limit(5)
+        } else {
+            commentsRef
+                .orderBy("likes", Query.Direction.DESCENDING)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .limit(5)
+        }
+
+        query.get()
+            .addOnSuccessListener { snapshot ->
+                if (!snapshot.isEmpty) {
+                    val comments = snapshot.toObjects(CommentDTO::class.java)
+                    lastCommentVisible = snapshot.documents.lastOrNull()?.toObject(CommentDTO::class.java)
+//                    println("-------*************-------- lastComment saved: ${lastCommentVisible!!.toObject(CommentDTO::class.java)?.comment}")
+                    result = comments
+                }
+                latch.countDown()
+            }
+            .addOnFailureListener {
+                latch.countDown()
+            }
+
+        withContext(Dispatchers.IO) { latch.await() }
+        return result.toCommentList()
+
+//        val latch = CountDownLatch(1)
+//        val db = Firebase.firestore
+//        val batchSize = 500
+//
+//        var result = mutableListOf<CommentDTO>()
+//
+//        var query = db.collection(DILEMMAS).document(dilemmaId)
+//            .collection(COMMENTS)
+//            .orderBy("likes", DESCENDING)
+////            .orderBy(TIMESTAMP, DESCENDING)
+//            .limit(batchSize.toLong())
+//
+//        if (!isInitialLoad && lastCommentVisible != null) {
+//            query = query.startAfter(lastCommentVisible!!.likes)
+//        }
+//
+//        query.get()
+//            .addOnSuccessListener { snapshot ->
+//                if (!snapshot.isEmpty) {
+//                    val comments = snapshot.toObjects(CommentDTO::class.java)
+//                    lastCommentVisible = snapshot.documents.last().toObject(CommentDTO::class.java)
+//                    result = comments
+//                }
+//                latch.countDown()
+//            }
+//            .addOnFailureListener { latch.countDown() }
+//
+//        withContext(Dispatchers.IO) { latch.await() }
+//        return result.toCommentList()
     }
 
     override suspend fun getDilemmaCommentsFromRealm(): List<Comment> {
@@ -219,7 +298,6 @@ class DilemmasRepository @Inject constructor(
             .document(comment.commentId).set(comment, SetOptions.merge())
             .addOnCompleteListener {
                 result = it.isSuccessful
-                realmDatabase.addObject { comment }
                 latch.countDown()
             }
         withContext(Dispatchers.IO) {
@@ -260,34 +338,13 @@ class DilemmasRepository @Inject constructor(
         val updatedLikes = hashMapOf<String, Any>(COMMENT_LIKES to likes)
         documentReference.update(updatedLikes)
 
-        val comment = realmDatabase.getObjectFromRealm(
-            CommentDTO::class.java,
-            COMMENT_ID,
-            commentId
-        )
-        comment?.let {
-            comment.likes = likes
-            when (vote) {
-                VOTE_UP -> {
-                    comment.votedUp = true
-                    comment.votedDown = false
-                }
-
-                VOTE_DOWN -> {
-                    comment.votedUp = false
-                    comment.votedDown = true
-                }
-            }
-            realmDatabase.addObject { comment }
-
-            /** save voted comment to not vote again */
-            val votedUp = vote == VOTE_UP
-            realmDatabase.addObject {
-                CommentVotedDTO(
-                    commentId = commentId,
-                    votedUp = votedUp
-                )
-            }
+        /** save voted comment to not vote again */
+        val votedUp = vote == VOTE_UP
+        realmDatabase.addObject {
+            CommentVotedDTO(
+                commentId = commentId,
+                votedUp = votedUp
+            )
         }
     }
 
