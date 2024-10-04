@@ -3,19 +3,14 @@ package com.mmfsin.quepreferirias.data.repository
 import android.content.Context
 import android.util.Log
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.mmfsin.quepreferirias.data.mappers.toCommentList
 import com.mmfsin.quepreferirias.data.mappers.toDilemma
 import com.mmfsin.quepreferirias.data.mappers.toDilemmaFavList
 import com.mmfsin.quepreferirias.data.mappers.toSendDilemmaList
 import com.mmfsin.quepreferirias.data.mappers.toSession
-import com.mmfsin.quepreferirias.data.models.CommentDTO
-import com.mmfsin.quepreferirias.data.models.CommentVotedDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaVotedDTO
@@ -23,19 +18,11 @@ import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
-import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
-import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
-import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.utils.COMMENTS
-import com.mmfsin.quepreferirias.utils.COMMENT_ID
-import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.DILEMMAS_SENT
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
@@ -45,7 +32,6 @@ import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DATA
 import com.mmfsin.quepreferirias.utils.SERVER_SENT_DATA
 import com.mmfsin.quepreferirias.utils.SESSION
-import com.mmfsin.quepreferirias.utils.TIMESTAMP
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
 import com.mmfsin.quepreferirias.utils.USERS
@@ -65,9 +51,6 @@ class DilemmasRepository @Inject constructor(
 ) : IDilemmasRepository {
 
     private val reference = Firebase.database.reference
-
-        private var lastCommentVisible: DocumentSnapshot? = null
-//    private var lastCommentVisible: CommentDTO? = null
 
     override suspend fun getDilemmas(): List<Dilemma> {
         val latch = CountDownLatch(1)
@@ -178,144 +161,6 @@ class DilemmasRepository @Inject constructor(
             dilemmaId
         )
         return voted?.votedYes
-    }
-
-    override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
-        val comments = mutableListOf<CommentDTO>()
-        val latch = CountDownLatch(1)
-
-        Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
-            .collection(COMMENTS).get().addOnSuccessListener { d ->
-                for (document in d.documents) {
-                    try {
-                        document.toObject(CommentDTO::class.java)?.let { comment ->
-                            comments.add(comment)
-                        }
-                    } catch (e: Exception) {
-                        Log.e("error", "error parsing comment")
-                    }
-                }
-                latch.countDown()
-            }.addOnFailureListener {
-                latch.countDown()
-            }
-        withContext(Dispatchers.IO) { latch.await() }
-        return sortedComments(comments)
-    }
-
-
-    override suspend fun loadComments(
-        dilemmaId: String,
-        isInitialLoad: Boolean
-    ): List<Comment> {
-
-        val latch = CountDownLatch(1)
-        var result = mutableListOf<CommentDTO>()
-
-        val commentsRef =
-            Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
-
-        val query = if (lastCommentVisible != null) {
-
-            commentsRef
-                .orderBy(COMMENT_LIKES, Query.Direction.DESCENDING)
-                .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
-                .startAfter(lastCommentVisible)
-                .limit(20)
-        } else {
-            commentsRef
-                .orderBy(COMMENT_LIKES, Query.Direction.DESCENDING)
-                .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
-                .limit(20)
-        }
-
-        query.get()
-            .addOnSuccessListener { snapshot ->
-                if (!snapshot.isEmpty) {
-                    val comments = snapshot.toObjects(CommentDTO::class.java)
-                    lastCommentVisible =
-                        snapshot.documents.lastOrNull()
-                    result = comments
-                }
-                latch.countDown()
-            }
-            .addOnFailureListener {
-                latch.countDown()
-            }
-
-        withContext(Dispatchers.IO) { latch.await() }
-        return result.toCommentList()
-    }
-
-    override suspend fun getDilemmaCommentsFromRealm(): List<Comment> {
-        val comments =
-            realmDatabase.getObjectsFromRealm { where<CommentDTO>().findAll() }
-        return sortedComments(comments)
-    }
-
-    private fun sortedComments(comments: List<CommentDTO>): List<Comment> {
-        val sortedList = comments.sortedBy { it.timestamp }.reversed()
-        return sortedList.toCommentList()
-    }
-
-    override suspend fun sendDilemmaComment(
-        dilemmaId: String,
-        comment: CommentDTO
-    ): Boolean {
-        val latch = CountDownLatch(1)
-        var result = false
-        Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
-            .document(comment.commentId).set(comment, SetOptions.merge())
-            .addOnCompleteListener {
-                result = it.isSuccessful
-                latch.countDown()
-            }
-        withContext(Dispatchers.IO) {
-            latch.await()
-        }
-        return result
-    }
-
-    override suspend fun alreadyCommentVoted(
-        commentId: String,
-        vote: CommentVote
-    ): CommentAlreadyVoted {
-        val voted =
-            realmDatabase.getObjectFromRealm(
-                CommentVotedDTO::class.java,
-                COMMENT_ID,
-                commentId
-            )
-        val alreadyVoted = (voted != null)
-        val hasVotedTheSame = voted?.let {
-            /** ok sólo si el voto que tengo guardado es distinto del voto actual */
-            if (it.votedUp && vote == VOTE_UP) true
-            else !it.votedUp && vote == VOTE_DOWN
-        } ?: run { false }
-
-        return CommentAlreadyVoted(alreadyVoted, hasVotedTheSame)
-    }
-
-    override suspend fun voteDilemmaComment(
-        dilemmaId: String,
-        commentId: String,
-        likes: Long,
-        vote: CommentVote
-    ) {
-        val documentReference =
-            Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
-                .collection(COMMENTS).document(commentId)
-        val updatedLikes = hashMapOf<String, Any>(COMMENT_LIKES to likes)
-        documentReference.update(updatedLikes)
-
-        /** save voted comment to not vote again */
-        val votedUp = vote == VOTE_UP
-        realmDatabase.addObject {
-            CommentVotedDTO(
-                commentId = commentId,
-                votedUp = votedUp
-            )
-        }
     }
 
     private fun getSession(): Session? {

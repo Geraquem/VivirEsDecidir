@@ -1,16 +1,16 @@
 package com.mmfsin.quepreferirias.domain.usecases
 
 import com.mmfsin.quepreferirias.base.BaseUseCase
-import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
+import com.mmfsin.quepreferirias.domain.interfaces.ICommentsRepository
 import com.mmfsin.quepreferirias.domain.models.Comment
 import javax.inject.Inject
 
 class GetDilemmaCommentsUseCase @Inject constructor(
-    val repository: IDilemmasRepository
+    val repository: ICommentsRepository
 ) : BaseUseCase<GetDilemmaCommentsUseCase.Params, List<Comment>>() {
 
     override suspend fun execute(params: Params): List<Comment> {
-        return repository.loadComments(params.dilemmaId, params.isInitialLoad)
+        return repository.getDilemmaComments(params.dilemmaId)
 
 //        return if (params.fromRealm) repository.getDilemmaCommentsFromRealm()
 //        else params.dilemmaId?.let { repository.getDilemmaComments(params.dilemmaId) }
@@ -19,6 +19,6 @@ class GetDilemmaCommentsUseCase @Inject constructor(
 
     data class Params(
         val dilemmaId: String,
-        val isInitialLoad: Boolean
+        val isInitialLoad: Boolean /************/
     )
 }
