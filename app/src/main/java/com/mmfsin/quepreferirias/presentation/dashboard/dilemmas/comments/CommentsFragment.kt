@@ -73,11 +73,11 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
                 }
 
                 is CommentsEvent.CommentVotedResult -> {
-//                    updateCommentVotes(
-//                        event.vote,
-//                        event.position,
-//                        event.alreadyVoted
-//                    )
+                    commentsAdapter?.updateCommentVotes(
+                        event.vote,
+                        event.position,
+                        event.alreadyVoted
+                    )
                 }
 
                 is CommentsEvent.SWW -> error()
