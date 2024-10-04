@@ -30,9 +30,9 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.old.CommentsSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
@@ -45,8 +45,8 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(),
-    IBSheetListener, ICommentsListener, IMenuDashboardListener {
+class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(), IMenuDashboardListener,
+    ICommentsListener {
 
     override val viewModel: DilemmasViewModel by viewModels()
     private lateinit var mContext: Context
@@ -58,6 +58,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private var position: Int = 0
 
     private var isFav: Boolean? = null
+
+    private lateinit var commentsFragment: CommentsFragment
 
     private var commentsAdapter: CommentsAdapter? = null
 
@@ -76,7 +78,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     override fun setUI() {
         binding.apply {
             loadingFull.root.isVisible = true
-            loadingComments.root.isVisible = true
             setToolbar()
             setInitialConfig()
 
@@ -86,8 +87,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                         (scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight)) &&
                         scrollY > oldScrollY
                     ) {
-                        comments.loadingMore.isVisible = true
-                        actualData?.let { d -> viewModel.getComments(d.id, initialLoad = false) }
+                        if (::commentsFragment.isInitialized) commentsFragment.updateComments()
                     }
                 }
             })
@@ -108,19 +108,18 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
             tvCreatorName.setOnClickListener {
                 checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
-//                    viewModel.checkIfIsMe(creatorId)
+                    viewModel.checkIfIsMe(creatorId)
                 }
             }
 
-            btnComments.setOnClickListener { openAllComments() }
             btnFav.setOnClickListener { favOnClick() }
             btnMenu.setOnClickListener { openMenu() }
 
+            btnNext.isVisible = false
             btnNext.setOnClickListener {
                 position++
                 if (position < dilemmaList.size) {
 //                    showInterstitial()
-                    loadingComments.root.isVisible = true
                     llButtons.animate().alpha(1f).duration = 250
                     percents.root.animate().alpha(0.0f).duration = 250
                     setInitialConfig()
@@ -156,19 +155,11 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    private fun openAllComments() {
-        actualData?.let { dilemma ->
-            val modalBottomSheet = CommentsSheet(dilemmaId = dilemma.id, this@DilemmasFragment)
-            activity?.let { modalBottomSheet.show(it.supportFragmentManager, "") }
-        } ?: run { error() }
-    }
-
     private fun openMenu() {
         val dialog = MenuDashboardDialog(isFav, this@DilemmasFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
-    override fun openComments() = openAllComments()
     override fun setFavorite() = favOnClick()
 
     override fun copyText() {
@@ -225,11 +216,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     if (event.result) setFavButton(isOn = true)
                     else setFavButton(isOn = false)
                     isFav = event.result
-                    actualData?.let { d -> viewModel.getComments(d.id, initialLoad = true) }
-                }
-
-                is DilemmasEvent.GetComments -> {
-                    setUpComments(event.comments)
+                    setUpComments()
                     actualData?.let { d -> viewModel.getVotes(d.id) }
                 }
 
@@ -240,20 +227,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     if (event.wasYes) votesYes++ else votesNo++
                     viewModel.getPercents(votesYes, votesNo)
                 }
-
-                is DilemmasEvent.CommentAlreadyVoted -> {
-                    Toast.makeText(
-                        activity?.applicationContext,
-                        getString(R.string.comment_already_voted),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                is DilemmasEvent.CommentVotedResult -> updateCommentVotes(
-                    event.vote,
-                    event.position,
-                    event.alreadyVoted
-                )
 
                 is DilemmasEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is DilemmasEvent.Reported -> reported()
@@ -323,23 +296,13 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         animation.start()
     }
 
-    private fun setUpComments(comments: List<Comment>) {
-        binding.apply {
-            binding.comments.apply {
-                if (rvComments.adapter == null) {
-                    tvNoComments.isVisible = comments.isEmpty()
-                    rvComments.apply {
-                        layoutManager = LinearLayoutManager(mContext)
-                        commentsAdapter = CommentsAdapter(
-                            comments as MutableList<Comment>,
-                            this@DilemmasFragment
-                        )
-                        adapter = commentsAdapter
-                    }
-                } else commentsAdapter?.addComments(comments)
-                loadingMore.isVisible = false
-            }
-            loadingComments.root.isVisible = false
+    private fun setUpComments() {
+        actualData?.let { d ->
+            commentsFragment = CommentsFragment(d.id, this@DilemmasFragment)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, commentsFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
@@ -393,10 +356,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    override fun refreshComments() {
-//         viewModel.getComments(initialLoad = true)
-    }
-
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
 
@@ -406,29 +365,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         val navGraph = if (isMe) R.navigation.nav_graph_profile
         else R.navigation.nav_graph_other_profile
         (activity as BedRockActivity).openActivity(navGraph, USER_ID, userId)
-    }
-
-    override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
-
-    override fun respondComment() {}
-
-    override fun voteComment(
-        commentId: String,
-        vote: CommentVote,
-        likes: Long,
-        position: Int
-    ) {
-        actualData?.let { data ->
-            if (hasSession) viewModel.voteComment(data.id, commentId, vote, likes, position)
-            else {
-                Toast.makeText(activity?.applicationContext, "no session", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
-    }
-
-    private fun updateCommentVotes(vote: CommentVote, position: Int, alreadyVoted: Boolean) {
-        commentsAdapter?.updateCommentVotes(vote, position, alreadyVoted)
     }
 
     private fun reported() {

@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:indeterminate="true"
+        app:indicatorColor="@color/black"
+        app:indicatorSize="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackThickness="1dp" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_main"
         android:layout_width="match_parent"
@@ -22,7 +35,8 @@
             android:paddingHorizontal="8dp"
             android:text="@string/dashboard_no_comments"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_comments"
@@ -37,11 +51,10 @@
             tools:listitem="@layout/item_comment" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:layout_width="wrap_content"
             android:id="@+id/loading_more"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:layout_marginTop="8dp"
             app:indicatorColor="@color/black"
             app:indicatorSize="24dp"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.old
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
@@ -39,11 +39,11 @@ class CommentsViewModel @Inject constructor(
         )
     }
 
-    fun getComments(dilemmaId: String) {
+    fun getComments() {
         executeUseCase(
             {
                 getDilemmaCommentsUseCase.execute(
-                    GetDilemmaCommentsUseCase.Params(dilemmaId ,isInitialLoad = false)
+                    GetDilemmaCommentsUseCase.Params("",isInitialLoad = false)
                 )
             },
             { result -> _event.value = CommentsEvent.Comments(result) },

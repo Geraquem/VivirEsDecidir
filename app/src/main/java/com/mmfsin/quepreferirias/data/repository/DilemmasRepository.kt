@@ -45,6 +45,7 @@ import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DATA
 import com.mmfsin.quepreferirias.utils.SERVER_SENT_DATA
 import com.mmfsin.quepreferirias.utils.SESSION
+import com.mmfsin.quepreferirias.utils.TIMESTAMP
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
 import com.mmfsin.quepreferirias.utils.USERS
@@ -65,8 +66,8 @@ class DilemmasRepository @Inject constructor(
 
     private val reference = Firebase.database.reference
 
-//    private var lastCommentVisible: DocumentSnapshot? = null
-    private var lastCommentVisible: CommentDTO? = null
+        private var lastCommentVisible: DocumentSnapshot? = null
+//    private var lastCommentVisible: CommentDTO? = null
 
     override suspend fun getDilemmas(): List<Dilemma> {
         val latch = CountDownLatch(1)
@@ -216,25 +217,24 @@ class DilemmasRepository @Inject constructor(
 
         val query = if (lastCommentVisible != null) {
 
-//            println("-------*************-------- lastComment retrieved: ${lastCommentVisible!!.toObject(CommentDTO::class.java)?.comment}")
             commentsRef
-//                .orderBy("likes", Query.Direction.DESCENDING)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .startAfter(lastCommentVisible!!.timestamp)
-                .limit(5)
+                .orderBy(COMMENT_LIKES, Query.Direction.DESCENDING)
+                .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
+                .startAfter(lastCommentVisible)
+                .limit(20)
         } else {
             commentsRef
-                .orderBy("likes", Query.Direction.DESCENDING)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .limit(5)
+                .orderBy(COMMENT_LIKES, Query.Direction.DESCENDING)
+                .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
+                .limit(20)
         }
 
         query.get()
             .addOnSuccessListener { snapshot ->
                 if (!snapshot.isEmpty) {
                     val comments = snapshot.toObjects(CommentDTO::class.java)
-                    lastCommentVisible = snapshot.documents.lastOrNull()?.toObject(CommentDTO::class.java)
-//                    println("-------*************-------- lastComment saved: ${lastCommentVisible!!.toObject(CommentDTO::class.java)?.comment}")
+                    lastCommentVisible =
+                        snapshot.documents.lastOrNull()
                     result = comments
                 }
                 latch.countDown()
@@ -245,36 +245,6 @@ class DilemmasRepository @Inject constructor(
 
         withContext(Dispatchers.IO) { latch.await() }
         return result.toCommentList()
-
-//        val latch = CountDownLatch(1)
-//        val db = Firebase.firestore
-//        val batchSize = 500
-//
-//        var result = mutableListOf<CommentDTO>()
-//
-//        var query = db.collection(DILEMMAS).document(dilemmaId)
-//            .collection(COMMENTS)
-//            .orderBy("likes", DESCENDING)
-////            .orderBy(TIMESTAMP, DESCENDING)
-//            .limit(batchSize.toLong())
-//
-//        if (!isInitialLoad && lastCommentVisible != null) {
-//            query = query.startAfter(lastCommentVisible!!.likes)
-//        }
-//
-//        query.get()
-//            .addOnSuccessListener { snapshot ->
-//                if (!snapshot.isEmpty) {
-//                    val comments = snapshot.toObjects(CommentDTO::class.java)
-//                    lastCommentVisible = snapshot.documents.last().toObject(CommentDTO::class.java)
-//                    result = comments
-//                }
-//                latch.countDown()
-//            }
-//            .addOnFailureListener { latch.countDown() }
-//
-//        withContext(Dispatchers.IO) { latch.await() }
-//        return result.toCommentList()
     }
 
     override suspend fun getDilemmaCommentsFromRealm(): List<Comment> {

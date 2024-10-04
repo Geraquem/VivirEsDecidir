@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.old
 
 import android.app.Dialog
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.view.ViewGroup.LayoutParams
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,15 +18,15 @@ import com.mmfsin.quepreferirias.databinding.BsheetCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsRVListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CommentsSheet(private val dilemmaId: String, private val listener: IBSheetListener) :
-    BottomSheetDialogFragment(), ICommentsListener {
+    BottomSheetDialogFragment(), ICommentsRVListener {
 
     private val viewModel: CommentsViewModel by viewModels()
 
@@ -175,7 +174,7 @@ class CommentsSheet(private val dilemmaId: String, private val listener: IBSheet
         //TODO("Not yet implemented")
     }
 
-    override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
+    override fun onCommentNameClick(userId: String) = listener.aaaaaaaaaaaaaaaaaaaaaaaa(userId)
 
     override fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int) {
         if (hasSession) viewModel.voteComment(dilemmaId, commentId, vote, likes, position)

@@ -22,14 +22,10 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.IBSheetListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
@@ -43,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemmaViewModel>(),
-    IBSheetListener, ICommentsListener, IMenuDashboardListener {
+    IMenuDashboardListener {
 
     override val viewModel: SingleDilemmaViewModel by viewModels()
     private lateinit var mContext: Context
@@ -74,10 +70,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     override fun setUI() {
         binding.apply {
             loadingFull.root.isVisible = true
-            loadingComments.root.isVisible = true
             setToolbar()
             btnNext.isVisible = false
-            btnComments.setImageResource(R.drawable.ic_comment)
             btnFav.setImageResource(R.drawable.ic_fav_off)
             setInitialConfig()
         }
@@ -96,16 +90,12 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
             tvCreatorName.setOnClickListener {
-//                checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
-//                    viewModel.checkIfIsMe(creatorId)
-//                }
+                checkNotNulls(actualDilemma, actualDilemma?.creatorId) { _, creatorId ->
+                    viewModel.checkIfIsMe(creatorId)
+                }
             }
-
-            btnComments.setOnClickListener { openAllComments() }
             btnFav.setOnClickListener { favOnClick() }
             btnMenu.setOnClickListener { openMenu() }
-
-            btnComments.setOnClickListener { openAllComments() }
         }
     }
 
@@ -131,19 +121,11 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         }
     }
 
-    private fun openAllComments() {
-        actualDilemma?.let { dilemma ->
-            val modalBottomSheet = CommentsSheet(dilemmaId = dilemma.id, this@SingleDilemmaFragment)
-            activity?.let { modalBottomSheet.show(it.supportFragmentManager, "") }
-        } ?: run { error() }
-    }
-
     private fun openMenu() {
         val dialog = MenuDashboardDialog(isFav, this@SingleDilemmaFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
-    override fun openComments() = openAllComments()
     override fun setFavorite() = favOnClick()
 
     override fun copyText() {
@@ -287,29 +269,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     }
 
     private fun setUpComments(comments: List<Comment>) {
-//        binding.apply {
-//            binding.comments.apply {
-//                when (comments.size) {
-//                    0 -> {
-//                        tvTitle.text = getString(R.string.dashboard_no_comments)
-//                        tvTitle.isVisible = true
-//                    }
-//
-//                    else -> tvTitle.isVisible = false
-//                }
-//                llSeeAll.visibility =
-//                    if (comments.size <= LAST_COMMENTS) View.GONE else View.VISIBLE
-//                rvComments.apply {
-//                    layoutManager = LinearLayoutManager(mContext)
-//                    adapter =
-//                        RecentCommentsAdapter(
-//                            comments.take(LAST_COMMENTS),
-//                            this@SingleDilemmaFragment
-//                        )
-//                }
-//            }
-//            loadingComments.root.isVisible = false
-//        }
+
     }
 
     private fun setUpVotes(dilemmaVotes: DilemmaVotes) {
@@ -372,27 +332,14 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         }
     }
 
-    override fun refreshComments() {}//= viewModel.getComments(fromRealm = true)
 
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
-
-    override fun navigateToUserProfile(userId: String) = viewModel.checkIfIsMe(userId)
 
     private fun toUserProfile(isMe: Boolean, userId: String) {
         val navGraph = if (isMe) R.navigation.nav_graph_profile
         else R.navigation.nav_graph_other_profile
         (activity as BedRockActivity).openActivity(navGraph, USER_ID, userId)
-    }
-
-    override fun onCommentNameClick(userId: String) = navigateToUserProfile(userId)
-    override fun respondComment() {}
-    override fun voteComment(
-        commentId: String,
-        vote: CommentVote,
-        likes: Long,
-        position: Int
-    ) {
     }
 
     private fun reported() {

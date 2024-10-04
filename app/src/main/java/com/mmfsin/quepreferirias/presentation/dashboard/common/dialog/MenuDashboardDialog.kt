@@ -43,10 +43,6 @@ class MenuDashboardDialog(
 
     private fun setListeners() {
         binding.apply {
-            btnSeeComments.setOnClickListener {
-                listener.openComments()
-                dismiss()
-            }
             btnFavorite.setOnClickListener {
                 listener.setFavorite()
                 dismiss()

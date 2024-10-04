@@ -208,19 +208,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:id="@+id/btn_comments"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_gravity="center"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/content_description"
-                        android:src="@drawable/ic_comment" />
-
-                    <Space
-                        android:layout_width="12dp"
-                        android:layout_height="match_parent" />
-
-                    <ImageView
                         android:id="@+id/btn_fav"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
@@ -233,13 +220,12 @@
                         android:layout_height="match_parent" />
 
                     <ImageView
-                        android:id="@+id/btn_change_vote"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:id="@+id/btn_share"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/content_description"
-                        android:src="@drawable/ic_horizontal_arrows"
-                        android:visibility="gone" />
+                        android:src="@drawable/ic_share" />
 
                 </LinearLayout>
 
@@ -257,22 +243,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include
-                android:id="@+id/comments"
-                layout="@layout/include_comments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/ll_action_buttons" />
-
-            <include
-                android:id="@+id/loading_comments"
-                layout="@layout/include_loading_comments"
+            <FrameLayout
+                android:id="@+id/fragmentContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/comments"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toBottomOf="@id/ll_action_buttons" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.adapter
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff.Mode.SRC_IN
@@ -14,11 +14,11 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsRVListener
 
 class CommentsAdapter(
     private val comments: MutableList<Comment>,
-    private val listener: ICommentsListener
+    private val listener: ICommentsRVListener
 ) : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

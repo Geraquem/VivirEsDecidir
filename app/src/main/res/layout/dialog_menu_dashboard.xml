@@ -15,18 +15,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/btn_see_comments"
-            style="@style/MediumTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawablePadding="16dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="16dp"
-            android:text="@string/menu_dashboard_comments"
-            app:drawableStartCompat="@drawable/ic_comment" />
-
-        <TextView
             android:id="@+id/btn_favorite"
             style="@style/MediumTextView"
             android:layout_width="match_parent"
