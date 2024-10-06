@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentCommentsBinding
@@ -16,8 +17,8 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsRVListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsRVListener
 import com.mmfsin.quepreferirias.presentation.single.dialogs.ErrorDataDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,7 +44,25 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
 
     override fun setUI() {
         binding.apply {
+            loadingComments.isVisible = false
             loadingMore.isVisible = false
+            commentLoading.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun setListeners() {
+        binding.apply {
+            btnSendComment.setOnClickListener {
+                userData?.let { data ->
+                    val comment = etComment.text.toString()
+                    if (comment.isNotBlank()) {
+                        btnSendComment.isEnabled = false
+                        btnSendComment.visibility = View.INVISIBLE
+                        commentLoading.visibility = View.VISIBLE
+                        viewModel.sendComment(dilemmaId, data, comment)
+                    }
+                }
+            }
         }
     }
 
@@ -52,18 +71,19 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
             when (event) {
                 is CommentsEvent.InitiatedSession -> {
                     hasSession = event.initiatedSession
-                    if (hasSession) viewModel.getUserData()
-                    else viewModel.getComments(dilemmaId)
+                    setUserData()
                 }
 
                 is CommentsEvent.UserData -> {
                     userData = event.data
-                    setUserData()
+                    activity?.let {
+                        Glide.with(mContext).load(event.data.imageUrl).into(binding.image.image)
+                    }
                     viewModel.getComments(dilemmaId)
                 }
 
                 is CommentsEvent.Comments -> setUpComments(event.comments)
-                is CommentsEvent.CommentSentResult -> {} //commentSent()
+                is CommentsEvent.CommentSentResult -> commentSentResult()
                 is CommentsEvent.CommentAlreadyVoted -> {
                     Toast.makeText(
                         activity?.applicationContext,
@@ -86,11 +106,23 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
     }
 
     private fun setUserData() {
-        binding.apply { }
+        binding.apply {
+            if (hasSession) {
+                clComment.visibility = View.VISIBLE
+                tvNoSession.visibility = View.GONE
+                viewModel.getUserData()
+            } else {
+                clComment.visibility = View.INVISIBLE
+                tvNoSession.visibility = View.VISIBLE
+                viewModel.getComments(dilemmaId)
+            }
+        }
     }
 
     private fun setUpComments(comments: List<Comment>) {
         binding.apply {
+            loadingMore.isVisible = false
+            loadingComments.isVisible = false
             if (rvComments.adapter == null) {
                 tvNoComments.isVisible = comments.isEmpty()
                 rvComments.apply {
@@ -102,8 +134,16 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
                     adapter = commentsAdapter
                 }
             } else commentsAdapter?.addComments(comments)
-            loadingMore.isVisible = false
-            loadingComments.isVisible = false
+        }
+    }
+
+    private fun commentSentResult() {
+        binding.apply {
+            btnSendComment.isEnabled = true
+            btnSendComment.visibility = View.VISIBLE
+            commentLoading.visibility = View.INVISIBLE
+            etComment.text = null
+            /** set in rv new comment */
         }
     }
 
@@ -127,7 +167,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
     }
 
     fun updateComments() {
-        binding.loadingMore.isVisible = true
+//        binding.loadingMore.isVisible = true
         viewModel.getComments(dilemmaId)
     }
 

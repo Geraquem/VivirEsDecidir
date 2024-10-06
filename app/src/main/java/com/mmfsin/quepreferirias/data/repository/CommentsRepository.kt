@@ -33,7 +33,8 @@ class CommentsRepository @Inject constructor(
 ) : ICommentsRepository {
 
     private var lastCommentVisible: DocumentSnapshot? = null
-//    private var lastCommentVisible: CommentDTO? = null
+    private var lastCommentLikes: Long? = null
+    private var lastCommentTimestamp: Long? = null
 
     override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
         val latch = CountDownLatch(1)
@@ -47,21 +48,24 @@ class CommentsRepository @Inject constructor(
             commentsRef
                 .orderBy(COMMENT_LIKES, Query.Direction.DESCENDING)
                 .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
-                .startAfter(lastCommentVisible)
-                .limit(20)
+//                .startAfter(lastCommentVisible)
+                .startAfter(lastCommentLikes, lastCommentTimestamp)
+                .limit(5)
         } else {
             commentsRef
                 .orderBy(COMMENT_LIKES, Query.Direction.DESCENDING)
                 .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
-                .limit(20)
+                .limit(5)
         }
 
         query.get()
             .addOnSuccessListener { snapshot ->
                 if (!snapshot.isEmpty) {
                     val comments = snapshot.toObjects(CommentDTO::class.java)
-                    lastCommentVisible =
-                        snapshot.documents.lastOrNull()
+                    lastCommentVisible = snapshot.documents.lastOrNull()
+                    lastCommentLikes = lastCommentVisible?.getLong(COMMENT_LIKES)
+                    lastCommentTimestamp = lastCommentVisible?.getLong(TIMESTAMP)
+
                     result = comments
                 }
                 latch.countDown()

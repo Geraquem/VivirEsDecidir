@@ -10,7 +10,7 @@ open class CommentDTO(
     var name: String = "",
     var comment: String = "",
     var image: String = "",
-    var timestamp: String = "",
+    var timestamp: Long = 0,
     var date: String = "",
     var likes: Long = 0,
     var votedUp: Boolean = false,

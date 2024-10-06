@@ -19,7 +19,7 @@ class SendDilemmaCommentUseCase @Inject constructor(
             name = params.session.name,
             comment = params.comment,
             image = params.session.imageUrl,
-            timestamp = System.currentTimeMillis().toString(),
+            timestamp = System.currentTimeMillis(),
             date = LocalDate.now().toString()
         )
         return repository.sendDilemmaComment(params.dilemmaId, comment)
