@@ -14,7 +14,6 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsRVListener
@@ -29,7 +28,6 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
     private lateinit var mContext: Context
 
     private var hasSession = false
-    private var userData: Session? = null
     private var commentsAdapter: CommentsAdapter? = null
 
     private var thereAreMoreComments: Boolean = true
@@ -112,9 +110,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
         position: Int
     ) {
         if (hasSession) viewModel.voteComment(dilemmaId, commentId, vote, likes, position)
-        else {
-            Toast.makeText(activity?.applicationContext, "no session", Toast.LENGTH_SHORT).show()
-        }
+        else listener.shouldInitiateSession()
     }
 
     fun updateComments() {

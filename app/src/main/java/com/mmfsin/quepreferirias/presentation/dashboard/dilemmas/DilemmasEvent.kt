@@ -8,7 +8,7 @@ import com.mmfsin.quepreferirias.presentation.models.Percents
 sealed class DilemmasEvent {
     class InitiatedSession(val initiatedSession: Boolean) : DilemmasEvent()
     class ReCheckSession(val initiatedSession: Boolean) : DilemmasEvent()
-    class GetSessionToComment(val session: Session) : DilemmasEvent()
+    class GetSessionToComment(val session: Session?) : DilemmasEvent()
     class NavigateToProfile(val isMe: Boolean, val userId: String) : DilemmasEvent()
 
     class Dilemmas(val data: List<Dilemma>) : DilemmasEvent()

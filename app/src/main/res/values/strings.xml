@@ -132,8 +132,8 @@
     <string name="user_profile_my_favs">Mis favoritos</string>
     <string name="user_profile_navigate">Vamos</string>
     <string name="user_profile_my_favs_description">Pulsa aquí para ver los dilemas y los dualismos que has guardado como favoritos.</string>
-    <string name="profile_close_session_confirm">¿Quieres cerrar sessión?</string>
-    <string name="profile_close_session">Cerrar sessión</string>
+    <string name="profile_close_session_confirm">¿Quieres cerrar sesión?</string>
+    <string name="profile_close_session">Cerrar sesión</string>
 
     <!-- OTHER PROFILE -->
     <string name="other_profile_ideas_title">Enviado por %s</string>

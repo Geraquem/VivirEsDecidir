@@ -163,11 +163,13 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     override fun sendComment() = viewModel.getSessionToComment()
 
-    private fun openSendCommentSheet(session: Session) {
-        actualData?.let { data ->
-            val dialog = SendCommentBSheet(data, session, this@DilemmasFragment)
-            activity?.let { dialog.show(it.supportFragmentManager, "") }
-        }
+    private fun openSendCommentSheet(session: Session?) {
+        session?.let { userData ->
+            actualData?.let { dilemma ->
+                val dialog = SendCommentBSheet(dilemma, userData, this@DilemmasFragment)
+                activity?.let { dialog.show(it.supportFragmentManager, "") }
+            }
+        } ?: run { localBroadcastOpenLogin() }
     }
 
     override fun commentSent(comment: String) {
@@ -383,6 +385,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun reported() {
         Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun shouldInitiateSession() {
+        localBroadcastOpenLogin()
     }
 
     private fun error() {

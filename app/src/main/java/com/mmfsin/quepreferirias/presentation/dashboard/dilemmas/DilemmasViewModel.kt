@@ -44,10 +44,7 @@ class DilemmasViewModel @Inject constructor(
     fun getSessionToComment() {
         executeUseCase(
             { getSessionUseCase.execute() },
-            { result ->
-                _event.value = result?.let { DilemmasEvent.GetSessionToComment(it) }
-                    ?: run { DilemmasEvent.SWW }
-            },
+            { result -> _event.value = DilemmasEvent.GetSessionToComment(result) },
             { _event.value = DilemmasEvent.SWW }
         )
     }
