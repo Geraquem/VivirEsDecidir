@@ -6,24 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmfsin.quepreferirias.R
-import com.mmfsin.quepreferirias.databinding.DialogMenuDashboardBinding
+import com.mmfsin.quepreferirias.databinding.BsheetMenuDashboardBinding
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MenuDashboardDialog(
+class MenuDashboardBSheet(
     private val isFav: Boolean?,
     private val listener: IMenuDashboardListener
 ) : BottomSheetDialogFragment() {
 
-    private var _binding: DialogMenuDashboardBinding? = null
+    private var _binding: BsheetMenuDashboardBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogMenuDashboardBinding.inflate(inflater, container, false)
+        _binding = BsheetMenuDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,6 +43,11 @@ class MenuDashboardDialog(
 
     private fun setListeners() {
         binding.apply {
+            btnSendComment.setOnClickListener {
+                listener.sendComment()
+                dismiss()
+            }
+
             btnFavorite.setOnClickListener {
                 listener.setFavorite()
                 dismiss()

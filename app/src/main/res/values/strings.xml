@@ -96,7 +96,7 @@
 
     <!-- MENU DASHBOARD -->
     <string name="menu_dashboard_share">Compartir</string>
-    <string name="menu_dashboard_comments">Ver comentarios</string>
+    <string name="menu_dashboard_comment">Comentar</string>
     <string name="menu_dashboard_copy">Copiar texto</string>
     <string name="menu_dashboard_set_fav">Guardar como favorito</string>
     <string name="menu_dashboard_delete_fav">Eliminar favorito</string>

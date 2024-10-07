@@ -24,7 +24,7 @@ import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
@@ -122,10 +122,13 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     }
 
     private fun openMenu() {
-        val dialog = MenuDashboardDialog(isFav, this@SingleDilemmaFragment)
+        val dialog = MenuDashboardBSheet(isFav, this@SingleDilemmaFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
+    override fun sendComment() {
+
+    }
     override fun setFavorite() = favOnClick()
 
     override fun copyText() {

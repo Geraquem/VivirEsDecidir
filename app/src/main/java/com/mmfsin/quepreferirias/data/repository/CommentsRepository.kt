@@ -76,29 +76,6 @@ class CommentsRepository @Inject constructor(
 
         withContext(Dispatchers.IO) { latch.await() }
         return result.toCommentList()
-
-
-        /** old */
-        //        val comments = mutableListOf<CommentDTO>()
-//        val latch = CountDownLatch(1)
-//
-//        Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
-//            .collection(COMMENTS).get().addOnSuccessListener { d ->
-//                for (document in d.documents) {
-//                    try {
-//                        document.toObject(CommentDTO::class.java)?.let { comment ->
-//                            comments.add(comment)
-//                        }
-//                    } catch (e: Exception) {
-//                        Log.e("error", "error parsing comment")
-//                    }
-//                }
-//                latch.countDown()
-//            }.addOnFailureListener {
-//                latch.countDown()
-//            }
-//        withContext(Dispatchers.IO) { latch.await() }
-//        return sortedComments(comments)
     }
 
     private fun sortedComments(comments: List<CommentDTO>): List<Comment> {

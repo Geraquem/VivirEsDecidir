@@ -11,14 +11,9 @@ class GetDilemmaCommentsUseCase @Inject constructor(
 
     override suspend fun execute(params: Params): List<Comment> {
         return repository.getDilemmaComments(params.dilemmaId)
-
-//        return if (params.fromRealm) repository.getDilemmaCommentsFromRealm()
-//        else params.dilemmaId?.let { repository.getDilemmaComments(params.dilemmaId) }
-//            ?: run { emptyList() }
     }
 
     data class Params(
         val dilemmaId: String,
-        val isInitialLoad: Boolean /************/
     )
 }

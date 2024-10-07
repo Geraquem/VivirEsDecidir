@@ -110,7 +110,7 @@ class SingleDilemmaViewModel @Inject constructor(
         executeUseCase(
             {
                 getDilemmaCommentsUseCase.execute(
-                    GetDilemmaCommentsUseCase.Params(dilemmaId = dilemmaId, isInitialLoad = fromRealm)
+                    GetDilemmaCommentsUseCase.Params(dilemmaId = dilemmaId)
                 )
             },
             { result -> _event.value = SingleDilemmaEvent.GetComments(result) },

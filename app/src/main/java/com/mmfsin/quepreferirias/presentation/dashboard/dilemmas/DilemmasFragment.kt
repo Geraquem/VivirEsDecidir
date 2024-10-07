@@ -19,21 +19,21 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardDialog
+import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.old.CommentsSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.send.SendCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
@@ -45,8 +45,8 @@ import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(), IMenuDashboardListener,
-    ICommentsListener {
+class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>(),
+    IMenuDashboardListener, ISendCommentListener, ICommentsListener {
 
     override val viewModel: DilemmasViewModel by viewModels()
     private lateinit var mContext: Context
@@ -112,7 +112,9 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 }
             }
 
+            btnComment.setOnClickListener { sendComment() }
             btnFav.setOnClickListener { favOnClick() }
+            btnShare.setOnClickListener { share() }
             btnMenu.setOnClickListener { openMenu() }
 
             btnNext.isVisible = false
@@ -156,8 +158,20 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     }
 
     private fun openMenu() {
-        val dialog = MenuDashboardDialog(isFav, this@DilemmasFragment)
+        val dialog = MenuDashboardBSheet(isFav, this@DilemmasFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
+    }
+
+    override fun sendComment() = viewModel.getSessionToComment()
+
+    private fun openSendCommentSheet(session: Session) {
+        val dialog = SendCommentBSheet(session, this@DilemmasFragment)
+        activity?.let { dialog.show(it.supportFragmentManager, "") }
+    }
+
+    override fun commentSent(comment: Comment) {
+        // TODO
+        /** update recycler to show the new comments */
     }
 
     override fun setFavorite() = favOnClick()
@@ -228,6 +242,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     viewModel.getPercents(votesYes, votesNo)
                 }
 
+                is DilemmasEvent.GetSessionToComment -> openSendCommentSheet(event.session)
                 is DilemmasEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is DilemmasEvent.Reported -> reported()
                 is DilemmasEvent.SWW -> error()

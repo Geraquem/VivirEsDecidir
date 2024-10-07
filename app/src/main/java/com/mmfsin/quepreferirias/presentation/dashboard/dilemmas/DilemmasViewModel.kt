@@ -9,6 +9,7 @@ import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmasUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DilemmasViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
+    private val getSessionUseCase: GetSessionUseCase,
     private val getDilemmasUseCase: GetDilemmasUseCase,
     private val getDilemmaVotesUseCase: GetDilemmaVotesUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
@@ -35,6 +37,17 @@ class DilemmasViewModel @Inject constructor(
         executeUseCase(
             { initiatedSessionUseCase.execute() },
             { result -> _event.value = DilemmasEvent.InitiatedSession(result) },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun getSessionToComment() {
+        executeUseCase(
+            { getSessionUseCase.execute() },
+            { result ->
+                _event.value = result?.let { DilemmasEvent.GetSessionToComment(it) }
+                    ?: run { DilemmasEvent.SWW }
+            },
             { _event.value = DilemmasEvent.SWW }
         )
     }
