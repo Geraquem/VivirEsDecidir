@@ -96,7 +96,7 @@
 
             <EditText
                 android:id="@+id/et_instagram"
-                style="@style/edit_text_comment"
+                style="@style/edit_text_rrss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -111,7 +111,7 @@
 
             <EditText
                 android:id="@+id/et_x"
-                style="@style/edit_text_comment"
+                style="@style/edit_text_rrss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -126,7 +126,7 @@
 
             <EditText
                 android:id="@+id/et_tiktok"
-                style="@style/edit_text_comment"
+                style="@style/edit_text_rrss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -141,7 +141,7 @@
 
             <EditText
                 android:id="@+id/et_youtube"
-                style="@style/edit_text_comment"
+                style="@style/edit_text_rrss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -177,7 +177,7 @@
 
                     <TextView
                         android:id="@+id/btn_close_session"
-                        style="@style/SmallTextView"
+                        style="@style/SmallTextView_Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

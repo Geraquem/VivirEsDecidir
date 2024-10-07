@@ -71,7 +71,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         binding.apply {
             loadingFull.root.isVisible = true
             setToolbar()
-            btnNext.isVisible = false
+            clBottom.isVisible = false
             btnFav.setImageResource(R.drawable.ic_fav_off)
             setInitialConfig()
         }

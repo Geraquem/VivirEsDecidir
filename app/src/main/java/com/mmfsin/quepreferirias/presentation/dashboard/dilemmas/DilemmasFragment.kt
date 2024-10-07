@@ -22,7 +22,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
-import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -117,8 +116,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnShare.setOnClickListener { share() }
             btnMenu.setOnClickListener { openMenu() }
 
-            btnNext.isVisible = false
-            btnNext.setOnClickListener {
+            tvNext.setOnClickListener { }
+            tvNext.setOnClickListener {
                 position++
                 if (position < dilemmaList.size) {
 //                    showInterstitial()
@@ -166,7 +165,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun openSendCommentSheet(session: Session) {
         actualData?.let { data ->
-            val dialog = SendCommentBSheet(data, session,this@DilemmasFragment)
+            val dialog = SendCommentBSheet(data, session, this@DilemmasFragment)
             activity?.let { dialog.show(it.supportFragmentManager, "") }
         }
     }

@@ -74,6 +74,21 @@
         <item name="android:textColorHint">@color/grey_strong</item>
     </style>
 
+    <style name="edit_text_rrss">
+        <item name="android:maxLength">350</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:inputType">text|textMultiLine|textCapSentences</item>
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColorHint">@color/et_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="backgroundTint">@color/grey</item>
+        <item name="android:background">@drawable/bg_white_box</item>
+    </style>
+
     <style name="edit_text_dilemma">
         <item name="android:maxLength">200</item>
         <item name="maxLines">4</item>
