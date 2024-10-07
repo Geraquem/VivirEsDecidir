@@ -9,10 +9,9 @@
         android:id="@+id/cl_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_send_comment">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/loading_comments"

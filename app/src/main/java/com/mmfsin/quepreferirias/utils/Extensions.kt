@@ -1,17 +1,20 @@
 package com.mmfsin.quepreferirias.utils
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.CountDownTimer
 import android.text.Editable
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.dialog.ErrorDialog
 import com.mmfsin.quepreferirias.domain.models.RRSSType
-import com.mmfsin.quepreferirias.domain.models.RRSSType.*
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -65,6 +68,11 @@ fun FragmentActivity.openRRSS(type: RRSSType, name: String) {
         RRSSType.YOUTUBE -> getString(R.string.youtube_url, name)
     }
     this.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+}
+
+fun FragmentActivity.showKeyboard(editText: EditText) {
+    val inputMethodManager = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.showSoftInput(editText, SHOW_IMPLICIT)
 }
 
 fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2) -> R): R? {

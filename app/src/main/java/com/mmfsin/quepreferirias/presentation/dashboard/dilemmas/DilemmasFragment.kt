@@ -165,8 +165,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     override fun sendComment() = viewModel.getSessionToComment()
 
     private fun openSendCommentSheet(session: Session) {
-        val dialog = SendCommentBSheet(session, this@DilemmasFragment)
-        activity?.let { dialog.show(it.supportFragmentManager, "") }
+        actualData?.let { data ->
+            val dialog = SendCommentBSheet(data, this@DilemmasFragment)
+            activity?.let { dialog.show(it.supportFragmentManager, "") }
+        }
     }
 
     override fun commentSent(comment: Comment) {

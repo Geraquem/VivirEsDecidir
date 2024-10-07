@@ -105,7 +105,8 @@
     <string name="menu_dashboard_dualism_copied">Dualismo copiado al portapapeles</string>
 
     <!-- COMMENTS -->
-    <string name="comments_hint">Añade un comentario</string>
+    <string name="comments_hint">Escribe aquí…</string>
+    <string name="comments_dilemma">%s <b>pero</b> %s</string>
     <string name="comments_today">Hoy</string>
     <string name="comments_yesterday">Ayer</string>
     <string name="comments_two_days">Antes de ayer</string>
