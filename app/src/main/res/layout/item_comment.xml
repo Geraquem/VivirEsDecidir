@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="8dp"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingTop="12dp">
 
     <include
         android:id="@+id/image"
@@ -15,6 +15,7 @@
         android:layout_height="42dp" />
 
     <LinearLayout
+        android:id="@+id/ll_comment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -111,5 +112,12 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/ll_comment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
