@@ -48,7 +48,6 @@ class CommentsRepository @Inject constructor(
             commentsRef
                 .orderBy(COMMENT_LIKES, Query.Direction.DESCENDING)
                 .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
-//                .startAfter(lastCommentVisible)
                 .startAfter(lastCommentLikes, lastCommentTimestamp)
                 .limit(5)
         } else {

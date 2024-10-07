@@ -317,7 +317,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             commentsFragment = CommentsFragment(d.id, this@DilemmasFragment)
             childFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, commentsFragment)
-                .addToBackStack(null)
                 .commit()
         }
     }
