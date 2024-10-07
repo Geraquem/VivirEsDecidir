@@ -65,7 +65,7 @@
     </style>
 
     <style name="edit_text_comment">
-        <item name="android:maxLength">350</item>
+        <item name="android:maxLength">250</item>
         <item name="android:fontFamily">@font/montserrat_regular</item>
         <item name="android:inputType">textMultiLine|textCapSentences</item>
         <item name="android:textColor">@color/black</item>

@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces
 
 interface IBSheetListener {
     fun refreshComments()

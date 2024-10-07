@@ -15,14 +15,17 @@ import com.mmfsin.quepreferirias.databinding.FragmentCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsRVListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu.MenuCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentMenuListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsRVListener
 import com.mmfsin.quepreferirias.presentation.single.dialogs.ErrorDataDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
-    BaseFragment<FragmentCommentsBinding, CommentsViewModel>(), ICommentsRVListener {
+    BaseFragment<FragmentCommentsBinding, CommentsViewModel>(), ICommentsRVListener,
+    ICommentMenuListener {
 
     override val viewModel: CommentsViewModel by viewModels()
     private lateinit var mContext: Context
@@ -97,11 +100,20 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
         }
     }
 
-    override fun respondComment() {
-        // TODO
+    override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
+
+    override fun openCommentMenu(commentId: String, userId: String) {
+        val dialog = MenuCommentBSheet(commentId, userId, this@CommentsFragment)
+        activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
-    override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
+    override fun respondComment(commentId: String) {
+
+    }
+
+    override fun reportComment(commentId: String) {
+
+    }
 
     override fun voteComment(
         commentId: String,

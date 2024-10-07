@@ -14,7 +14,7 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsRVListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsRVListener
 
 class CommentsAdapter(
     private val comments: MutableList<Comment>,
@@ -44,7 +44,7 @@ class CommentsAdapter(
     fun updateCommentVotes(vote: CommentVote, position: Int, alreadyVoted: Boolean) {
         val comment = comments[position]
         var likes = comment.likes
-        val count = if(alreadyVoted) 2 else 1
+        val count = if (alreadyVoted) 2 else 1
         when (vote) {
             VOTE_UP -> {
                 likes = likes.plus(count)
@@ -74,6 +74,8 @@ class CommentsAdapter(
         holder.binding.apply {
             image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+            ivCommentMenu.setOnClickListener { listener.openCommentMenu(comment.commentId, comment.userId) }
+
             ivVoteUp.setOnClickListener {
                 if (!comment.votedUp) vote(comment, VOTE_UP, position)
             }

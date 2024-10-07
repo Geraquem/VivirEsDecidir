@@ -1,7 +1,9 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.send
+package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +16,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.BsheetSendCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ISendCommentListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import com.mmfsin.quepreferirias.utils.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,7 +76,26 @@ class SendCommentBSheet(
                 etComment.requestFocus()
                 activity?.showKeyboard(etComment)
             }, 100)
+            setTextWatcherComment()
         }
+    }
+
+    private fun setTextWatcherComment() {
+        val comment = binding.etComment
+        comment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val text = comment.text.toString()
+                val filteredText = text.replace("\n\n\n", "\n\n")
+                if (filteredText != text) {
+                    comment.setText(filteredText)
+                    comment.setSelection(filteredText.length)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun setListeners() {
@@ -83,7 +104,8 @@ class SendCommentBSheet(
             tvSendComment.setOnClickListener {
                 val comment = etComment.text.toString()
                 if (comment.isNotBlank()) {
-                    viewModel.sendComment(dilemma.id, session, comment)
+                    val filteredText = comment.replace("\n\n\n", "\n\n")
+                    viewModel.sendComment(dilemma.id, session, filteredText)
                     rvLoading.isVisible = true
                     hideKeyboard()
                 }

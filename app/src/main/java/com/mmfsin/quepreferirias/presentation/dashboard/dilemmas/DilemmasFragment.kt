@@ -30,9 +30,9 @@ import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDial
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.send.SendCommentBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ICommentsListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.listener.ISendCommentListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send.SendCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
