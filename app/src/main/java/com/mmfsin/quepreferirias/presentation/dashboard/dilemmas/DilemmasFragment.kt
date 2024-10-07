@@ -166,13 +166,12 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun openSendCommentSheet(session: Session) {
         actualData?.let { data ->
-            val dialog = SendCommentBSheet(data, this@DilemmasFragment)
+            val dialog = SendCommentBSheet(data, session,this@DilemmasFragment)
             activity?.let { dialog.show(it.supportFragmentManager, "") }
         }
     }
 
-    override fun commentSent(comment: Comment) {
-        // TODO
+    override fun commentSent(comment: String) {
         /** update recycler to show the new comments */
     }
 
