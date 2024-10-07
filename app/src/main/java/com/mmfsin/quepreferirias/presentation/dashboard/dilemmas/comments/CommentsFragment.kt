@@ -40,7 +40,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getComments(dilemmaId)
+        viewModel.checkSessionInitiated()
     }
 
     override fun setUI() {
@@ -53,6 +53,11 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
+                is CommentsEvent.CheckIfSession -> {
+                    hasSession = event.hasSession
+                    viewModel.getComments(dilemmaId)
+                }
+
                 is CommentsEvent.Comments -> setUpComments(event.comments)
                 is CommentsEvent.CommentAlreadyVoted -> {
                     Toast.makeText(
