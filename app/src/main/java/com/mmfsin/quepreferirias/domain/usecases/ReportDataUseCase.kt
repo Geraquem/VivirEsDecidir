@@ -5,7 +5,7 @@ import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IDualismsRepository
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
-import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMAS
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import javax.inject.Inject
 
 class ReportDataUseCase @Inject constructor(
@@ -15,7 +15,7 @@ class ReportDataUseCase @Inject constructor(
 
     override suspend fun execute(params: Params) {
         when (params.type) {
-            DILEMMAS -> dilemmasRepo.reportDilemma(params.data as Dilemma)
+            DILEMMA -> dilemmasRepo.reportDilemma(params.data as Dilemma)
 //            DUALISMS -> dualismsRepo.reportDualism(params.data as Dualism)
             else -> {}
         }

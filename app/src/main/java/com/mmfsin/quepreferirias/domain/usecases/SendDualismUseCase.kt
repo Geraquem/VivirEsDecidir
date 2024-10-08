@@ -14,6 +14,7 @@ class SendDualismUseCase @Inject constructor(
     override suspend fun execute(params: Params) {
         val dualism = SendDualism(
             dualismId = UUID.randomUUID().toString(),
+            explanation = params.explanation,
             txtTop = params.txtTop,
             txtBottom = params.txtBottom,
             creatorId = params.creatorId,
@@ -25,6 +26,7 @@ class SendDualismUseCase @Inject constructor(
     }
 
     data class Params(
+        val explanation: String?,
         val txtTop: String,
         val txtBottom: String,
         val creatorId: String,

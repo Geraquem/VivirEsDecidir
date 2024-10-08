@@ -19,7 +19,7 @@ interface IDilemmasRepository {
     suspend fun getFavDilemmas(): List<DilemmaFav>
     suspend fun setFavDilemma(dilemma: DilemmaFavDTO)
     suspend fun deleteFavDilemma(dilemmaId: String)
-    suspend fun checkIsDilemmaIsFav(dilemmaId: String): Boolean
+    suspend fun checkIfDilemmaIsFav(dilemmaId: String): Boolean
 
     suspend fun sendDilemma(dilemma: SendDilemmaDTO)
     suspend fun getMyDilemmas(): List<SendDilemma>

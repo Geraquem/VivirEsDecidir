@@ -318,10 +318,10 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    private fun setUpVotes(dilemmaVotes: DilemmaVotes) {
+    private fun setUpVotes(votes: DilemmaVotes) {
         binding.apply {
-            votesYes = dilemmaVotes.votesYes
-            votesNo = dilemmaVotes.votesNo
+            votesYes = votes.votesYes
+            votesNo = votes.votesNo
             loadingFull.root.isVisible = false
         }
     }
@@ -368,9 +368,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         }
     }
 
-    private fun localBroadcastOpenLogin() =
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
-
     override fun navigateToUserProfile(userId: String) = viewModel.checkIfIsMe(userId)
 
     private fun toUserProfile(isMe: Boolean, userId: String) {
@@ -386,6 +383,9 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     override fun shouldInitiateSession() {
         localBroadcastOpenLogin()
     }
+
+    private fun localBroadcastOpenLogin() =
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
 
     private fun error() {
         activity?.showErrorDialog { activity?.finish() }

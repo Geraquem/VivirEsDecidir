@@ -47,6 +47,15 @@
                 app:layout_constraintLeft_toLeftOf="@id/gl_left"
                 app:layout_constraintRight_toRightOf="@id/gl_right"
                 app:layout_constraintTop_toTopOf="parent">
+                <EditText
+                    android:id="@+id/et_explanation"
+                    style="@style/edit_text_dilemma"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="null"
+                    android:background="@drawable/bg_dualism"
+                    android:hint="@string/send_dualism_txt_hint"
+                    android:textColorHint="@color/soft_black" />
 
                 <TextView
                     android:id="@+id/tv_limit_top"

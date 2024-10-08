@@ -6,6 +6,7 @@ import io.realm.annotations.PrimaryKey
 open class SendDualismDTO(
     @PrimaryKey
     var dualismId: String = "",
+    var explanation: String? = null,
     var txtTop: String = "",
     var txtBottom: String = "",
     var creatorId: String = "",

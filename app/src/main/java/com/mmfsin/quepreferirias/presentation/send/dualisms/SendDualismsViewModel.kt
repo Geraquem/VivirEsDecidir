@@ -20,11 +20,23 @@ class SendDualismsViewModel @Inject constructor(
         )
     }
 
-    fun sendDualism(txtTop: String, txtBottom: String, creatorId: String, creatorName: String) {
+    fun sendDualism(
+        explanation: String?,
+        txtTop: String,
+        txtBottom: String,
+        creatorId: String,
+        creatorName: String
+    ) {
         executeUseCase(
             {
                 sendDualismUseCase.execute(
-                    SendDualismUseCase.Params(txtTop, txtBottom, creatorId, creatorName)
+                    SendDualismUseCase.Params(
+                        explanation,
+                        txtTop,
+                        txtBottom,
+                        creatorId,
+                        creatorName
+                    )
                 )
             },
             { _event.value = SendDualismsEvent.DataSent },

@@ -1,18 +1,39 @@
 package com.mmfsin.quepreferirias.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.mmfsin.quepreferirias.data.mappers.toDualismFavList
+import com.mmfsin.quepreferirias.data.mappers.toSession
+import com.mmfsin.quepreferirias.data.models.DualismFavDTO
 import com.mmfsin.quepreferirias.data.models.SendDualismDTO
+import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDualismsRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
+import com.mmfsin.quepreferirias.domain.models.Dualism
+import com.mmfsin.quepreferirias.domain.models.DualismFav
+import com.mmfsin.quepreferirias.domain.models.DualismVotes
+import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.utils.CREATOR_ID
+import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DUALISMS
 import com.mmfsin.quepreferirias.utils.DUALISMS_SENT
-import com.mmfsin.quepreferirias.utils.REPORTED
+import com.mmfsin.quepreferirias.utils.EXPLANATION
+import com.mmfsin.quepreferirias.utils.FILTER_VALUE
+import com.mmfsin.quepreferirias.utils.SAVED_DUALISMS
+import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DUALISMS
+import com.mmfsin.quepreferirias.utils.SESSION
+import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
+import com.mmfsin.quepreferirias.utils.TXT_TOP
 import com.mmfsin.quepreferirias.utils.USERS
+import com.mmfsin.quepreferirias.utils.VOTES_BOTTOM
+import com.mmfsin.quepreferirias.utils.VOTES_TOP
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
@@ -24,6 +45,128 @@ class DualismsRepository @Inject constructor(
 ) : IDualismsRepository {
 
     private val reference = Firebase.database.reference
+
+    private fun getSession(): Session? {
+        val session =
+            realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
+        return if (session.isEmpty()) null else session.first().toSession()
+    }
+
+    override suspend fun getDualisms(): List<Dualism> {
+        val latch = CountDownLatch(1)
+        val db = FirebaseFirestore.getInstance()
+//        val randomValue = Math.random()
+        val randomValue = 0.0001
+        val totalLimit = 2L
+        val finalDataList = mutableListOf<Dualism>()
+
+        db.collection(DUALISMS)
+            .whereGreaterThan(FILTER_VALUE, randomValue)
+            .limit(totalLimit)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.size() < totalLimit) {
+                    db.collection(DUALISMS)
+                        .whereLessThan(FILTER_VALUE, randomValue)
+                        .limit(totalLimit - documents.size())
+                        .get()
+                        .addOnSuccessListener { moreDocuments ->
+                            for (moreDoc in moreDocuments) {
+                                val moreData = Dualism(
+                                    id = moreDoc.id,
+                                    explanation = moreDoc.getString(EXPLANATION) ?: "",
+                                    txtTop = moreDoc.getString(TXT_TOP) ?: "",
+                                    txtBottom = moreDoc.getString(TXT_BOTTOM) ?: "",
+                                    creatorId = moreDoc.getString(CREATOR_ID),
+                                    creatorName = moreDoc.getString(CREATOR_NAME)
+                                )
+                                finalDataList.add(moreData)
+                            }
+                        }
+                } else {
+                    for (doc in documents) {
+                        val data = Dualism(
+                            id = doc.id,
+                            explanation = doc.getString(EXPLANATION) ?: "",
+                            txtTop = doc.getString(TXT_TOP) ?: "",
+                            txtBottom = doc.getString(TXT_BOTTOM) ?: "",
+                            creatorId = doc.getString(CREATOR_ID),
+                            creatorName = doc.getString(CREATOR_NAME)
+                        )
+                        finalDataList.add(data)
+                    }
+                }
+                latch.countDown()
+            }
+
+        withContext(Dispatchers.IO) { latch.await() }
+
+        return finalDataList
+    }
+
+    override suspend fun checkIfDualismIsFav(dualismId: String): Boolean {
+        val dualisms = getFavDualisms()
+        return dualisms.any { it.dualismId == dualismId }
+    }
+
+    override suspend fun getFavDualisms(): List<DualismFav> {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        return session?.let {
+            val sharedPrefs =
+                context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+            if (sharedPrefs.getBoolean(SERVER_SAVED_DUALISMS, true)) {
+                realmDatabase.deleteAllObjects(DualismFavDTO::class.java)
+                val dualisms = mutableListOf<DualismFavDTO>()
+                Firebase.firestore.collection(USERS).document(session.id)
+                    .collection(SAVED_DUALISMS).get().addOnSuccessListener { d ->
+                        for (document in d.documents) {
+                            try {
+                                document.toObject(DualismFavDTO::class.java)
+                                    ?.let { favDualism ->
+                                        dualisms.add(favDualism)
+                                        realmDatabase.addObject { favDualism }
+                                    }
+                            } catch (e: Exception) {
+                                Log.e("error", "error parsing dualism fav")
+                            }
+                        }
+                        latch.countDown()
+                    }.addOnFailureListener { latch.countDown() }
+
+                withContext(Dispatchers.IO) { latch.await() }
+
+                sharedPrefs.edit().apply {
+                    putBoolean(SERVER_SAVED_DUALISMS, false)
+                    apply()
+                }
+                dualisms.toDualismFavList().reversed()
+            } else {
+                val dualisms =
+                    realmDatabase.getObjectsFromRealm { where<DualismFavDTO>().findAll() }
+                dualisms.toDualismFavList().reversed()
+            }
+        } ?: run { emptyList() }
+    }
+
+    override suspend fun getDualismVotes(dualismId: String): DualismVotes? {
+        val latch = CountDownLatch(1)
+        var votes: DualismVotes? = null
+        val root = reference.child(DUALISMS).child(dualismId)
+        root.get().addOnCompleteListener { dataSnapshot ->
+            val result = dataSnapshot.result
+            if (result.exists()) {
+                votes = DualismVotes(
+                    votesTop = result.child(VOTES_TOP).childrenCount,
+                    votesBottom = result.child(VOTES_BOTTOM).childrenCount,
+                )
+            }
+            latch.countDown()
+        }.addOnFailureListener { latch.countDown() }
+
+        withContext(Dispatchers.IO) { latch.await() }
+        return votes
+    }
 
     override suspend fun sendDualism(dualism: SendDualismDTO) {
         val latch = CountDownLatch(3)

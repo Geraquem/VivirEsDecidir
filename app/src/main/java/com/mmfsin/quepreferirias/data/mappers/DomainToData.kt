@@ -46,6 +46,7 @@ fun SendDilemma.toSendDilemmaDTO() = SendDilemmaDTO(
 
 fun SendDualism.toSendDualismDTO() = SendDualismDTO(
     dualismId = dualismId,
+    explanation = explanation,
     txtTop = txtTop,
     txtBottom = txtBottom,
     creatorId = creatorId,

@@ -31,8 +31,8 @@ import com.mmfsin.quepreferirias.utils.DILEMMA_ID
 import com.mmfsin.quepreferirias.utils.FILTER_VALUE
 import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.SAVED_DILEMMAS
-import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DATA
-import com.mmfsin.quepreferirias.utils.SERVER_SENT_DATA
+import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DILEMMAS
+import com.mmfsin.quepreferirias.utils.SERVER_SENT_DILEMMAS
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
@@ -140,10 +140,7 @@ class DilemmasRepository @Inject constructor(
             latch.countDown()
         }.addOnFailureListener { latch.countDown() }
 
-        withContext(Dispatchers.IO)
-        {
-            latch.await()
-        }
+        withContext(Dispatchers.IO) { latch.await() }
         return votes
     }
 
@@ -196,7 +193,7 @@ class DilemmasRepository @Inject constructor(
         return session?.let {
             val sharedPrefs =
                 context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
-            if (sharedPrefs.getBoolean(SERVER_SAVED_DATA, true)) {
+            if (sharedPrefs.getBoolean(SERVER_SAVED_DILEMMAS, true)) {
                 realmDatabase.deleteAllObjects(DilemmaFavDTO::class.java)
                 val dilemmas = mutableListOf<DilemmaFavDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
@@ -218,7 +215,7 @@ class DilemmasRepository @Inject constructor(
                     }
                 withContext(Dispatchers.IO) { latch.await() }
                 sharedPrefs.edit().apply {
-                    putBoolean(SERVER_SAVED_DATA, false)
+                    putBoolean(SERVER_SAVED_DILEMMAS, false)
                     apply()
                 }
                 dilemmas.toDilemmaFavList().reversed()
@@ -230,7 +227,7 @@ class DilemmasRepository @Inject constructor(
         } ?: run { emptyList() }
     }
 
-    override suspend fun checkIsDilemmaIsFav(dilemmaId: String): Boolean {
+    override suspend fun checkIfDilemmaIsFav(dilemmaId: String): Boolean {
         val dilemmas = getFavDilemmas()
         return dilemmas.any { it.dilemmaId == dilemmaId }
     }
@@ -288,7 +285,7 @@ class DilemmasRepository @Inject constructor(
         return session?.let {
             val sharedPrefs =
                 context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
-            if (sharedPrefs.getBoolean(SERVER_SENT_DATA, true)) {
+            if (sharedPrefs.getBoolean(SERVER_SENT_DILEMMAS, true)) {
                 realmDatabase.deleteAllObjects(SendDilemmaDTO::class.java)
                 val dilemmas = mutableListOf<SendDilemmaDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
@@ -310,7 +307,7 @@ class DilemmasRepository @Inject constructor(
                     }
                 withContext(Dispatchers.IO) { latch.await() }
                 sharedPrefs.edit().apply {
-                    putBoolean(SERVER_SENT_DATA, false)
+                    putBoolean(SERVER_SENT_DILEMMAS, false)
                     apply()
                 }
                 dilemmas.toSendDilemmaList().reversed()

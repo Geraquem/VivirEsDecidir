@@ -77,10 +77,15 @@ class SendDualismsFragment : BaseFragment<FragmentSendDualismBinding, SendDualis
                 session?.let { user ->
                     val txtTop = etTop.text.toString()
                     val txtBottom = etBottom.text.toString()
+
+                    val expText = etExplanation.text.toString()
+                    var explanation: String? = null
+                    if (expText.isNotEmpty()) explanation = expText
+
                     if (txtTop.isNotBlank() && txtBottom.isNotBlank()) {
                         tvError.visibility = View.GONE
                         loadingTrans.root.visibility = View.VISIBLE
-                        viewModel.sendDualism(txtTop, txtBottom, user.id, user.name)
+                        viewModel.sendDualism(explanation, txtTop, txtBottom, user.id, user.name)
                     } else tvError.visibility = View.VISIBLE
                 } ?: run { error() }
             }
@@ -102,7 +107,7 @@ class SendDualismsFragment : BaseFragment<FragmentSendDualismBinding, SendDualis
         }
     }
 
-    private fun setResult(result: Boolean){
+    private fun setResult(result: Boolean) {
         val dialog = SendDataResultDialog(result, this@SendDualismsFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
         binding.loadingTrans.root.visibility = View.GONE

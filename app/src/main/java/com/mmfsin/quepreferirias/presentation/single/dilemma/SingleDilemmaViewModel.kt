@@ -4,7 +4,7 @@ import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyVotedDilemmaUseCase
-import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
+import com.mmfsin.quepreferirias.domain.usecases.CheckIfDataIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaByIdUseCase
@@ -15,7 +15,7 @@ import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaUseCase
-import com.mmfsin.quepreferirias.presentation.models.DashboardType
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class SingleDilemmaViewModel @Inject constructor(
     private val getDilemmaByIdUseCase: GetDilemmaByIdUseCase,
     private val getDilemmaVotesUseCase: GetDilemmaVotesUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
-    private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
+    private val checkIfDataIsFavUseCase: CheckIfDataIsFavUseCase,
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
@@ -116,7 +116,7 @@ class SingleDilemmaViewModel @Inject constructor(
 
     fun checkIfIsFav(dilemmaId: String) {
         executeUseCase(
-            { checkIfDilemmaIsFavUseCase.execute(CheckIfDilemmaIsFavUseCase.Params(dilemmaId)) },
+            { checkIfDataIsFavUseCase.execute(CheckIfDataIsFavUseCase.Params(dilemmaId, DILEMMA)) },
             { result -> _event.value = SingleDilemmaEvent.CheckDilemmaFav(result) },
             { _event.value = SingleDilemmaEvent.SWW }
         )
@@ -156,7 +156,7 @@ class SingleDilemmaViewModel @Inject constructor(
                 reportDataUseCase.execute(
                     ReportDataUseCase.Params(
                         dilemma,
-                        DashboardType.DILEMMAS
+                        DILEMMA
                     )
                 )
             },
