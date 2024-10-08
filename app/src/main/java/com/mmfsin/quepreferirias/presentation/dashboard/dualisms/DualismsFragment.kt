@@ -17,6 +17,7 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDualismBinding
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismVotes
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
@@ -91,6 +92,22 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             tvCreatorName.setOnClickListener {
                 checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
                     viewModel.checkIfIsMe(creatorId)
+                }
+            }
+
+            tvNext.setOnClickListener {
+                position++
+                if (position < dualismList.size) {
+//                    showInterstitial()
+                    setInitialConfig()
+                    setData()
+                } else {
+                    activity?.let {
+                        val dialog = NoMoreDialog {
+                            activity?.onBackPressedDispatcher?.onBackPressed()
+                        }
+                        dialog.show(it.supportFragmentManager, "")
+                    }
                 }
             }
         }
