@@ -58,30 +58,120 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/tv_text_top"
+                    android:id="@+id/tv_explanation"
                     style="@style/MediumTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/bg_dilemma_top"
+                    android:layout_marginBottom="12dp"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="28dp"
-                    tools:text="Opción 1 a elegir" />
+                    tools:text="Viendo una película..." />
 
-                <include layout="@layout/include_but" />
-
-                <TextView
-                    android:id="@+id/tv_text_bottom"
-                    style="@style/MediumTextView"
+                <LinearLayout
+                    android:id="@+id/ll_option_top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_dilemma_bottom"
-                    android:gravity="center"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="28dp"
-                    tools:text="Opción 2 a elegir" />
+                    android:background="@drawable/bg_dualism"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="32dp">
+
+                    <TextView
+                        android:id="@+id/tv_text_top"
+                        style="@style/MediumTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        tools:text="Opción 1" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_result_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_percents_top"
+                            style="@style/SmallTextView_Bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="12dp"
+                            android:gravity="center"
+                            android:textSize="16sp"
+                            tools:text="82%" />
+
+                        <TextView
+                            android:id="@+id/tv_votes_top"
+                            style="@style/SmallTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            tools:text="541201 votos" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <include layout="@layout/include_or" />
+
+                <LinearLayout
+                    android:id="@+id/ll_option_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_dualism"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="32dp">
+
+                    <TextView
+                        android:id="@+id/tv_text_bottom"
+                        style="@style/MediumTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        tools:text="Opción 2" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_result_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_percents_bottom"
+                            style="@style/SmallTextView_Bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="12dp"
+                            android:gravity="center"
+                            android:textSize="16sp"
+                            tools:text="17%" />
+
+                        <TextView
+                            android:id="@+id/tv_votes_bottom"
+                            style="@style/SmallTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            tools:text="101201 votos" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_creator_name"
@@ -209,10 +299,10 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:id="@+id/cl_bottom"
         android:elevation="4dp"
         android:paddingVertical="6dp"
         app:layout_constraintBottom_toBottomOf="parent"

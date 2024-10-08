@@ -67,7 +67,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="28dp"
-                    tools:text="Opción 1 a elegir" />
+                    tools:text="Algo bueno" />
 
                 <include layout="@layout/include_but" />
 
@@ -81,7 +81,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="28dp"
-                    tools:text="Opción 2 a elegir" />
+                    tools:text="Algo malo" />
 
                 <LinearLayout
                     android:id="@+id/ll_creator_name"

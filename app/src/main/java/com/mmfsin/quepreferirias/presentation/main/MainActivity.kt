@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigateDrawer(flow: DrawerFlow) {
         when (flow) {
             DILEMMAS -> navigateTo(R.navigation.nav_graph_dilemmas)
-            DUALISMS -> {}
+            DUALISMS -> navigateTo(R.navigation.nav_graph_dualisms)
             USER_PROFILE -> navigateTo(R.navigation.nav_graph_profile)
             DATA_SAVED -> navigateTo(R.navigation.nav_graph_saved_data)
             MY_DATA -> navigateTo(R.navigation.nav_graph_my_data)
