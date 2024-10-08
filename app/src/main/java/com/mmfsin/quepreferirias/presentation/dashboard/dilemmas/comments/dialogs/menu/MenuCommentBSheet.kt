@@ -52,9 +52,7 @@ class MenuCommentBSheet(
                 listener.respondComment(commentId)
                 dismiss()
             }
-
             btnDelete.setOnClickListener { viewModel.deleteComment(dilemmaId, commentId) }
-
             btnReport.setOnClickListener {
                 listener.reportComment(commentId)
                 dismiss()

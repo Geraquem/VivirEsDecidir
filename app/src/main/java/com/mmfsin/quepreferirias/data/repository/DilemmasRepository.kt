@@ -221,11 +221,11 @@ class DilemmasRepository @Inject constructor(
                     putBoolean(SERVER_SAVED_DATA, false)
                     apply()
                 }
-                dilemmas.toDilemmaFavList()
+                dilemmas.toDilemmaFavList().reversed()
             } else {
                 val dilemmas =
                     realmDatabase.getObjectsFromRealm { where<DilemmaFavDTO>().findAll() }
-                dilemmas.toDilemmaFavList()
+                dilemmas.toDilemmaFavList().reversed()
             }
         } ?: run { emptyList() }
     }
@@ -313,11 +313,11 @@ class DilemmasRepository @Inject constructor(
                     putBoolean(SERVER_SENT_DATA, false)
                     apply()
                 }
-                dilemmas.toSendDilemmaList()
+                dilemmas.toSendDilemmaList().reversed()
             } else {
                 val dilemmas =
                     realmDatabase.getObjectsFromRealm { where<SendDilemmaDTO>().findAll() }
-                dilemmas.toSendDilemmaList()
+                dilemmas.toSendDilemmaList().reversed()
             }
         } ?: run { emptyList() }
     }
@@ -343,7 +343,7 @@ class DilemmasRepository @Inject constructor(
                 latch.countDown()
             }
         withContext(Dispatchers.IO) { latch.await() }
-        return dilemmas.toSendDilemmaList()
+        return dilemmas.toSendDilemmaList().reversed()
     }
 
     override suspend fun deleteMyDilemma(dilemmaId: String) {

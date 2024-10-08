@@ -16,6 +16,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.mmfsin.quepreferirias.R
@@ -24,8 +25,13 @@ import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
+import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send.SendCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
@@ -39,7 +45,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemmaViewModel>(),
-    IMenuDashboardListener {
+    IMenuDashboardListener, ISendCommentListener, ICommentsListener {
 
     override val viewModel: SingleDilemmaViewModel by viewModels()
     private lateinit var mContext: Context
@@ -47,9 +53,11 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private var hasSession = false
 
     private var dilemmaId: String? = null
-    private var actualDilemma: Dilemma? = null
+    private var actualData: Dilemma? = null
 
     private var isFav: Boolean? = null
+
+    private lateinit var commentsFragment: CommentsFragment
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
@@ -70,10 +78,20 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     override fun setUI() {
         binding.apply {
             loadingFull.root.isVisible = true
-            setToolbar()
             clBottom.isVisible = false
-            btnFav.setImageResource(R.drawable.ic_fav_off)
+            setToolbar()
             setInitialConfig()
+
+            nsvContainer.setOnScrollChangeListener(OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
+                if (v.getChildAt(v.childCount - 1) != null) {
+                    if (
+                        (scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight)) &&
+                        scrollY > oldScrollY
+                    ) {
+                        if (::commentsFragment.isInitialized) commentsFragment.updateComments()
+                    }
+                }
+            })
         }
     }
 
@@ -90,17 +108,20 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
             btnNo.setOnClickListener { yesOrNoClick(isYes = false) }
 
             tvCreatorName.setOnClickListener {
-                checkNotNulls(actualDilemma, actualDilemma?.creatorId) { _, creatorId ->
+                checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
                     viewModel.checkIfIsMe(creatorId)
                 }
             }
+
+            btnComment.setOnClickListener { sendComment() }
             btnFav.setOnClickListener { favOnClick() }
+            btnShare.setOnClickListener { share() }
             btnMenu.setOnClickListener { openMenu() }
         }
     }
 
     private fun yesOrNoClick(isYes: Boolean) {
-        actualDilemma?.let { data ->
+        actualData?.let { data ->
             viewModel.voteDilemma(data.id, isYes)
             hideButtons(isYes)
         } ?: run { error() }
@@ -126,13 +147,25 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
-    override fun sendComment() {
+    override fun sendComment() = viewModel.getSessionToComment()
 
-    }
     override fun setFavorite() = favOnClick()
 
+    private fun openSendCommentSheet(session: Session?) {
+        session?.let { userData ->
+            actualData?.let { dilemma ->
+                val dialog = SendCommentBSheet(dilemma, userData, this@SingleDilemmaFragment)
+                activity?.let { dialog.show(it.supportFragmentManager, "") }
+            }
+        } ?: run { localBroadcastOpenLogin() }
+    }
+
+    override fun commentSent(comment: Comment) {
+        if (::commentsFragment.isInitialized) commentsFragment.commentSent(comment)
+    }
+
     override fun copyText() {
-        checkNotNulls(activity, actualDilemma) { a, data ->
+        checkNotNulls(activity, actualData) { a, data ->
             val clipboard = a.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val text = "${data.txtTop} ${getString(R.string.dashboard_but)} ${data.txtBottom}"
             val clip = ClipData.newPlainText("label", text)
@@ -146,7 +179,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     }
 
     override fun share() {
-        actualDilemma?.let { data ->
+        actualData?.let { data ->
             val text = "${data.txtTop} ${getString(R.string.dashboard_but)} ${data.txtBottom}, " +
                     "${getString(R.string.dashboard_share_question)} \n\n" +
                     "${getString(R.string.dashboard_share_more_in)}\n" +
@@ -163,7 +196,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     }
 
     override fun report() {
-        actualDilemma?.let { data -> viewModel.reportDilemma(data) }
+        actualData?.let { data -> viewModel.reportDilemma(data) }
     }
 
     override fun observe() {
@@ -177,7 +210,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                 is SingleDilemmaEvent.ReCheckSession -> hasSession = event.initiatedSession
 
                 is SingleDilemmaEvent.SingleDilemma -> {
-                    actualDilemma = event.data
+                    actualData = event.data
                     setData()
                 }
 
@@ -185,19 +218,15 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                     if (event.result) setFavButton(isOn = true)
                     else setFavButton(isOn = false)
                     isFav = event.result
-                    actualDilemma?.let { d -> viewModel.getComments(d.id, fromRealm = false) }
-                }
-
-                is SingleDilemmaEvent.GetComments -> {
-                    setUpComments(event.comments)
-                    actualDilemma?.let { d -> viewModel.getVotes(d.id) }
+                    setUpComments()
+                    actualData?.let { d -> viewModel.getVotes(d.id) }
                 }
 
                 is SingleDilemmaEvent.GetPercents -> setPercents(event.percents)
 
                 is SingleDilemmaEvent.GetVotes -> {
                     setUpVotes(event.votes)
-                    actualDilemma?.let { viewModel.checkIfVoted(it.id) }
+                    actualData?.let { viewModel.checkIfVoted(it.id) }
                 }
 
                 is SingleDilemmaEvent.VoteDilemma -> {
@@ -205,6 +234,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
                     viewModel.getPercents(votesYes, votesNo)
                 }
 
+                is SingleDilemmaEvent.GetSessionToComment -> openSendCommentSheet(event.session)
                 is SingleDilemmaEvent.AlreadyVoted -> checkAlreadyVoted(event.voted)
                 is SingleDilemmaEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is SingleDilemmaEvent.Reported -> reported()
@@ -217,7 +247,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         try {
             binding.apply {
                 setInitialConfig()
-                actualDilemma?.let { data ->
+                actualData?.let { data ->
                     viewModel.checkIfIsFav(data.id)
                     tvTextTop.text = data.txtTop
                     tvTextBottom.text = data.txtBottom
@@ -271,8 +301,13 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
         animation.start()
     }
 
-    private fun setUpComments(comments: List<Comment>) {
-
+    private fun setUpComments() {
+        actualData?.let { d ->
+            commentsFragment = CommentsFragment(d.id, this@SingleDilemmaFragment)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, commentsFragment)
+                .commit()
+        }
     }
 
     private fun setUpVotes(dilemmaVotes: DilemmaVotes) {
@@ -296,7 +331,7 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private fun favOnClick() {
         if (hasSession) {
             binding.btnFav.apply {
-                actualDilemma?.let { data ->
+                actualData?.let { data ->
                     when (tag) {
                         FAV -> {
                             setFavButton(isOn = false)
@@ -339,6 +374,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private fun localBroadcastOpenLogin() =
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(Intent(LOGIN_BROADCAST))
 
+    override fun navigateToUserProfile(userId: String) = viewModel.checkIfIsMe(userId)
+
     private fun toUserProfile(isMe: Boolean, userId: String) {
         val navGraph = if (isMe) R.navigation.nav_graph_profile
         else R.navigation.nav_graph_other_profile
@@ -347,6 +384,10 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
 
     private fun reported() {
         Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun shouldInitiateSession() {
+        localBroadcastOpenLogin()
     }
 
     private fun error() {

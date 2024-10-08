@@ -8,9 +8,9 @@ import com.mmfsin.quepreferirias.domain.usecases.CheckIfDilemmaIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaByIdUseCase
-import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
@@ -22,10 +22,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SingleDilemmaViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
+    private val getSessionUseCase: GetSessionUseCase,
     private val getDilemmaByIdUseCase: GetDilemmaByIdUseCase,
     private val getDilemmaVotesUseCase: GetDilemmaVotesUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
-    private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
     private val checkIfDilemmaIsFavUseCase: CheckIfDilemmaIsFavUseCase,
     private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
     private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
@@ -47,6 +47,14 @@ class SingleDilemmaViewModel @Inject constructor(
         executeUseCase(
             { initiatedSessionUseCase.execute() },
             { result -> _event.value = SingleDilemmaEvent.ReCheckSession(result) },
+            { _event.value = SingleDilemmaEvent.SWW }
+        )
+    }
+
+    fun getSessionToComment() {
+        executeUseCase(
+            { getSessionUseCase.execute() },
+            { result -> _event.value = SingleDilemmaEvent.GetSessionToComment(result) },
             { _event.value = SingleDilemmaEvent.SWW }
         )
     }
@@ -102,18 +110,6 @@ class SingleDilemmaViewModel @Inject constructor(
                     result?.let { SingleDilemmaEvent.GetPercents(it) }
                         ?: run { SingleDilemmaEvent.SWW }
             },
-            { _event.value = SingleDilemmaEvent.SWW }
-        )
-    }
-
-    fun getComments(dilemmaId: String, fromRealm: Boolean) {
-        executeUseCase(
-            {
-                getDilemmaCommentsUseCase.execute(
-                    GetDilemmaCommentsUseCase.Params(dilemmaId = dilemmaId)
-                )
-            },
-            { result -> _event.value = SingleDilemmaEvent.GetComments(result) },
             { _event.value = SingleDilemmaEvent.SWW }
         )
     }

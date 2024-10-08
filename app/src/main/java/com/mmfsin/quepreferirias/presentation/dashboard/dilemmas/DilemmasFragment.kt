@@ -114,7 +114,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             btnShare.setOnClickListener { share() }
             btnMenu.setOnClickListener { openMenu() }
 
-            tvNext.setOnClickListener { }
             tvNext.setOnClickListener {
                 position++
                 if (position < dilemmaList.size) {
