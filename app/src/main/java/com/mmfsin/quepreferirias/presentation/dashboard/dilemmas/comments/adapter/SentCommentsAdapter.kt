@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsRVListener
 
 class SentCommentsAdapter(
@@ -20,7 +19,6 @@ class SentCommentsAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemCommentBinding.bind(view)
-        private val c = binding.root.context
         fun bind(comment: Comment) {
             binding.apply {
                 Glide.with(binding.root.context).load(comment.image).into(image.image)
@@ -54,8 +52,6 @@ class SentCommentsAdapter(
     }
 
     fun addComments(newComments: List<Comment>) {
-//        comments.addAll(newComments)
-//        notifyItemRangeInserted(comments.size - newComments.size, newComments.size)
         comments.addAll(0, newComments)
         notifyItemRangeInserted(0, newComments.size)
 
@@ -76,10 +72,6 @@ class SentCommentsAdapter(
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, comments.size)
         }
-    }
-
-    private fun vote(comment: Comment, vote: CommentVote, position: Int) {
-        listener.voteComment(comment.commentId, vote, comment.likes, position)
     }
 
     override fun getItemCount(): Int = comments.size
