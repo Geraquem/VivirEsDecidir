@@ -215,18 +215,16 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 
     private fun setUpVotes(votes: DualismVotes) {
         binding.apply {
-//            votesTop= votes.votesTop
-            votesTop = 35665
-//            votesBottom = votes.votesBottom
-            votesBottom = 9856
+            votesTop = votes.votesTop
+            votesBottom = votes.votesBottom
             loadingFull.root.isVisible = false
         }
     }
 
     private fun setPercents(actualPercents: Percents) {
         binding.apply {
-            tvPercentsTop.text =actualPercents.percentYesTop
-            tvPercentsBottom.text =actualPercents.percentNoBottom
+            tvPercentsTop.text = actualPercents.percentYesTop
+            tvPercentsBottom.text = actualPercents.percentNoBottom
             tvVotesTop.text = getString(R.string.dashboard_dualism_votes, votesTop.toString())
             tvVotesBottom.text = getString(R.string.dashboard_dualism_votes, votesBottom.toString())
             llResultTop.isVisible = true
