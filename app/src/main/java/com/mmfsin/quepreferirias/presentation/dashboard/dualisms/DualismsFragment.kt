@@ -60,7 +60,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
         binding.apply {
             loadingFull.root.isVisible = true
             setToolbar()
-//            setInitialConfig()
+            setInitialConfig()
 
             nsvContainer.setOnScrollChangeListener(OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
                 if (v.getChildAt(v.childCount - 1) != null) {
@@ -148,7 +148,10 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     }
 
     private fun setInitialConfig() {
-
+        binding.apply {
+            llResultTop.isVisible = false
+            llResultBottom.isVisible = false
+        }
     }
 
     private fun setFavButton(isOn: Boolean) {

@@ -74,7 +74,7 @@ class DualismsRepository @Inject constructor(
                             for (moreDoc in moreDocuments) {
                                 val moreData = Dualism(
                                     id = moreDoc.id,
-                                    explanation = moreDoc.getString(EXPLANATION) ?: "",
+                                    explanation = moreDoc.getString(EXPLANATION),
                                     txtTop = moreDoc.getString(TXT_TOP) ?: "",
                                     txtBottom = moreDoc.getString(TXT_BOTTOM) ?: "",
                                     creatorId = moreDoc.getString(CREATOR_ID),
@@ -87,7 +87,7 @@ class DualismsRepository @Inject constructor(
                     for (doc in documents) {
                         val data = Dualism(
                             id = doc.id,
-                            explanation = doc.getString(EXPLANATION) ?: "",
+                            explanation = doc.getString(EXPLANATION),
                             txtTop = doc.getString(TXT_TOP) ?: "",
                             txtBottom = doc.getString(TXT_BOTTOM) ?: "",
                             creatorId = doc.getString(CREATOR_ID),
