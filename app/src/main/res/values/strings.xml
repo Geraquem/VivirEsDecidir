@@ -86,6 +86,7 @@
     <string name="dashboard_btn_yes">A tope</string>
     <string name="dashboard_btn_no">No lo creo</string>
     <string name="dashboard_votes">Votos</string>
+    <string name="dashboard_dualism_votes">%s votos</string>
     <string name="dashboard_next">Siguiente</string>
     <string name="dashboard_sent_by">Enviado por</string>
     <string name="dashboard_no_comments">No hay comentarios, ¡da el primer paso!</string>

@@ -92,9 +92,8 @@ class DilemmasViewModel @Inject constructor(
         executeUseCase(
             { getPercentsUseCase.execute(GetPercentsUseCase.Params(votesYes, votesNo)) },
             { result ->
-                _event.value =
-                    result?.let { DilemmasEvent.GetPercents(it) }
-                        ?: run { DilemmasEvent.SWW }
+                _event.value = result?.let { DilemmasEvent.GetPercents(it) }
+                    ?: run { DilemmasEvent.SWW }
             },
             { _event.value = DilemmasEvent.SWW }
         )

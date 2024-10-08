@@ -2,12 +2,12 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dualisms
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
+import android.content.res.ColorStateList.valueOf
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.viewModels
@@ -21,6 +21,7 @@ import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.Commen
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag
+import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.checkNotNulls
@@ -84,11 +85,28 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 
     override fun setListeners() {
         binding.apply {
+            llOptionTop.setOnClickListener { topOrBottomClick(isTop = true) }
+            llOptionBottom.setOnClickListener { topOrBottomClick(isTop = false) }
+
             tvCreatorName.setOnClickListener {
                 checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
-//                    viewModel.checkIfIsMe(creatorId)
+                    viewModel.checkIfIsMe(creatorId)
                 }
             }
+        }
+    }
+
+    private fun topOrBottomClick(isTop: Boolean) {
+        binding.apply {
+            actualData?.let { data ->
+                viewModel.voteDualism(data.id, isTop)
+                val green = getColor(mContext, R.color.color_green_top)
+                if (isTop) llOptionTop.backgroundTintList = valueOf(green)
+                else llOptionBottom.backgroundTintList = valueOf(green)
+
+                llOptionTop.isEnabled = false
+                llOptionBottom.isEnabled = false
+            } ?: run { error() }
         }
     }
 
@@ -116,6 +134,12 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                 }
 
                 is DualismsEvent.GetVotes -> setUpVotes(event.votes)
+                is DualismsEvent.GetPercents -> setPercents(event.percents)
+
+                is DualismsEvent.VoteDilemma -> {
+                    if (event.wasTop) votesTop++ else votesBottom++
+                    viewModel.getPercents(votesTop, votesBottom)
+                }
 
                 is DualismsEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is DualismsEvent.SWW -> error()
@@ -149,9 +173,15 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 
     private fun setInitialConfig() {
         binding.apply {
+            val grey = getColor(mContext, R.color.grey)
+            llOptionTop.backgroundTintList = valueOf(grey)
+            llOptionBottom.backgroundTintList = valueOf(grey)
             llResultTop.isVisible = false
             llResultBottom.isVisible = false
+            llOptionTop.isEnabled = true
+            llOptionBottom.isEnabled = true
         }
+        if (::commentsFragment.isInitialized) commentsFragment.clearData()
     }
 
     private fun setFavButton(isOn: Boolean) {
@@ -162,13 +192,13 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     isFav = true
                     animate().rotation(720f).setDuration(350).start()
                     setImageResource(R.drawable.ic_fav_on)
-                    ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.saved))
+                    valueOf(getColor(mContext, R.color.saved))
                 } else {
                     tag = FavButtonTag.NO_FAV
                     isFav = false
                     animate().rotation(0f).setDuration(350).start()
                     setImageResource(R.drawable.ic_fav_off)
-                    ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.black))
+                    valueOf(getColor(mContext, R.color.black))
                 }
             }
         }
@@ -190,6 +220,17 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 //            votesBottom = votes.votesBottom
             votesBottom = 9856
             loadingFull.root.isVisible = false
+        }
+    }
+
+    private fun setPercents(actualPercents: Percents) {
+        binding.apply {
+            tvPercentsTop.text =actualPercents.percentYesTop
+            tvPercentsBottom.text =actualPercents.percentNoBottom
+            tvVotesTop.text = getString(R.string.dashboard_dualism_votes, votesTop.toString())
+            tvVotesBottom.text = getString(R.string.dashboard_dualism_votes, votesBottom.toString())
+            llResultTop.isVisible = true
+            llResultBottom.isVisible = true
         }
     }
 

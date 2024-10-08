@@ -5,7 +5,9 @@ import com.mmfsin.quepreferirias.domain.usecases.CheckIfDataIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDualismVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDualismsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDualismUseCase
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +18,9 @@ class DualismsViewModel @Inject constructor(
     private val getDualismsUseCase: GetDualismsUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
     private val checkIfDataIsFavUseCase: CheckIfDataIsFavUseCase,
-    private val getDualismVotesUseCase: GetDualismVotesUseCase
+    private val getDualismVotesUseCase: GetDualismVotesUseCase,
+    private val voteDualismUseCase: VoteDualismUseCase,
+    private val getPercentsUseCase: GetPercentsUseCase,
 ) : BaseViewModel<DualismsEvent>() {
 
     fun checkSessionInitiated() {
@@ -66,6 +70,25 @@ class DualismsViewModel @Inject constructor(
                 _event.value =
                     result?.let { DualismsEvent.GetVotes(it) }
                         ?: run { DualismsEvent.SWW }
+            },
+            { _event.value = DualismsEvent.SWW }
+        )
+    }
+
+    fun voteDualism(dualismId: String, isTop: Boolean) {
+        executeUseCase(
+            { voteDualismUseCase.execute(VoteDualismUseCase.Params(dualismId, isTop)) },
+            { _event.value = DualismsEvent.VoteDilemma(wasTop = isTop) },
+            { _event.value = DualismsEvent.SWW }
+        )
+    }
+
+    fun getPercents(votesTop: Long, votesBottom: Long) {
+        executeUseCase(
+            { getPercentsUseCase.execute(GetPercentsUseCase.Params(votesTop, votesBottom)) },
+            { result ->
+                _event.value = result?.let { DualismsEvent.GetPercents(it) }
+                    ?: run { DualismsEvent.SWW }
             },
             { _event.value = DualismsEvent.SWW }
         )

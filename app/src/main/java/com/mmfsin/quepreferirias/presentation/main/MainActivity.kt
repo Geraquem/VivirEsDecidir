@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             navigationView.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.nav_dilemmas -> navigateDrawer(DILEMMAS)
-                    R.id.nav_dualism -> {}
+                    R.id.nav_dualism -> navigateDrawer(DUALISMS)
                     //////////////////////
                     R.id.nav_profile -> viewModel.checkSession(USER_PROFILE)
                     R.id.nav_saved -> viewModel.checkSession(DATA_SAVED)

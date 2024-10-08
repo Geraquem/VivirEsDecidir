@@ -136,7 +136,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun yesOrNoClick(isYes: Boolean) {
         binding.apply {
-            actualData = dilemmaList[position]
             actualData?.let { data ->
                 viewModel.voteDilemma(data.id, isYes)
                 if (isYes) {
@@ -289,8 +288,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private fun setPercents(actualPercents: Percents) {
         binding.apply {
             percents.apply {
-                tvPercentYes.text = actualPercents.percentYes
-                tvPercentNo.text = actualPercents.percentNo
+                tvPercentYes.text = actualPercents.percentYesTop
+                tvPercentNo.text = actualPercents.percentNoBottom
                 tvVotesYes.text = votesYes.toString()
                 tvVotesNo.text = votesNo.toString()
                 val total = (votesYes + votesNo).toInt()

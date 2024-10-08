@@ -13,7 +13,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="soft_white">#F8F8F8</color>
 
-    <color name="grey">#ECECEC</color>
+    <color name="grey">#E4E4E4</color>
     <color name="grey_strong">#CACACA</color>
 
     <color name="blue">#3B94E3</color>
@@ -34,8 +34,8 @@
 
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="color_top">#B3EFBB</color>
-    <color name="color_bottom">#E8B2B2</color>
+    <color name="color_green_top">#B3EFBB</color>
+    <color name="color_red_bottom">#E8B2B2</color>
 
     <color name="percent_yes">#85DF8F</color>
     <color name="percent_no">#B66060</color>

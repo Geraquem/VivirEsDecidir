@@ -281,8 +281,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private fun setPercents(actualPercents: Percents) {
         binding.apply {
             percents.apply {
-                tvPercentYes.text = actualPercents.percentYes
-                tvPercentNo.text = actualPercents.percentNo
+                tvPercentYes.text = actualPercents.percentYesTop
+                tvPercentNo.text = actualPercents.percentNoBottom
                 tvVotesYes.text = votesYes.toString()
                 tvVotesNo.text = votesNo.toString()
                 val total = (votesYes + votesNo).toInt()

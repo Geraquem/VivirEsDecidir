@@ -14,11 +14,11 @@ class GetPercentsUseCase @Inject constructor() :
             val percentNo = params.votesNo * 100.0f / total
             val percents = Percents("", "")
             if (percentYes.toString().length >= 5 && percentNo.toString().length >= 5) {
-                percents.percentYes = percentYes.toString().substring(0, 5) + "%"
-                percents.percentNo = percentNo.toString().substring(0, 5) + "%"
+                percents.percentYesTop = percentYes.toString().substring(0, 5) + "%"
+                percents.percentNoBottom = percentNo.toString().substring(0, 5) + "%"
             } else {
-                percents.percentYes = "$percentYes%"
-                percents.percentNo = "$percentNo%"
+                percents.percentYesTop = "$percentYes%"
+                percents.percentNoBottom = "$percentNo%"
             }
             percents
         } catch (e: Exception) {

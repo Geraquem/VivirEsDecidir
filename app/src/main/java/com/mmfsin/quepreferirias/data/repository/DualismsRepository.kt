@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toDualismFavList
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.models.DualismFavDTO
+import com.mmfsin.quepreferirias.data.models.DualismVotedDTO
 import com.mmfsin.quepreferirias.data.models.SendDualismDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.interfaces.IDualismsRepository
@@ -36,6 +37,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.UUID
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
@@ -166,6 +168,19 @@ class DualismsRepository @Inject constructor(
 
         withContext(Dispatchers.IO) { latch.await() }
         return votes
+    }
+
+    override suspend fun voteDualism(dualismId: String, isTop: Boolean, voted: DualismVotedDTO) {
+        val latch = CountDownLatch(1)
+        val secondChild = if (isTop) VOTES_TOP else VOTES_BOTTOM
+        reference.child(DUALISMS).child(dualismId).child(secondChild)
+            .updateChildren(mapOf(UUID.randomUUID().toString() to isTop)).addOnCompleteListener {
+                it.isSuccessful
+                realmDatabase.addObject { voted }
+                latch.countDown()
+            }
+
+        withContext(Dispatchers.IO) { latch.await() }
     }
 
     override suspend fun sendDualism(dualism: SendDualismDTO) {

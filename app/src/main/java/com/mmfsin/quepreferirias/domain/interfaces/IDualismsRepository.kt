@@ -1,5 +1,6 @@
 package com.mmfsin.quepreferirias.domain.interfaces
 
+import com.mmfsin.quepreferirias.data.models.DualismVotedDTO
 import com.mmfsin.quepreferirias.data.models.SendDualismDTO
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismFav
@@ -10,7 +11,7 @@ interface IDualismsRepository {
 //    suspend fun getDilemmaById(dilemmaId: String): Dilemma?
 //
     suspend fun getDualismVotes(dualismId: String): DualismVotes?
-//    suspend fun voteDilemma(dilemmaId: String, isYes: Boolean, voted: DilemmaVotedDTO)
+    suspend fun voteDualism(dualismId: String, isTop: Boolean, voted: DualismVotedDTO)
 //    suspend fun alreadyDilemmaVoted(dilemmaId: String): Boolean?
 //
 //    suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
