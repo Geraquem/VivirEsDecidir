@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SendCommentBSheet(
     private val dilemma: Dilemma,
     private val session: Session,
-    private val listener: ISendCommentListener
+    private val listener: ISendCommentListener,
 ) : BottomSheetDialogFragment() {
 
     private var _binding: BsheetSendCommentBinding? = null
@@ -126,7 +126,7 @@ class SendCommentBSheet(
         viewModel.event.observe(this) { event ->
             when (event) {
                 is SendCommentEvent.CommentSent -> {
-                    listener.commentSent("aaa")
+                    listener.commentSent(event.comment)
                     dismiss()
                 }
 

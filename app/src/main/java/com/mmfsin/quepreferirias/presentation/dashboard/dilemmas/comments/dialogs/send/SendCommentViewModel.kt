@@ -19,8 +19,8 @@ class SendCommentViewModel @Inject constructor(
                 )
             },
             { result ->
-                _event.value = if (result) SendCommentEvent.CommentSent
-                else SendCommentEvent.SWW
+                _event.value = result?.let { SendCommentEvent.CommentSent(result) }
+                    ?: SendCommentEvent.SWW
             },
             { _event.value = SendCommentEvent.SWW }
         )

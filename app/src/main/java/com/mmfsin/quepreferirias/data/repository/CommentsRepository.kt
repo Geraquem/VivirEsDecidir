@@ -6,6 +6,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.mmfsin.quepreferirias.data.mappers.toComment
 import com.mmfsin.quepreferirias.data.mappers.toCommentList
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.CommentVotedDTO
@@ -86,13 +87,13 @@ class CommentsRepository @Inject constructor(
     override suspend fun sendDilemmaComment(
         dilemmaId: String,
         comment: CommentDTO
-    ): Boolean {
+    ): Comment? {
         val latch = CountDownLatch(1)
-        var result = false
+        var result: Comment? = null
         Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
             .document(comment.commentId).set(comment, SetOptions.merge())
             .addOnCompleteListener {
-                result = it.isSuccessful
+                if (it.isSuccessful) result = comment.toComment()
                 latch.countDown()
             }
         withContext(Dispatchers.IO) {

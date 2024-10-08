@@ -39,30 +39,45 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_comments"
-            style="@style/scroll_no_effects"
+        <LinearLayout
+            android:id="@+id/ll_recyclers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_no_comments"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_comment" />
+            app:layout_constraintTop_toBottomOf="@id/tv_no_comments">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_sent_comments"
+                style="@style/scroll_no_effects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:background="@color/blue"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_comment" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_comments"
+                style="@style/scroll_no_effects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_comment" />
+
+        </LinearLayout>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/loading_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:visibility="gone"
             app:indicatorColor="@color/black"
             app:indicatorSize="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_comments"
+            app:layout_constraintTop_toBottomOf="@id/ll_recyclers"
             app:trackThickness="2dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

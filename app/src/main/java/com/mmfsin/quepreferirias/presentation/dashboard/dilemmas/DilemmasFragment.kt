@@ -22,6 +22,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
+import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -29,7 +30,6 @@ import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashbo
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send.SendCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
@@ -59,8 +59,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     private var isFav: Boolean? = null
 
     private lateinit var commentsFragment: CommentsFragment
-
-    private var commentsAdapter: CommentsAdapter? = null
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
@@ -172,8 +170,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         } ?: run { localBroadcastOpenLogin() }
     }
 
-    override fun commentSent(comment: String) {
-        /** update recycler to show the new comments */
+    override fun commentSent(comment: Comment) {
+        if (::commentsFragment.isInitialized) commentsFragment.commentSent(comment)
     }
 
     override fun setFavorite() = favOnClick()
@@ -273,8 +271,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
     }
 
     private fun setInitialConfig() {
-        commentsAdapter?.clearData()
-        commentsAdapter = null
         binding.apply {
             btnYes.setImageResource(R.drawable.ic_dilemma_yes_trans)
             btnNo.setImageResource(R.drawable.ic_dilemma_no_trans)
@@ -288,6 +284,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 btnNo.isEnabled = true
             }
         }
+        if (::commentsFragment.isInitialized) commentsFragment.clearData()
     }
 
     private fun setPercents(actualPercents: Percents) {

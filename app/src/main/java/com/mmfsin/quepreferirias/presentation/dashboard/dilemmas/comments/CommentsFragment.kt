@@ -15,6 +15,7 @@ import com.mmfsin.quepreferirias.databinding.FragmentCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.SentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu.MenuCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
@@ -32,6 +33,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
 
     private var hasSession = false
     private var commentsAdapter: CommentsAdapter? = null
+    private var sentCommentsAdapter: SentCommentsAdapter? = null
 
     private var thereAreMoreComments: Boolean = true
 
@@ -117,10 +119,14 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
     }
 
     override fun commentDeleted(commentId: String) {
+        sentCommentsAdapter?.deleteComment(commentId)
         commentsAdapter?.deleteComment(commentId)
     }
 
     override fun reportComment(commentId: String) {
+        val justSentComment = sentCommentsAdapter?.getComment(commentId)
+        justSentComment?.let { viewModel.reportComment(dilemmaId, it) }
+
         val comment = commentsAdapter?.getComment(commentId)
         comment?.let { viewModel.reportComment(dilemmaId, it) }
     }
@@ -141,6 +147,27 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
             viewModel.getComments(dilemmaId)
         } else {
             binding.loadingMore.isVisible = false
+        }
+    }
+
+    fun clearData(){
+        sentCommentsAdapter?.clearData()
+        commentsAdapter?.clearData()
+    }
+
+    fun commentSent(comment: Comment) {
+        val list = mutableListOf(comment)
+        binding.apply {
+            if (rvSentComments.adapter == null) {
+                rvSentComments.apply {
+                    layoutManager = LinearLayoutManager(mContext)
+                    sentCommentsAdapter =
+                        SentCommentsAdapter(mutableListOf(), this@CommentsFragment)
+                    adapter = sentCommentsAdapter
+                }
+            }
+            sentCommentsAdapter?.addComments(list)
+            tvNoComments.isVisible = false
         }
     }
 
