@@ -46,6 +46,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
 
     override fun setUI() {
         binding.apply {
+            tvNoComments.isVisible = false
             loadingComments.isVisible = false
             loadingMore.isVisible = false
         }
