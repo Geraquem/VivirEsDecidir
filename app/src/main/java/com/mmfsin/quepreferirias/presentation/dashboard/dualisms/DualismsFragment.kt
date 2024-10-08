@@ -86,8 +86,8 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 
     override fun setListeners() {
         binding.apply {
-            llOptionTop.setOnClickListener { topOrBottomClick(isTop = true) }
-            llOptionBottom.setOnClickListener { topOrBottomClick(isTop = false) }
+            clOptionTop.setOnClickListener { topOrBottomClick(isTop = true) }
+            clOptionBottom.setOnClickListener { topOrBottomClick(isTop = false) }
 
             tvCreatorName.setOnClickListener {
                 checkNotNulls(actualData, actualData?.creatorId) { _, creatorId ->
@@ -118,11 +118,11 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             actualData?.let { data ->
                 viewModel.voteDualism(data.id, isTop)
                 val green = getColor(mContext, R.color.color_green_top)
-                if (isTop) llOptionTop.backgroundTintList = valueOf(green)
-                else llOptionBottom.backgroundTintList = valueOf(green)
+                if (isTop) clOptionTop.backgroundTintList = valueOf(green)
+                else clOptionBottom.backgroundTintList = valueOf(green)
 
-                llOptionTop.isEnabled = false
-                llOptionBottom.isEnabled = false
+                clOptionTop.isEnabled = false
+                clOptionBottom.isEnabled = false
             } ?: run { error() }
         }
     }
@@ -176,7 +176,9 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                         tvExplanation.isVisible = true
                     } ?: run { tvExplanation.isVisible = false }
                     tvTextTop.text = data.txtTop
+                    tvResultTopText.text = data.txtTop
                     tvTextBottom.text = data.txtBottom
+                    tvResultBottomText.text = data.txtBottom
                     data.creatorName?.let { name ->
                         tvCreatorName.text = name
                         llCreatorName.isVisible = true
@@ -191,12 +193,16 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     private fun setInitialConfig() {
         binding.apply {
             val grey = getColor(mContext, R.color.grey)
-            llOptionTop.backgroundTintList = valueOf(grey)
-            llOptionBottom.backgroundTintList = valueOf(grey)
-            llResultTop.isVisible = false
-            llResultBottom.isVisible = false
-            llOptionTop.isEnabled = true
-            llOptionBottom.isEnabled = true
+            clOptionTop.backgroundTintList = valueOf(grey)
+            clOptionBottom.backgroundTintList = valueOf(grey)
+
+            tvTextTop.animate().alpha(1f).duration = 1500
+            llResultTop.animate().alpha(0f).duration = 100
+            tvTextBottom.animate().alpha(1f).duration = 1500
+            llResultBottom.animate().alpha(0f).duration = 100
+
+            clOptionTop.isEnabled = true
+            clOptionBottom.isEnabled = true
         }
         if (::commentsFragment.isInitialized) commentsFragment.clearData()
     }
@@ -244,8 +250,11 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             tvPercentsBottom.text = actualPercents.percentNoBottom
             tvVotesTop.text = getString(R.string.dashboard_dualism_votes, votesTop.toString())
             tvVotesBottom.text = getString(R.string.dashboard_dualism_votes, votesBottom.toString())
-            llResultTop.isVisible = true
-            llResultBottom.isVisible = true
+
+            tvTextTop.animate().alpha(0f).duration = 100
+            llResultTop.animate().alpha(1f).duration = 1500
+            tvTextBottom.animate().alpha(0f).duration = 100
+            llResultBottom.animate().alpha(1f).duration = 1500
         }
     }
 
