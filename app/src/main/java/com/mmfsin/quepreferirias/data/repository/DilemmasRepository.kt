@@ -23,6 +23,8 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.utils.CREATOR_ID
+import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.DILEMMAS_SENT
 import com.mmfsin.quepreferirias.utils.DILEMMA_ID
@@ -76,6 +78,8 @@ class DilemmasRepository @Inject constructor(
                                     id = moreDoc.id,
                                     txtTop = moreDoc.getString(TXT_TOP) ?: "",
                                     txtBottom = moreDoc.getString(TXT_BOTTOM) ?: "",
+                                    creatorId = moreDoc.getString(CREATOR_ID),
+                                    creatorName = moreDoc.getString(CREATOR_NAME)
                                 )
                                 finalDataList.add(moreData)
                             }
@@ -86,6 +90,8 @@ class DilemmasRepository @Inject constructor(
                             id = doc.id,
                             txtTop = doc.getString(TXT_TOP) ?: "",
                             txtBottom = doc.getString(TXT_BOTTOM) ?: "",
+                            creatorId = doc.getString(CREATOR_ID),
+                            creatorName = doc.getString(CREATOR_NAME)
                         )
                         finalDataList.add(data)
                     }

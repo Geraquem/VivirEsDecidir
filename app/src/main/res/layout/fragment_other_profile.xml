@@ -111,6 +111,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:background="@drawable/bg_white_box"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
@@ -126,8 +127,8 @@
                         android:layout_marginBottom="4dp"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical"
-                        app:drawableStartCompat="@drawable/ic_dilemma_yes"
-                        android:text="@string/other_profile_dilemmas" />
+                        android:text="@string/other_profile_dilemmas"
+                        app:drawableStartCompat="@drawable/ic_dilemma_yes" />
 
                     <TextView
                         android:id="@+id/tv_dilemmas_desc"
@@ -170,8 +171,8 @@
                         android:layout_marginBottom="4dp"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical"
-                        app:drawableStartCompat="@drawable/ic_dilemma_no"
-                        android:text="@string/other_data_dualisms" />
+                        android:text="@string/other_data_dualisms"
+                        app:drawableStartCompat="@drawable/ic_dilemma_no" />
 
                     <TextView
                         android:id="@+id/tv_dualism_desc"
