@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MenuCommentBSheet(
+    private val dilemmaId: String,
     private val commentId: String,
     private val userId: String,
     private val listener: ICommentMenuListener
@@ -52,7 +53,7 @@ class MenuCommentBSheet(
                 dismiss()
             }
 
-            btnDelete.setOnClickListener {  }
+            btnDelete.setOnClickListener { viewModel.deleteComment(dilemmaId, commentId) }
 
             btnReport.setOnClickListener {
                 listener.reportComment(commentId)
@@ -68,6 +69,13 @@ class MenuCommentBSheet(
                     event.session?.let { actualUser ->
                         if (userId == actualUser.id) binding.btnDelete.isVisible = true
                     }
+                }
+
+                is MenuCommentEvent.CommentDeleted -> {
+                    if (event.result) {
+                        listener.commentDeleted(commentId)
+                        dismiss()
+                    } else error()
                 }
 
                 is MenuCommentEvent.SWW -> error()

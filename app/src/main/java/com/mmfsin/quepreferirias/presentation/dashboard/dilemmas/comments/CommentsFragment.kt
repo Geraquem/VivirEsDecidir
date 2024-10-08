@@ -76,6 +76,10 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
                     )
                 }
 
+                is CommentsEvent.CommentReported -> {
+                    Toast.makeText(mContext, "Comentario denunciado", Toast.LENGTH_SHORT).show()
+                }
+
                 is CommentsEvent.SWW -> error()
             }
         }
@@ -103,7 +107,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
     override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
 
     override fun openCommentMenu(commentId: String, userId: String) {
-        val dialog = MenuCommentBSheet(commentId, userId, this@CommentsFragment)
+        val dialog = MenuCommentBSheet(dilemmaId, commentId, userId, this@CommentsFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
@@ -111,8 +115,13 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
 
     }
 
-    override fun reportComment(commentId: String) {
+    override fun commentDeleted(commentId: String) {
+        commentsAdapter?.deleteComment(commentId)
+    }
 
+    override fun reportComment(commentId: String) {
+        val comment = commentsAdapter?.getComment(commentId)
+        comment?.let { viewModel.reportComment(dilemmaId, it) }
     }
 
     override fun voteComment(

@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
 
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu.MenuCommentEvent
 
 sealed class CommentsEvent {
     class CheckIfSession(val hasSession: Boolean) : CommentsEvent()
@@ -13,5 +14,6 @@ sealed class CommentsEvent {
         val alreadyVoted: Boolean
     ) : CommentsEvent()
 
+    object CommentReported : CommentsEvent()
     object SWW : CommentsEvent()
 }

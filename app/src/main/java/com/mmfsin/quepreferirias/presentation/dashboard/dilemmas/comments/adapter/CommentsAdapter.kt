@@ -74,7 +74,12 @@ class CommentsAdapter(
         holder.binding.apply {
             image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
-            ivCommentMenu.setOnClickListener { listener.openCommentMenu(comment.commentId, comment.userId) }
+            ivCommentMenu.setOnClickListener {
+                listener.openCommentMenu(
+                    comment.commentId,
+                    comment.userId
+                )
+            }
 
             ivVoteUp.setOnClickListener {
                 if (!comment.votedUp) vote(comment, VOTE_UP, position)
@@ -91,10 +96,21 @@ class CommentsAdapter(
         notifyItemRangeInserted(startPosition, newComments.size)
     }
 
+    fun getComment(commentId: String): Comment? = comments.firstOrNull { it.commentId == commentId }
+
     @SuppressLint("NotifyDataSetChanged")
     fun clearData() {
         comments.clear()
         notifyDataSetChanged()
+    }
+
+    fun deleteComment(commentId: String) {
+        val position = comments.indexOfFirst { it.commentId == commentId }
+        if (position != -1) {
+            comments.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, comments.size)
+        }
     }
 
     private fun vote(comment: Comment, vote: CommentVote, position: Int) {

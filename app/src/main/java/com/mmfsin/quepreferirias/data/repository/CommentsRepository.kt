@@ -20,6 +20,7 @@ import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_ID
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
 import com.mmfsin.quepreferirias.utils.DILEMMAS
+import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.TIMESTAMP
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -100,6 +101,20 @@ class CommentsRepository @Inject constructor(
         return result
     }
 
+    override suspend fun deleteDilemmaComment(dilemmaId: String, commentId: String): Boolean {
+        val latch = CountDownLatch(1)
+        var result = false
+        Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
+            .document(commentId).delete().addOnCompleteListener {
+                result = it.isSuccessful
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) {
+            latch.await()
+        }
+        return result
+    }
+
     override suspend fun alreadyCommentVoted(
         commentId: String,
         vote: CommentVote
@@ -140,5 +155,16 @@ class CommentsRepository @Inject constructor(
                 votedUp = votedUp
             )
         }
+    }
+
+    override suspend fun reportComment(dataId: String, comment: Comment) {
+        val latch = CountDownLatch(1)
+        Firebase.firestore.collection(REPORTED)
+            .document(COMMENTS).collection(comment.commentId)
+            .document(comment.commentId).set(comment)
+            .addOnCompleteListener {
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
     }
 }

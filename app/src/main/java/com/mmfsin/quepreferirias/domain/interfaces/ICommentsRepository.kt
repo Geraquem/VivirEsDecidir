@@ -9,6 +9,7 @@ interface ICommentsRepository {
 
     suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
     suspend fun sendDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean
+    suspend fun deleteDilemmaComment(dilemmaId: String, commentId: String): Boolean
     suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): CommentAlreadyVoted
     suspend fun voteDilemmaComment(
         dilemmaId: String,
@@ -16,4 +17,6 @@ interface ICommentsRepository {
         likes: Long,
         vote: CommentVote
     )
+
+    suspend fun reportComment(dataId: String, comment: Comment)
 }
