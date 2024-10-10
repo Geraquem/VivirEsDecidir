@@ -20,7 +20,6 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_ID
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
-import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.TIMESTAMP
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -38,12 +37,12 @@ class CommentsRepository @Inject constructor(
     private var lastCommentLikes: Long? = null
     private var lastCommentTimestamp: Long? = null
 
-    override suspend fun getDilemmaComments(dilemmaId: String): List<Comment> {
+    override suspend fun getComments(dataId: String, root: String): List<Comment> {
         val latch = CountDownLatch(1)
         var result = mutableListOf<CommentDTO>()
 
         val commentsRef =
-            Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
+            Firebase.firestore.collection(root).document(dataId).collection(COMMENTS)
 
         val query = if (lastCommentVisible != null) {
 
@@ -79,7 +78,7 @@ class CommentsRepository @Inject constructor(
         return result.toCommentList()
     }
 
-    override suspend fun sendDilemmaComment(
+    override suspend fun sendComment(
         dataId: String,
         root: String,
         comment: CommentDTO
@@ -98,10 +97,10 @@ class CommentsRepository @Inject constructor(
         return result
     }
 
-    override suspend fun deleteDilemmaComment(dilemmaId: String, commentId: String): Boolean {
+    override suspend fun deleteComment(dataId: String, root: String, commentId: String): Boolean {
         val latch = CountDownLatch(1)
         var result = false
-        Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
+        Firebase.firestore.collection(root).document(dataId).collection(COMMENTS)
             .document(commentId).delete().addOnCompleteListener {
                 result = it.isSuccessful
                 latch.countDown()
@@ -132,14 +131,15 @@ class CommentsRepository @Inject constructor(
         return CommentAlreadyVoted(alreadyVoted, hasVotedTheSame)
     }
 
-    override suspend fun voteDilemmaComment(
-        dilemmaId: String,
+    override suspend fun voteComment(
+        dataId: String,
+        root: String,
         commentId: String,
         likes: Long,
         vote: CommentVote
     ) {
         val documentReference =
-            Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
+            Firebase.firestore.collection(root).document(dataId)
                 .collection(COMMENTS).document(commentId)
         val updatedLikes = hashMapOf<String, Any>(COMMENT_LIKES to likes)
         documentReference.update(updatedLikes)

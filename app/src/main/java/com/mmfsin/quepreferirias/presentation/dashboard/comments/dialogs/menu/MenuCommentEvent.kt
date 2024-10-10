@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu
 
 import com.mmfsin.quepreferirias.domain.models.Session
 

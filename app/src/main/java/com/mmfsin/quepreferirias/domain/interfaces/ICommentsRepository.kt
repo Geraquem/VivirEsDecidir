@@ -7,12 +7,13 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote
 
 interface ICommentsRepository {
 
-    suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
-    suspend fun sendDilemmaComment(dataId: String, root: String, comment: CommentDTO): Comment?
-    suspend fun deleteDilemmaComment(dilemmaId: String, commentId: String): Boolean
+    suspend fun getComments(dataId: String, root: String): List<Comment>
+    suspend fun sendComment(dataId: String, root: String, comment: CommentDTO): Comment?
+    suspend fun deleteComment(dataId: String, root: String, commentId: String): Boolean
     suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): CommentAlreadyVoted
-    suspend fun voteDilemmaComment(
-        dilemmaId: String,
+    suspend fun voteComment(
+        dataId: String,
+        root: String,
         commentId: String,
         likes: Long,
         vote: CommentVote

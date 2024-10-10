@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle

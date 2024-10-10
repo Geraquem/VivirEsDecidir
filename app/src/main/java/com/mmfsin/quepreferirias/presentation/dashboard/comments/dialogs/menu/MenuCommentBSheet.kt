@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,14 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmfsin.quepreferirias.databinding.BsheetMenuCommentBinding
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentMenuListener
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MenuCommentBSheet(
-    private val dilemmaId: String,
+    private val dataId: String,
+    private val type: DashboardType,
     private val commentId: String,
     private val userId: String,
     private val listener: ICommentMenuListener
@@ -52,7 +54,7 @@ class MenuCommentBSheet(
                 listener.respondComment(commentId)
                 dismiss()
             }
-            btnDelete.setOnClickListener { viewModel.deleteComment(dilemmaId, commentId) }
+            btnDelete.setOnClickListener { viewModel.deleteComment(dataId, type, commentId) }
             btnReport.setOnClickListener {
                 listener.reportComment(commentId)
                 dismiss()

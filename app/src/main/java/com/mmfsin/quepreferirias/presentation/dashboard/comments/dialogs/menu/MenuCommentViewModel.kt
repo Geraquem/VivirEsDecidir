@@ -1,15 +1,16 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
-import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaCommentUseCase
+import com.mmfsin.quepreferirias.domain.usecases.DeleteDataCommentUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MenuCommentViewModel @Inject constructor(
     private val getSessionUseCase: GetSessionUseCase,
-    private val deleteDilemmaCommentUseCase: DeleteDilemmaCommentUseCase,
+    private val deleteDataCommentUseCase: DeleteDataCommentUseCase,
 ) : BaseViewModel<MenuCommentEvent>() {
 
     fun getSession() {
@@ -20,11 +21,11 @@ class MenuCommentViewModel @Inject constructor(
         )
     }
 
-    fun deleteComment(dilemmaId: String, commentId: String) {
+    fun deleteComment(dilemmaId: String, type: DashboardType, commentId: String) {
         executeUseCase(
             {
-                deleteDilemmaCommentUseCase.execute(
-                    DeleteDilemmaCommentUseCase.Params(dilemmaId, commentId)
+                deleteDataCommentUseCase.execute(
+                    DeleteDataCommentUseCase.Params(dilemmaId, type, commentId)
                 )
             },
             { result -> _event.value = MenuCommentEvent.CommentDeleted(result) },

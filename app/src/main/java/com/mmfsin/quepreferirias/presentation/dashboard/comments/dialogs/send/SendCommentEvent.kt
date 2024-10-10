@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send
 
 import com.mmfsin.quepreferirias.domain.models.Comment
 

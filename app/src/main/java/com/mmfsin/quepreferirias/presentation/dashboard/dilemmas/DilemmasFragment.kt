@@ -29,8 +29,8 @@ import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send.SendCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.CommentsFragment
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.SendCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
@@ -310,7 +310,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private fun setUpComments() {
         actualData?.let { d ->
-            commentsFragment = CommentsFragment(d.id, this@DilemmasFragment)
+            commentsFragment = CommentsFragment(d.id, DILEMMA, this@DilemmasFragment)
             childFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, commentsFragment)
                 .commit()

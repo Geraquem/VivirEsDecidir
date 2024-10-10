@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
+package com.mmfsin.quepreferirias.presentation.dashboard.comments
 
 import android.content.Context
 import android.os.Bundle
@@ -14,18 +14,22 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.CommentsAdapter
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.adapter.SentCommentsAdapter
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu.MenuCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.CommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.SentCommentsAdapter
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu.MenuCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsRVListener
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.presentation.single.dialogs.ErrorDataDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
-    BaseFragment<FragmentCommentsBinding, CommentsViewModel>(), ICommentsRVListener,
+class CommentsFragment(
+    private val dataId: String,
+    private val type: DashboardType,
+    private val listener: ICommentsListener
+) : BaseFragment<FragmentCommentsBinding, CommentsViewModel>(), ICommentsRVListener,
     ICommentMenuListener {
 
     override val viewModel: CommentsViewModel by viewModels()
@@ -59,7 +63,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
             when (event) {
                 is CommentsEvent.CheckIfSession -> {
                     hasSession = event.hasSession
-                    viewModel.getComments(dilemmaId)
+                    viewModel.getComments(dataId, type)
                 }
 
                 is CommentsEvent.Comments -> setUpComments(event.comments)
@@ -110,7 +114,7 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
     override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
 
     override fun openCommentMenu(commentId: String, userId: String) {
-        val dialog = MenuCommentBSheet(dilemmaId, commentId, userId, this@CommentsFragment)
+        val dialog = MenuCommentBSheet(dataId, type, commentId, userId, this@CommentsFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
@@ -125,10 +129,10 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
 
     override fun reportComment(commentId: String) {
         val justSentComment = sentCommentsAdapter?.getComment(commentId)
-        justSentComment?.let { viewModel.reportComment(dilemmaId, it) }
+        justSentComment?.let { viewModel.reportComment(dataId, it) }
 
         val comment = commentsAdapter?.getComment(commentId)
-        comment?.let { viewModel.reportComment(dilemmaId, it) }
+        comment?.let { viewModel.reportComment(dataId, it) }
     }
 
     override fun voteComment(
@@ -137,20 +141,20 @@ class CommentsFragment(val dilemmaId: String, val listener: ICommentsListener) :
         likes: Long,
         position: Int
     ) {
-        if (hasSession) viewModel.voteComment(dilemmaId, commentId, vote, likes, position)
+        if (hasSession) viewModel.voteComment(dataId, type, commentId, vote, likes, position)
         else listener.shouldInitiateSession()
     }
 
     fun updateComments() {
         if (thereAreMoreComments) {
             binding.loadingMore.isVisible = true
-            viewModel.getComments(dilemmaId)
+            viewModel.getComments(dataId, type)
         } else {
             binding.loadingMore.isVisible = false
         }
     }
 
-    fun clearData(){
+    fun clearData() {
         sentCommentsAdapter?.clearData()
         commentsAdapter?.clearData()
     }

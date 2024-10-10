@@ -1,23 +1,24 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
+package com.mmfsin.quepreferirias.presentation.dashboard.comments
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyCommentVotedUseCase
-import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaCommentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetDataCommentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportCommentUseCase
-import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaCommentUseCase
+import com.mmfsin.quepreferirias.domain.usecases.VoteDataCommentUseCase
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
-    private val getDilemmaCommentsUseCase: GetDilemmaCommentsUseCase,
+    private val getDataCommentsUseCase: GetDataCommentsUseCase,
     private val checkIfAlreadyCommentVotedUseCase: CheckIfAlreadyCommentVotedUseCase,
-    private val voteDilemmaCommentUseCase: VoteDilemmaCommentUseCase,
+    private val voteDataCommentUseCase: VoteDataCommentUseCase,
     private val reportCommentUseCase: ReportCommentUseCase
 ) : BaseViewModel<CommentsEvent>() {
 
@@ -29,16 +30,17 @@ class CommentsViewModel @Inject constructor(
         )
     }
 
-    fun getComments(dilemmaId: String) {
+    fun getComments(dataId: String, type: DashboardType) {
         executeUseCase(
-            { getDilemmaCommentsUseCase.execute(GetDilemmaCommentsUseCase.Params(dilemmaId)) },
+            { getDataCommentsUseCase.execute(GetDataCommentsUseCase.Params(dataId, type)) },
             { result -> _event.value = CommentsEvent.Comments(result) },
             { _event.value = CommentsEvent.SWW }
         )
     }
 
     fun voteComment(
-        dilemmaId: String,
+        dataId: String,
+        type: DashboardType,
         commentId: String,
         vote: CommentVote,
         likes: Long,
@@ -52,14 +54,15 @@ class CommentsViewModel @Inject constructor(
             },
             { result ->
                 if (result.hasVotedTheSame) _event.value = CommentsEvent.CommentAlreadyVoted
-                else voteDilemmaCommentFlow(dilemmaId, commentId, vote, likes, position, result)
+                else voteDilemmaCommentFlow(dataId, type, commentId, vote, likes, position, result)
             },
             { _event.value = CommentsEvent.SWW }
         )
     }
 
     private fun voteDilemmaCommentFlow(
-        dilemmaId: String,
+        dataId: String,
+        type: DashboardType,
         commentId: String,
         vote: CommentVote,
         likes: Long,
@@ -68,8 +71,15 @@ class CommentsViewModel @Inject constructor(
     ) {
         executeUseCase(
             {
-                voteDilemmaCommentUseCase.execute(
-                    VoteDilemmaCommentUseCase.Params(dilemmaId, commentId, vote, likes, commentData)
+                voteDataCommentUseCase.execute(
+                    VoteDataCommentUseCase.Params(
+                        dataId,
+                        type,
+                        commentId,
+                        vote,
+                        likes,
+                        commentData
+                    )
                 )
             },
             {

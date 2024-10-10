@@ -26,8 +26,8 @@ import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send.SendCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.CommentsFragment
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.SendCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
@@ -248,7 +248,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 
     private fun setUpComments() {
         actualData?.let { d ->
-            commentsFragment = CommentsFragment(d.id, this@DualismsFragment)
+            commentsFragment = CommentsFragment(d.id, DUALISM, this@DualismsFragment)
             childFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, commentsFragment)
                 .commit()

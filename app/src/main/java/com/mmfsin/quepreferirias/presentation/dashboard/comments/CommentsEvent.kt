@@ -1,8 +1,8 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments
+package com.mmfsin.quepreferirias.presentation.dashboard.comments
 
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.menu.MenuCommentEvent
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu.MenuCommentEvent
 
 sealed class CommentsEvent {
     class CheckIfSession(val hasSession: Boolean) : CommentsEvent()

@@ -6,11 +6,14 @@ import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
+import com.mmfsin.quepreferirias.utils.DILEMMAS
+import com.mmfsin.quepreferirias.utils.DUALISMS
 import javax.inject.Inject
 
-class VoteDilemmaCommentUseCase @Inject constructor(
+class VoteDataCommentUseCase @Inject constructor(
     private val repository: ICommentsRepository
-) : BaseUseCase<VoteDilemmaCommentUseCase.Params, Unit>() {
+) : BaseUseCase<VoteDataCommentUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
         val actualLikes = params.likes
@@ -26,11 +29,16 @@ class VoteDilemmaCommentUseCase @Inject constructor(
                 VOTE_DOWN -> actualLikes.minus(1)
             }
         }
-        repository.voteDilemmaComment(params.dilemmaId, params.commentId, newLikes, params.vote)
+        val root = when (params.type) {
+            DashboardType.DILEMMA -> DILEMMAS
+            DashboardType.DUALISM -> DUALISMS
+        }
+        repository.voteComment(params.dataId, root, params.commentId, newLikes, params.vote)
     }
 
     data class Params(
-        val dilemmaId: String,
+        val dataId: String,
+        val type: DashboardType,
         val commentId: String,
         val vote: CommentVote,
         val likes: Long,

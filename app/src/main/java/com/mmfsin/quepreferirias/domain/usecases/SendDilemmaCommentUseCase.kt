@@ -31,7 +31,7 @@ class SendDilemmaCommentUseCase @Inject constructor(
             DILEMMA -> DILEMMAS
             DUALISM -> DUALISMS
         }
-        return repository.sendDilemmaComment(params.dataId, root, comment)
+        return repository.sendComment(params.dataId, root, comment)
     }
 
     data class Params(
