@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.apply {
             toolbar.ivBack.setOnClickListener { finish() }
-            btnGoogle.setOnClickListener { viewModel.googleLogin() }
+            btnLogin.btnGoogle.setOnClickListener { viewModel.googleLogin() }
         }
     }
 

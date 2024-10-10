@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.CountDownTimer
 import android.text.Editable
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import android.widget.EditText
@@ -76,15 +77,20 @@ fun FragmentActivity.showKeyboard(editText: EditText) {
     inputMethodManager.showSoftInput(editText, SHOW_IMPLICIT)
 }
 
-fun Context.shareContent(text: String): Intent {
+fun shareContent(text: String): Intent {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, text)
         type = "text/plain"
     }
-
     return Intent.createChooser(sendIntent, null)
 }
+
+fun View.animateY(pos: Float, duration: Long) =
+    this.animate().translationY(pos).setDuration(duration)
+
+fun View.animateX(pos: Float, duration: Long) =
+    this.animate().translationX(pos).setDuration(duration)
 
 fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2) -> R): R? {
     return if (p1 != null && p2 != null) block(p1, p2) else null

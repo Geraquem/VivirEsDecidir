@@ -356,7 +356,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     "${getString(R.string.dashboard_share_which_take)} \n\n" +
                     "${getString(R.string.dashboard_share_more_in)}\n" +
                     getString(R.string.dashboard_share_url)
-            val shareIntent = mContext.shareContent(text)
+            val shareIntent = shareContent(text)
             startActivity(shareIntent)
         }
     }
