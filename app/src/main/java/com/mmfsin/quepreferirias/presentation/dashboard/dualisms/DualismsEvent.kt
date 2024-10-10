@@ -16,5 +16,6 @@ sealed class DualismsEvent {
 
     class VoteDilemma(val wasTop: Boolean) : DualismsEvent()
 
+    object Reported : DualismsEvent()
     object SWW : DualismsEvent()
 }

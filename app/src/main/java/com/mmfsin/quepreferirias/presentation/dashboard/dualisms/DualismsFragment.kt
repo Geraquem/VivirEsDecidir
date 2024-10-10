@@ -1,12 +1,16 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dualisms
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList.valueOf
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
@@ -17,7 +21,9 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDualismBinding
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismVotes
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
@@ -26,12 +32,13 @@ import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.checkNotNulls
+import com.mmfsin.quepreferirias.utils.shareContent
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>(),
-    ICommentsListener {
+    ICommentsListener, IMenuDashboardListener {
 
     override val viewModel: DualismsViewModel by viewModels()
     private lateinit var mContext: Context
@@ -94,6 +101,11 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     viewModel.checkIfIsMe(creatorId)
                 }
             }
+
+            btnComment.setOnClickListener { sendComment() }
+            btnFav.setOnClickListener { favOnClick() }
+            btnShare.setOnClickListener { share() }
+            btnMenu.setOnClickListener { openMenu() }
 
             tvNext.setOnClickListener {
                 position++
@@ -159,6 +171,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                 }
 
                 is DualismsEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
+                is DualismsEvent.Reported -> reported()
                 is DualismsEvent.SWW -> error()
             }
         }
@@ -258,6 +271,11 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
         }
     }
 
+    private fun openMenu() {
+        val dialog = MenuDashboardBSheet(isFav, this@DualismsFragment)
+        activity?.let { dialog.show(it.supportFragmentManager, "") }
+    }
+
     override fun shouldInitiateSession() {
         localBroadcastOpenLogin()
     }
@@ -271,6 +289,67 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
         val navGraph = if (isMe) R.navigation.nav_graph_profile
         else R.navigation.nav_graph_other_profile
         (activity as BedRockActivity).openActivity(navGraph, USER_ID, userId)
+    }
+
+    override fun sendComment() {
+//        viewModel.getSessionToComment()
+    }
+
+    override fun setFavorite() = favOnClick()
+
+    private fun favOnClick() {
+        if (hasSession) {
+            binding.btnFav.apply {
+                actualData?.let { data ->
+                    when (tag) {
+                        FavButtonTag.FAV -> {
+                            setFavButton(isOn = false)
+                            viewModel.deleteFavDualism(data.id)
+                        }
+
+                        FavButtonTag.NO_FAV -> {
+                            setFavButton(isOn = true)
+                            viewModel.setDualismFav(data.id, data.txtTop, data.txtBottom)
+                        }
+
+                        else -> Log.e("FavButton", "Unexpected click")
+                    }
+                } ?: run { error() }
+            }
+        } else localBroadcastOpenLogin()
+    }
+
+    override fun copyText() {
+        checkNotNulls(activity, actualData) { a, data ->
+            val clipboard = a.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val text = "${data.txtTop} ${getString(R.string.dashboard_or)} ${data.txtBottom}"
+            val clip = ClipData.newPlainText("label", text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(
+                mContext,
+                getString(R.string.menu_dashboard_dualism_copied),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun share() {
+        actualData?.let { data ->
+            val text = "${data.txtTop} ${getString(R.string.dashboard_or)} ${data.txtBottom}, " +
+                    "${getString(R.string.dashboard_share_which_take)} \n\n" +
+                    "${getString(R.string.dashboard_share_more_in)}\n" +
+                    getString(R.string.dashboard_share_url)
+            val shareIntent = mContext.shareContent(text)
+            startActivity(shareIntent)
+        }
+    }
+
+    override fun report() {
+        actualData?.let { data -> viewModel.reportDualism(data) }
+    }
+
+    private fun reported() {
+        Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
     }
 
     private fun error() {

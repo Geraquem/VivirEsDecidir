@@ -1,29 +1,29 @@
 package com.mmfsin.quepreferirias.domain.usecases
 
+import android.content.Context
 import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.domain.interfaces.IDilemmasRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IDualismsRepository
-import com.mmfsin.quepreferirias.domain.models.Dilemma
-import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
-import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
-import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class ReportDataUseCase @Inject constructor(
+class DeleteFavDataUseCase @Inject constructor(
+    @ApplicationContext val context: Context,
     private val dilemmasRepo: IDilemmasRepository,
     private val dualismsRepo: IDualismsRepository
-) : BaseUseCase<ReportDataUseCase.Params, Unit>() {
+) : BaseUseCase<DeleteFavDataUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
         when (params.type) {
-            DILEMMA -> dilemmasRepo.reportDilemma(params.data as Dilemma)
-            DUALISM -> dualismsRepo.reportDualism(params.data as Dualism)
+            DILEMMA -> dilemmasRepo.deleteFavDilemma(params.dataId)
+            DUALISM -> dualismsRepo.deleteFavDualism(params.dataId)
         }
     }
 
     data class Params(
-        val data: Any,
+        val dataId: String,
         val type: DashboardType
     )
 }

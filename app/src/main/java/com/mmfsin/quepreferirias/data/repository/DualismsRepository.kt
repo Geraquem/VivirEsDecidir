@@ -23,8 +23,10 @@ import com.mmfsin.quepreferirias.utils.CREATOR_ID
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
 import com.mmfsin.quepreferirias.utils.DUALISMS
 import com.mmfsin.quepreferirias.utils.DUALISMS_SENT
+import com.mmfsin.quepreferirias.utils.DUALISM_ID
 import com.mmfsin.quepreferirias.utils.EXPLANATION
 import com.mmfsin.quepreferirias.utils.FILTER_VALUE
+import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.SAVED_DUALISMS
 import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DUALISMS
 import com.mmfsin.quepreferirias.utils.SESSION
@@ -212,7 +214,48 @@ class DualismsRepository @Inject constructor(
         withContext(Dispatchers.IO) { latch.await() }
     }
 
-    override suspend fun reportDualism(dualismId: String) {
+    override suspend fun setFavDualism(dualism: DualismFavDTO) {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        session?.let {
+            Firebase.firestore.collection(USERS).document(session.id)
+                .collection(SAVED_DUALISMS).document(dualism.dualismId)
+                .set(dualism, SetOptions.merge())
+                .addOnCompleteListener {
+                    realmDatabase.addObject { dualism }
+                    latch.countDown()
+                }
+            withContext(Dispatchers.IO) { latch.await() }
+        }
+    }
 
+    override suspend fun deleteFavDualism(dualismId: String) {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        session?.let {
+            Firebase.firestore.collection(USERS).document(session.id)
+                .collection(SAVED_DUALISMS).document(dualismId)
+                .delete().addOnCompleteListener {
+                    realmDatabase.deleteObject(
+                        DualismFavDTO::class.java,
+                        DUALISM_ID,
+                        dualismId
+                    )
+                    latch.countDown()
+                }
+            withContext(Dispatchers.IO) { latch.await() }
+        }
+    }
+
+    override suspend fun reportDualism(dualism: Dualism) {
+        val latch = CountDownLatch(1)
+        Firebase.firestore.collection(REPORTED)
+            .document(DUALISMS).collection(dualism.id)
+            .document(dualism.id).set(dualism)
+            .addOnCompleteListener {
+                val a = 2
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
     }
 }

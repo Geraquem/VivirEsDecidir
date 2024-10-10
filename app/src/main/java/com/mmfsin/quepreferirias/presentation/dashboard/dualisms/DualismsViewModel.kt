@@ -1,12 +1,17 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.dualisms
 
+import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
+import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDataIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
+import com.mmfsin.quepreferirias.domain.usecases.DeleteFavDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDualismVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDualismsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
+import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
+import com.mmfsin.quepreferirias.domain.usecases.SetFavDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDualismUseCase
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +26,9 @@ class DualismsViewModel @Inject constructor(
     private val getDualismVotesUseCase: GetDualismVotesUseCase,
     private val voteDualismUseCase: VoteDualismUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
+    private val setFavDataUseCase: SetFavDataUseCase,
+    private val deleteFavDataUseCase: DeleteFavDataUseCase,
+    private val reportDataUseCase: ReportDataUseCase
 ) : BaseViewModel<DualismsEvent>() {
 
     fun checkSessionInitiated() {
@@ -90,6 +98,34 @@ class DualismsViewModel @Inject constructor(
                 _event.value = result?.let { DualismsEvent.GetPercents(it) }
                     ?: run { DualismsEvent.SWW }
             },
+            { _event.value = DualismsEvent.SWW }
+        )
+    }
+
+    fun setDualismFav(dualismId: String, txtTop: String, txtBottom: String) {
+        executeUseCase(
+            {
+                setFavDataUseCase.execute(
+                    SetFavDataUseCase.Params(dualismId, DUALISM, txtTop, txtBottom)
+                )
+            },
+            { Log.i("DILEMMA_FAV", "DilemmaFav added") },
+            { _event.value = DualismsEvent.SWW }
+        )
+    }
+
+    fun deleteFavDualism(dualismId: String) {
+        executeUseCase(
+            { deleteFavDataUseCase.execute(DeleteFavDataUseCase.Params(dualismId, DUALISM)) },
+            { Log.i("DILEMMA_FAV", "DilemmaFav deleted") },
+            { _event.value = DualismsEvent.SWW }
+        )
+    }
+
+    fun reportDualism(dualism: Dualism) {
+        executeUseCase(
+            { reportDataUseCase.execute(ReportDataUseCase.Params(dualism, DUALISM)) },
+            { _event.value = DualismsEvent.Reported },
             { _event.value = DualismsEvent.SWW }
         )
     }

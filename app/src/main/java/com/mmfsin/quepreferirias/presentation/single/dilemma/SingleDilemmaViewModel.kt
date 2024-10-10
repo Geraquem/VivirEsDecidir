@@ -6,14 +6,14 @@ import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyVotedDilemmaUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDataIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
-import com.mmfsin.quepreferirias.domain.usecases.DeleteDilemmaFavUseCase
+import com.mmfsin.quepreferirias.domain.usecases.DeleteFavDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaByIdUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDilemmaVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
-import com.mmfsin.quepreferirias.domain.usecases.SetFavDilemmaUseCase
+import com.mmfsin.quepreferirias.domain.usecases.SetFavDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDilemmaUseCase
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,8 +27,8 @@ class SingleDilemmaViewModel @Inject constructor(
     private val getDilemmaVotesUseCase: GetDilemmaVotesUseCase,
     private val getPercentsUseCase: GetPercentsUseCase,
     private val checkIfDataIsFavUseCase: CheckIfDataIsFavUseCase,
-    private val setFavDilemmaUseCase: SetFavDilemmaUseCase,
-    private val deleteDilemmaFavUseCase: DeleteDilemmaFavUseCase,
+    private val setFavDataUseCase: SetFavDataUseCase,
+    private val deleteFavDataUseCase: DeleteFavDataUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
     private val voteDilemmaUseCase: VoteDilemmaUseCase,
     private val checkIfAlreadyVotedDilemmaUseCase: CheckIfAlreadyVotedDilemmaUseCase,
@@ -125,8 +125,8 @@ class SingleDilemmaViewModel @Inject constructor(
     fun setDilemmaFav(dilemmaId: String, txtTop: String, txtBottom: String) {
         executeUseCase(
             {
-                setFavDilemmaUseCase.execute(
-                    SetFavDilemmaUseCase.Params(dilemmaId, txtTop, txtBottom)
+                setFavDataUseCase.execute(
+                    SetFavDataUseCase.Params(dilemmaId, DILEMMA, txtTop, txtBottom)
                 )
             },
             { Log.i("DILEMMA_FAV", "DilemmaFav added") },
@@ -144,7 +144,7 @@ class SingleDilemmaViewModel @Inject constructor(
 
     fun deleteDilemmaFav(dilemmaId: String) {
         executeUseCase(
-            { deleteDilemmaFavUseCase.execute(DeleteDilemmaFavUseCase.Params(dilemmaId)) },
+            { deleteFavDataUseCase.execute(DeleteFavDataUseCase.Params(dilemmaId, DILEMMA)) },
             { Log.i("DILEMMA_FAV", "DilemmaFav deleted") },
             { _event.value = SingleDilemmaEvent.SWW }
         )

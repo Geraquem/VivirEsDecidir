@@ -1,5 +1,6 @@
 package com.mmfsin.quepreferirias.utils
 
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -73,6 +74,16 @@ fun FragmentActivity.openRRSS(type: RRSSType, name: String) {
 fun FragmentActivity.showKeyboard(editText: EditText) {
     val inputMethodManager = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.showSoftInput(editText, SHOW_IMPLICIT)
+}
+
+fun Context.shareContent(text: String): Intent {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, text)
+        type = "text/plain"
+    }
+
+    return Intent.createChooser(sendIntent, null)
 }
 
 fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2) -> R): R? {

@@ -2,12 +2,14 @@ package com.mmfsin.quepreferirias.data.mappers
 
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaVotedDTO
+import com.mmfsin.quepreferirias.data.models.DualismFavDTO
 import com.mmfsin.quepreferirias.data.models.DualismVotedDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SendDualismDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.DilemmaVoted
+import com.mmfsin.quepreferirias.domain.models.DualismFav
 import com.mmfsin.quepreferirias.domain.models.DualismVoted
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.SendDualism
@@ -27,6 +29,12 @@ fun Session.toSessionDTO() = SessionDTO(
 
 fun DilemmaFav.toDilemmaFavDTO() = DilemmaFavDTO(
     dilemmaId = dilemmaId,
+    txtTop = txtTop,
+    txtBottom = txtBottom
+)
+
+fun DualismFav.toDualismFavDTO() = DualismFavDTO(
+    dualismId = dualismId,
     txtTop = txtTop,
     txtBottom = txtBottom
 )
