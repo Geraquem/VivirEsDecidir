@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseDialog
 import com.mmfsin.quepreferirias.databinding.DialogDeleteBinding
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DeleteMyDataDialog(private val type: SentType, val delete: () -> Unit) :
+class DeleteMyDataDialog(private val type: DashboardType, val delete: () -> Unit) :
     BaseDialog<DialogDeleteBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) = DialogDeleteBinding.inflate(inflater)
@@ -20,8 +23,8 @@ class DeleteMyDataDialog(private val type: SentType, val delete: () -> Unit) :
         binding.apply {
             ivImage.setImageResource(R.drawable.ic_delete)
             val title = when (type) {
-                SentType.DILEMMA -> R.string.delete_sent_dilemma_title
-                SentType.DUALISM -> R.string.delete_sent_dualism_title
+                DILEMMA -> R.string.delete_sent_dilemma_title
+                DUALISM -> R.string.delete_sent_dualism_title
             }
             tvTitle.text = getString(title)
             btnAccept.text = getString(R.string.common_yes)
@@ -35,9 +38,4 @@ class DeleteMyDataDialog(private val type: SentType, val delete: () -> Unit) :
             btnCancel.setOnClickListener { dismiss() }
         }
     }
-}
-
-enum class SentType {
-    DILEMMA,
-    DUALISM
 }

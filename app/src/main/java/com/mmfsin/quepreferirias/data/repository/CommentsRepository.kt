@@ -79,18 +79,14 @@ class CommentsRepository @Inject constructor(
         return result.toCommentList()
     }
 
-    private fun sortedComments(comments: List<CommentDTO>): List<Comment> {
-        val sortedList = comments.sortedBy { it.timestamp }.reversed()
-        return sortedList.toCommentList()
-    }
-
     override suspend fun sendDilemmaComment(
-        dilemmaId: String,
+        dataId: String,
+        root: String,
         comment: CommentDTO
     ): Comment? {
         val latch = CountDownLatch(1)
         var result: Comment? = null
-        Firebase.firestore.collection(DILEMMAS).document(dilemmaId).collection(COMMENTS)
+        Firebase.firestore.collection(root).document(dataId).collection(COMMENTS)
             .document(comment.commentId).set(comment, SetOptions.merge())
             .addOnCompleteListener {
                 if (it.isSuccessful) result = comment.toComment()

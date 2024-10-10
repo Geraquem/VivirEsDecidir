@@ -14,9 +14,9 @@ import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
 import com.mmfsin.quepreferirias.presentation.ideas.myideas.dialogs.DeleteMyDataDialog
-import com.mmfsin.quepreferirias.presentation.ideas.myideas.dialogs.SentType.DILEMMA
 import com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.adapter.MyDilemmasAdapter
 import com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.interfaces.IMyDilemmasListener
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 

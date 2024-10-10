@@ -9,10 +9,12 @@ import com.mmfsin.quepreferirias.domain.usecases.DeleteFavDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDualismVotesUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDualismsUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetPercentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.SetFavDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDualismUseCase
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DualismsViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
+    private val getSessionUseCase: GetSessionUseCase,
     private val getDualismsUseCase: GetDualismsUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
     private val checkIfDataIsFavUseCase: CheckIfDataIsFavUseCase,
@@ -51,6 +54,14 @@ class DualismsViewModel @Inject constructor(
         executeUseCase(
             { checkIfUserIdIsMeUseCase.execute(CheckIfUserIdIsMeUseCase.Params(userId)) },
             { result -> _event.value = DualismsEvent.NavigateToProfile(result, userId) },
+            { _event.value = DualismsEvent.SWW }
+        )
+    }
+
+    fun getSessionToComment() {
+        executeUseCase(
+            { getSessionUseCase.execute() },
+            { result -> _event.value = DualismsEvent.GetSessionToComment(result) },
             { _event.value = DualismsEvent.SWW }
         )
     }

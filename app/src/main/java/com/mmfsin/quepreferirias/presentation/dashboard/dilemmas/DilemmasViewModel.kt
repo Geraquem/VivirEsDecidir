@@ -41,14 +41,6 @@ class DilemmasViewModel @Inject constructor(
         )
     }
 
-    fun getSessionToComment() {
-        executeUseCase(
-            { getSessionUseCase.execute() },
-            { result -> _event.value = DilemmasEvent.GetSessionToComment(result) },
-            { _event.value = DilemmasEvent.SWW }
-        )
-    }
-
     fun reCheckSession() {
         executeUseCase(
             { initiatedSessionUseCase.execute() },
@@ -61,6 +53,14 @@ class DilemmasViewModel @Inject constructor(
         executeUseCase(
             { checkIfUserIdIsMeUseCase.execute(CheckIfUserIdIsMeUseCase.Params(userId)) },
             { result -> _event.value = DilemmasEvent.NavigateToProfile(result, userId) },
+            { _event.value = DilemmasEvent.SWW }
+        )
+    }
+
+    fun getSessionToComment() {
+        executeUseCase(
+            { getSessionUseCase.execute() },
+            { result -> _event.value = DilemmasEvent.GetSessionToComment(result) },
             { _event.value = DilemmasEvent.SWW }
         )
     }

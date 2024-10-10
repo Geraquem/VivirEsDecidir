@@ -5,6 +5,10 @@ import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.domain.interfaces.ICommentsRepository
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.*
+import com.mmfsin.quepreferirias.utils.DILEMMAS
+import com.mmfsin.quepreferirias.utils.DUALISMS
 import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
@@ -23,11 +27,16 @@ class SendDilemmaCommentUseCase @Inject constructor(
             timestamp = System.currentTimeMillis(),
             date = LocalDate.now().toString()
         )
-        return repository.sendDilemmaComment(params.dilemmaId, comment)
+        val root = when (params.type) {
+            DILEMMA -> DILEMMAS
+            DUALISM -> DUALISMS
+        }
+        return repository.sendDilemmaComment(params.dataId, root, comment)
     }
 
     data class Params(
-        val dilemmaId: String,
+        val dataId: String,
+        val type: DashboardType,
         val session: Session,
         val comment: String
     )

@@ -2,11 +2,14 @@ package com.mmfsin.quepreferirias.presentation.dashboard.dualisms
 
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismVotes
+import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.DilemmasEvent
 import com.mmfsin.quepreferirias.presentation.models.Percents
 
 sealed class DualismsEvent {
     class InitiatedSession(val initiatedSession: Boolean) : DualismsEvent()
     class ReCheckSession(val initiatedSession: Boolean) : DualismsEvent()
+    class GetSessionToComment(val session: Session?) : DualismsEvent()
     class NavigateToProfile(val isMe: Boolean, val userId: String) : DualismsEvent()
 
     class Dualisms(val data: List<Dualism>) : DualismsEvent()

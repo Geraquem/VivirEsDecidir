@@ -15,15 +15,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.BsheetSendCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Dilemma
+import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
+import com.mmfsin.quepreferirias.presentation.models.DashboardType
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import com.mmfsin.quepreferirias.utils.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SendCommentBSheet(
-    private val dilemma: Dilemma,
+    private val data: Any,
+    private val type: DashboardType,
     private val session: Session,
     private val listener: ISendCommentListener,
 ) : BottomSheetDialogFragment() {
@@ -67,16 +72,26 @@ class SendCommentBSheet(
     private fun setUI() {
         binding.apply {
             rvLoading.isVisible = false
-            tvDilemma.text = getString(
-                R.string.comments_dilemma,
-                dilemma.txtTop,
-                dilemma.txtBottom
-            )
+            tvDilemma.text = getDataText()
             etComment.postDelayed({
                 etComment.requestFocus()
                 activity?.showKeyboard(etComment)
             }, 100)
             setTextWatcherComment()
+        }
+    }
+
+    private fun getDataText(): String {
+        return when (type) {
+            DILEMMA -> {
+                (data as Dilemma)
+                getString(R.string.comments_dilemma, data.txtTop, data.txtBottom)
+            }
+
+            DUALISM -> {
+                (data as Dualism)
+                getString(R.string.comments_dualism, data.txtTop, data.txtBottom)
+            }
         }
     }
 
@@ -105,11 +120,18 @@ class SendCommentBSheet(
                 val comment = etComment.text.toString()
                 if (comment.isNotBlank()) {
                     val filteredText = comment.replace("\n\n\n", "\n\n")
-                    viewModel.sendComment(dilemma.id, session, filteredText)
+                    viewModel.sendComment(getDataId(), type, session, filteredText)
                     rvLoading.isVisible = true
                     hideKeyboard()
                 }
             }
+        }
+    }
+
+    private fun getDataId(): String {
+        return when (type) {
+            DILEMMA -> (data as Dilemma).id
+            DUALISM -> (data as Dualism).id
         }
     }
 

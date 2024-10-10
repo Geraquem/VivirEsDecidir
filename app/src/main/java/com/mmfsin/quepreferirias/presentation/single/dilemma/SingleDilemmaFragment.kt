@@ -33,6 +33,7 @@ import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialog
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.NO_FAV
 import com.mmfsin.quepreferirias.presentation.models.Percents
@@ -154,7 +155,8 @@ class SingleDilemmaFragment : BaseFragment<FragmentDilemmaBinding, SingleDilemma
     private fun openSendCommentSheet(session: Session?) {
         session?.let { userData ->
             actualData?.let { dilemma ->
-                val dialog = SendCommentBSheet(dilemma, userData, this@SingleDilemmaFragment)
+                val dialog =
+                    SendCommentBSheet(dilemma, DILEMMA, userData, this@SingleDilemmaFragment)
                 activity?.let { dialog.show(it.supportFragmentManager, "") }
             }
         } ?: run { localBroadcastOpenLogin() }

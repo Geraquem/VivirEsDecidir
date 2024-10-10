@@ -19,14 +19,19 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDualismBinding
+import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismVotes
+import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.CommentsFragment
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.comments.dialogs.send.SendCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag
 import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
@@ -38,7 +43,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>(),
-    ICommentsListener, IMenuDashboardListener {
+    ICommentsListener, IMenuDashboardListener, ISendCommentListener {
 
     override val viewModel: DualismsViewModel by viewModels()
     private lateinit var mContext: Context
@@ -170,6 +175,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     viewModel.getPercents(votesTop, votesBottom)
                 }
 
+                is DualismsEvent.GetSessionToComment -> openSendCommentSheet(event.session)
                 is DualismsEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
                 is DualismsEvent.Reported -> reported()
                 is DualismsEvent.SWW -> error()
@@ -291,8 +297,19 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
         (activity as BedRockActivity).openActivity(navGraph, USER_ID, userId)
     }
 
-    override fun sendComment() {
-//        viewModel.getSessionToComment()
+    override fun sendComment() = viewModel.getSessionToComment()
+
+    private fun openSendCommentSheet(session: Session?) {
+        session?.let { userData ->
+            actualData?.let { dualism ->
+                val dialog = SendCommentBSheet(dualism, DUALISM, userData, this@DualismsFragment)
+                activity?.let { dialog.show(it.supportFragmentManager, "") }
+            }
+        } ?: run { localBroadcastOpenLogin() }
+    }
+
+    override fun commentSent(comment: Comment) {
+        if (::commentsFragment.isInitialized) commentsFragment.commentSent(comment)
     }
 
     override fun setFavorite() = favOnClick()
