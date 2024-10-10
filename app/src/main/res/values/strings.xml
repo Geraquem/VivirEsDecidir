@@ -89,7 +89,7 @@
     <string name="dashboard_dualism_votes">%s votos</string>
     <string name="dashboard_next">Siguiente</string>
     <string name="dashboard_sent_by">Enviado por</string>
-    <string name="dashboard_no_comments">No hay comentarios, ¡da el primer paso!</string>
+    <string name="dashboard_no_comments">Todavía no hay comentarios, ¡da el primer paso!</string>
     <string name="dashboard_share_question">¿Aceptas?</string>
     <string name="dashboard_share_which_take">¿Cuál eliges?</string>
     <string name="dashboard_share_more_in">Todo esto y mucho más en</string>

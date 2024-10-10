@@ -28,12 +28,12 @@
 
         <TextView
             android:id="@+id/tv_no_comments"
-            style="@style/MediumTextView_Bold"
+            style="@style/MediumTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:gravity="center"
-            android:paddingHorizontal="8dp"
+            android:paddingHorizontal="24dp"
             android:text="@string/dashboard_no_comments"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
