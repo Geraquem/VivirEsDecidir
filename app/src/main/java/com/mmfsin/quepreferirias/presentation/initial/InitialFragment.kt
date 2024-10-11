@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.utils.animateY
+import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,36 +30,43 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.checkSessionInitiated()
+//        viewModel.checkSessionInitiated()
     }
 
     override fun setUI() {
         binding.apply {
-            btnLogin.root.visibility = View.INVISIBLE
-            btnLogin.root.animateY(-500f, 10)
-            llHello.visibility = View.INVISIBLE
-            llHello.animateY(-500f, 10)
         }
     }
 
     override fun setListeners() {
         binding.apply {
+            btnOpenMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
+            llDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
+            llDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
+            llProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
+            llSendData.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
         }
     }
+
+    private fun navigate(navGraph: Int) = (activity as MainActivity).navigateTo(navGraph)
 
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
                 is InitialEvent.InitiatedSession -> {
-                    hasSession = event.initiatedSession
-                    setUserName()
-                    if (hasSession) viewModel.getSession()
+//                    hasSession = event.initiatedSession
+//                    setUserName()
+//                    if (hasSession) viewModel.getSession()
                 }
 
-                is InitialEvent.ReCheckSession -> {}
+                is InitialEvent.ReCheckSession -> {
+//                    hasSession = event.initiatedSession
+//                    val a = 2
+                }
+
                 is InitialEvent.GetSession -> {
-                    userData = event.session
-                    setUserName()
+//                    binding.tvUserName.text = event.session?.name
+//                    setUserName()
                 }
 
                 is InitialEvent.SWW -> error()
@@ -68,13 +76,7 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
 
     private fun setUserName() {
         binding.apply {
-            if (hasSession) {
-                llHello.visibility = View.VISIBLE
-                llHello.animateY(0f, 1000)
-            } else {
-                btnLogin.root.visibility = View.VISIBLE
-                btnLogin.root.animateY(0f, 1000)
-            }
+
         }
     }
 
@@ -89,6 +91,6 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
 
     override fun onResume() {
         super.onResume()
-        viewModel.reCheckSession()
+//        viewModel.checkSessionInitiated()
     }
 }

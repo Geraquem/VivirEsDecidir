@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         observe()
-        setListeners()
         setNavigationDrawer()
         setAds()
 
@@ -105,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateTo(navigation: Int) {
+    fun navigateTo(navigation: Int) {
         val intent = Intent(this, BedRockActivity::class.java)
         intent.putExtra(ROOT_ACTIVITY_NAV_GRAPH, navigation)
         startActivity(intent)
@@ -135,6 +134,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun navigateToUserProfileFromFragment() = viewModel.checkSession(USER_PROFILE)
+
     private fun drawerHeaderViewDefault() {
         binding.apply {
             val headerView = navigationView.getHeaderView(0)
@@ -153,15 +154,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setListeners() {
-        binding.apply { ivMenu.setOnClickListener { openDrawer() } }
-    }
+    fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
 
-    private fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
-
-    private fun openSendDataDialog() {
+    fun openSendDataDialog() =
         SendDataDialog { navGraph -> navigateTo(navGraph) }.show(supportFragmentManager, "")
-    }
 
     private fun setAds() {
         binding.apply {
