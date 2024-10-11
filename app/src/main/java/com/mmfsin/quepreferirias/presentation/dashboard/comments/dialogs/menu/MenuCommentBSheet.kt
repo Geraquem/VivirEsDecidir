@@ -3,10 +3,9 @@ package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.BsheetMenuCommentBinding
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
@@ -20,35 +19,23 @@ class MenuCommentBSheet(
     private val commentId: String,
     private val userId: String,
     private val listener: ICommentMenuListener
-) : BottomSheetDialogFragment() {
-
-    private var _binding: BsheetMenuCommentBinding? = null
-    private val binding get() = _binding!!
+) : BaseBottomSheet<BsheetMenuCommentBinding>() {
 
     private val viewModel: MenuCommentViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BsheetMenuCommentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun inflateView(inflater: LayoutInflater) = BsheetMenuCommentBinding.inflate(inflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUI()
-        setListeners()
         observe()
-
         viewModel.getSession()
     }
 
-    private fun setUI() {
+    override fun setUI() {
         binding.btnDelete.isVisible = false
     }
 
-    private fun setListeners() {
+    override fun setListeners() {
         binding.apply {
             btnAnswer.setOnClickListener {
                 listener.respondComment(commentId)
@@ -85,11 +72,5 @@ class MenuCommentBSheet(
 
     private fun error() {
         activity?.showErrorDialog { activity?.onBackPressedDispatcher?.onBackPressed() }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -1,7 +1,6 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send
 
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -11,8 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mmfsin.quepreferirias.R
+import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.BsheetSendCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.Dualism
@@ -31,15 +30,15 @@ class SendCommentBSheet(
     private val type: DashboardType,
     private val session: Session,
     private val listener: ISendCommentListener,
-) : BottomSheetDialogFragment() {
-
-    private var _binding: BsheetSendCommentBinding? = null
-    private val binding get() = _binding!!
+) : BaseBottomSheet<BsheetSendCommentBinding>() {
 
     private val viewModel: SendCommentViewModel by viewModels()
 
+    override fun inflateView(inflater: LayoutInflater) = BsheetSendCommentBinding.inflate(inflater)
+
     override fun onStart() {
         super.onStart()
+        observe()
 
         val bottomSheet =
             dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
@@ -54,22 +53,7 @@ class SendCommentBSheet(
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BsheetSendCommentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUI()
-        setListeners()
-        observe()
-    }
-
-    private fun setUI() {
+    override fun setUI() {
         binding.apply {
             rvLoading.isVisible = false
             tvDilemma.text = getDataText()
@@ -113,7 +97,7 @@ class SendCommentBSheet(
         })
     }
 
-    private fun setListeners() {
+    override fun setListeners() {
         binding.apply {
             ivClose.setOnClickListener { dismiss() }
             tvSendComment.setOnClickListener {
@@ -159,10 +143,5 @@ class SendCommentBSheet(
 
     private fun error() {
         activity?.showErrorDialog { activity?.onBackPressedDispatcher?.onBackPressed() }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

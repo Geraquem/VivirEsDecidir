@@ -5,11 +5,11 @@
         <menu>
             <item
                 android:id="@+id/nav_dilemmas"
-                android:icon="@drawable/ic_dilemma_yes_trans"
+                android:icon="@drawable/ic_dilemma"
                 android:title="@string/nav_dilemmas" />
             <item
                 android:id="@+id/nav_dualism"
-                android:icon="@drawable/ic_dilemma_yes_trans"
+                android:icon="@drawable/ic_arrow_down"
                 android:title="@string/nav_dualism" />
         </menu>
     </item>

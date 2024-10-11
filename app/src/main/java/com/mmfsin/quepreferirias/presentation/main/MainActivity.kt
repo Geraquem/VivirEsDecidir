@@ -28,7 +28,7 @@ import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.DUALISMS
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.MY_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.SEND_DATA
 import com.mmfsin.quepreferirias.presentation.models.DrawerFlow.USER_PROFILE
-import com.mmfsin.quepreferirias.presentation.send.dialogs.SendDataDialog
+import com.mmfsin.quepreferirias.presentation.send.dialogs.SendDataBSheet
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.ROOT_ACTIVITY_NAV_GRAPH
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity() {
     fun openDrawer() = binding.drawerLayout.openDrawer(binding.navigationView)
 
     fun openSendDataDialog() =
-        SendDataDialog { navGraph -> navigateTo(navGraph) }.show(supportFragmentManager, "")
+        SendDataBSheet { navGraph -> navigateTo(navGraph) }.show(supportFragmentManager, "")
 
     private fun setAds() {
         binding.apply {
