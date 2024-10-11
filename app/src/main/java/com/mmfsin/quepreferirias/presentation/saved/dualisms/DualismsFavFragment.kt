@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.saved.dilemmas
+package com.mmfsin.quepreferirias.presentation.saved.dualisms
 
 import android.content.Context
 import android.os.Bundle
@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentRvDataBinding
-import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.DualismFav
 import com.mmfsin.quepreferirias.presentation.saved.dialogs.DeleteFavDataDialog
-import com.mmfsin.quepreferirias.presentation.saved.dilemmas.adapter.DilemmaFavsAdapter
-import com.mmfsin.quepreferirias.presentation.saved.dilemmas.interfaces.IDilemmaFavListener
+import com.mmfsin.quepreferirias.presentation.saved.dualisms.adapter.DualismsFavAdapter
+import com.mmfsin.quepreferirias.presentation.saved.dualisms.interfaces.IDualismsFavListener
 import com.mmfsin.quepreferirias.presentation.saved.listeners.ISavedDataListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DilemmaFavFragment(val listener: ISavedDataListener) :
-    BaseFragment<FragmentRvDataBinding, DilemmaFavViewModel>(), IDilemmaFavListener {
+class DualismsFavFragment(val listener: ISavedDataListener) :
+    BaseFragment<FragmentRvDataBinding, DualismsFavViewModel>(), IDualismsFavListener {
 
-    override val viewModel: DilemmaFavViewModel by viewModels()
+    override val viewModel: DualismsFavViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var dialog: DeleteFavDataDialog? = null
@@ -34,7 +34,7 @@ class DilemmaFavFragment(val listener: ISavedDataListener) :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getFavDilemmasData()
+        viewModel.getFavDualisms()
     }
 
     override fun setUI() {
@@ -47,7 +47,7 @@ class DilemmaFavFragment(val listener: ISavedDataListener) :
     override fun setListeners() {
         binding.apply {
             swipe.setOnRefreshListener {
-                viewModel.getFavDilemmasData()
+                viewModel.getFavDualisms()
                 swipe.isRefreshing = false
             }
         }
@@ -56,34 +56,34 @@ class DilemmaFavFragment(val listener: ISavedDataListener) :
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is DilemmaFavEvent.Data -> setDilemmaFavs(event.data)
-                is DilemmaFavEvent.FavDeleted -> {
+                is DualismsFavEvent.Data -> setDualismFavs(event.data)
+                is DualismsFavEvent.FavDeleted -> {
                     dialog?.dismiss()
-                    viewModel.getFavDilemmasData()
+                    viewModel.getFavDualisms()
                 }
 
-                is DilemmaFavEvent.SWW -> error()
+                is DualismsFavEvent.SWW -> error()
             }
         }
     }
 
-    private fun setDilemmaFavs(dilemmas: List<DilemmaFav>) {
+    private fun setDualismFavs(dualisms: List<DualismFav>) {
         binding.apply {
-            val visible = dilemmas.isEmpty()
+            val visible = dualisms.isEmpty()
             tvEmpty.isVisible = visible
             rvData.apply {
                 layoutManager = LinearLayoutManager(mContext)
-                adapter = DilemmaFavsAdapter(dilemmas, this@DilemmaFavFragment)
+                adapter = DualismsFavAdapter(dualisms, this@DualismsFavFragment)
             }
             rvData.isVisible = !visible
             loading.root.visibility = View.GONE
         }
     }
 
-    override fun onDilemmaFavClick(dilemmaId: String) = listener.navigateToSingleDilemma(dilemmaId)
+    override fun onDualismFavClick(dualismId: String) = listener.navigateToSingleDilemma(dualismId)
 
-    override fun onDilemmaFavLongClick(dilemmaId: String) {
-        dialog = DeleteFavDataDialog { viewModel.deleteDilemmaFav(dilemmaId) }
+    override fun onDualismFavLongClick(dualismId: String) {
+        dialog = DeleteFavDataDialog { viewModel.deleteDualismFav(dualismId) }
         activity?.let { dialog?.show(it.supportFragmentManager, "") }
     }
 

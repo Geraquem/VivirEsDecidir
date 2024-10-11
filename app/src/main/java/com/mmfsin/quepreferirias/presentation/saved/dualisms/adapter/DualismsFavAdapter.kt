@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.saved.dilemmas.adapter
+package com.mmfsin.quepreferirias.presentation.saved.dualisms.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,17 +6,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemDilemmaFavBinding
-import com.mmfsin.quepreferirias.domain.models.DilemmaFav
-import com.mmfsin.quepreferirias.presentation.saved.dilemmas.interfaces.IDilemmaFavListener
+import com.mmfsin.quepreferirias.domain.models.DualismFav
+import com.mmfsin.quepreferirias.presentation.saved.dualisms.interfaces.IDualismsFavListener
 
-class DilemmaFavsAdapter(
-    private val favs: List<DilemmaFav>,
-    private val listener: IDilemmaFavListener
-) : RecyclerView.Adapter<DilemmaFavsAdapter.ViewHolder>() {
+class DualismsFavAdapter(
+    private val favs: List<DualismFav>,
+    private val listener: IDualismsFavListener
+) : RecyclerView.Adapter<DualismsFavAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemDilemmaFavBinding.bind(view)
-        fun bind(dilemma: DilemmaFav) {
+        fun bind(dilemma: DualismFav) {
             binding.apply {
                 tvTxtTop.text = dilemma.txtTop
                 tvTxtBottom.text = dilemma.txtBottom
@@ -33,9 +33,9 @@ class DilemmaFavsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val fav = favs[position]
         holder.bind(fav)
-        holder.binding.clMain.setOnClickListener { listener.onDilemmaFavClick(fav.dilemmaId) }
+        holder.binding.clMain.setOnClickListener { listener.onDualismFavClick(fav.dualismId) }
         holder.binding.clMain.setOnLongClickListener {
-            listener.onDilemmaFavLongClick(fav.dilemmaId)
+            listener.onDualismFavLongClick(fav.dualismId)
             true
         }
     }
