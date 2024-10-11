@@ -6,6 +6,7 @@ import com.mmfsin.quepreferirias.data.models.SendDualismDTO
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismFav
 import com.mmfsin.quepreferirias.domain.models.DualismVotes
+import com.mmfsin.quepreferirias.domain.models.SendDualism
 
 interface IDualismsRepository {
     suspend fun getDualisms(): List<Dualism>
@@ -33,8 +34,8 @@ interface IDualismsRepository {
 
     //
     suspend fun sendDualism(dualism: SendDualismDTO)
-//    suspend fun getMyDilemmas(): List<SendDilemma>
-//    suspend fun deleteMyDilemma(dilemmaId: String)
+    suspend fun getMyDualisms(): List<SendDualism>
+    suspend fun deleteMyDualism(dualismId: String)
 //
 //    suspend fun getOtherUserDilemmas(userId: String): List<SendDilemma>
 

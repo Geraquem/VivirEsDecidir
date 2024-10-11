@@ -1,15 +1,16 @@
 package com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
-import com.mmfsin.quepreferirias.domain.usecases.DeleteMyDilemmaUseCase
+import com.mmfsin.quepreferirias.domain.usecases.DeleteMyDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetMyDilemmasUseCase
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MyDilemmasViewModel @Inject constructor(
     private val getMyDilemmasUseCase: GetMyDilemmasUseCase,
-    private val deleteMyDilemmaUseCase: DeleteMyDilemmaUseCase
+    private val deleteMyDataUseCase: DeleteMyDataUseCase
 ) : BaseViewModel<MyDilemmasEvent>() {
 
     fun getMyDilemmas() {
@@ -22,7 +23,7 @@ class MyDilemmasViewModel @Inject constructor(
 
     fun deleteMyDilemma(dilemmaId: String) {
         executeUseCase(
-            { deleteMyDilemmaUseCase.execute(DeleteMyDilemmaUseCase.Params(dilemmaId)) },
+            { deleteMyDataUseCase.execute(DeleteMyDataUseCase.Params(dilemmaId, DILEMMA)) },
             { _event.value = MyDilemmasEvent.Deleted },
             { _event.value = MyDilemmasEvent.SWW }
         )

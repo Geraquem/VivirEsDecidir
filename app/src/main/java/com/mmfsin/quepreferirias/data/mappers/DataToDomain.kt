@@ -6,6 +6,7 @@ import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.DualismFavDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
+import com.mmfsin.quepreferirias.data.models.SendDualismDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
@@ -13,6 +14,7 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.DualismFav
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
+import com.mmfsin.quepreferirias.domain.models.SendDualism
 import com.mmfsin.quepreferirias.domain.models.Session
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -102,3 +104,17 @@ fun SendDilemmaDTO.toSendDilemma() = SendDilemma(
 
 fun List<SendDilemmaDTO>.toSendDilemmaList() =
     this.map { dilemma -> dilemma.toSendDilemma() }.toList()
+
+fun SendDualismDTO.toSendDualism() = SendDualism(
+    dualismId = dualismId,
+    explanation = explanation,
+    txtTop = txtTop,
+    txtBottom = txtBottom,
+    creatorName = creatorName,
+    timestamp = timestamp,
+    creatorId = creatorId,
+    filterValue = filterValue
+)
+
+fun List<SendDualismDTO>.toSendDualismList() =
+    this.map { dualism -> dualism.toSendDualism() }.toList()

@@ -8,6 +8,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toDualismFavList
+import com.mmfsin.quepreferirias.data.mappers.toSendDualismList
 import com.mmfsin.quepreferirias.data.mappers.toSession
 import com.mmfsin.quepreferirias.data.models.DualismFavDTO
 import com.mmfsin.quepreferirias.data.models.DualismVotedDTO
@@ -18,6 +19,7 @@ import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismFav
 import com.mmfsin.quepreferirias.domain.models.DualismVotes
+import com.mmfsin.quepreferirias.domain.models.SendDualism
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.CREATOR_ID
 import com.mmfsin.quepreferirias.utils.CREATOR_NAME
@@ -29,6 +31,7 @@ import com.mmfsin.quepreferirias.utils.FILTER_VALUE
 import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.SAVED_DUALISMS
 import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DUALISMS
+import com.mmfsin.quepreferirias.utils.SERVER_SENT_DUALISMS
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TXT_BOTTOM
 import com.mmfsin.quepreferirias.utils.TXT_TOP
@@ -243,6 +246,83 @@ class DualismsRepository @Inject constructor(
                     )
                     latch.countDown()
                 }
+            withContext(Dispatchers.IO) { latch.await() }
+        }
+    }
+
+    override suspend fun getMyDualisms(): List<SendDualism> {
+        val session = getSession()
+        val latch = CountDownLatch(1)
+        return session?.let {
+            val sharedPrefs =
+                context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+            if (sharedPrefs.getBoolean(SERVER_SENT_DUALISMS, true)) {
+                realmDatabase.deleteAllObjects(SendDualismDTO::class.java)
+                val dualisms = mutableListOf<SendDualismDTO>()
+                Firebase.firestore.collection(USERS).document(session.id)
+                    .collection(DUALISMS_SENT).get().addOnSuccessListener { d ->
+                        for (document in d.documents) {
+                            try {
+                                document.toObject(SendDualismDTO::class.java)
+                                    ?.let { sentDualism ->
+                                        dualisms.add(sentDualism)
+                                        realmDatabase.addObject { sentDualism }
+                                    }
+                            } catch (e: Exception) {
+                                Log.e("error", "error parsing sent dualism")
+                            }
+                        }
+                        latch.countDown()
+                    }.addOnFailureListener {
+                        latch.countDown()
+                    }
+                withContext(Dispatchers.IO) { latch.await() }
+                sharedPrefs.edit().apply {
+                    putBoolean(SERVER_SENT_DUALISMS, false)
+                    apply()
+                }
+                dualisms.toSendDualismList().reversed()
+            } else {
+                val dualisms =
+                    realmDatabase.getObjectsFromRealm { where<SendDualismDTO>().findAll() }
+                dualisms.toSendDualismList().reversed()
+            }
+        } ?: run { emptyList() }
+    }
+
+    override suspend fun deleteMyDualism(dualismId: String) {
+        val session = getSession()
+        val latch = CountDownLatch(3)
+        session?.let {
+            /** Delete user dualism */
+            Firebase.firestore.collection(USERS).document(session.id)
+                .collection(DUALISMS_SENT).document(dualismId)
+                .delete().addOnCompleteListener {
+                    realmDatabase.deleteObject(
+                        SendDualismDTO::class.java,
+                        DUALISM_ID,
+                        dualismId
+                    )
+                    latch.countDown()
+                }
+
+            /** Delete in total dualisms */
+            Firebase.firestore.collection(DUALISMS).document(dualismId)
+                .delete().addOnCompleteListener {
+                    realmDatabase.deleteObject(
+                        DualismFavDTO::class.java,
+                        DUALISM_ID,
+                        dualismId
+                    )
+                    latch.countDown()
+                }
+
+            /** Delete in Realmtime and votes */
+            val root = reference.child(DUALISMS).child(dualismId)
+            root.removeValue().addOnCompleteListener {
+                latch.countDown()
+            }
+
             withContext(Dispatchers.IO) { latch.await() }
         }
     }
