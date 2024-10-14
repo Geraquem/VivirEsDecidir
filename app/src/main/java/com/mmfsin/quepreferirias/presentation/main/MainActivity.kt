@@ -135,6 +135,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateToUserProfileFromFragment() = viewModel.checkSession(USER_PROFILE)
+    fun navigateToUserFavoritesFragment() = viewModel.checkSession(DATA_SAVED)
 
     private fun drawerHeaderViewDefault() {
         binding.apply {

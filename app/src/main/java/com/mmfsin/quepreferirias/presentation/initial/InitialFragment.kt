@@ -41,13 +41,12 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
         binding.apply {
             btnOpenMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
 
-            buttons.btnSend.setOnClickListener {}
-            buttons.btnProfile.setOnClickListener {}
-            buttons.btnFavs.setOnClickListener {}
+            buttons.btnSend.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
+            buttons.btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
+            buttons.btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
+
 //            llDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
 //            llDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
-//            llProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
-//            llSendData.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
         }
     }
 

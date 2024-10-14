@@ -76,18 +76,20 @@
     <string name="send_dilemma_txt_bottom_hint">Consecuencia mala</string>
     <string name="send_dilemma_txt_empty">0 / 200</string>
     <string name="send_dilemma_txt_max">%s / 200</string>
-    <string name="send_dilemma_explanation_max">%s / 50</string>
-    <string name="send_dilemma_explanation_empty">0 / 200</string>
 
     <!-- SEND DUALISM -->
     <string name="send_dualism_title">Enviar dualismo</string>
     <string name="send_dualism_explanation_title">Texto explicativo</string>
     <string name="send_dualism_explanation_optional">(opcional)</string>
     <string name="send_dualism_explanation_hint">P.ej: <i>¿A qué hora te acuestas normalmente?</i></string>
+    <string name="send_dualism_only_option_one_hint">Opción 1:  <i>Gafas</i></string>
+    <string name="send_dualism_only_option_two_hint">Opción 2:  <i>Lentillas</i></string>
     <string name="send_dualism_option_one_hint">Opción 1: <i>Antes de las 12</i></string>
     <string name="send_dualism_option_two_hint">Opción 2: <i>Después de las 12</i></string>
     <string name="send_dualism_txt_empty">0 / 200</string>
     <string name="send_dualism_txt_max">%s / 200</string>
+    <string name="send_dualism_explanation_max">%s / 50</string>
+    <string name="send_dualism_explanation_empty">0 / 50</string>
 
     <!-- SEND DUALISM -->
     <string name="send_dualism_result_perfect_title">¡Perfecto!</string>

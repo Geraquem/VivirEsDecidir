@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
@@ -44,9 +45,15 @@ class SendDualismsFragment : BaseFragment<FragmentSendDualismBinding, SendDualis
             setToolbar()
             loadingFull.root.visibility = View.VISIBLE
             loadingTrans.root.visibility = View.GONE
+
+            swExplanation.isChecked = false
+            llExplanation.isVisible = false
+            etTop.hint = getString(R.string.send_dualism_only_option_one_hint)
+            etBottom.hint = getString(R.string.send_dualism_only_option_two_hint)
+
             tvError.visibility = View.GONE
             etExplanation.setOptions()
-            tvLimitExplanation.text = getString(R.string.send_dilemma_explanation_empty)
+            tvLimitExplanation.text = getString(R.string.send_dualism_explanation_empty)
             etTop.setOptions()
             tvLimitTop.text = getString(R.string.send_dilemma_txt_empty)
             etBottom.setOptions()
@@ -57,18 +64,28 @@ class SendDualismsFragment : BaseFragment<FragmentSendDualismBinding, SendDualis
     private fun setToolbar() {
         (activity as BedRockActivity).apply {
             backListener { onBackPressed() }
-            setToolbarText(R.string.send_dilemma_title)
+            setToolbarText(R.string.send_dualism_title)
         }
     }
 
     override fun setListeners() {
         binding.apply {
+            swExplanation.setOnClickListener {
+                llExplanation.isVisible = swExplanation.isChecked
+                if (swExplanation.isChecked) {
+                    etTop.hint = getString(R.string.send_dualism_option_one_hint)
+                    etBottom.hint = getString(R.string.send_dualism_option_two_hint)
+                } else {
+                    etTop.hint = getString(R.string.send_dualism_only_option_one_hint)
+                    etBottom.hint = getString(R.string.send_dualism_only_option_two_hint)
+                }
+            }
+
             TextWatcher().addTextWatcher(etExplanation, object : TextWatcher.TextWatcherListener {
                 override fun onTextChanged(text: String) {
-                    tvLimitExplanation.text = getString(R.string.send_dilemma_explanation_max, text)
+                    tvLimitExplanation.text = getString(R.string.send_dualism_explanation_max, text)
                 }
             })
-
 
             TextWatcher().addTextWatcher(etTop, object : TextWatcher.TextWatcherListener {
                 override fun onTextChanged(text: String) {
@@ -142,6 +159,7 @@ class SendDualismsFragment : BaseFragment<FragmentSendDualismBinding, SendDualis
 
     override fun sendAnother() {
         binding.apply {
+            etExplanation.text = null
             etTop.text = null
             etBottom.text = null
         }

@@ -62,7 +62,7 @@ class SentCommentsAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun clearData() {
         comments.clear()
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0,comments.size)
     }
 
     fun deleteComment(commentId: String) {
