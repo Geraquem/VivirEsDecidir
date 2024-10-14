@@ -1,68 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:background="@drawable/bg_bottom_dialog"
-    android:clipChildren="false"
-    android:clipToPadding="false">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
-
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:id="@+id/send_dilemma"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
+        android:foreground="?attr/selectableItemBackground"
         android:orientation="vertical"
-        android:paddingTop="16dp"
-        android:paddingBottom="58dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toBottomOf="@id/iv_close">
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="16dp">
+
+        <TextView
+            style="@style/MediumTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:drawablePadding="8dp"
+            android:text="@string/send_data_dilemma_title"
+            app:drawableStartCompat="@drawable/ic_dilemma" />
+
+        <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:alpha="0.5"
+            android:text="@string/send_data_dilemma_subtitle" />
 
         <LinearLayout
-            android:id="@+id/send_dilemma"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:alpha="0.5"
             android:background="@drawable/bg_white_box"
-            android:elevation="6dp"
-            android:foreground="?attr/selectableItemBackground"
+            android:backgroundTint="@color/grey"
             android:orientation="vertical"
             android:padding="12dp">
-
-            <TextView
-                style="@style/MediumTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:drawablePadding="8dp"
-                android:text="@string/send_data_dilemma_title"
-                app:drawableStartCompat="@drawable/ic_dilemma_yes_trans" />
-
-            <TextView
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:alpha="0.5"
-                android:text="@string/send_data_dilemma_subtitle" />
 
             <TextView
                 style="@style/SmallTextView"
@@ -80,32 +57,50 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/separator2"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/ll_action_buttons" />
+
+    <LinearLayout
+        android:id="@+id/send_dualism"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="32dp">
+
+        <TextView
+            style="@style/MediumTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:drawablePadding="8dp"
+            android:text="@string/send_data_dualism_title"
+            app:drawableStartCompat="@drawable/ic_dilemma_yes_trans" />
+
+        <TextView
+            style="@style/SmallTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:alpha="0.5"
+            android:text="@string/send_data_dualism_subtitle" />
+
         <LinearLayout
-            android:id="@+id/send_dualism"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:alpha="0.5"
             android:background="@drawable/bg_white_box"
-            android:elevation="6dp"
-            android:foreground="?attr/selectableItemBackground"
+            android:backgroundTint="@color/grey"
             android:orientation="vertical"
             android:padding="12dp">
-
-            <TextView
-                style="@style/MediumTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:drawablePadding="8dp"
-                android:text="@string/send_data_dualism_title"
-                app:drawableStartCompat="@drawable/ic_dilemma_yes_trans" />
-
-            <TextView
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:alpha="0.5"
-                android:text="@string/send_data_dualism_subtitle" />
 
             <TextView
                 style="@style/SmallTextView"
@@ -125,5 +120,4 @@
 
     </LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -60,11 +60,11 @@
 
     <!-- SEND DATA -->
     <string name="send_data_dilemma_title">Enviar un <b>dilema</b></string>
-    <string name="send_data_dilemma_subtitle">Un dilema consiste decidir si aceptas hacer realidad una buena situación a pesar de tener que cumplir con una consecuencia negativa.</string>
+    <string name="send_data_dilemma_subtitle">Un dilema consiste en decidir si aceptas hacer realidad una buena situación a pesar de tener que cumplir con una consecuencia negativa.</string>
     <string name="send_data_dilemma_example">Puedes teletransportarte <b>pero</b> pierdes una pierna.</string>
     <string name="send_data_dualism_title">Enviar una <b>dualidad</b></string>
-    <string name="send_data_dualism_subtitle">Una dualidad consiste en la tomar una decisón entre dos cosas enfrentadas</string>
-    <string name="send_data_dualism_example">Tortilla de patata con cebolla o sin cebolla.</string>
+    <string name="send_data_dualism_subtitle">Una dualidad consiste en tomar una decisón entre dos cosas enfrentadas</string>
+    <string name="send_data_dualism_example">Tortilla de patata con cebolla <b>o</b> sin cebolla.</string>
     <string name="send_data_for_example">Por ejemplo</string>
     <string name="send_data_send_as">Enviar como</string>
     <string name="send_data_send">Enviar</string>
