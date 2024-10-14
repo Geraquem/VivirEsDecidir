@@ -30,13 +30,13 @@
     <color name="cancel">#F1A4A4</color>
     <color name="success">#59BB88</color>
 
-    <color name="et_hint">#9E9E9E</color>
+    <color name="et_hint">#C0C0C0</color>
     <color name="bg_button">#F3F3F3</color>
 
     <color name="transparent">#00FFFFFF</color>
 
     <color name="color_green_top">#B3EFBB</color>
-    <color name="color_red_bottom">#E8B2B2</color>
+    <color name="color_red_bottom">#EDBBBB</color>
 
     <color name="percent_yes">#85DF8F</color>
     <color name="percent_no">#B66060</color>

@@ -62,8 +62,8 @@
     <string name="send_data_dilemma_title">Enviar un <b>dilema</b></string>
     <string name="send_data_dilemma_subtitle">Un dilema consiste en decidir si aceptas hacer realidad una buena situación a pesar de tener que cumplir con una consecuencia negativa.</string>
     <string name="send_data_dilemma_example">Puedes teletransportarte <b>pero</b> pierdes una pierna.</string>
-    <string name="send_data_dualism_title">Enviar una <b>dualidad</b></string>
-    <string name="send_data_dualism_subtitle">Una dualidad consiste en tomar una decisón entre dos cosas enfrentadas</string>
+    <string name="send_data_dualism_title">Enviar un <b>dualismo</b></string>
+    <string name="send_data_dualism_subtitle">Una dualismo consiste en tomar una decisón entre dos cosas enfrentadas</string>
     <string name="send_data_dualism_example">Tortilla de patata con cebolla <b>o</b> sin cebolla.</string>
     <string name="send_data_for_example">Por ejemplo</string>
     <string name="send_data_send_as">Enviar como</string>
@@ -76,10 +76,16 @@
     <string name="send_dilemma_txt_bottom_hint">Consecuencia mala</string>
     <string name="send_dilemma_txt_empty">0 / 200</string>
     <string name="send_dilemma_txt_max">%s / 200</string>
+    <string name="send_dilemma_explanation_max">%s / 50</string>
+    <string name="send_dilemma_explanation_empty">0 / 200</string>
 
     <!-- SEND DUALISM -->
     <string name="send_dualism_title">Enviar dualismo</string>
-    <string name="send_dualism_txt_hint">Esto</string>
+    <string name="send_dualism_explanation_title">Texto explicativo</string>
+    <string name="send_dualism_explanation_optional">(opcional)</string>
+    <string name="send_dualism_explanation_hint">P.ej: <i>¿A qué hora te acuestas normalmente?</i></string>
+    <string name="send_dualism_option_one_hint">Opción 1: <i>Antes de las 12</i></string>
+    <string name="send_dualism_option_two_hint">Opción 2: <i>Después de las 12</i></string>
     <string name="send_dualism_txt_empty">0 / 200</string>
     <string name="send_dualism_txt_max">%s / 200</string>
 

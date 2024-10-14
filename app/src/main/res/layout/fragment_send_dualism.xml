@@ -47,34 +47,94 @@
                 app:layout_constraintLeft_toLeftOf="@id/gl_left"
                 app:layout_constraintRight_toRightOf="@id/gl_right"
                 app:layout_constraintTop_toTopOf="parent">
-                <EditText
-                    android:id="@+id/et_explanation"
-                    style="@style/edit_text_dilemma"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="null"
-                    android:background="@drawable/bg_dualism"
-                    android:hint="@string/send_dualism_txt_hint"
-                    android:textColorHint="@color/soft_black" />
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_limit_top"
-                    style="@style/SmallTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="4dp"
-                    tools:text="@string/send_dilemma_txt_max" />
+                    <TextView
+                        style="@style/SmallTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:text="@string/send_dualism_explanation_title" />
 
-                <EditText
-                    android:id="@+id/et_top"
-                    style="@style/edit_text_dilemma"
+                    <TextView
+                        style="@style/SmallTextView_Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/send_dualism_explanation_optional"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="null"
-                    android:background="@drawable/bg_dualism"
-                    android:hint="@string/send_dualism_txt_hint"
-                    android:textColorHint="@color/soft_black" />
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/bg_white_box"
+                    android:backgroundTint="@color/grey"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <EditText
+                        android:id="@+id/et_explanation"
+                        style="@style/edit_text_dilemma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:autofillHints="null"
+                        android:background="@color/transparent"
+                        android:hint="@string/send_dualism_explanation_hint"
+                        android:maxLength="50"
+                        android:textColorHint="@color/soft_black" />
+
+                    <TextView
+                        android:id="@+id/tv_limit_explanation"
+                        style="@style/SmallTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:alpha="0.6"
+                        tools:text="@string/send_dilemma_explanation_max" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_white_box"
+                    android:backgroundTint="@color/orange"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="12dp">
+
+                    <EditText
+                        android:id="@+id/et_top"
+                        style="@style/edit_text_dilemma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:autofillHints="null"
+                        android:background="@color/transparent"
+                        android:hint="@string/send_dualism_option_one_hint"
+                        android:textColorHint="@color/soft_black" />
+
+                    <TextView
+                        android:id="@+id/tv_limit_top"
+                        style="@style/SmallTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:alpha="0.6"
+                        tools:text="@string/send_dilemma_txt_max" />
+
+                </LinearLayout>
 
                 <include
                     layout="@layout/include_or"
@@ -82,24 +142,37 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp" />
 
-                <EditText
-                    android:id="@+id/et_bottom"
-                    style="@style/edit_text_dilemma"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="null"
-                    android:background="@drawable/bg_dualism"
-                    android:hint="@string/send_dualism_txt_hint"
-                    android:textColorHint="@color/soft_black" />
+                    android:background="@drawable/bg_white_box"
+                    android:backgroundTint="@color/orange"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="12dp">
 
-                <TextView
-                    android:id="@+id/tv_limit_bottom"
-                    style="@style/SmallTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="4dp"
-                    tools:text="@string/send_dilemma_txt_max" />
+                    <EditText
+                        android:id="@+id/et_bottom"
+                        style="@style/edit_text_dilemma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:autofillHints="null"
+                        android:background="@color/transparent"
+                        android:hint="@string/send_dualism_option_two_hint"
+                        android:textColorHint="@color/soft_black" />
+
+                    <TextView
+                        android:id="@+id/tv_limit_bottom"
+                        style="@style/SmallTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:alpha="0.6"
+                        tools:text="@string/send_dilemma_txt_max" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

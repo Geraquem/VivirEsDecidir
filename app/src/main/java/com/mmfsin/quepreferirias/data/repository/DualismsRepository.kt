@@ -333,7 +333,6 @@ class DualismsRepository @Inject constructor(
             .document(DUALISMS).collection(dualism.id)
             .document(dualism.id).set(dualism)
             .addOnCompleteListener {
-                val a = 2
                 latch.countDown()
             }
         withContext(Dispatchers.IO) { latch.await() }

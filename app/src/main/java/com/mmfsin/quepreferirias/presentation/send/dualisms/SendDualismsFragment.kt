@@ -45,6 +45,8 @@ class SendDualismsFragment : BaseFragment<FragmentSendDualismBinding, SendDualis
             loadingFull.root.visibility = View.VISIBLE
             loadingTrans.root.visibility = View.GONE
             tvError.visibility = View.GONE
+            etExplanation.setOptions()
+            tvLimitExplanation.text = getString(R.string.send_dilemma_explanation_empty)
             etTop.setOptions()
             tvLimitTop.text = getString(R.string.send_dilemma_txt_empty)
             etBottom.setOptions()
@@ -61,6 +63,13 @@ class SendDualismsFragment : BaseFragment<FragmentSendDualismBinding, SendDualis
 
     override fun setListeners() {
         binding.apply {
+            TextWatcher().addTextWatcher(etExplanation, object : TextWatcher.TextWatcherListener {
+                override fun onTextChanged(text: String) {
+                    tvLimitExplanation.text = getString(R.string.send_dilemma_explanation_max, text)
+                }
+            })
+
+
             TextWatcher().addTextWatcher(etTop, object : TextWatcher.TextWatcherListener {
                 override fun onTextChanged(text: String) {
                     tvLimitTop.text = getString(R.string.send_dilemma_txt_max, text)
