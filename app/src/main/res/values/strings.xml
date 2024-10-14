@@ -80,7 +80,6 @@
     <!-- SEND DUALISM -->
     <string name="send_dualism_title">Enviar dualismo</string>
     <string name="send_dualism_explanation_title">Texto explicativo</string>
-    <string name="send_dualism_explanation_optional">(opcional)</string>
     <string name="send_dualism_explanation_hint">P.ej: <i>¿A qué hora te acuestas normalmente?</i></string>
     <string name="send_dualism_only_option_one_hint">Opción 1:  <i>Gafas</i></string>
     <string name="send_dualism_only_option_two_hint">Opción 2:  <i>Lentillas</i></string>

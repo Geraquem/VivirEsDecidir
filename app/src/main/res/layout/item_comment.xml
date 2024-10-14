@@ -141,6 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
+        android:id="@+id/comment_separator"
         android:background="@color/grey"
         app:layout_constraintTop_toBottomOf="@id/ll_comment" />
 
