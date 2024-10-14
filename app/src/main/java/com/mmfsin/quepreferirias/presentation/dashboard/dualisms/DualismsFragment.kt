@@ -223,7 +223,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             clOptionTop.isEnabled = true
             clOptionBottom.isEnabled = true
         }
-        if (::commentsFragment.isInitialized) commentsFragment.clearData()
+//        if (::commentsFragment.isInitialized) commentsFragment.clearData()
     }
 
     private fun setFavButton(isOn: Boolean) {

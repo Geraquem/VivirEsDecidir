@@ -278,7 +278,7 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                 btnNo.isEnabled = true
             }
         }
-        if (::commentsFragment.isInitialized) commentsFragment.clearData()
+//        if (::commentsFragment.isInitialized) commentsFragment.clearData()
     }
 
     private fun setPercents(actualPercents: Percents) {
