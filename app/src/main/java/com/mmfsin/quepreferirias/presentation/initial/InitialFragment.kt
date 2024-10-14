@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -41,10 +40,14 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
     override fun setListeners() {
         binding.apply {
             btnOpenMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
-            llDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
-            llDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
-            llProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
-            llSendData.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
+
+            buttons.btnSend.setOnClickListener {}
+            buttons.btnProfile.setOnClickListener {}
+            buttons.btnFavs.setOnClickListener {}
+//            llDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
+//            llDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
+//            llProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
+//            llSendData.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
         }
     }
 
