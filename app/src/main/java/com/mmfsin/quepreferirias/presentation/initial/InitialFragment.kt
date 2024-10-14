@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -45,8 +46,8 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
             buttons.btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
             buttons.btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
 
-//            llDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
-//            llDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
+            openDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
+            openDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
         }
     }
 

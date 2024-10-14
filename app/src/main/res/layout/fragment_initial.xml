@@ -29,6 +29,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
+    <RelativeLayout
+        android:id="@+id/open_dilemmas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/gl_medium"
+        app:layout_constraintTop_toTopOf="parent"></RelativeLayout>
+
     <include
         android:id="@+id/buttons"
         layout="@layout/include_initial_buttons"
@@ -38,6 +45,13 @@
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="@id/gl_medium" />
+
+    <RelativeLayout
+        android:id="@+id/open_dualisms"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gl_medium"></RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/btn_open_menu"
