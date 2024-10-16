@@ -75,12 +75,15 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
 
             btnSend.setOnClickListener {
                 session?.let { user ->
+                    setResult(true)
+                    
                     val txtTop = etTop.text.toString()
                     val txtBottom = etBottom.text.toString()
                     if (txtTop.isNotBlank() && txtBottom.isNotBlank()) {
                         tvError.visibility = View.GONE
                         loadingTrans.root.visibility = View.VISIBLE
-                        viewModel.sendDilemma(txtTop, txtBottom, user.id, user.name)
+//                        viewModel.sendDilemma(txtTop, txtBottom, user.id, user.name)
+
                     } else tvError.visibility = View.VISIBLE
                 } ?: run { error() }
             }
@@ -102,7 +105,7 @@ class SendDilemmaFragment : BaseFragment<FragmentSendDilemmaBinding, SendDilemma
         }
     }
 
-    private fun setResult(result: Boolean){
+    private fun setResult(result: Boolean) {
         val dialog = SendDataResultDialog(result, this@SendDilemmaFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
         binding.loadingTrans.root.visibility = View.GONE
