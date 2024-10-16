@@ -20,6 +20,7 @@
     <color name="light_blue">#BEE1FF</color>
     <color name="blue">#3B94E3</color>
 
+    <color name="light_orange">#FFE5C6</color>
     <color name="orange">#FFD7AA</color>
 
     <color name="main_color">#67A0FF</color>
@@ -35,8 +36,8 @@
 
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="color_green_top">#B3EFBB</color>
-    <color name="color_red_bottom">#EDBBBB</color>
+    <color name="color_green_top">#BEF5C5</color>
+    <color name="color_red_bottom">#F1C2C2</color>
 
     <color name="percent_yes">#85DF8F</color>
     <color name="percent_no">#B66060</color>
