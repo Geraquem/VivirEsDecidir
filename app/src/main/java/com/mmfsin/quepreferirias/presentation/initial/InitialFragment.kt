@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
+import com.mmfsin.quepreferirias.databinding.FragmentInitialAuxBinding
 import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
 import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>() {
+class InitialFragment : BaseFragment<FragmentInitialAuxBinding, InitialViewModel>() {
 
     override val viewModel: InitialViewModel by viewModels()
 
@@ -20,7 +21,7 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
-    ) = FragmentInitialBinding.inflate(inflater, container, false)
+    ) = FragmentInitialAuxBinding.inflate(inflater, container, false)
 
     override fun setListeners() {
         binding.apply {
@@ -29,9 +30,10 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
             buttons.btnSend.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
             buttons.btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
             buttons.btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
+            buttons.btnMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
 
-            openDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
-            openDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
+//            openDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
+//            openDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
         }
     }
 

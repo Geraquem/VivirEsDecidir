@@ -23,7 +23,6 @@ class OtherDilemmasAdapter(
             binding.apply {
                 tvTxtTop.text = dilemma.txtTop
                 tvTxtBottom.text = dilemma.txtBottom
-                val date = dilemma.timestamp.timestampToDate()
                 tvDate.isVisible = false
             }
         }

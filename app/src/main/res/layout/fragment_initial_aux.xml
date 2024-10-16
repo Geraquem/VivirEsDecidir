@@ -29,57 +29,55 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
 
-
-    <RelativeLayout
-        android:id="@+id/open_dilemmas"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/color_red_bottom"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/buttons"
+        app:layout_constraintBottom_toBottomOf="@id/gl_bottom"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            style="@style/BigTextView"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_mid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/init_btn_font"
-            android:text="@string/init_dilemmas"
-            android:textAllCaps="true"
-            android:textSize="36sp" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/light_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/gl_mid"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/orange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/gl_mid"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         android:id="@+id/buttons"
         layout="@layout/include_initial_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/gl_bottom"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RelativeLayout
-        android:id="@+id/open_dualisms"
-        android:layout_width="match_parent"
-        android:background="@color/orange"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttons">
-
-        <TextView
-            style="@style/BigTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/init_btn_font"
-            android:text="@string/init_dualisms"
-            android:textAllCaps="true"
-            android:textSize="32sp" />
-
-    </RelativeLayout>
+        app:layout_constraintTop_toTopOf="@id/gl_bottom" />
 
     <RelativeLayout
         android:id="@+id/btn_open_menu"
@@ -92,6 +90,7 @@
         android:paddingVertical="10dp"
         android:paddingStart="16dp"
         android:paddingEnd="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
