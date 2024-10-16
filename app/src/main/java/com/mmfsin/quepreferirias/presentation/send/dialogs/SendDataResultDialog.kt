@@ -36,10 +36,9 @@ class SendDataResultDialog(
 
             } else {
                 ivImage.setImageResource(R.drawable.ic_error)
-                ivGif.isVisible = true
+                ivGif.isVisible = false
                 tvTitle.text = getString(R.string.send_dualism_result_sww_title)
                 tvSubtitle.isVisible = false
-                tvSubtitleTwo.isVisible = false
                 btnResend.text = getString(R.string.send_dualism_result_retry)
                 activity?.changeBgColor(rlTop.background, R.color.cancel)
 

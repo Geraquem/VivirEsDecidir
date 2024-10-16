@@ -92,8 +92,7 @@
 
     <!-- SEND DUALISM -->
     <string name="send_dualism_result_perfect_title">¡Perfecto! Se ha enviado correctamente</string>
-    <string name="send_dualism_result_perfect_subtitle">Puedes verlo encontrarlo en el apartado <b><i>Mis ideas</i></b></string>
-    <string name="send_dualism_result_perfect_subtitle_two">¿Quieres enviar más?</string>
+    <string name="send_dualism_result_perfect_subtitle">Puedes encontrarlo en <b><i>Mis ideas</i></b></string>
     <string name="send_dualism_result_sww_title">Vaya, parece que algo ha salido mal…</string>
     <string name="send_dualism_result_sww_subtitle">¿Quieres intentarlo de nuevo?</string>
     <string name="send_dualism_result_resend">Enviar otra</string>

@@ -47,7 +47,7 @@
             android:id="@+id/iv_gif"
             android:layout_width="164dp"
             android:layout_height="164dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/content_description"
             app:tint="@color/white"
             tools:src="@drawable/ic_error" />
@@ -63,21 +63,12 @@
 
         <TextView
             android:id="@+id/tv_subtitle"
-            style="@style/MediumTextView"
+            style="@style/SmallTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/send_dualism_result_perfect_subtitle" />
-
-        <TextView
-            android:id="@+id/tv_subtitle_two"
-            style="@style/MediumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:text="@string/send_dualism_result_perfect_subtitle_two" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_resend"
