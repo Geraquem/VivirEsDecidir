@@ -64,7 +64,7 @@ class DualismsRepository @Inject constructor(
         val db = FirebaseFirestore.getInstance()
 //        val randomValue = Math.random()
         val randomValue = 0.0001
-        val totalLimit = 2L
+        val totalLimit = 4L
         val finalDataList = mutableListOf<Dualism>()
 
         db.collection(DUALISMS)

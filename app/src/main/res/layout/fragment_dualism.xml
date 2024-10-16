@@ -306,7 +306,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
-                android:id="@+id/separator2"
+                android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:layout_marginTop="8dp"
@@ -319,7 +319,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="@id/gl_left"
                 app:layout_constraintRight_toRightOf="@id/gl_right"
-                app:layout_constraintTop_toBottomOf="@id/separator2" />
+                app:layout_constraintTop_toBottomOf="@id/separator" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

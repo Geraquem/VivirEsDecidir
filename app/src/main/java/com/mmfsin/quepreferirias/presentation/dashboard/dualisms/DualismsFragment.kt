@@ -23,11 +23,11 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismVotes
 import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.CommentsFragment
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.SendCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
-import com.mmfsin.quepreferirias.presentation.dashboard.comments.CommentsFragment
-import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.SendCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
@@ -37,6 +37,7 @@ import com.mmfsin.quepreferirias.presentation.models.Percents
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.checkNotNulls
+import com.mmfsin.quepreferirias.utils.countDown
 import com.mmfsin.quepreferirias.utils.shareContent
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -133,6 +134,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     private fun topOrBottomClick(isTop: Boolean) {
         binding.apply {
             actualData?.let { data ->
+                tvNext.isEnabled = false
                 viewModel.voteDualism(data.id, isTop)
                 val green = getColor(mContext, R.color.color_green_top)
                 if (isTop) clOptionTop.backgroundTintList = valueOf(green)
@@ -215,9 +217,12 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             clOptionTop.backgroundTintList = valueOf(grey)
             clOptionBottom.backgroundTintList = valueOf(grey)
 
-            tvTextTop.animate().alpha(1f).duration = 1500
+            llResultTop.visibility = View.INVISIBLE
+            llResultBottom.visibility = View.INVISIBLE
+
+            tvTextTop.animate().alpha(1f).duration = 1000
             llResultTop.animate().alpha(0f).duration = 100
-            tvTextBottom.animate().alpha(1f).duration = 1500
+            tvTextBottom.animate().alpha(1f).duration = 1000
             llResultBottom.animate().alpha(0f).duration = 100
 
             clOptionTop.isEnabled = true
@@ -270,10 +275,15 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             tvVotesTop.text = getString(R.string.dashboard_dualism_votes, votesTop.toString())
             tvVotesBottom.text = getString(R.string.dashboard_dualism_votes, votesBottom.toString())
 
+            llResultTop.visibility = View.VISIBLE
+            llResultBottom.visibility = View.VISIBLE
+
             tvTextTop.animate().alpha(0f).duration = 100
-            llResultTop.animate().alpha(1f).duration = 1500
+            llResultTop.animate().alpha(1f).duration = 1000
             tvTextBottom.animate().alpha(0f).duration = 100
-            llResultBottom.animate().alpha(1f).duration = 1500
+            llResultBottom.animate().alpha(1f).duration = 1000
+
+            countDown(500) { tvNext.isEnabled = true }
         }
     }
 

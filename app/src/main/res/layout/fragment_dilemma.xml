@@ -189,24 +189,16 @@
 
             </LinearLayout>
 
-            <FrameLayout
-                android:id="@+id/separator1"
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/grey"
-                app:layout_constraintTop_toBottomOf="@id/ll_buttons" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ll_action_buttons"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 android:paddingHorizontal="8dp"
                 app:layout_constraintLeft_toLeftOf="@id/gl_left"
                 app:layout_constraintRight_toRightOf="@id/gl_right"
-                app:layout_constraintTop_toBottomOf="@id/separator1">
+                app:layout_constraintTop_toBottomOf="@id/ll_buttons">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -268,7 +260,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
-                android:id="@+id/separator2"
+                android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:layout_marginTop="8dp"
@@ -281,17 +273,17 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="@id/gl_left"
                 app:layout_constraintRight_toRightOf="@id/gl_right"
-                app:layout_constraintTop_toBottomOf="@id/separator2" />
+                app:layout_constraintTop_toBottomOf="@id/separator" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:id="@+id/cl_bottom"
         android:elevation="4dp"
         android:paddingVertical="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
