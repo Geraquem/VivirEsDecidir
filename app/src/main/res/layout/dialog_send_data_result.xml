@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            tools:text="@string/send_dualism_result_perfect_subtitle" />
+            android:text="@string/send_dualism_result_perfect_subtitle" />
 
         <TextView
             android:id="@+id/tv_subtitle_two"
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            tools:text="@string/send_dualism_result_perfect_subtitle_two" />
+            android:text="@string/send_dualism_result_perfect_subtitle_two" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_resend"
