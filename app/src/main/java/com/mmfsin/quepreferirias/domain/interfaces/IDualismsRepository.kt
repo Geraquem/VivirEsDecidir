@@ -10,34 +10,22 @@ import com.mmfsin.quepreferirias.domain.models.SendDualism
 
 interface IDualismsRepository {
     suspend fun getDualisms(): List<Dualism>
-//    suspend fun getDilemmaById(dilemmaId: String): Dilemma?
-//
+    suspend fun getDualismById(dualismId: String): Dualism?
+
     suspend fun getDualismVotes(dualismId: String): DualismVotes?
     suspend fun voteDualism(dualismId: String, isTop: Boolean, voted: DualismVotedDTO)
-//    suspend fun alreadyDilemmaVoted(dilemmaId: String): Boolean?
-//
-//    suspend fun getDilemmaComments(dilemmaId: String): List<Comment>
-//    suspend fun getDilemmaCommentsFromRealm(): List<Comment>
-//    suspend fun sendDilemmaComment(dilemmaId: String, comment: CommentDTO): Boolean
-//    suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): CommentAlreadyVoted
-//    suspend fun voteDilemmaComment(
-//        dilemmaId: String,
-//        commentId: String,
-//        likes: Long,
-//        vote: CommentVote
-//    )
-//
+    suspend fun alreadyDualismVoted(dualismId: String): Boolean?
+
     suspend fun getFavDualisms(): List<DualismFav>
     suspend fun setFavDualism(dualism: DualismFavDTO)
     suspend fun deleteFavDualism(dualismId: String)
     suspend fun checkIfDualismIsFav(dualismId: String): Boolean
 
-    //
     suspend fun sendDualism(dualism: SendDualismDTO)
     suspend fun getMyDualisms(): List<SendDualism>
     suspend fun deleteMyDualism(dualismId: String)
-//
-//    suspend fun getOtherUserDilemmas(userId: String): List<SendDilemma>
+
+    suspend fun getOtherUserDualisms(userId: String): List<SendDualism>
 
     suspend fun reportDualism(dualism: Dualism)
 }

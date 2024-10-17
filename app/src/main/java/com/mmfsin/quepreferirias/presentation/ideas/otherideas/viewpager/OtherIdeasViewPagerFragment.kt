@@ -11,6 +11,7 @@ import com.mmfsin.quepreferirias.base.BaseFragmentNoVM
 import com.mmfsin.quepreferirias.databinding.FragmentViewpagerBinding
 import com.mmfsin.quepreferirias.presentation.ideas.interfaces.IIdeasListener
 import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.OtherIdeasViewPagerFragmentDirections.Companion.otherIdeasToSingleDilemma
+import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.OtherIdeasViewPagerFragmentDirections.Companion.otherIdeasToSingleDualism
 import com.mmfsin.quepreferirias.presentation.ideas.otherideas.viewpager.adapter.OtherIdeasViewPagerAdapter
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.utils.POSITION
@@ -78,7 +79,7 @@ class OtherIdeasViewPagerFragment : BaseFragmentNoVM<FragmentViewpagerBinding>()
         findNavController().navigate(otherIdeasToSingleDilemma(dilemmaId))
 
     override fun navigateToSingleDualism(dualismId: String) {
-        TODO("Not yet implemented")
+        findNavController().navigate(otherIdeasToSingleDualism(dualismId))
     }
 
     private fun error() {

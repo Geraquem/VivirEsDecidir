@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces
 
 interface ICommentsListener {
     fun shouldInitiateSession()

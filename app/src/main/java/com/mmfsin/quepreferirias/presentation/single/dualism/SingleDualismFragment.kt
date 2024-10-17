@@ -1,10 +1,10 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dualisms
+package com.mmfsin.quepreferirias.presentation.single.dualism
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList.valueOf
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,35 +25,33 @@ import com.mmfsin.quepreferirias.domain.models.DualismVotes
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.CommentsFragment
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.SendCommentBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ISendCommentListener
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag
 import com.mmfsin.quepreferirias.presentation.models.Percents
+import com.mmfsin.quepreferirias.utils.DUALISM_ID
 import com.mmfsin.quepreferirias.utils.LOGIN_BROADCAST
 import com.mmfsin.quepreferirias.utils.USER_ID
 import com.mmfsin.quepreferirias.utils.checkNotNulls
-import com.mmfsin.quepreferirias.utils.countDown
 import com.mmfsin.quepreferirias.utils.shareContent
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>(),
-    ICommentsListener, IMenuDashboardListener, ISendCommentListener {
+class SingleDualismFragment : BaseFragment<FragmentDualismBinding, SingleDualismViewModel>(),
+    IMenuDashboardListener, ISendCommentListener, ICommentsListener {
 
-    override val viewModel: DualismsViewModel by viewModels()
+    override val viewModel: SingleDualismViewModel by viewModels()
     private lateinit var mContext: Context
 
     private var hasSession = false
 
-    private var dualismList = emptyList<Dualism>()
+    private var dualismId: String? = null
     private var actualData: Dualism? = null
-    private var position: Int = 0
 
     private var isFav: Boolean? = null
 
@@ -71,9 +69,14 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
         viewModel.checkSessionInitiated()
     }
 
+    override fun getBundleArgs() {
+        arguments?.let { bundle -> dualismId = bundle.getString(DUALISM_ID) }
+    }
+
     override fun setUI() {
         binding.apply {
             loadingFull.root.isVisible = true
+            clBottom.isVisible = false
             setToolbar()
             setInitialConfig()
 
@@ -93,7 +96,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     private fun setToolbar() {
         (activity as BedRockActivity).apply {
             backListener { onBackPressed() }
-            setToolbarText(R.string.nav_dualism)
+            setToolbarText("")
         }
     }
 
@@ -112,22 +115,6 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             btnFav.setOnClickListener { favOnClick() }
             btnShare.setOnClickListener { share() }
             btnMenu.setOnClickListener { openMenu() }
-
-            tvNext.setOnClickListener {
-                position++
-                if (position < dualismList.size) {
-//                    showInterstitial()
-                    setInitialConfig()
-                    setData()
-                } else {
-                    activity?.let {
-                        val dialog = NoMoreDialog {
-                            activity?.onBackPressedDispatcher?.onBackPressed()
-                        }
-                        dialog.show(it.supportFragmentManager, "")
-                    }
-                }
-            }
         }
     }
 
@@ -137,8 +124,8 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                 tvNext.isEnabled = false
                 viewModel.voteDualism(data.id, isTop)
                 val green = getColor(mContext, R.color.color_green_top)
-                if (isTop) clOptionTop.backgroundTintList = valueOf(green)
-                else clOptionBottom.backgroundTintList = valueOf(green)
+                if (isTop) clOptionTop.backgroundTintList = ColorStateList.valueOf(green)
+                else clOptionBottom.backgroundTintList = ColorStateList.valueOf(green)
 
                 clOptionTop.isEnabled = false
                 clOptionBottom.isEnabled = false
@@ -149,19 +136,19 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     override fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is DualismsEvent.InitiatedSession -> {
+                is SingleDualismEvent.InitiatedSession -> {
                     hasSession = event.initiatedSession
-                    viewModel.getDualisms()
+                    dualismId?.let { id -> viewModel.getSingleDualism(id) } ?: run { error() }
                 }
 
-                is DualismsEvent.ReCheckSession -> hasSession = event.initiatedSession
+                is SingleDualismEvent.ReCheckSession -> hasSession = event.initiatedSession
 
-                is DualismsEvent.Dualisms -> {
-                    dualismList = event.data
+                is SingleDualismEvent.SingleDualism -> {
+                    actualData = event.data
                     setData()
                 }
 
-                is DualismsEvent.CheckDualismFav -> {
+                is SingleDualismEvent.CheckDualismFav -> {
                     if (event.result) setFavButton(isOn = true)
                     else setFavButton(isOn = false)
                     isFav = event.result
@@ -169,18 +156,23 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     actualData?.let { d -> viewModel.getVotes(d.id) }
                 }
 
-                is DualismsEvent.GetVotes -> setUpVotes(event.votes)
-                is DualismsEvent.GetPercents -> setPercents(event.percents)
+                is SingleDualismEvent.GetVotes -> {
+                    setUpVotes(event.votes)
+                    actualData?.let { viewModel.checkIfVoted(it.id) }
+                }
 
-                is DualismsEvent.VoteDilemma -> {
+                is SingleDualismEvent.GetPercents -> setPercents(event.percents)
+
+                is SingleDualismEvent.VoteDualism -> {
                     if (event.wasTop) votesTop++ else votesBottom++
                     viewModel.getPercents(votesTop, votesBottom)
                 }
 
-                is DualismsEvent.GetSessionToComment -> openSendCommentSheet(event.session)
-                is DualismsEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
-                is DualismsEvent.Reported -> reported()
-                is DualismsEvent.SWW -> error()
+                is SingleDualismEvent.GetSessionToComment -> openSendCommentSheet(event.session)
+                is SingleDualismEvent.AlreadyVoted -> checkAlreadyVoted(event.voted)
+                is SingleDualismEvent.NavigateToProfile -> toUserProfile(event.isMe, event.userId)
+                is SingleDualismEvent.Reported -> reported()
+                is SingleDualismEvent.SWW -> error()
             }
         }
     }
@@ -189,7 +181,6 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
         try {
             binding.apply {
                 setInitialConfig()
-                actualData = dualismList[position]
                 actualData?.let { data ->
                     viewModel.checkIfIsFav(data.id)
                     data.explanation?.let { exp ->
@@ -214,8 +205,8 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     private fun setInitialConfig() {
         binding.apply {
             val grey = getColor(mContext, R.color.grey)
-            clOptionTop.backgroundTintList = valueOf(grey)
-            clOptionBottom.backgroundTintList = valueOf(grey)
+            clOptionTop.backgroundTintList = ColorStateList.valueOf(grey)
+            clOptionBottom.backgroundTintList = ColorStateList.valueOf(grey)
 
             llResultTop.visibility = View.INVISIBLE
             llResultBottom.visibility = View.INVISIBLE
@@ -239,13 +230,13 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     isFav = true
                     animate().rotation(720f).setDuration(350).start()
                     setImageResource(R.drawable.ic_fav_on)
-                    valueOf(getColor(mContext, R.color.saved))
+                    ColorStateList.valueOf(getColor(mContext, R.color.saved))
                 } else {
                     tag = FavButtonTag.NO_FAV
                     isFav = false
                     animate().rotation(0f).setDuration(350).start()
                     setImageResource(R.drawable.ic_fav_off)
-                    valueOf(getColor(mContext, R.color.black))
+                    ColorStateList.valueOf(getColor(mContext, R.color.black))
                 }
             }
         }
@@ -253,7 +244,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 
     private fun setUpComments() {
         actualData?.let { d ->
-            commentsFragment = CommentsFragment(d.id, DUALISM, this@DualismsFragment)
+            commentsFragment = CommentsFragment(d.id, DUALISM, this@SingleDualismFragment)
             childFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, commentsFragment)
                 .commit()
@@ -264,6 +255,17 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
         binding.apply {
             votesTop = votes.votesTop
             votesBottom = votes.votesBottom
+        }
+    }
+
+    private fun checkAlreadyVoted(voted: Boolean?) {
+        /** if null -> no voted */
+        binding.apply {
+            voted?.let {
+                clOptionTop.isEnabled = false
+                clOptionBottom.isEnabled = false
+                viewModel.getPercents(votesTop, votesBottom)
+            }
             loadingFull.root.isVisible = false
         }
     }
@@ -282,13 +284,11 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
             llResultTop.animate().alpha(1f).duration = 1000
             tvTextBottom.animate().alpha(0f).duration = 100
             llResultBottom.animate().alpha(1f).duration = 1000
-
-            countDown(500) { tvNext.isEnabled = true }
         }
     }
 
     private fun openMenu() {
-        val dialog = MenuDashboardBSheet(isFav, this@DualismsFragment)
+        val dialog = MenuDashboardBSheet(isFav, this@SingleDualismFragment)
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
@@ -312,7 +312,12 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     private fun openSendCommentSheet(session: Session?) {
         session?.let { userData ->
             actualData?.let { dualism ->
-                val dialog = SendCommentBSheet(dualism, DUALISM, userData, this@DualismsFragment)
+                val dialog = SendCommentBSheet(
+                    dualism,
+                    DUALISM,
+                    userData,
+                    this@SingleDualismFragment
+                )
                 activity?.let { dialog.show(it.supportFragmentManager, "") }
             }
         } ?: run { localBroadcastOpenLogin() }
@@ -331,7 +336,7 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     when (tag) {
                         FavButtonTag.FAV -> {
                             setFavButton(isOn = false)
-                            viewModel.deleteFavDualism(data.id)
+                            viewModel.deleteDualismFav(data.id)
                         }
 
                         FavButtonTag.NO_FAV -> {

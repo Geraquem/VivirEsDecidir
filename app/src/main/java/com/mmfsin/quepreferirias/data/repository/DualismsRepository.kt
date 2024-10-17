@@ -7,9 +7,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.mmfsin.quepreferirias.data.mappers.toDualism
 import com.mmfsin.quepreferirias.data.mappers.toDualismFavList
 import com.mmfsin.quepreferirias.data.mappers.toSendDualismList
 import com.mmfsin.quepreferirias.data.mappers.toSession
+import com.mmfsin.quepreferirias.data.models.DualismDTO
 import com.mmfsin.quepreferirias.data.models.DualismFavDTO
 import com.mmfsin.quepreferirias.data.models.DualismVotedDTO
 import com.mmfsin.quepreferirias.data.models.SendDualismDTO
@@ -111,6 +113,27 @@ class DualismsRepository @Inject constructor(
         return finalDataList
     }
 
+    override suspend fun getDualismById(dualismId: String): Dualism? {
+        val latch = CountDownLatch(1)
+        var dualism: DualismDTO? = null
+        Firebase.firestore.collection(DUALISMS).document(dualismId)
+            .get().addOnSuccessListener { d ->
+                try {
+                    d.toObject(DualismDTO::class.java)?.let {
+                        dualism = it
+                    }
+                } catch (e: Exception) {
+                    Log.e("error", "error parsing comment")
+                }
+                latch.countDown()
+            }.addOnFailureListener {
+                latch.countDown()
+            }
+
+        withContext(Dispatchers.IO) { latch.await() }
+        return dualism?.toDualism()
+    }
+
     override suspend fun checkIfDualismIsFav(dualismId: String): Boolean {
         val dualisms = getFavDualisms()
         return dualisms.any { it.dualismId == dualismId }
@@ -186,6 +209,15 @@ class DualismsRepository @Inject constructor(
             }
 
         withContext(Dispatchers.IO) { latch.await() }
+    }
+
+    override suspend fun alreadyDualismVoted(dualismId: String): Boolean? {
+        val voted = realmDatabase.getObjectFromRealm(
+            DualismVotedDTO::class.java,
+            DUALISM_ID,
+            dualismId
+        )
+        return voted?.votedTop
     }
 
     override suspend fun sendDualism(dualism: SendDualismDTO) {
@@ -325,6 +357,30 @@ class DualismsRepository @Inject constructor(
 
             withContext(Dispatchers.IO) { latch.await() }
         }
+    }
+
+    override suspend fun getOtherUserDualisms(userId: String): List<SendDualism> {
+        val latch = CountDownLatch(1)
+        val dualisms = mutableListOf<SendDualismDTO>()
+        Firebase.firestore.collection(USERS).document(userId)
+            .collection(DUALISMS_SENT).get().addOnSuccessListener { d ->
+                for (document in d.documents) {
+                    try {
+                        document.toObject(SendDualismDTO::class.java)
+                            ?.let { sentDualism ->
+                                dualisms.add(sentDualism)
+                                realmDatabase.addObject { sentDualism }
+                            }
+                    } catch (e: Exception) {
+                        Log.e("error", "error parsing sent dualism")
+                    }
+                }
+                latch.countDown()
+            }.addOnFailureListener {
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) { latch.await() }
+        return dualisms.toSendDualismList().reversed()
     }
 
     override suspend fun reportDualism(dualism: Dualism) {

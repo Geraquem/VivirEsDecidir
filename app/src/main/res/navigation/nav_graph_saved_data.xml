@@ -17,8 +17,18 @@
                 android:name="dilemmaId"
                 app:argType="string" />
         </action>
+
+        <action
+            android:id="@+id/savedData_to_single_Dualism"
+            app:destination="@id/nav_graph_single_dualism">
+            <argument
+                android:name="dualismId"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <include app:graph="@navigation/nav_graph_single_dilemma" />
+
+    <include app:graph="@navigation/nav_graph_single_dualism" />
 
 </navigation>

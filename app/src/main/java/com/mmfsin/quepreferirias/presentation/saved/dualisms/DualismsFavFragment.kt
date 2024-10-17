@@ -80,7 +80,7 @@ class DualismsFavFragment(val listener: ISavedDataListener) :
         }
     }
 
-    override fun onDualismFavClick(dualismId: String) = listener.navigateToSingleDilemma(dualismId)
+    override fun onDualismFavClick(dualismId: String) = listener.navigateToSingleDualism(dualismId)
 
     override fun onDualismFavLongClick(dualismId: String) {
         dialog = DeleteFavDataDialog { viewModel.deleteDualismFav(dualismId) }

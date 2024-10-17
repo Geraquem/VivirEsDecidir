@@ -16,7 +16,7 @@ import com.mmfsin.quepreferirias.databinding.BsheetSendCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ISendCommentListener
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM

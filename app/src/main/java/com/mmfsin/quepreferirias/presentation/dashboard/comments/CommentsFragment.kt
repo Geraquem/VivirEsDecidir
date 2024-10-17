@@ -17,9 +17,9 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.SentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu.MenuCommentBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentMenuListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsListener
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsRVListener
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentMenuListener
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.presentation.single.dialogs.ErrorDataDialog
 import dagger.hilt.android.AndroidEntryPoint

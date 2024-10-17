@@ -10,7 +10,7 @@ class OtherDilemmasViewModel @Inject constructor(
     private val getOtherUserDilemmasUseCase: GetOtherUserDilemmasUseCase,
 ) : BaseViewModel<OtherDilemmasEvent>() {
 
-    fun getUserDilemmas(userId:String) {
+    fun getUserDilemmas(userId: String) {
         executeUseCase(
             { getOtherUserDilemmasUseCase.execute(GetOtherUserDilemmasUseCase.Params(userId)) },
             { result -> _event.value = OtherDilemmasEvent.Dilemmas(result) },

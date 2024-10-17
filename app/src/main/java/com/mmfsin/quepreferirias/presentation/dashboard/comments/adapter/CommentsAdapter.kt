@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
@@ -15,7 +14,7 @@ import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsRVListener
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
 
 class CommentsAdapter(
     private val comments: MutableList<Comment>,

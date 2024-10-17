@@ -4,6 +4,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.data.models.CommentDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
+import com.mmfsin.quepreferirias.data.models.DualismDTO
 import com.mmfsin.quepreferirias.data.models.DualismFavDTO
 import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SendDualismDTO
@@ -11,6 +12,7 @@ import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
+import com.mmfsin.quepreferirias.domain.models.Dualism
 import com.mmfsin.quepreferirias.domain.models.DualismFav
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
@@ -69,6 +71,15 @@ private fun getDateTime(date: String): Int {
 
 fun DilemmaDTO.toDilemma() = Dilemma(
     id = dilemmaId,
+    txtTop = txtTop,
+    txtBottom = txtBottom,
+    creatorId = creatorId,
+    creatorName = creatorName
+)
+
+fun DualismDTO.toDualism() = Dualism(
+    id = dualismId,
+    explanation = explanation,
     txtTop = txtTop,
     txtBottom = txtBottom,
     creatorId = creatorId,

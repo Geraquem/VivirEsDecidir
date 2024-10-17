@@ -12,6 +12,7 @@ import com.mmfsin.quepreferirias.databinding.FragmentViewpagerBinding
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.saved.listeners.ISavedDataListener
 import com.mmfsin.quepreferirias.presentation.saved.viewpager.FavSavedDataFragmentDirections.Companion.savedDataToSingleDilemma
+import com.mmfsin.quepreferirias.presentation.saved.viewpager.FavSavedDataFragmentDirections.Companion.savedDataToSingleDualism
 import com.mmfsin.quepreferirias.presentation.saved.viewpager.adapter.FavViewPagerAdapter
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +60,7 @@ class FavSavedDataFragment : BaseFragmentNoVM<FragmentViewpagerBinding>(), ISave
         findNavController().navigate(savedDataToSingleDilemma(dilemmaId))
 
     override fun navigateToSingleDualism(dualismId: String) {
-        //TODO
+        findNavController().navigate(savedDataToSingleDualism(dualismId))
     }
 
     private fun error() {

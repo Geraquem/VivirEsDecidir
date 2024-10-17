@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.BsheetMenuCommentBinding
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentMenuListener
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint

@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces.ICommentsRVListener
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
 
 class SentCommentsAdapter(
     private val comments: MutableList<Comment>,
@@ -70,7 +70,6 @@ class SentCommentsAdapter(
         if (position != -1) {
             comments.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeChanged(position, comments.size)
         }
     }
 

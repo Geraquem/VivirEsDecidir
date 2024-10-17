@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.dilemmas.interfaces
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces
 
 interface ICommentMenuListener {
     fun respondComment(commentId: String)

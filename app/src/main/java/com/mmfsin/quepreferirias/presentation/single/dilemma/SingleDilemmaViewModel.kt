@@ -3,7 +3,7 @@ package com.mmfsin.quepreferirias.presentation.single.dilemma
 import android.util.Log
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.Dilemma
-import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyVotedDilemmaUseCase
+import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyVotedDataUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfDataIsFavUseCase
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfUserIdIsMeUseCase
 import com.mmfsin.quepreferirias.domain.usecases.DeleteFavDataUseCase
@@ -31,7 +31,7 @@ class SingleDilemmaViewModel @Inject constructor(
     private val deleteFavDataUseCase: DeleteFavDataUseCase,
     private val checkIfUserIdIsMeUseCase: CheckIfUserIdIsMeUseCase,
     private val voteDilemmaUseCase: VoteDilemmaUseCase,
-    private val checkIfAlreadyVotedDilemmaUseCase: CheckIfAlreadyVotedDilemmaUseCase,
+    private val checkIfAlreadyVotedDataUseCase: CheckIfAlreadyVotedDataUseCase,
     private val reportDataUseCase: ReportDataUseCase,
 ) : BaseViewModel<SingleDilemmaEvent>() {
 
@@ -93,8 +93,8 @@ class SingleDilemmaViewModel @Inject constructor(
     fun checkIfVoted(dilemmaId: String) {
         executeUseCase(
             {
-                checkIfAlreadyVotedDilemmaUseCase.execute(
-                    CheckIfAlreadyVotedDilemmaUseCase.Params(dilemmaId)
+                checkIfAlreadyVotedDataUseCase.execute(
+                    CheckIfAlreadyVotedDataUseCase.Params(dilemmaId, DILEMMA)
                 )
             },
             { result -> _event.value = SingleDilemmaEvent.AlreadyVoted(result) },
@@ -152,14 +152,7 @@ class SingleDilemmaViewModel @Inject constructor(
 
     fun reportDilemma(dilemma: Dilemma) {
         executeUseCase(
-            {
-                reportDataUseCase.execute(
-                    ReportDataUseCase.Params(
-                        dilemma,
-                        DILEMMA
-                    )
-                )
-            },
+            { reportDataUseCase.execute(ReportDataUseCase.Params(dilemma, DILEMMA)) },
             { _event.value = SingleDilemmaEvent.Reported },
             { _event.value = SingleDilemmaEvent.SWW }
         )
