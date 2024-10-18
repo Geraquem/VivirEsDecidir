@@ -67,7 +67,7 @@
                     android:backgroundTint="@color/grey"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:paddingTop="16dp"
+                    android:paddingTop="8dp"
                     android:paddingBottom="12dp">
 
                     <EditText
@@ -79,7 +79,8 @@
                         android:autofillHints="null"
                         android:background="@color/transparent"
                         android:hint="@string/send_dualism_explanation_hint"
-                        android:maxLength="50" />
+                        android:maxLength="50"
+                        android:paddingVertical="8dp" />
 
                     <TextView
                         android:id="@+id/tv_limit_explanation"

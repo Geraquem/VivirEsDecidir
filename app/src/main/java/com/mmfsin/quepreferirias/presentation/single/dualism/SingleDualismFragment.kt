@@ -64,13 +64,13 @@ class SingleDualismFragment : BaseFragment<FragmentDualismBinding, SingleDualism
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentDualismBinding.inflate(inflater, container, false)
 
+    override fun getBundleArgs() {
+        arguments?.let { bundle -> dualismId = bundle.getString(DUALISM_ID) }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.checkSessionInitiated()
-    }
-
-    override fun getBundleArgs() {
-        arguments?.let { bundle -> dualismId = bundle.getString(DUALISM_ID) }
     }
 
     override fun setUI() {
@@ -118,11 +118,11 @@ class SingleDualismFragment : BaseFragment<FragmentDualismBinding, SingleDualism
         }
     }
 
-    private fun topOrBottomClick(isTop: Boolean) {
+    private fun topOrBottomClick(isTop: Boolean, vote: Boolean = true) {
         binding.apply {
             actualData?.let { data ->
                 tvNext.isEnabled = false
-                viewModel.voteDualism(data.id, isTop)
+                if (vote) viewModel.voteDualism(data.id, isTop)
                 val green = getColor(mContext, R.color.color_green_top)
                 if (isTop) clOptionTop.backgroundTintList = ColorStateList.valueOf(green)
                 else clOptionBottom.backgroundTintList = ColorStateList.valueOf(green)
@@ -262,8 +262,7 @@ class SingleDualismFragment : BaseFragment<FragmentDualismBinding, SingleDualism
         /** if null -> no voted */
         binding.apply {
             voted?.let {
-                clOptionTop.isEnabled = false
-                clOptionBottom.isEnabled = false
+                topOrBottomClick(voted, vote = false)
                 viewModel.getPercents(votesTop, votesBottom)
             }
             loadingFull.root.isVisible = false
@@ -384,9 +383,7 @@ class SingleDualismFragment : BaseFragment<FragmentDualismBinding, SingleDualism
         Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
     }
 
-    private fun error() {
-        activity?.showErrorDialog { activity?.finish() }
-    }
+    private fun error() = activity?.showErrorDialog { activity?.finish() }
 
     override fun onResume() {
         super.onResume()
