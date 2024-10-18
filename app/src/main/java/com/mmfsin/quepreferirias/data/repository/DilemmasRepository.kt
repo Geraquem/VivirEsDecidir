@@ -326,11 +326,9 @@ class DilemmasRepository @Inject constructor(
             .collection(DILEMMAS_SENT).get().addOnSuccessListener { d ->
                 for (document in d.documents) {
                     try {
-                        document.toObject(SendDilemmaDTO::class.java)
-                            ?.let { sentDilemma ->
-                                dilemmas.add(sentDilemma)
-                                realmDatabase.addObject { sentDilemma }
-                            }
+                        document.toObject(SendDilemmaDTO::class.java)?.let { sentDilemma ->
+                            dilemmas.add(sentDilemma)
+                        }
                     } catch (e: Exception) {
                         Log.e("error", "error parsing sent dilemma")
                     }

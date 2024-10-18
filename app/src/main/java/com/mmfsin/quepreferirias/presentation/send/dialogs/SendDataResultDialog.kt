@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.send.dialogs
 
 import android.app.Dialog
 import android.view.LayoutInflater
+import android.view.View
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.gif.GifDrawable
@@ -27,13 +28,13 @@ class SendDataResultDialog(
     override fun setUI() {
         isCancelable = false
         binding.apply {
+            ivGif.visibility = View.INVISIBLE
             if (wasOk) {
                 ivImage.setImageResource(R.drawable.ic_success)
                 setGif()
                 tvTitle.text = getString(R.string.send_dualism_result_perfect_title)
                 btnResend.text = getString(R.string.send_dualism_result_resend)
                 activity?.changeBgColor(rlTop.background, R.color.main_color)
-
             } else {
                 ivImage.setImageResource(R.drawable.ic_error)
                 ivGif.isVisible = false
@@ -41,7 +42,6 @@ class SendDataResultDialog(
                 tvSubtitle.isVisible = false
                 btnResend.text = getString(R.string.send_dualism_result_retry)
                 activity?.changeBgColor(rlTop.background, R.color.cancel)
-
             }
             btnExit.text = getString(R.string.send_dualism_result_exit)
         }
@@ -55,7 +55,10 @@ class SendDataResultDialog(
                 override fun setResource(resource: GifDrawable?) {
                     resource?.let {
                         it.setLoopCount(1)
-                        binding.ivGif.setImageDrawable(it)
+                        binding.ivGif.apply {
+                            setImageDrawable(it)
+//                            visibility = View.VISIBLE
+                        }
                         it.start()
                     }
                 }

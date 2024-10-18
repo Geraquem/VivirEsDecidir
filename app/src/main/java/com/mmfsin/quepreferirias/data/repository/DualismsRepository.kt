@@ -66,7 +66,7 @@ class DualismsRepository @Inject constructor(
         val db = FirebaseFirestore.getInstance()
 //        val randomValue = Math.random()
         val randomValue = 0.0001
-        val totalLimit = 4L
+        val totalLimit = 2L
         val finalDataList = mutableListOf<Dualism>()
 
         db.collection(DUALISMS)
@@ -366,11 +366,9 @@ class DualismsRepository @Inject constructor(
             .collection(DUALISMS_SENT).get().addOnSuccessListener { d ->
                 for (document in d.documents) {
                     try {
-                        document.toObject(SendDualismDTO::class.java)
-                            ?.let { sentDualism ->
-                                dualisms.add(sentDualism)
-                                realmDatabase.addObject { sentDualism }
-                            }
+                        document.toObject(SendDualismDTO::class.java)?.let { sentDualism ->
+                            dualisms.add(sentDualism)
+                        }
                     } catch (e: Exception) {
                         Log.e("error", "error parsing sent dualism")
                     }
