@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
-import com.mmfsin.quepreferirias.databinding.ItemDilemmaFavBinding
+import com.mmfsin.quepreferirias.databinding.ItemRvDualismBinding
 import com.mmfsin.quepreferirias.domain.models.DualismFav
 import com.mmfsin.quepreferirias.presentation.saved.dualisms.interfaces.IDualismsFavListener
 
@@ -15,7 +15,7 @@ class DualismsFavAdapter(
 ) : RecyclerView.Adapter<DualismsFavAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemDilemmaFavBinding.bind(view)
+        val binding = ItemRvDualismBinding.bind(view)
         fun bind(dilemma: DualismFav) {
             binding.apply {
                 tvTxtTop.text = dilemma.txtTop
@@ -26,7 +26,7 @@ class DualismsFavAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_dilemma_fav, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_rv_dualism, parent, false)
         )
     }
 

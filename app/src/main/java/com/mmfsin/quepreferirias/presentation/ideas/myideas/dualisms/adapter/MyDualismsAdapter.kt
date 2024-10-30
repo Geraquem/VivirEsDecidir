@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
-import com.mmfsin.quepreferirias.databinding.ItemMyDilemmaBinding
+import com.mmfsin.quepreferirias.databinding.ItemRvDualismBinding
 import com.mmfsin.quepreferirias.domain.models.SendDualism
 import com.mmfsin.quepreferirias.presentation.ideas.myideas.dualisms.interfaces.IMyDualismsListener
 import com.mmfsin.quepreferirias.utils.timestampToDate
@@ -16,7 +16,7 @@ class MyDualismsAdapter(
 ) : RecyclerView.Adapter<MyDualismsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemMyDilemmaBinding.bind(view)
+        val binding = ItemRvDualismBinding.bind(view)
         private val c = binding.root.context
         fun bind(dilemma: SendDualism) {
             binding.apply {
@@ -30,7 +30,7 @@ class MyDualismsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_my_dilemma, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_rv_dualism, parent, false)
         )
     }
 

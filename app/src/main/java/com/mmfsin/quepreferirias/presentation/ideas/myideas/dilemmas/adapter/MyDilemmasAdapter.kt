@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
-import com.mmfsin.quepreferirias.databinding.ItemMyDilemmaBinding
+import com.mmfsin.quepreferirias.databinding.ItemRvDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.interfaces.IMyDilemmasListener
 import com.mmfsin.quepreferirias.utils.timestampToDate
@@ -16,7 +16,7 @@ class MyDilemmasAdapter(
 ) : RecyclerView.Adapter<MyDilemmasAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemMyDilemmaBinding.bind(view)
+        val binding = ItemRvDilemmaBinding.bind(view)
         private val c = binding.root.context
         fun bind(dilemma: SendDilemma) {
             binding.apply {
@@ -30,7 +30,7 @@ class MyDilemmasAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_my_dilemma, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_rv_dilemma, parent, false)
         )
     }
 
