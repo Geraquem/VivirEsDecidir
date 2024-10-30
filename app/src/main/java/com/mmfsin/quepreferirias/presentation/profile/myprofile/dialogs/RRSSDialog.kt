@@ -1,11 +1,10 @@
 package com.mmfsin.quepreferirias.presentation.profile.myprofile.dialogs
 
-import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import com.bumptech.glide.Glide
-import com.mmfsin.quepreferirias.base.BaseDialog
+import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.DialogEditProfileBinding
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -15,11 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RRSSDialog(val session: Session, val listener: IRRSSListener, val closeSession: () -> Unit) :
-    BaseDialog<DialogEditProfileBinding>() {
+    BaseBottomSheet<DialogEditProfileBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) = DialogEditProfileBinding.inflate(inflater)
-
-    override fun setCustomViewDialog(dialog: Dialog) = bottomViewDialog(dialog)
 
     override fun setUI() {
         isCancelable = true
@@ -38,7 +35,6 @@ class RRSSDialog(val session: Session, val listener: IRRSSListener, val closeSes
 
     override fun setListeners() {
         binding.apply {
-            ivClose.setOnClickListener { dismiss() }
             btnSave.setOnClickListener {
                 llButtons.visibility = View.INVISIBLE
                 loading.visibility = View.VISIBLE
