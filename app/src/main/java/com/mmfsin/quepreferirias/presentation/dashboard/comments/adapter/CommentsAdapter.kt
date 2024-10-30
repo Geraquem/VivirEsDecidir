@@ -101,15 +101,21 @@ class CommentsAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun clearData() {
         comments.clear()
-        notifyItemRangeChanged(0,comments.size)
+        notifyItemRangeChanged(0, comments.size)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun deleteComment(commentId: String) {
         val position = comments.indexOfFirst { it.commentId == commentId }
         if (position != -1) {
-            comments.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, comments.size)
+            try {
+                comments.removeAt(position)
+                if (comments.isEmpty()) notifyDataSetChanged()
+                else notifyItemRemoved(position)
+
+            } catch (e: Exception) {
+                val a = 2
+            }
         }
     }
 

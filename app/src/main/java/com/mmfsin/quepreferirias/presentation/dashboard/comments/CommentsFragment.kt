@@ -102,7 +102,7 @@ class CommentsFragment(
                 rvComments.apply {
                     layoutManager = LinearLayoutManager(mContext)
                     commentsAdapter = CommentsAdapter(
-                        comments as MutableList<Comment>,
+                        comments.toMutableList(),
                         this@CommentsFragment
                     )
                     adapter = commentsAdapter

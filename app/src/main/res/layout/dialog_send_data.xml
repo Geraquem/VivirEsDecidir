@@ -6,13 +6,12 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/send_dilemma"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?attr/selectableItemBackground"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="16dp">
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp">
 
         <TextView
             style="@style/MediumTextView"
@@ -56,6 +55,18 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/send_dilemma"
+            style="@style/MediumTextView_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/click_effect"
+            android:padding="4dp"
+            android:text="@string/send_data_send"
+            android:textColor="@color/blue" />
+
     </LinearLayout>
 
     <FrameLayout
@@ -66,7 +77,6 @@
         app:layout_constraintTop_toBottomOf="@id/ll_action_buttons" />
 
     <LinearLayout
-        android:id="@+id/send_dualism"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackground"
@@ -116,6 +126,18 @@
                 android:text="@string/send_data_dualism_example" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/send_dualism"
+            style="@style/MediumTextView_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/click_effect"
+            android:padding="4dp"
+            android:text="@string/send_data_send"
+            android:textColor="@color/blue" />
 
     </LinearLayout>
 
