@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/white"
     android:clickable="true"
     android:clipChildren="false"
     android:clipToPadding="false">
@@ -34,7 +34,6 @@
             style="@style/scroll_no_effects"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/grey"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:paddingTop="12dp"

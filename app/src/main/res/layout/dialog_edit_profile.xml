@@ -30,7 +30,8 @@
         android:clipToPadding="false"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
-        android:paddingVertical="12dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="12dp"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toLeftOf="@id/gl_right"
         app:layout_constraintTop_toTopOf="parent">

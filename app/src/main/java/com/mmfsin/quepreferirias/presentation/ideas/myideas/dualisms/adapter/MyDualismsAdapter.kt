@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.ideas.myideas.dualisms.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemRvDualismBinding
@@ -18,12 +19,13 @@ class MyDualismsAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRvDualismBinding.bind(view)
         private val c = binding.root.context
-        fun bind(dilemma: SendDualism) {
+        fun bind(dilemma: SendDualism, separatorVisible: Boolean) {
             binding.apply {
                 tvTxtTop.text = dilemma.txtTop
                 tvTxtBottom.text = dilemma.txtBottom
                 val date = dilemma.timestamp.timestampToDate()
                 tvDate.text = c.getString(R.string.my_data_item_date, date)
+                separator.isVisible = !separatorVisible
             }
         }
     }
@@ -36,7 +38,7 @@ class MyDualismsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dualism = data[position]
-        holder.bind(dualism)
+        holder.bind(dualism, position == data.size - 1)
         holder.binding.clMain.setOnClickListener { listener.onMyDualismClick(dualism.dualismId) }
         holder.binding.clMain.setOnLongClickListener {
             listener.onMyDualismLongClick(dualism.dualismId)

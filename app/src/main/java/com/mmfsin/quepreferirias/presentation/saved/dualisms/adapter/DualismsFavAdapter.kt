@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.saved.dualisms.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemRvDualismBinding
@@ -16,10 +17,12 @@ class DualismsFavAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRvDualismBinding.bind(view)
-        fun bind(dilemma: DualismFav) {
+        fun bind(dilemma: DualismFav, separatorVisible: Boolean) {
             binding.apply {
                 tvTxtTop.text = dilemma.txtTop
                 tvTxtBottom.text = dilemma.txtBottom
+                tvDate.isVisible = false
+                separator.isVisible = !separatorVisible
             }
         }
     }
@@ -32,7 +35,7 @@ class DualismsFavAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val fav = favs[position]
-        holder.bind(fav)
+        holder.bind(fav, position == favs.size - 1)
         holder.binding.clMain.setOnClickListener { listener.onDualismFavClick(fav.dualismId) }
         holder.binding.clMain.setOnLongClickListener {
             listener.onDualismFavLongClick(fav.dualismId)

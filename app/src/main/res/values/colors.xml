@@ -17,9 +17,11 @@
     <color name="grey">#E4E4E4</color>
     <color name="grey_strong">#CACACA</color>
 
-    <color name="light_blue">#BEE1FF</color>
+    <color name="very_light_blue">#F3F9FF</color>
+    <color name="light_blue">#D3EBFF</color>
     <color name="blue">#3B94E3</color>
 
+    <color name="very_light_orange">#FFF0DE</color>
     <color name="light_orange">#FFE5C6</color>
     <color name="orange">#FFD7AA</color>
 

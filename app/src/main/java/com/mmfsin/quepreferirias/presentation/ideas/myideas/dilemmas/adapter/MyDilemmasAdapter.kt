@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.ideas.myideas.dilemmas.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemRvDilemmaBinding
@@ -18,12 +19,13 @@ class MyDilemmasAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRvDilemmaBinding.bind(view)
         private val c = binding.root.context
-        fun bind(dilemma: SendDilemma) {
+        fun bind(dilemma: SendDilemma, separatorVisible: Boolean) {
             binding.apply {
                 tvTxtTop.text = dilemma.txtTop
                 tvTxtBottom.text = dilemma.txtBottom
                 val date = dilemma.timestamp.timestampToDate()
                 tvDate.text = c.getString(R.string.my_data_item_date, date)
+                separator.isVisible = !separatorVisible
             }
         }
     }
@@ -36,7 +38,7 @@ class MyDilemmasAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dilemma = data[position]
-        holder.bind(dilemma)
+        holder.bind(dilemma, position == data.size - 1)
         holder.binding.clMain.setOnClickListener { listener.onMyDilemmaClick(dilemma.dilemmaId) }
         holder.binding.clMain.setOnLongClickListener {
             listener.onMyDilemmaLongClick(dilemma.dilemmaId)
