@@ -1,6 +1,5 @@
 package com.mmfsin.quepreferirias.utils
 
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.drawable.Drawable

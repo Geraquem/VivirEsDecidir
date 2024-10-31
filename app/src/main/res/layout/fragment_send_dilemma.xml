@@ -48,6 +48,12 @@
                 app:layout_constraintRight_toRightOf="@id/gl_right"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <include
+                    layout="@layout/include_send_rules"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,6 +94,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="64dp"
                     android:background="@drawable/bg_dilemma_bottom"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"

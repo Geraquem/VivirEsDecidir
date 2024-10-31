@@ -28,11 +28,12 @@ import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.CommentsFragment
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.SendCommentBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ISendCommentListener
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.ReportDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag.FAV
@@ -64,6 +65,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
 
     private var votesYes: Long = 0
     private var votesNo: Long = 0
+
+    private var reportDialog: ReportDialog? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -199,10 +202,6 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
             val shareIntent = shareContent(text)
             startActivity(shareIntent)
         }
-    }
-
-    override fun report() {
-        actualData?.let { data -> viewModel.reportDilemma(data) }
     }
 
     override fun observe() {
@@ -371,8 +370,16 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
         (activity as BedRockActivity).openActivity(navGraph, USER_ID, userId)
     }
 
+    override fun report() {
+        reportDialog = ReportDialog(R.string.report_dilemma) {
+            actualData?.let { data -> viewModel.reportDilemma(data) }
+        }
+        activity?.let { reportDialog?.show(it.supportFragmentManager, "") }
+    }
+
     private fun reported() {
-        Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
+        reportDialog?.dismiss()
+        Toast.makeText(mContext, getString(R.string.report_finish), Toast.LENGTH_SHORT).show()
     }
 
     override fun shouldInitiateSession() {

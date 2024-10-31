@@ -70,6 +70,16 @@
     <string name="send_data_send">Enviar</string>
     <string name="send_data_error_empty">No has rellenado todos los campos</string>
 
+    <string name="rules">Reglas</string>
+    <string name="rules_one_numeration">1.</string>
+    <string name="rules_one">No está permitido enviar nada que sea discriminatorio o pueda resultar ofensivo.</string>
+    <string name="rules_two_numeration">2.</string>
+    <string name="rules_two">No uses información personal, ni tuya ni de nadie.</string>
+    <string name="rules_three_numeration">3.</string>
+    <string name="rules_three">No debe haber publicidad en el dilema o en el dualismo a enviar. No spam.</string>
+    <string name="rules_four_numeration">4.</string>
+    <string name="rules_four">Haz que sea entretenido e interesante. No fuerces tu cerebro, si no tienes ideas ¡ya se te ocurrirá algo más adelante!</string>
+
     <!-- SEND DILEMMA -->
     <string name="send_dilemma_title">Enviar dilema</string>
     <string name="send_dilemma_txt_top_hint">Algo bueno</string>
@@ -123,6 +133,16 @@
     <string name="menu_dashboard_report">Reportar</string>
     <string name="menu_dashboard_dilemma_copied">Dilema copiado al portapapeles</string>
     <string name="menu_dashboard_dualism_copied">Dualismo copiado al portapapeles</string>
+
+    <!-- REPORT -->
+    <string name="report_text">¿Crees que el %s infringe alguna normativa y quieres reportarlo?</string>
+    <string name="report_subtext">Pulsa el botón <i>Enviar reporte</i> y lo investigaremos.</string>
+    <string name="report_btn_send_report">Enviar reporte</string>
+    <string name="report_btn_close">No enviar</string>
+    <string name="report_dilemma">dilema</string>
+    <string name="report_dualism">dualismo</string>
+    <string name="report_comment">comentario</string>
+    <string name="report_finish">Reportado correctamente</string>
 
     <!-- COMMENTS -->
     <string name="comments_hint">Escribe aquí…</string>

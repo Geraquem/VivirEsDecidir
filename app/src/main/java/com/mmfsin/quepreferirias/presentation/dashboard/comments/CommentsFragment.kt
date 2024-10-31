@@ -20,6 +20,7 @@ import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu.Me
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.ReportDialog
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.presentation.single.dialogs.ErrorDataDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +41,8 @@ class CommentsFragment(
     private var sentCommentsAdapter: SentCommentsAdapter? = null
 
     private var thereAreMoreComments: Boolean = true
+
+    private var reportDialog: ReportDialog? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -83,9 +86,7 @@ class CommentsFragment(
                     )
                 }
 
-                is CommentsEvent.CommentReported -> {
-                    Toast.makeText(mContext, "Comentario denunciado", Toast.LENGTH_SHORT).show()
-                }
+                is CommentsEvent.CommentReported -> commentReported()
 
                 is CommentsEvent.SWW -> error()
             }
@@ -127,14 +128,6 @@ class CommentsFragment(
         commentsAdapter?.deleteComment(commentId)
     }
 
-    override fun reportComment(commentId: String) {
-        val justSentComment = sentCommentsAdapter?.getComment(commentId)
-        justSentComment?.let { viewModel.reportComment(dataId, it) }
-
-        val comment = commentsAdapter?.getComment(commentId)
-        comment?.let { viewModel.reportComment(dataId, it) }
-    }
-
     override fun voteComment(
         commentId: String,
         vote: CommentVote,
@@ -173,6 +166,22 @@ class CommentsFragment(
             sentCommentsAdapter?.addComments(list)
             tvNoComments.isVisible = false
         }
+    }
+
+    override fun reportComment(commentId: String) {
+        reportDialog = ReportDialog(R.string.report_comment) {
+            val justSentComment = sentCommentsAdapter?.getComment(commentId)
+            justSentComment?.let { viewModel.reportComment(dataId, it) }
+
+            val comment = commentsAdapter?.getComment(commentId)
+            comment?.let { viewModel.reportComment(dataId, it) }
+        }
+        activity?.let { reportDialog?.show(it.supportFragmentManager, "") }
+    }
+
+    private fun commentReported() {
+        reportDialog?.dismiss()
+        Toast.makeText(mContext, getString(R.string.report_finish), Toast.LENGTH_SHORT).show()
     }
 
     private fun error() {

@@ -25,11 +25,12 @@ import com.mmfsin.quepreferirias.domain.models.DualismVotes
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.CommentsFragment
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.SendCommentBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
-import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ISendCommentListener
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.ReportDialog
+import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
 import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import com.mmfsin.quepreferirias.presentation.models.FavButtonTag
@@ -61,6 +62,8 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
 
     private var votesTop: Long = 0
     private var votesBottom: Long = 0
+
+    private var reportDialog: ReportDialog? = null
 
     override fun inflateView(
         inflater: LayoutInflater, container: ViewGroup?
@@ -372,11 +375,15 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
     }
 
     override fun report() {
-        actualData?.let { data -> viewModel.reportDualism(data) }
+        reportDialog = ReportDialog(R.string.report_dualism) {
+            actualData?.let { data -> viewModel.reportDualism(data) }
+        }
+        activity?.let { reportDialog?.show(it.supportFragmentManager, "") }
     }
 
     private fun reported() {
-        Toast.makeText(mContext, "reportado", Toast.LENGTH_SHORT).show()
+        reportDialog?.dismiss()
+        Toast.makeText(mContext, getString(R.string.report_finish), Toast.LENGTH_SHORT).show()
     }
 
     private fun error() {
