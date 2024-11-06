@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/scroll_no_effects"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,60 +27,175 @@
         android:id="@+id/gl_medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-
-
-    <RelativeLayout
-        android:id="@+id/open_dilemmas"
-        android:layout_width="match_parent"
-        android:background="@color/color_red_bottom"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/buttons"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_dilemmas"
+        android:layout_width="0dp"
+        android:paddingBottom="24dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            style="@style/BigTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/init_btn_font"
-            android:text="@string/init_dilemmas"
-            android:textAllCaps="true"
-            android:textSize="36sp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/bg_dilemma_init"
+            app:layout_constraintBottom_toBottomOf="@id/end_bg_dilemma"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/top_linear_dilemmas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompoundDrawables">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/iv_pill_red" />
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:contentDescription="@string/content_description"
+                    android:src="@drawable/iv_pill_blue" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/init_btn_font"
+                android:text="@string/init_dilemmas"
+                android:textAllCaps="true"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/end_bg_dilemma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/dilemma_description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/dilemma_description"
+            style="@style/SmallTextView"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_white_box"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/dilemma_description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_linear_dilemmas" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingBottom="24dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_dilemmas">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/bg_dualism_init"
+            app:layout_constraintBottom_toBottomOf="@id/end_bg_dualism"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/top_linear_dualisms"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="24dp"
+                android:contentDescription="@string/content_description"
+                android:src="@drawable/iv_pill_red" />
+
+            <TextView
+                style="@style/BigTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/init_btn_font"
+                android:text="@string/init_dualisms"
+                android:textAllCaps="true"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/end_bg_dualism"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/dualism_description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/dualism_description"
+            style="@style/SmallTextView"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_white_box"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/dualism_description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_linear_dualisms" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        android:id="@+id/buttons"
         layout="@layout/include_initial_buttons"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
-        app:layout_constraintRight_toRightOf="@id/gl_right"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RelativeLayout
-        android:id="@+id/open_dualisms"
-        android:layout_width="match_parent"
-        android:background="@color/orange"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttons">
-
-        <TextView
-            style="@style/BigTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/init_btn_font"
-            android:text="@string/init_dualisms"
-            android:textAllCaps="true"
-            android:textSize="32sp" />
-
-    </RelativeLayout>
+        app:layout_constraintRight_toRightOf="@id/gl_right" />
 
     <RelativeLayout
         android:id="@+id/btn_open_menu"
@@ -92,6 +208,7 @@
         android:paddingVertical="10dp"
         android:paddingStart="16dp"
         android:paddingEnd="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 

@@ -8,10 +8,23 @@
     android:clipToPadding="false"
     android:focusable="true">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_description"
+        app:backgroundTint="@color/white"
+        app:borderWidth="00dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_menu"
+        app:tint="@color/black" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:background="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/ll_buttons"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,6 +36,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -60,6 +74,7 @@
             android:contentDescription="@string/content_description"
             android:padding="4dp"
             android:src="@drawable/ic_fav_off" />
+
         <Space
             android:layout_width="16dp"
             android:layout_height="match_parent" />

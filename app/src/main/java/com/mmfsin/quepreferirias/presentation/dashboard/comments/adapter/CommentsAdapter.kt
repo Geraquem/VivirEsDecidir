@@ -108,14 +108,9 @@ class CommentsAdapter(
     fun deleteComment(commentId: String) {
         val position = comments.indexOfFirst { it.commentId == commentId }
         if (position != -1) {
-            try {
-                comments.removeAt(position)
-                if (comments.isEmpty()) notifyDataSetChanged()
-                else notifyItemRemoved(position)
-
-            } catch (e: Exception) {
-                val a = 2
-            }
+            comments.removeAt(position)
+            if (comments.isEmpty()) notifyDataSetChanged()
+            else notifyItemRemoved(position)
         }
     }
 
