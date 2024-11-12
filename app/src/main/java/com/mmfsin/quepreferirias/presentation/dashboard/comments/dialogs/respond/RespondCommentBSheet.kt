@@ -15,7 +15,6 @@ import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.BsheetSendCommentBinding
 import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import com.mmfsin.quepreferirias.utils.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RespondCommentBSheet(
     private val data: DataToRespondComment,
-    private val type: DashboardType,
     private val session: Session,
 //    private val listener: ISendCommentListener,
 ) : BaseBottomSheet<BsheetSendCommentBinding>() {
@@ -87,7 +85,13 @@ class RespondCommentBSheet(
                 val comment = etComment.text.toString()
                 if (comment.isNotBlank()) {
                     val filteredText = comment.replace("\n\n\n", "\n\n")
-                   // viewModel.sendComment(getDataId(), type, session, filteredText)
+                    viewModel.respondComment(
+                        dataId = data.dataId,
+                        commentId = data.commentId,
+                        type = data.type,
+                        session = session,
+                        reply = filteredText
+                    )
                     rlLoading.isVisible = true
                     hideKeyboard()
                 }

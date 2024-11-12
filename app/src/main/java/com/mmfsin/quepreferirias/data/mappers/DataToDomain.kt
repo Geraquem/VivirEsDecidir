@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.data.mappers
 
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.data.models.CommentReplyDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaDTO
 import com.mmfsin.quepreferirias.data.models.DilemmaFavDTO
 import com.mmfsin.quepreferirias.data.models.DualismDTO
@@ -10,6 +11,7 @@ import com.mmfsin.quepreferirias.data.models.SendDilemmaDTO
 import com.mmfsin.quepreferirias.data.models.SendDualismDTO
 import com.mmfsin.quepreferirias.data.models.SessionDTO
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaFav
 import com.mmfsin.quepreferirias.domain.models.Dualism
@@ -40,10 +42,24 @@ fun CommentDTO.toComment() = Comment(
     since = getDateTime(date),
     likes = likes,
     votedUp = votedUp,
+    votedDown = votedDown,
+    replies = replies.toCommentReplyList()
+)
+
+fun CommentReplyDTO.toCommentReply() = CommentReply(
+    replyId = replyId,
+    userId = userId,
+    userName = userName,
+    image = image,
+    reply = reply,
+    likes = likes,
+    votedUp = votedUp,
     votedDown = votedDown
 )
 
 fun List<CommentDTO>.toCommentList() = this.map { comment -> comment.toComment() }.toList()
+fun List<CommentReplyDTO>.toCommentReplyList() =
+    this.map { comment -> comment.toCommentReply() }.toList()
 
 private fun getDateTime(date: String): Int {
     val text = try {

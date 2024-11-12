@@ -2,24 +2,29 @@ package com.mmfsin.quepreferirias.data.repository
 
 import android.content.Context
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.data.mappers.toComment
 import com.mmfsin.quepreferirias.data.mappers.toCommentList
+import com.mmfsin.quepreferirias.data.mappers.toCommentReply
 import com.mmfsin.quepreferirias.data.models.CommentDTO
+import com.mmfsin.quepreferirias.data.models.CommentReplyDTO
 import com.mmfsin.quepreferirias.data.models.CommentVotedDTO
 import com.mmfsin.quepreferirias.domain.interfaces.ICommentsRepository
 import com.mmfsin.quepreferirias.domain.interfaces.IRealmDatabase
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
+import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.utils.COMMENTS
 import com.mmfsin.quepreferirias.utils.COMMENT_ID
 import com.mmfsin.quepreferirias.utils.COMMENT_LIKES
+import com.mmfsin.quepreferirias.utils.COMMENT_REPLIES
 import com.mmfsin.quepreferirias.utils.REPORTED
 import com.mmfsin.quepreferirias.utils.TIMESTAMP
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -89,6 +94,26 @@ class CommentsRepository @Inject constructor(
             .document(comment.commentId).set(comment, SetOptions.merge())
             .addOnCompleteListener {
                 if (it.isSuccessful) result = comment.toComment()
+                latch.countDown()
+            }
+        withContext(Dispatchers.IO) {
+            latch.await()
+        }
+        return result
+    }
+
+    override suspend fun respondComment(
+        dataId: String,
+        root: String,
+        commentId: String,
+        reply: CommentReplyDTO
+    ): CommentReply? {
+        val latch = CountDownLatch(1)
+        var result: CommentReply? = null
+        Firebase.firestore.collection(root).document(dataId).collection(COMMENTS)
+            .document(commentId).update(COMMENT_REPLIES, FieldValue.arrayUnion(reply))
+            .addOnCompleteListener {
+                if (it.isSuccessful) result = reply.toCommentReply()
                 latch.countDown()
             }
         withContext(Dispatchers.IO) {

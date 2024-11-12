@@ -136,9 +136,12 @@ class CommentsFragment(
     override fun respondComment(dataToRespondComment: DataToRespondComment) =
         viewModel.getSessionToRespondComment(dataToRespondComment)
 
-    private fun openRespondCommentSheet(session: Session?, data: DataToRespondComment) {
+    private fun openRespondCommentSheet(
+        session: Session?,
+        data: DataToRespondComment
+    ) {
         session?.let { userData ->
-            val dialog = RespondCommentBSheet(data, type, userData)
+            val dialog = RespondCommentBSheet(data, userData)
             activity?.let { dialog.show(it.supportFragmentManager, "") }
         } ?: run { listener.shouldInitiateSession() }
     }

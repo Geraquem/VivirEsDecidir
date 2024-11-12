@@ -32,6 +32,7 @@ const val VOTES_TOP = "votesTop"
 const val VOTES_BOTTOM = "votesBottom"
 const val COMMENTS = "comments"
 const val COMMENT_LIKES = "likes"
+const val COMMENT_REPLIES = "replies"
 const val FILTER_VALUE = "filterValue"
 const val REPORTED = "reported"
 

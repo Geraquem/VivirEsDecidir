@@ -3,17 +3,14 @@ package com.mmfsin.quepreferirias.data.models
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class CommentDTO(
+open class CommentReplyDTO(
     @PrimaryKey
-    var commentId: String = "",
+    var replyId: String = "",
     var userId: String = "",
-    var name: String = "",
-    var comment: String = "",
+    var userName: String = "",
     var image: String = "",
-    var timestamp: Long = 0,
-    var date: String = "",
+    var reply: String = "",
     var likes: Long = 0,
     var votedUp: Boolean = false,
     var votedDown: Boolean = false,
-    var replies: List<CommentReplyDTO> = emptyList()
-)
+) : RealmObject()

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
@@ -29,7 +30,7 @@ class CommentsAdapter(
                 Glide.with(binding.root.context).load(comment.image).into(image.image)
                 tvName.text = comment.name
                 tvComment.text = comment.comment
-                tvDate.text = binding.root.context.getString(comment.since)
+//                tvDate.text = binding.root.context.getString(comment.since)
                 tvLikes.text = comment.likes.toString()
 
                 val up = getColor(c, R.color.voted_up)
@@ -37,6 +38,15 @@ class CommentsAdapter(
                 val neutro = getColor(c, R.color.soft_black)
                 ivVoteUp.setColorFilter(if (comment.votedUp) up else neutro, SRC_IN)
                 ivVoteDown.setColorFilter(if (comment.votedDown) down else neutro, SRC_IN)
+
+                if (comment.replies.isNotEmpty()) {
+                    val repliesAdapter = RepliesAdapter(comment.replies)
+                    rvReplies.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = repliesAdapter
+                        visibility = View.VISIBLE
+                    }
+                } else rvReplies.visibility = View.GONE
             }
         }
     }

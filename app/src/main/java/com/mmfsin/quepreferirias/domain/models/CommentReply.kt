@@ -1,14 +1,14 @@
 package com.mmfsin.quepreferirias.domain.models
 
-open class Comment(
-    val commentId: String,
+open class CommentReply(
+    val replyId: String,
     val userId: String,
-    val name: String,
-    val comment: String,
+    val userName: String,
     val image: String,
-    val since: Int,
+    val reply: String,
     var likes: Long,
+
+
     var votedUp: Boolean,
     var votedDown: Boolean,
-    var replies: List<CommentReply>
 )
