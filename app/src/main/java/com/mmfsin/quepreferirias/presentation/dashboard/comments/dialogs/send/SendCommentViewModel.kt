@@ -2,21 +2,21 @@ package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send
 
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.domain.usecases.SendDilemmaCommentUseCase
+import com.mmfsin.quepreferirias.domain.usecases.SendDataCommentUseCase
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SendCommentViewModel @Inject constructor(
-    private val setDilemmaCommentUseCase: SendDilemmaCommentUseCase
+    private val sendDataCommentUseCase: SendDataCommentUseCase
 ) : BaseViewModel<SendCommentEvent>() {
 
     fun sendComment(dilemmaId: String, type: DashboardType, session: Session, comment: String) {
         executeUseCase(
             {
-                setDilemmaCommentUseCase.execute(
-                    SendDilemmaCommentUseCase.Params(dilemmaId, type, session, comment)
+                sendDataCommentUseCase.execute(
+                    SendDataCommentUseCase.Params(dilemmaId, type, session, comment)
                 )
             },
             { result ->

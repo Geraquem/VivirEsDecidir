@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.BsheetMenuCommentBinding
+import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -17,6 +18,7 @@ class MenuCommentBSheet(
     private val dataId: String,
     private val type: DashboardType,
     private val commentId: String,
+    private val commentText: String,
     private val userId: String,
     private val listener: ICommentMenuListener
 ) : BaseBottomSheet<BsheetMenuCommentBinding>() {
@@ -38,7 +40,8 @@ class MenuCommentBSheet(
     override fun setListeners() {
         binding.apply {
             btnAnswer.setOnClickListener {
-                listener.respondComment(commentId)
+                val data = DataToRespondComment(dataId, type, commentId, commentText)
+                listener.respondComment(data)
                 dismiss()
             }
             btnDelete.setOnClickListener { viewModel.deleteComment(dataId, type, commentId) }

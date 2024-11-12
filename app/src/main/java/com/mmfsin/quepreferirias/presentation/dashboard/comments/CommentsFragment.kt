@@ -14,9 +14,12 @@ import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentVote
+import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
+import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.SentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu.MenuCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.respond.RespondCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
@@ -86,6 +89,10 @@ class CommentsFragment(
                     )
                 }
 
+                is CommentsEvent.GetSessionToRespondComment -> {
+                    openRespondCommentSheet(event.session, event.data)
+                }
+
                 is CommentsEvent.CommentReported -> commentReported()
 
                 is CommentsEvent.SWW -> error()
@@ -114,13 +121,26 @@ class CommentsFragment(
 
     override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
 
-    override fun openCommentMenu(commentId: String, userId: String) {
-        val dialog = MenuCommentBSheet(dataId, type, commentId, userId, this@CommentsFragment)
+    override fun openCommentMenu(commentId: String, commentText: String, userId: String) {
+        val dialog = MenuCommentBSheet(
+            dataId,
+            type,
+            commentId,
+            commentText,
+            userId,
+            this@CommentsFragment
+        )
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
-    override fun respondComment(commentId: String) {
+    override fun respondComment(dataToRespondComment: DataToRespondComment) =
+        viewModel.getSessionToRespondComment(dataToRespondComment)
 
+    private fun openRespondCommentSheet(session: Session?, data: DataToRespondComment) {
+        session?.let { userData ->
+            val dialog = RespondCommentBSheet(data, type, userData)
+            activity?.let { dialog.show(it.supportFragmentManager, "") }
+        } ?: run { listener.shouldInitiateSession() }
     }
 
     override fun commentDeleted(commentId: String) {

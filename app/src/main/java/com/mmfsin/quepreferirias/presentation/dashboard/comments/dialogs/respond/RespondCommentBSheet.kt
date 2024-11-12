@@ -1,4 +1,4 @@
-package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send
+package com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.respond
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.text.Editable
@@ -13,26 +13,22 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.BsheetSendCommentBinding
-import com.mmfsin.quepreferirias.domain.models.Dilemma
-import com.mmfsin.quepreferirias.domain.models.Dualism
+import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
 import com.mmfsin.quepreferirias.domain.models.Session
-import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
-import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
-import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import com.mmfsin.quepreferirias.utils.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SendCommentBSheet(
-    private val data: Any,
+class RespondCommentBSheet(
+    private val data: DataToRespondComment,
     private val type: DashboardType,
     private val session: Session,
-    private val listener: ISendCommentListener,
+//    private val listener: ISendCommentListener,
 ) : BaseBottomSheet<BsheetSendCommentBinding>() {
 
-    private val viewModel: SendCommentViewModel by viewModels()
+    private val viewModel: RespondCommentViewModel by viewModels()
 
     override fun inflateView(inflater: LayoutInflater) = BsheetSendCommentBinding.inflate(inflater)
 
@@ -56,26 +52,13 @@ class SendCommentBSheet(
     override fun setUI() {
         binding.apply {
             rlLoading.isVisible = false
-            tvData.text = getDataText()
+            tvSendComment.text = getString(R.string.comment_reply)
+            tvData.text = data.commentText
             etComment.postDelayed({
                 etComment.requestFocus()
                 activity?.showKeyboard(etComment)
             }, 100)
             setTextWatcherComment()
-        }
-    }
-
-    private fun getDataText(): String {
-        return when (type) {
-            DILEMMA -> {
-                (data as Dilemma)
-                getString(R.string.comments_dilemma, data.txtTop, data.txtBottom)
-            }
-
-            DUALISM -> {
-                (data as Dualism)
-                getString(R.string.comments_dualism, data.txtTop, data.txtBottom)
-            }
         }
     }
 
@@ -104,7 +87,7 @@ class SendCommentBSheet(
                 val comment = etComment.text.toString()
                 if (comment.isNotBlank()) {
                     val filteredText = comment.replace("\n\n\n", "\n\n")
-                    viewModel.sendComment(getDataId(), type, session, filteredText)
+                   // viewModel.sendComment(getDataId(), type, session, filteredText)
                     rlLoading.isVisible = true
                     hideKeyboard()
                 }
@@ -112,12 +95,6 @@ class SendCommentBSheet(
         }
     }
 
-    private fun getDataId(): String {
-        return when (type) {
-            DILEMMA -> (data as Dilemma).id
-            DUALISM -> (data as Dualism).id
-        }
-    }
 
     private fun hideKeyboard() {
         val view = dialog?.currentFocus ?: view
@@ -131,12 +108,12 @@ class SendCommentBSheet(
     private fun observe() {
         viewModel.event.observe(this) { event ->
             when (event) {
-                is SendCommentEvent.CommentSent -> {
-                    listener.commentSent(event.comment)
+                is RespondCommentEvent.CommentReplied -> {
+//                    listener.commentSent(event.comment)
                     dismiss()
                 }
 
-                is SendCommentEvent.SWW -> error()
+                is RespondCommentEvent.SWW -> error()
             }
         }
     }

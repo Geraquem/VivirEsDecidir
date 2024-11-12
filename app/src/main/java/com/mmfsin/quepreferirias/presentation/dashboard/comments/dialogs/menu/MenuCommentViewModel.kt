@@ -21,11 +21,11 @@ class MenuCommentViewModel @Inject constructor(
         )
     }
 
-    fun deleteComment(dilemmaId: String, type: DashboardType, commentId: String) {
+    fun deleteComment(dataId: String, type: DashboardType, commentId: String) {
         executeUseCase(
             {
                 deleteDataCommentUseCase.execute(
-                    DeleteDataCommentUseCase.Params(dilemmaId, type, commentId)
+                    DeleteDataCommentUseCase.Params(dataId, type, commentId)
                 )
             },
             { result -> _event.value = MenuCommentEvent.CommentDeleted(result) },

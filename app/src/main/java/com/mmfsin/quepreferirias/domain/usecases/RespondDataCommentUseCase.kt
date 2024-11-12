@@ -13,9 +13,9 @@ import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 
-class SendDilemmaCommentUseCase @Inject constructor(
+class RespondDataCommentUseCase @Inject constructor(
     private val repository: ICommentsRepository
-) : BaseUseCase<SendDilemmaCommentUseCase.Params, Comment?>() {
+) : BaseUseCase<RespondDataCommentUseCase.Params, Comment?>() {
 
     override suspend fun execute(params: Params): Comment? {
         val comment = CommentDTO(

@@ -77,6 +77,7 @@ class CommentsAdapter(
             ivCommentMenu.setOnClickListener {
                 listener.openCommentMenu(
                     comment.commentId,
+                    comment.comment,
                     comment.userId
                 )
             }

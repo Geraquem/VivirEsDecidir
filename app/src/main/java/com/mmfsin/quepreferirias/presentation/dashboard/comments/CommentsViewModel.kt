@@ -4,8 +4,10 @@ import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
 import com.mmfsin.quepreferirias.domain.models.CommentVote
+import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyCommentVotedUseCase
 import com.mmfsin.quepreferirias.domain.usecases.GetDataCommentsUseCase
+import com.mmfsin.quepreferirias.domain.usecases.GetSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.InitiatedSessionUseCase
 import com.mmfsin.quepreferirias.domain.usecases.ReportCommentUseCase
 import com.mmfsin.quepreferirias.domain.usecases.VoteDataCommentUseCase
@@ -16,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentsViewModel @Inject constructor(
     private val initiatedSessionUseCase: InitiatedSessionUseCase,
+    private val getSessionUseCase: GetSessionUseCase,
     private val getDataCommentsUseCase: GetDataCommentsUseCase,
     private val checkIfAlreadyCommentVotedUseCase: CheckIfAlreadyCommentVotedUseCase,
     private val voteDataCommentUseCase: VoteDataCommentUseCase,
@@ -86,6 +89,14 @@ class CommentsViewModel @Inject constructor(
                 _event.value =
                     CommentsEvent.CommentVotedResult(vote, position, commentData.alreadyVoted)
             },
+            { _event.value = CommentsEvent.SWW }
+        )
+    }
+
+    fun getSessionToRespondComment(data: DataToRespondComment) {
+        executeUseCase(
+            { getSessionUseCase.execute() },
+            { result -> _event.value = CommentsEvent.GetSessionToRespondComment(result, data) },
             { _event.value = CommentsEvent.SWW }
         )
     }

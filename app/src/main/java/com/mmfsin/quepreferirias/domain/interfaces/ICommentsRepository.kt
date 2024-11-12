@@ -9,6 +9,7 @@ interface ICommentsRepository {
 
     suspend fun getComments(dataId: String, root: String): List<Comment>
     suspend fun sendComment(dataId: String, root: String, comment: CommentDTO): Comment?
+//    suspend fun respondComment(reply: ReplyDTO, ): Comment?
     suspend fun deleteComment(dataId: String, root: String, commentId: String): Boolean
     suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): CommentAlreadyVoted
     suspend fun voteComment(

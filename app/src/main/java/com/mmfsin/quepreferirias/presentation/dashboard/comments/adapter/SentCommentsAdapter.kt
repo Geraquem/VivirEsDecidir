@@ -45,6 +45,7 @@ class SentCommentsAdapter(
             ivCommentMenu.setOnClickListener {
                 listener.openCommentMenu(
                     comment.commentId,
+                    comment.comment,
                     comment.userId
                 )
             }

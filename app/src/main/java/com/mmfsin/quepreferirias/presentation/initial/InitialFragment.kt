@@ -27,7 +27,6 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
             buttons.btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
             buttons.btnMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
 
-
 //            buttons.btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
 //            buttons.btnSend.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
 

@@ -169,6 +169,8 @@
     <string name="comments_report">Reportar</string>
     <string name="comments_log_in">Inicia sesión para dejar un comentario</string>
     <string name="comment_already_voted">Ya votaste así este comentario</string>
+    <string name="comment_reply">Responder</string>
+    <string name="comment_send">Enviar</string>
 
     <!-- PROFILE -->
     <string name="profile_title">Mi perfil</string>
