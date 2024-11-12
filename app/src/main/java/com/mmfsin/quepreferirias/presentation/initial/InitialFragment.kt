@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
-import com.mmfsin.quepreferirias.databinding.FragmentInitialAuxBinding
 import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
 import com.mmfsin.quepreferirias.presentation.main.MainActivity
 import com.mmfsin.quepreferirias.utils.showErrorDialog
@@ -25,15 +24,15 @@ class InitialFragment : BaseFragment<FragmentInitialBinding, InitialViewModel>()
 
     override fun setListeners() {
         binding.apply {
-            btnOpenMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
+            buttons.btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
+            buttons.btnMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
 
-//            buttons.btnSend.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
-//            buttons.btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
+
 //            buttons.btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
-//            buttons.btnMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
+//            buttons.btnSend.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
 
-//            openDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
-//            openDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
+            openDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
+            openDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
         }
     }
 

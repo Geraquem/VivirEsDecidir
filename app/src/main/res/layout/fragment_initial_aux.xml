@@ -194,27 +194,4 @@
         app:layout_constraintLeft_toLeftOf="@id/gl_left"
         app:layout_constraintRight_toRightOf="@id/gl_right" />
 
-    <RelativeLayout
-        android:id="@+id/btn_open_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:background="@drawable/click_effect_open_menu"
-        android:backgroundTint="@color/white"
-        android:elevation="4dp"
-        android:paddingVertical="10dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="20dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/content_description"
-            android:src="@drawable/ic_menu" />
-
-    </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
