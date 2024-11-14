@@ -43,17 +43,20 @@ class CommentsAdapter(
                 ivVoteUp.setColorFilter(if (comment.votedUp) up else neutro, SRC_IN)
                 ivVoteDown.setColorFilter(if (comment.votedDown) down else neutro, SRC_IN)
 
-                tvSeeReplies.isVisible = false
-                rvReplies.isVisible = false
-
                 if (comment.replies.isNotEmpty()) {
                     val repliesAdapter = RepliesAdapter(comment.replies)
                     rvReplies.apply {
                         layoutManager = LinearLayoutManager(context)
                         adapter = repliesAdapter
-                        tvSeeReplies.isVisible = true
                         tvSeeReplies.text = c.getRepliesText(comment.replies.size)
                     }
+                }
+                if (comment.repliesOpened) {
+                    tvSeeReplies.isVisible = false
+                    rvReplies.isVisible = true
+                } else {
+                    tvSeeReplies.isVisible = true
+                    rvReplies.isVisible = false
                 }
             }
         }
@@ -108,8 +111,9 @@ class CommentsAdapter(
             }
 
             tvSeeReplies.setOnClickListener {
-                tvSeeReplies.isVisible = false
-                rvReplies.isVisible = true }
+                comment.repliesOpened = true
+                notifyItemChanged(position)
+            }
         }
     }
 
@@ -127,6 +131,7 @@ class CommentsAdapter(
             try {
                 val comment = comments[commentPosition]
                 comment.replies.add(reply)
+                comment.repliesOpened = true
                 notifyItemChanged(commentPosition)
             } catch (e: Exception) {
                 Log.e("error", "error getting comment")
