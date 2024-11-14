@@ -1,15 +1,18 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
 
 class SentCommentsAdapter(
@@ -26,6 +29,15 @@ class SentCommentsAdapter(
                 tvComment.text = comment.comment
                 tvDate.text = binding.root.context.getString(R.string.comments_right_now)
                 llVotes.isVisible = false
+
+                if (comment.replies.isNotEmpty()) {
+                    val repliesAdapter = RepliesAdapter(comment.replies)
+                    rvReplies.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = repliesAdapter
+                        visibility = View.VISIBLE
+                    }
+                } else rvReplies.visibility = View.GONE
             }
         }
     }
@@ -60,10 +72,23 @@ class SentCommentsAdapter(
 
     fun getComment(commentId: String): Comment? = comments.firstOrNull { it.commentId == commentId }
 
+    fun replyComment(commentId: String, reply: CommentReply) {
+        val commentPosition = comments.indexOfFirst { it.commentId == commentId }
+        if (commentPosition != -1) {
+            try {
+                val comment = comments[commentPosition]
+                comment.replies.add(reply)
+                notifyItemChanged(commentPosition)
+            } catch (e: Exception) {
+                Log.e("error", "error getting comment")
+            }
+        }
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun clearData() {
         comments.clear()
-        notifyItemRangeChanged(0,comments.size)
+        notifyItemRangeChanged(0, comments.size)
     }
 
     fun deleteComment(commentId: String) {

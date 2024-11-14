@@ -15,6 +15,7 @@ import com.mmfsin.quepreferirias.base.BaseBottomSheet
 import com.mmfsin.quepreferirias.databinding.BsheetSendCommentBinding
 import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
 import com.mmfsin.quepreferirias.domain.models.Session
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import com.mmfsin.quepreferirias.utils.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class RespondCommentBSheet(
     private val data: DataToRespondComment,
     private val session: Session,
-//    private val listener: ISendCommentListener,
+    private val listener: ICommentsRVListener,
 ) : BaseBottomSheet<BsheetSendCommentBinding>() {
 
     private val viewModel: RespondCommentViewModel by viewModels()
@@ -113,7 +114,7 @@ class RespondCommentBSheet(
         viewModel.event.observe(this) { event ->
             when (event) {
                 is RespondCommentEvent.CommentReplied -> {
-//                    listener.commentSent(event.comment)
+                    listener.respondComment(data.commentId, event.reply)
                     dismiss()
                 }
 

@@ -70,7 +70,6 @@ class CommentsRepository @Inject constructor(
                     lastCommentVisible = snapshot.documents.lastOrNull()
                     lastCommentLikes = lastCommentVisible?.getLong(COMMENT_LIKES)
                     lastCommentTimestamp = lastCommentVisible?.getLong(TIMESTAMP)
-
                     result = comments
                 }
                 latch.countDown()

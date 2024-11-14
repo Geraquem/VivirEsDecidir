@@ -23,6 +23,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.Session

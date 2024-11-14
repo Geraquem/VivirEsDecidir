@@ -2,6 +2,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff.Mode.SRC_IN
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
@@ -30,7 +32,7 @@ class CommentsAdapter(
                 Glide.with(binding.root.context).load(comment.image).into(image.image)
                 tvName.text = comment.name
                 tvComment.text = comment.comment
-//                tvDate.text = binding.root.context.getString(comment.since)
+                tvDate.text = binding.root.context.getString(comment.since)
                 tvLikes.text = comment.likes.toString()
 
                 val up = getColor(c, R.color.voted_up)
@@ -108,6 +110,19 @@ class CommentsAdapter(
     }
 
     fun getComment(commentId: String): Comment? = comments.firstOrNull { it.commentId == commentId }
+
+    fun replyComment(commentId: String, reply: CommentReply) {
+        val commentPosition = comments.indexOfFirst { it.commentId == commentId }
+        if (commentPosition != -1) {
+            try {
+                val comment = comments[commentPosition]
+                comment.replies.add(reply)
+                notifyItemChanged(commentPosition)
+            } catch (e: Exception) {
+                Log.e("error", "error getting comment")
+            }
+        }
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun clearData() {

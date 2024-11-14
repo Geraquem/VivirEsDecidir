@@ -10,5 +10,5 @@ open class Comment(
     var likes: Long,
     var votedUp: Boolean,
     var votedDown: Boolean,
-    var replies: List<CommentReply>
+    var replies: MutableList<CommentReply>
 )

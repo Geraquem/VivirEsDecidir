@@ -43,7 +43,7 @@ fun CommentDTO.toComment() = Comment(
     likes = likes,
     votedUp = votedUp,
     votedDown = votedDown,
-    replies = replies.toCommentReplyList()
+    replies = replies.toCommentReplyList().toMutableList()
 )
 
 fun CommentReplyDTO.toCommentReply() = CommentReply(

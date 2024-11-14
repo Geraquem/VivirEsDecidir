@@ -13,6 +13,7 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentCommentsBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
+import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -141,9 +142,14 @@ class CommentsFragment(
         data: DataToRespondComment
     ) {
         session?.let { userData ->
-            val dialog = RespondCommentBSheet(data, userData)
+            val dialog = RespondCommentBSheet(data, userData, this@CommentsFragment)
             activity?.let { dialog.show(it.supportFragmentManager, "") }
         } ?: run { listener.shouldInitiateSession() }
+    }
+
+    override fun respondComment(commentId: String, reply: CommentReply) {
+        sentCommentsAdapter?.replyComment(commentId, reply)
+        commentsAdapter?.replyComment(commentId, reply)
     }
 
     override fun commentDeleted(commentId: String) {
@@ -189,6 +195,10 @@ class CommentsFragment(
             sentCommentsAdapter?.addComments(list)
             tvNoComments.isVisible = false
         }
+    }
+
+    fun commentReplied(commentId: String, reply: CommentReply) {
+        sentCommentsAdapter?.replyComment(commentId, reply)
     }
 
     override fun reportComment(commentId: String) {
