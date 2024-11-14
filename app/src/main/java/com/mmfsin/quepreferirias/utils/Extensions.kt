@@ -1,5 +1,6 @@
 package com.mmfsin.quepreferirias.utils
 
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -90,6 +91,13 @@ fun View.animateY(pos: Float, duration: Long) =
 
 fun View.animateX(pos: Float, duration: Long) =
     this.animate().translationX(pos).setDuration(duration)
+
+fun Context.getRepliesText(size: Int): String {
+    return when (size) {
+        1 -> this.getString(R.string.comment_one_reply)
+        else -> this.getString(R.string.comment_replies, size.toString())
+    }
+}
 
 fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2) -> R): R? {
     return if (p1 != null && p2 != null) block(p1, p2) else null

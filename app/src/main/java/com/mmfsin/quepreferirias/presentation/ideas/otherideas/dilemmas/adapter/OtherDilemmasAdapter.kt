@@ -36,7 +36,7 @@ class OtherDilemmasAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dilemma = data[position]
         holder.bind(dilemma)
-        holder.binding.clMain.setOnClickListener { listener.onDilemmaClick(dilemma.dilemmaId) }
+        holder.binding.llMain.setOnClickListener { listener.onDilemmaClick(dilemma.dilemmaId) }
     }
 
     override fun getItemCount(): Int = data.size

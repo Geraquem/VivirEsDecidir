@@ -39,8 +39,8 @@ class MyDilemmasAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dilemma = data[position]
         holder.bind(dilemma, position == data.size - 1)
-        holder.binding.clMain.setOnClickListener { listener.onMyDilemmaClick(dilemma.dilemmaId) }
-        holder.binding.clMain.setOnLongClickListener {
+        holder.binding.llMain.setOnClickListener { listener.onMyDilemmaClick(dilemma.dilemmaId) }
+        holder.binding.llMain.setOnLongClickListener {
             listener.onMyDilemmaLongClick(dilemma.dilemmaId)
             true
         }

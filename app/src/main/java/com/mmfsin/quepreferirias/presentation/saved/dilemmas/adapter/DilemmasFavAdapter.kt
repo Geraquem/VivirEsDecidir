@@ -36,8 +36,8 @@ class DilemmasFavAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val fav = favs[position]
         holder.bind(fav, position == favs.size - 1)
-        holder.binding.clMain.setOnClickListener { listener.onDilemmaFavClick(fav.dilemmaId) }
-        holder.binding.clMain.setOnLongClickListener {
+        holder.binding.llMain.setOnClickListener { listener.onDilemmaFavClick(fav.dilemmaId) }
+        holder.binding.llMain.setOnLongClickListener {
             listener.onDilemmaFavLongClick(fav.dilemmaId)
             true
         }

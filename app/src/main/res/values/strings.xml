@@ -170,6 +170,8 @@
     <string name="comments_log_in">Inicia sesión para dejar un comentario</string>
     <string name="comment_already_voted">Ya votaste así este comentario</string>
     <string name="comment_reply">Responder</string>
+    <string name="comment_one_reply"><u>1 Respuesta</u></string>
+    <string name="comment_replies"><u>%s Respuestas</u></string>
     <string name="comment_send">Enviar</string>
 
     <!-- PROFILE -->

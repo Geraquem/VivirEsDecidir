@@ -36,7 +36,7 @@ class OtherDualismsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dualism = data[position]
         holder.bind(dualism)
-        holder.binding.clMain.setOnClickListener { listener.onDualismClick(dualism.dualismId) }
+        holder.binding.llMain.setOnClickListener { listener.onDualismClick(dualism.dualismId) }
     }
 
     override fun getItemCount(): Int = data.size

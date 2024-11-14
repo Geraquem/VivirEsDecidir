@@ -39,8 +39,8 @@ class MyDualismsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dualism = data[position]
         holder.bind(dualism, position == data.size - 1)
-        holder.binding.clMain.setOnClickListener { listener.onMyDualismClick(dualism.dualismId) }
-        holder.binding.clMain.setOnLongClickListener {
+        holder.binding.llMain.setOnClickListener { listener.onMyDualismClick(dualism.dualismId) }
+        holder.binding.llMain.setOnLongClickListener {
             listener.onMyDualismLongClick(dualism.dualismId)
             true
         }

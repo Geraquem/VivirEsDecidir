@@ -1,6 +1,7 @@
 package com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.mmfsin.quepreferirias.databinding.ItemCommentBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
+import com.mmfsin.quepreferirias.utils.getRepliesText
 
 class SentCommentsAdapter(
     private val comments: MutableList<Comment>,
@@ -22,6 +24,7 @@ class SentCommentsAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemCommentBinding.bind(view)
+        val c: Context = binding.root.context
         fun bind(comment: Comment) {
             binding.apply {
                 Glide.with(binding.root.context).load(comment.image).into(image.image)
@@ -30,14 +33,18 @@ class SentCommentsAdapter(
                 tvDate.text = binding.root.context.getString(R.string.comments_right_now)
                 llVotes.isVisible = false
 
+                tvSeeReplies.isVisible = false
+                rvReplies.isVisible = false
+
                 if (comment.replies.isNotEmpty()) {
                     val repliesAdapter = RepliesAdapter(comment.replies)
                     rvReplies.apply {
                         layoutManager = LinearLayoutManager(context)
                         adapter = repliesAdapter
-                        visibility = View.VISIBLE
+                        tvSeeReplies.isVisible = true
+                        tvSeeReplies.text = c.getRepliesText(comment.replies.size)
                     }
-                } else rvReplies.visibility = View.GONE
+                }
             }
         }
     }
@@ -60,6 +67,10 @@ class SentCommentsAdapter(
                     comment.comment,
                     comment.userId
                 )
+            }
+            tvSeeReplies.setOnClickListener {
+                tvSeeReplies.isVisible = false
+                rvReplies.isVisible = true
             }
         }
     }

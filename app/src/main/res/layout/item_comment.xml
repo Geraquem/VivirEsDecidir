@@ -4,159 +4,222 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingTop="12dp">
+    android:paddingBottom="12dp">
 
-    <include
-        android:id="@+id/image"
-        layout="@layout/include_circle_image"
-        android:layout_width="42dp"
-        android:layout_height="42dp" />
-
-    <LinearLayout
-        android:id="@+id/ll_comment"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:orientation="vertical"
-        app:layout_constraintLeft_toRightOf="@id/image"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <FrameLayout
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        app:layout_constraintLeft_toLeftOf="@id/gl_left"
+        app:layout_constraintRight_toRightOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/separator">
+
+        <include
+            android:id="@+id/image"
+            layout="@layout/include_circle_image"
+            android:layout_width="42dp"
+            android:layout_height="42dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/ll_comment"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_name"
-                style="@style/SmallTextView_Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textStyle="bold"
-                tools:text="Carlos" />
-
-            <TextView
-                android:id="@+id/tv_date"
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:textSize="12sp"
-                tools:text="Hace una semana" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_comment"
-            style="@style/MediumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:textSize="16sp"
-            tools:text="bla bla bla bla bla bla" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_answer"
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/click_effect"
-                android:backgroundTint="@color/transparent"
-                android:gravity="center"
-                android:text="@string/comments_answer"
-                android:textColor="@color/soft_black"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/iv_comment_menu"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:alpha="0.5"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/content_description"
-                android:gravity="center"
-                android:rotation="90"
-                android:src="@drawable/ic_three_dots" />
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toRightOf="@id/image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/ll_votes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginBottom="2dp"
                 android:orientation="horizontal">
 
-                <Space
-                    android:layout_width="12dp"
-                    android:layout_height="match_parent" />
-
-                <ImageView
-                    android:id="@+id/iv_vote_up"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/content_description"
-                    android:gravity="center"
-                    android:src="@drawable/ic_arrow_vote" />
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/SmallTextView_Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:textStyle="bold"
+                    tools:text="Carlos" />
 
                 <TextView
-                    android:id="@+id/tv_likes"
+                    android:id="@+id/tv_date"
                     style="@style/SmallTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="8dp"
-                    android:gravity="center"
-                    android:textColor="@color/soft_black"
-                    android:textSize="16sp"
-                    tools:text="120" />
-
-                <ImageView
-                    android:id="@+id/iv_vote_down"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/content_description"
-                    android:gravity="center"
-                    android:scaleY="-1"
-                    android:src="@drawable/ic_arrow_vote" />
+                    android:alpha="0.5"
+                    android:textSize="12sp"
+                    tools:text="Hace una semana" />
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_comment"
+                style="@style/MediumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:textSize="16sp"
+                tools:text="bla bla bla bla bla bla" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_see_replies"
+                    style="@style/SmallTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/click_effect"
+                    android:backgroundTint="@color/transparent"
+                    android:padding="2dp"
+                    android:textColor="@color/blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="2 Respuestas" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintLeft_toRightOf="@id/tv_see_replies"
+                    app:layout_constraintRight_toLeftOf="@id/ll_options"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/ll_options"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_answer"
+                        style="@style/SmallTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/click_effect"
+                        android:backgroundTint="@color/transparent"
+                        android:gravity="center"
+                        android:text="@string/comments_answer"
+                        android:textColor="@color/soft_black"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_comment_menu"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:alpha="0.5"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/content_description"
+                        android:gravity="center"
+                        android:rotation="90"
+                        android:src="@drawable/ic_three_dots" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_votes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="12dp"
+                            android:layout_height="match_parent" />
+
+                        <ImageView
+                            android:id="@+id/iv_vote_up"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/content_description"
+                            android:gravity="center"
+                            android:src="@drawable/ic_arrow_vote" />
+
+                        <TextView
+                            android:id="@+id/tv_likes"
+                            style="@style/SmallTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="8dp"
+                            android:gravity="center"
+                            android:textColor="@color/soft_black"
+                            android:textSize="16sp"
+                            tools:text="120" />
+
+                        <ImageView
+                            android:id="@+id/iv_vote_down"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/content_description"
+                            android:gravity="center"
+                            android:scaleY="-1"
+                            android:src="@drawable/ic_arrow_vote" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_replies"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintLeft_toLeftOf="@id/image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_comment"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_comment_reply"
+            tools:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_replies"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:nestedScrollingEnabled="false"
-        app:layout_constraintLeft_toLeftOf="@id/image"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_comment"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_comment_reply" />
+        <FrameLayout
+            android:id="@+id/comment_separator"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/grey"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/ll_comment" />
 
-    <FrameLayout
-        android:id="@+id/comment_separator"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/grey"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/ll_comment" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

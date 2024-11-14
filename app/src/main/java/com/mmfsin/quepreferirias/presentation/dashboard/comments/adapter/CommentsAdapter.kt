@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +19,7 @@ import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_DOWN
 import com.mmfsin.quepreferirias.domain.models.CommentVote.VOTE_UP
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
+import com.mmfsin.quepreferirias.utils.getRepliesText
 
 class CommentsAdapter(
     private val comments: MutableList<Comment>,
@@ -41,14 +43,18 @@ class CommentsAdapter(
                 ivVoteUp.setColorFilter(if (comment.votedUp) up else neutro, SRC_IN)
                 ivVoteDown.setColorFilter(if (comment.votedDown) down else neutro, SRC_IN)
 
+                tvSeeReplies.isVisible = false
+                rvReplies.isVisible = false
+
                 if (comment.replies.isNotEmpty()) {
                     val repliesAdapter = RepliesAdapter(comment.replies)
                     rvReplies.apply {
                         layoutManager = LinearLayoutManager(context)
                         adapter = repliesAdapter
-                        visibility = View.VISIBLE
+                        tvSeeReplies.isVisible = true
+                        tvSeeReplies.text = c.getRepliesText(comment.replies.size)
                     }
-                } else rvReplies.visibility = View.GONE
+                }
             }
         }
     }
@@ -100,6 +106,10 @@ class CommentsAdapter(
             ivVoteDown.setOnClickListener {
                 if (!comment.votedDown) vote(comment, VOTE_DOWN, position)
             }
+
+            tvSeeReplies.setOnClickListener {
+                tvSeeReplies.isVisible = false
+                rvReplies.isVisible = true }
         }
     }
 
