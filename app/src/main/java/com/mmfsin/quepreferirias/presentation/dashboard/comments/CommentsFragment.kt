@@ -20,6 +20,7 @@ import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.CommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.adapter.SentCommentsAdapter
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu.MenuCommentBSheet
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.menu.replies.MenuRepliesBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.respond.RespondCommentBSheet
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentMenuListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
@@ -136,6 +137,16 @@ class CommentsFragment(
         activity?.let { dialog.show(it.supportFragmentManager, "") }
     }
 
+    override fun openReplyMenu(reply: CommentReply) {
+        val dialog = MenuRepliesBSheet(
+            dataId,
+            type,
+            reply,
+            this@CommentsFragment
+        )
+        activity?.let { dialog.show(it.supportFragmentManager, "") }
+    }
+
     override fun respondComment(dataToRespondComment: DataToRespondComment) =
         viewModel.getSessionToRespondComment(dataToRespondComment)
 
@@ -149,14 +160,19 @@ class CommentsFragment(
         } ?: run { listener.shouldInitiateSession() }
     }
 
-    override fun respondComment(commentId: String, reply: CommentReply) {
-        sentCommentsAdapter?.replyComment(commentId, reply)
-        commentsAdapter?.replyComment(commentId, reply)
+    override fun respondComment(reply: CommentReply) {
+        sentCommentsAdapter?.replyComment(reply)
+        commentsAdapter?.replyComment(reply)
     }
 
     override fun commentDeleted(commentId: String) {
         sentCommentsAdapter?.deleteComment(commentId)
         commentsAdapter?.deleteComment(commentId)
+    }
+
+    override fun replyDeleted(commentId: String, replyId: String) {
+        sentCommentsAdapter?.deleteCommentReply(commentId, replyId)
+        commentsAdapter?.deleteCommentReply(commentId, replyId)
     }
 
     override fun voteComment(
@@ -203,6 +219,17 @@ class CommentsFragment(
             comment?.let { viewModel.reportComment(dataId, it) }
         }
         activity?.let { reportDialog?.show(it.supportFragmentManager, "") }
+    }
+
+    override fun reportCommentReply(commentId: String, replyId: String) {
+//        reportDialog = ReportDialog(R.string.report_comment) {
+//            val justSentComment = sentCommentsAdapter?.getComment(commentId)
+//            justSentComment?.let { viewModel.reportCommentReply(dataId, it) }
+//
+//            val comment = commentsAdapter?.getComment(commentId)
+//            comment?.let { viewModel.reportCommentReply(dataId, it) }
+//        }
+//        activity?.let { reportDialog?.show(it.supportFragmentManager, "") }
     }
 
     private fun commentReported() {

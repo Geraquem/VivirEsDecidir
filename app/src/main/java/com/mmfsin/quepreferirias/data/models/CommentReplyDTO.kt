@@ -6,6 +6,7 @@ import io.realm.annotations.PrimaryKey
 open class CommentReplyDTO(
     @PrimaryKey
     var replyId: String = "",
+    var commentId: String = "",
     var userId: String = "",
     var userName: String = "",
     var image: String = "",

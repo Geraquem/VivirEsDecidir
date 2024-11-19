@@ -14,11 +14,17 @@ interface ICommentsRepository {
     suspend fun respondComment(
         dataId: String,
         root: String,
-        commentId: String,
         reply: CommentReplyDTO
     ): CommentReply?
 
     suspend fun deleteComment(dataId: String, root: String, commentId: String): Boolean
+    suspend fun deleteCommentReply(
+        dataId: String,
+        root: String,
+        commentId: String,
+        replyId: String
+    ): Boolean
+
     suspend fun alreadyCommentVoted(commentId: String, vote: CommentVote): CommentAlreadyVoted
     suspend fun voteComment(
         dataId: String,

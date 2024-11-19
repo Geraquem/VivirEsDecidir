@@ -66,20 +66,8 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_answer"
-                style="@style/SmallTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/click_effect"
-                android:backgroundTint="@color/transparent"
-                android:gravity="center"
-                android:text="@string/comments_answer"
-                android:textColor="@color/soft_black"
-                android:visibility="gone" />
-
             <ImageView
-                android:id="@+id/iv_comment_menu"
+                android:id="@+id/iv_reply_menu"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:alpha="0.5"

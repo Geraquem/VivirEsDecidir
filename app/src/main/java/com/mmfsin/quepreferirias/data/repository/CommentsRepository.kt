@@ -104,13 +104,12 @@ class CommentsRepository @Inject constructor(
     override suspend fun respondComment(
         dataId: String,
         root: String,
-        commentId: String,
         reply: CommentReplyDTO
     ): CommentReply? {
         val latch = CountDownLatch(1)
         var result: CommentReply? = null
         Firebase.firestore.collection(root).document(dataId).collection(COMMENTS)
-            .document(commentId).update(COMMENT_REPLIES, FieldValue.arrayUnion(reply))
+            .document(reply.commentId).update(COMMENT_REPLIES, FieldValue.arrayUnion(reply))
             .addOnCompleteListener {
                 if (it.isSuccessful) result = reply.toCommentReply()
                 latch.countDown()
@@ -129,6 +128,36 @@ class CommentsRepository @Inject constructor(
                 result = it.isSuccessful
                 latch.countDown()
             }
+        withContext(Dispatchers.IO) {
+            latch.await()
+        }
+        return result
+    }
+
+    override suspend fun deleteCommentReply(
+        dataId: String,
+        root: String,
+        commentId: String,
+        replyId: String
+    ): Boolean {
+        val latch = CountDownLatch(1)
+        var result = false
+
+        val rootA = Firebase.firestore.collection(root).document(dataId).collection(COMMENTS)
+            .document(commentId)
+        rootA.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                val comment = document.toObject(CommentDTO::class.java)
+                comment?.let { c ->
+                    val updated = c.replies.filterNot { it.replyId == replyId }
+                    rootA.update(COMMENT_REPLIES, updated)
+                        .addOnCompleteListener {
+                            result = it.isSuccessful
+                            latch.countDown()
+                        }
+                }
+            }
+        }
         withContext(Dispatchers.IO) {
             latch.await()
         }

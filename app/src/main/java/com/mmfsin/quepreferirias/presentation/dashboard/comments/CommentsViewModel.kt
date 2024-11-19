@@ -3,6 +3,7 @@ package com.mmfsin.quepreferirias.presentation.dashboard.comments
 import com.mmfsin.quepreferirias.base.BaseViewModel
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.CommentAlreadyVoted
+import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.domain.models.CommentVote
 import com.mmfsin.quepreferirias.domain.models.DataToRespondComment
 import com.mmfsin.quepreferirias.domain.usecases.CheckIfAlreadyCommentVotedUseCase
@@ -111,5 +112,17 @@ class CommentsViewModel @Inject constructor(
             { _event.value = CommentsEvent.CommentReported },
             { _event.value = CommentsEvent.SWW }
         )
+    }
+
+    fun reportCommentReply(dilemmaId: String, reply: CommentReply) {
+//        executeUseCase(
+//            {
+//                reportCommentUseCase.execute(
+//                    ReportCommentUseCase.Params(dilemmaId, comment)
+//                )
+//            },
+//            { _event.value = CommentsEvent.CommentReported },
+//            { _event.value = CommentsEvent.SWW }
+//        )
     }
 }

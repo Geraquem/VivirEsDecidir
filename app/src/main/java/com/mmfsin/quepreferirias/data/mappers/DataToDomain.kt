@@ -49,6 +49,7 @@ fun CommentDTO.toComment() = Comment(
 fun CommentReplyDTO.toCommentReply() = CommentReply(
     replyId = replyId,
     userId = userId,
+    commentId = commentId,
     userName = userName,
     image = image,
     reply = reply,

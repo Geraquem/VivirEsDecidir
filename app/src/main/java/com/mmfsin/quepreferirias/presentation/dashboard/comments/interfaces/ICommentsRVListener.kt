@@ -7,9 +7,9 @@ interface ICommentsRVListener {
     fun onCommentNameClick(userId: String)
     fun openCommentMenu(commentId: String, commentText: String, userId: String)
     fun voteComment(commentId: String, vote: CommentVote, likes: Long, position: Int)
-    fun respondComment(commentId: String, reply: CommentReply)
+    fun respondComment(reply: CommentReply)
 
     fun onReplyNameClick(userId: String)
-//    fun openReplyMenu(commentId: String, commentText: String, userId: String)
+    fun openReplyMenu(reply: CommentReply)
 //    fun voteReply(commentId: String, vote: CommentVote, likes: Long, position: Int)
 }

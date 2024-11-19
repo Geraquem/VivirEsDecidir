@@ -114,7 +114,7 @@ class RespondCommentBSheet(
         viewModel.event.observe(this) { event ->
             when (event) {
                 is RespondCommentEvent.CommentReplied -> {
-                    listener.respondComment(data.commentId, event.reply)
+                    listener.respondComment(event.reply)
                     dismiss()
                 }
 

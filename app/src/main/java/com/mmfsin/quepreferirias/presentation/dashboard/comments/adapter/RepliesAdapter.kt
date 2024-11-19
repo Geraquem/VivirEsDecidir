@@ -46,19 +46,17 @@ class RepliesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val comment = replies[position]
-        holder.bind(comment)
+        val reply = replies[position]
+        holder.bind(reply)
         holder.binding.apply {
-            image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
-            tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+            image.root.setOnClickListener { listener.onCommentNameClick(reply.userId) }
+            tvName.setOnClickListener { listener.onCommentNameClick(reply.userId) }
 
-//            ivCommentMenu.setOnClickListener {
-//                listener.openCommentMenu(
-//                    comment.commentId,
-//                    comment.comment,
-//                    comment.userId
-//                )
-//            }
+            ivReplyMenu.setOnClickListener {
+                listener.openReplyMenu(
+                    reply
+                )
+            }
 //
 //            ivVoteUp.setOnClickListener {
 //                if (!comment.votedUp) vote(comment, CommentVote.VOTE_UP, position)

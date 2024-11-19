@@ -1,6 +1,6 @@
 package com.mmfsin.quepreferirias.domain.models
 
-open class Comment(
+data class Comment(
     val commentId: String,
     val userId: String,
     val name: String,
