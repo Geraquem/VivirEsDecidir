@@ -29,7 +29,7 @@ class CommentsAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemCommentBinding.bind(view)
         private val c = binding.root.context
-        fun bind(comment: Comment) {
+        fun bind(comment: Comment, listener: ICommentsRVListener) {
             binding.apply {
                 Glide.with(binding.root.context).load(comment.image).into(image.image)
                 tvName.text = comment.name
@@ -44,7 +44,7 @@ class CommentsAdapter(
                 ivVoteDown.setColorFilter(if (comment.votedDown) down else neutro, SRC_IN)
 
                 if (comment.replies.isNotEmpty()) {
-                    val repliesAdapter = RepliesAdapter(comment.replies)
+                    val repliesAdapter = RepliesAdapter(comment.replies, listener)
                     rvReplies.apply {
                         layoutManager = LinearLayoutManager(context)
                         adapter = repliesAdapter
@@ -91,7 +91,7 @@ class CommentsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment = comments[position]
-        holder.bind(comment)
+        holder.bind(comment, listener)
         holder.binding.apply {
             image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }

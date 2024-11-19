@@ -10,9 +10,11 @@ import com.bumptech.glide.Glide
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.databinding.ItemCommentReplyBinding
 import com.mmfsin.quepreferirias.domain.models.CommentReply
+import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsRVListener
 
 class RepliesAdapter(
-    private val replies: List<CommentReply>
+    private val replies: List<CommentReply>,
+    private val listener: ICommentsRVListener
 ) : RecyclerView.Adapter<RepliesAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -47,8 +49,9 @@ class RepliesAdapter(
         val comment = replies[position]
         holder.bind(comment)
         holder.binding.apply {
-//            image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
-//            tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+            image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+            tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }
+
 //            ivCommentMenu.setOnClickListener {
 //                listener.openCommentMenu(
 //                    comment.commentId,

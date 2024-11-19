@@ -25,7 +25,7 @@ class SentCommentsAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemCommentBinding.bind(view)
         val c: Context = binding.root.context
-        fun bind(comment: Comment) {
+        fun bind(comment: Comment, listener: ICommentsRVListener) {
             binding.apply {
                 Glide.with(binding.root.context).load(comment.image).into(image.image)
                 tvName.text = comment.name
@@ -37,7 +37,7 @@ class SentCommentsAdapter(
                 rvReplies.isVisible = false
 
                 if (comment.replies.isNotEmpty()) {
-                    val repliesAdapter = RepliesAdapter(comment.replies)
+                    val repliesAdapter = RepliesAdapter(comment.replies, listener)
                     rvReplies.apply {
                         layoutManager = LinearLayoutManager(context)
                         adapter = repliesAdapter
@@ -57,7 +57,7 @@ class SentCommentsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment = comments[position]
-        holder.bind(comment)
+        holder.bind(comment, listener)
         holder.binding.apply {
             image.root.setOnClickListener { listener.onCommentNameClick(comment.userId) }
             tvName.setOnClickListener { listener.onCommentNameClick(comment.userId) }

@@ -122,6 +122,8 @@ class CommentsFragment(
 
     override fun onCommentNameClick(userId: String) = listener.navigateToUserProfile(userId)
 
+    override fun onReplyNameClick(userId: String) = listener.navigateToUserProfile(userId)
+
     override fun openCommentMenu(commentId: String, commentText: String, userId: String) {
         val dialog = MenuCommentBSheet(
             dataId,
@@ -176,11 +178,6 @@ class CommentsFragment(
         }
     }
 
-    fun clearData() {
-        sentCommentsAdapter?.clearData()
-        commentsAdapter?.clearData()
-    }
-
     fun commentSent(comment: Comment) {
         val list = mutableListOf(comment)
         binding.apply {
@@ -195,10 +192,6 @@ class CommentsFragment(
             sentCommentsAdapter?.addComments(list)
             tvNoComments.isVisible = false
         }
-    }
-
-    fun commentReplied(commentId: String, reply: CommentReply) {
-        sentCommentsAdapter?.replyComment(commentId, reply)
     }
 
     override fun reportComment(commentId: String) {
