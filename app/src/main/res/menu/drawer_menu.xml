@@ -9,7 +9,7 @@
                 android:title="@string/nav_dilemmas" />
             <item
                 android:id="@+id/nav_dualism"
-                android:icon="@drawable/ic_arrow_down"
+                android:icon="@drawable/ic_dualism"
                 android:title="@string/nav_dualism" />
         </menu>
     </item>

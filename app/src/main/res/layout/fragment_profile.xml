@@ -182,7 +182,7 @@
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical"
                         android:text="@string/user_profile_my_dilemmas"
-                        app:drawableStartCompat="@drawable/ic_dilemma_yes" />
+                        app:drawableStartCompat="@drawable/ic_idea" />
 
                     <TextView
                         style="@style/SmallTextView"

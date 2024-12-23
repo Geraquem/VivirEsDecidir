@@ -92,7 +92,7 @@
             android:layout_marginBottom="4dp"
             android:drawablePadding="8dp"
             android:text="@string/send_data_dualism_title"
-            app:drawableStartCompat="@drawable/ic_dilemma_yes_trans" />
+            app:drawableStartCompat="@drawable/ic_dualism" />
 
         <TextView
             style="@style/SmallTextView"

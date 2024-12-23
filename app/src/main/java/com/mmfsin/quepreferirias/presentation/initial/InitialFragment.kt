@@ -31,8 +31,8 @@ class InitialFragment : BaseFragment<FragmentInitialAuxBinding, InitialViewModel
 //            buttons.btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
 //            buttons.btnSend.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
 
-            openDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
-            openDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
+            btnOpenDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
+            btnOpenDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
         }
     }
 

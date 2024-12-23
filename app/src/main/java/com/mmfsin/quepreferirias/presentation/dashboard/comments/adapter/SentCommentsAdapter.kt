@@ -118,6 +118,7 @@ class SentCommentsAdapter(
                     }
                 }
                 val updatedComment = comment.copy(replies = it.toMutableList())
+                val repliesUpdated = comment.replies
                 comments[commentIndex] = updatedComment
                 notifyItemChanged(commentIndex)
             }

@@ -58,7 +58,7 @@
     <string name="init_send_data_title">Envía tus ideas</string>
     <string name="init_send_data_description">¿Quieres compartir con el mundo tus brillantes ideas? Envía tus dilemas o tus dualismos y deja que la gente opine.</string>
 
-    <string name="dilemma_description">Los dilemas tienen una parte buena y una consecuencia mala.\n\nTú decides si aceptas o rechazas</string>
+    <string name="dilemma_description">Los dilemas tienen una parte buena y una consecuencia mala.\n\nTú decides si aceptas o rechazas.</string>
     <string name="dualism_description">Un dualismo es la confrontación entre dos cosas que no pueden coexistir.\n\nSólo puedes elegir una.</string>
 
     <!-- SEND DATA -->
