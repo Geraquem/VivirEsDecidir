@@ -123,12 +123,8 @@ class DualismsFragment : BaseFragment<FragmentDualismBinding, DualismsViewModel>
                     setInitialConfig()
                     setData()
                 } else {
-                    activity?.let {
-                        val dialog = NoMoreDialog {
-                            activity?.onBackPressedDispatcher?.onBackPressed()
-                        }
-                        dialog.show(it.supportFragmentManager, "")
-                    }
+                    position = 0
+                    viewModel.getDualisms()
                 }
             }
         }

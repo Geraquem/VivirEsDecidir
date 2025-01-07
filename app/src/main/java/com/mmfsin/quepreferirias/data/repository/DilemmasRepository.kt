@@ -57,9 +57,9 @@ class DilemmasRepository @Inject constructor(
     override suspend fun getDilemmas(): List<Dilemma> {
         val latch = CountDownLatch(1)
         val db = FirebaseFirestore.getInstance()
-//        val randomValue = Math.random()
-        val randomValue = 0.0001
-        val totalLimit = 2L
+        val randomValue = Math.random()
+//        val randomValue = 0.0001
+        val totalLimit = 4L
         val finalDataList = mutableListOf<Dilemma>()
 
         db.collection(DILEMMAS)
@@ -100,8 +100,7 @@ class DilemmasRepository @Inject constructor(
             }
 
         withContext(Dispatchers.IO) { latch.await() }
-
-        return finalDataList
+        return finalDataList.shuffled()
     }
 
     override suspend fun getDilemmaById(dilemmaId: String): Dilemma? {

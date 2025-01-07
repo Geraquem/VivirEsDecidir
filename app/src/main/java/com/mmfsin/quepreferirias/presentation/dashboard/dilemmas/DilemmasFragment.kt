@@ -23,7 +23,6 @@ import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentDilemmaBinding
 import com.mmfsin.quepreferirias.domain.models.Comment
-import com.mmfsin.quepreferirias.domain.models.CommentReply
 import com.mmfsin.quepreferirias.domain.models.Dilemma
 import com.mmfsin.quepreferirias.domain.models.DilemmaVotes
 import com.mmfsin.quepreferirias.domain.models.Session
@@ -32,7 +31,6 @@ import com.mmfsin.quepreferirias.presentation.dashboard.comments.dialogs.send.Se
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ICommentsListener
 import com.mmfsin.quepreferirias.presentation.dashboard.comments.interfaces.ISendCommentListener
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.MenuDashboardBSheet
-import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.NoMoreDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.dialog.ReportDialog
 import com.mmfsin.quepreferirias.presentation.dashboard.common.interfaces.IMenuDashboardListener
 import com.mmfsin.quepreferirias.presentation.main.BedRockActivity
@@ -129,12 +127,8 @@ class DilemmasFragment : BaseFragment<FragmentDilemmaBinding, DilemmasViewModel>
                     setInitialConfig()
                     setData()
                 } else {
-                    activity?.let {
-                        val dialog = NoMoreDialog {
-                            activity?.onBackPressedDispatcher?.onBackPressed()
-                        }
-                        dialog.show(it.supportFragmentManager, "")
-                    }
+                    position = 0
+                    viewModel.getDilemmas()
                 }
             }
         }
