@@ -51,7 +51,7 @@
     <string name="init_dilemmas">Dilemas</string>
     <string name="init_dilemmas_description">Debes elegir si aceptas o rechazas una situación donde recibirás algo bueno, siempre que estés dispuesto a asumir la consecuencia que conlleva.</string>
     <string name="init_dualisms">Dualismos</string>
-    <string name="init_dualisms_description">Dos opciones, principios, ideas, sentimientos, fuerzas opuestas… llámalo como quieras. Elige una y observa cuánta gente piensa como tú.</string>
+    <string name="init_dualisms_description">Dos opciones, principios, ideas, sentimientos, fuerzas opuestas…\nElige una y observa cuánta gente piensa como tú.</string>
     <string name="init_go">Vamos</string>
     <string name="init_profile_title">Mi perfil</string>
     <string name="init_profile_description">Accede a toda tu información.</string>
@@ -190,8 +190,8 @@
     <string name="other_profile_ideas_title">Enviado por %s</string>
     <string name="other_profile_dilemmas">Dilemas</string>
     <string name="other_profile_dualisms">Dualismos</string>
-    <string name="other_profile_dilemmas_description">ADhlksjdkl para ver los dilemas y los dualismos que ha enviado %s.</string>
-    <string name="other_profile_dualisms_description">ADhlksjdkl para ver los dualismosss y los dualismos que ha enviado %s.</string>
+    <string name="other_profile_dilemmas_description">Pulsa para ver los dilemas que ha enviado %s.</string>
+    <string name="other_profile_dualisms_description">Pulsa para ver los dualismos que ha enviado %s.</string>
 
     <!-- EDIT PROFILE -->
     <string name="edit_profile">Editar perfil</string>

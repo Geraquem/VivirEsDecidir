@@ -3,12 +3,16 @@ package com.mmfsin.quepreferirias.presentation.initial
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.mmfsin.quepreferirias.R
 import com.mmfsin.quepreferirias.base.BaseFragment
 import com.mmfsin.quepreferirias.databinding.FragmentInitialAuxBinding
-import com.mmfsin.quepreferirias.databinding.FragmentInitialBinding
 import com.mmfsin.quepreferirias.presentation.main.MainActivity
+import com.mmfsin.quepreferirias.utils.animateX
+import com.mmfsin.quepreferirias.utils.animateY
+import com.mmfsin.quepreferirias.utils.countDown
+import com.mmfsin.quepreferirias.utils.showAlpha
 import com.mmfsin.quepreferirias.utils.showErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,16 +27,49 @@ class InitialFragment : BaseFragment<FragmentInitialAuxBinding, InitialViewModel
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentInitialAuxBinding.inflate(inflater, container, false)
 
+    override fun setUI() {
+        binding.apply {
+            loading.root.isVisible = true
+            bgTop.animateY(-500f, 10)
+            tvQuestion.showAlpha(0f, 10)
+            llDescriptions.showAlpha(0f, 10)
+            btnDilemmas.animateX(-500f, 10)
+            btnDualisms.animateX(500f, 10)
+            buttons.root.animateY(500f, 10)
+
+            countDown(1200) {
+                loading.root.isVisible = false
+                startAnimations()
+            }
+        }
+    }
+
+    private fun startAnimations() {
+        binding.apply {
+            bgTop.animateY(0f, 500)
+            countDown(750) {
+                btnDilemmas.animateX(0f, 500)
+                btnDualisms.animateX(0f, 500)
+                tvQuestion.showAlpha(1f, 500)
+                llDescriptions.showAlpha(1f, 500)
+                countDown(500) {
+                    buttons.root.animateY(0f, 500)
+                }
+            }
+        }
+    }
+
     override fun setListeners() {
         binding.apply {
-            buttons.btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
-            buttons.btnMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
+            btnDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
+            btnDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
 
-//            buttons.btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
-//            buttons.btnSend.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
-
-            btnOpenDilemmas.setOnClickListener { navigate(R.navigation.nav_graph_dilemmas) }
-            btnOpenDualisms.setOnClickListener { navigate(R.navigation.nav_graph_dualisms) }
+            buttons.apply {
+                btnMenu.setOnClickListener { (activity as MainActivity).openDrawer() }
+                btnProfile.setOnClickListener { (activity as MainActivity).navigateToUserProfileFromFragment() }
+                btnFavs.setOnClickListener { (activity as MainActivity).navigateToUserFavoritesFragment() }
+                btnSendData.setOnClickListener { (activity as MainActivity).openSendDataDialog() }
+            }
         }
     }
 

@@ -115,19 +115,38 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp">
+                    android:padding="12dp">
 
-                    <TextView
-                        style="@style/MediumTextView"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="4dp"
-                        android:drawablePadding="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/other_profile_dilemmas"
-                        app:drawableStartCompat="@drawable/ic_dilemma_yes" />
+                        android:layout_marginBottom="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/MediumTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:text="@string/other_profile_dilemmas" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="@string/content_description"
+                            android:src="@drawable/ic_dilemma_yes" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/content_description"
+                            android:src="@drawable/ic_dilemma_no" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_dilemmas_desc"
@@ -159,19 +178,38 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp">
+                    android:padding="12dp">
 
-                    <TextView
-                        style="@style/MediumTextView"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="4dp"
-                        android:drawablePadding="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/other_data_dualisms"
-                        app:drawableStartCompat="@drawable/ic_dilemma_no" />
+                        android:layout_marginBottom="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/MediumTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:text="@string/other_data_dualisms" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="4dp"
+                            android:contentDescription="@string/content_description"
+                            android:src="@drawable/ic_letter_a" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/content_description"
+                            android:src="@drawable/ic_letter_b" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_dualism_desc"
@@ -180,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="8dp"
-                        tools:text="@string/other_profile_dilemmas_description" />
+                        tools:text="@string/other_profile_dualisms_description" />
 
                     <TextView
                         android:id="@+id/tv_navigate_dualisms"

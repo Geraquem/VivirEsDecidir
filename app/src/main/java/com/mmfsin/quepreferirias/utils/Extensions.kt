@@ -86,11 +86,15 @@ fun shareContent(text: String): Intent {
     return Intent.createChooser(sendIntent, null)
 }
 
-fun View.animateY(pos: Float, duration: Long) =
-    this.animate().translationY(pos).setDuration(duration)
-
-fun View.animateX(pos: Float, duration: Long) =
-    this.animate().translationX(pos).setDuration(duration)
+fun View.animateY(pos: Float, duration: Long) {
+    this.animate().translationY(pos).duration = duration
+}
+fun View.animateX(pos: Float, duration: Long) {
+    this.animate().translationX(pos).duration = duration
+}
+fun View.showAlpha(visibility: Float, duration: Long) {
+    this.animate().alpha(visibility).duration = duration
+}
 
 fun Context.getRepliesText(size: Int): String {
     return when (size) {

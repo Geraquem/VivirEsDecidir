@@ -2,49 +2,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_box_top"
     android:clickable="true"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:focusable="true">
+    android:elevation="4dp"
+    android:focusable="true"
+    android:padding="12dp">
 
     <LinearLayout
         android:id="@+id/ll_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_send_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description"
             app:backgroundTint="@color/white"
             app:borderWidth="0dp"
+            app:elevation="0dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_send"
             app:tint="@color/black" />
 
         <Space
-            android:layout_width="16dp"
+            android:layout_width="12dp"
             android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_favs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description"
             app:backgroundTint="@color/white"
             app:borderWidth="0dp"
+            app:elevation="0dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_fav_off"
             app:tint="@color/black" />
 
         <Space
-            android:layout_width="16dp"
+            android:layout_width="12dp"
             android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -54,13 +61,14 @@
             android:contentDescription="@string/content_description"
             app:backgroundTint="@color/white"
             app:borderWidth="0dp"
+            app:elevation="0dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_profile"
             app:tint="@color/black" />
 
         <Space
-            android:layout_width="16dp"
+            android:layout_width="12dp"
             android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -70,6 +78,7 @@
             android:contentDescription="@string/content_description"
             app:backgroundTint="@color/white"
             app:borderWidth="0dp"
+            app:elevation="0dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_menu"
