@@ -3,8 +3,6 @@ package com.mmfsin.quepreferirias.domain.usecases
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.mmfsin.quepreferirias.base.BaseUseCase
 import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.utils.SERVER_SAVED_DILEMMAS
@@ -27,7 +25,7 @@ class LogoutUseCase @Inject constructor(
         params.googleClient?.signOut()
 
         /** Firebase */
-        Firebase.auth.signOut()
+//        Firebase.auth.signOut()
         deleteData()
     }
 
