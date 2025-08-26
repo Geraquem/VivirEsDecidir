@@ -15,7 +15,7 @@ class VoteDilemmaUseCase @Inject constructor(
             dilemmaId = params.dilemmaId,
             votedYes = params.isYes
         )
-        repository.voteDilemma(params.dilemmaId, params.isYes, votedDilemma.toDilemmaVotedDTO())
+        repository.voteDilemma(params.dilemmaId, params.isYes, toDilemmaVotedDTO(votedDilemma))
     }
 
     data class Params(

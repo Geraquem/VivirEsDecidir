@@ -15,7 +15,7 @@ class VoteDualismUseCase @Inject constructor(
             dualismId = params.dualismId,
             votedTop = params.isTop
         )
-        repository.voteDualism(params.dualismId, params.isTop, votedDilemma.toDualismVotedDTO())
+        repository.voteDualism(params.dualismId, params.isTop, toDualismVotedDTO(votedDilemma))
     }
 
     data class Params(

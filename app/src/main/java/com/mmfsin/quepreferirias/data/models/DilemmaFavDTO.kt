@@ -1,11 +1,11 @@
 package com.mmfsin.quepreferirias.data.models
 
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-open class DilemmaFavDTO(
+open class DilemmaFavDTO : RealmObject {
     @PrimaryKey
-    var dilemmaId: String = "",
-    var txtTop: String = "",
+    var dilemmaId: String = ""
+    var txtTop: String = ""
     var txtBottom: String = ""
-) : RealmObject()
+}

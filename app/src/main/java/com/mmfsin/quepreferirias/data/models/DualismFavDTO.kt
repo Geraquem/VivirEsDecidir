@@ -1,11 +1,11 @@
 package com.mmfsin.quepreferirias.data.models
 
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-open class DualismFavDTO(
+open class DualismFavDTO : RealmObject {
     @PrimaryKey
-    var dualismId: String = "",
-    var txtTop: String = "",
+    var dualismId: String = ""
+    var txtTop: String = ""
     var txtBottom: String = ""
-) : RealmObject()
+}

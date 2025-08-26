@@ -1,10 +1,10 @@
 package com.mmfsin.quepreferirias.data.models
 
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-open class CommentVotedDTO(
+open class CommentVotedDTO : RealmObject {
     @PrimaryKey
-    var commentId: String = "",
+    var commentId: String = ""
     var votedUp: Boolean = false
-) : RealmObject()
+}

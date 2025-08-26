@@ -141,7 +141,7 @@ class CommentsRepository @Inject constructor(
         replyId: String
     ): Boolean {
         val latch = CountDownLatch(1)
-        var result = false
+        var result = true
 
         val rootA = Firebase.firestore.collection(root).document(dataId).collection(COMMENTS)
             .document(commentId)
@@ -149,12 +149,12 @@ class CommentsRepository @Inject constructor(
             if (document.exists()) {
                 val comment = document.toObject(CommentDTO::class.java)
                 comment?.let { c ->
-                    val updated = c.replies.filterNot { it.replyId == replyId }
-                    rootA.update(COMMENT_REPLIES, updated)
-                        .addOnCompleteListener {
-                            result = it.isSuccessful
-                            latch.countDown()
-                        }
+//                    val updated = c.replies.filterNot { it.replyId == replyId }
+//                    rootA.update(COMMENT_REPLIES, updated)
+//                        .addOnCompleteListener {
+//                            result = it.isSuccessful
+//                            latch.countDown()
+//                        }
                 }
             }
         }
@@ -168,12 +168,11 @@ class CommentsRepository @Inject constructor(
         commentId: String,
         vote: CommentVote
     ): CommentAlreadyVoted {
-        val voted =
-            realmDatabase.getObjectFromRealm(
-                CommentVotedDTO::class.java,
-                COMMENT_ID,
-                commentId
-            )
+        val voted = realmDatabase.getObjectFromRealm(
+            CommentVotedDTO::class,
+            COMMENT_ID,
+            commentId
+        )
         val alreadyVoted = (voted != null)
         val hasVotedTheSame = voted?.let {
             /** ok sólo si el voto que tengo guardado es distinto del voto actual */
@@ -200,10 +199,10 @@ class CommentsRepository @Inject constructor(
         /** save voted comment to not vote again */
         val votedUp = vote == VOTE_UP
         realmDatabase.addObject {
-            CommentVotedDTO(
-                commentId = commentId,
-                votedUp = votedUp
-            )
+            CommentVotedDTO().apply {
+                this.commentId = commentId
+                this.votedUp = votedUp
+            }
         }
     }
 

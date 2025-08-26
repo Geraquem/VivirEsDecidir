@@ -36,14 +36,14 @@ class SentCommentsAdapter(
                 tvSeeReplies.isVisible = false
                 rvReplies.isVisible = false
 
-                if (comment.replies.isNotEmpty()) {
-                    rvReplies.apply {
-                        layoutManager = LinearLayoutManager(context)
-                        adapter = RepliesAdapter(comment.replies, listener)
-                        tvSeeReplies.isVisible = true
-                        tvSeeReplies.text = c.getRepliesText(comment.replies.size)
-                    }
-                }
+//                if (comment.replies.isNotEmpty()) {
+//                    rvReplies.apply {
+//                        layoutManager = LinearLayoutManager(context)
+//                        adapter = RepliesAdapter(comment.replies, listener)
+//                        tvSeeReplies.isVisible = true
+//                        tvSeeReplies.text = c.getRepliesText(comment.replies.size)
+//                    }
+//                }
             }
         }
     }
@@ -87,7 +87,7 @@ class SentCommentsAdapter(
         if (commentPosition != -1) {
             try {
                 val comment = comments[commentPosition]
-                comment.replies.add(reply)
+//                comment.replies.add(reply)
                 notifyItemChanged(commentPosition)
             } catch (e: Exception) {
                 Log.e("error", "error getting comment")
@@ -108,20 +108,20 @@ class SentCommentsAdapter(
         if (commentIndex != -1) {
             val comment = getComment(commentId)
 
-            val replies = comment?.replies
-            replies?.let {
-                val iterator = comment.replies.iterator()
-                while (iterator.hasNext()) {
-                    val reply = iterator.next()
-                    if (reply.replyId == replyId) {
-                        iterator.remove()
-                    }
-                }
-                val updatedComment = comment.copy(replies = it.toMutableList())
-                val repliesUpdated = comment.replies
-                comments[commentIndex] = updatedComment
-                notifyItemChanged(commentIndex)
-            }
+//            val replies = comment?.replies
+//            replies?.let {
+//                val iterator = comment.replies.iterator()
+//                while (iterator.hasNext()) {
+//                    val reply = iterator.next()
+//                    if (reply.replyId == replyId) {
+//                        iterator.remove()
+//                    }
+//                }
+//                val updatedComment = comment.copy(replies = it.toMutableList())
+//                val repliesUpdated = comment.replies
+//                comments[commentIndex] = updatedComment
+//                notifyItemChanged(commentIndex)
+//            }
         }
     }
 

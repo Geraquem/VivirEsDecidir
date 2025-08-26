@@ -1,17 +1,17 @@
 package com.mmfsin.quepreferirias.data.models
 
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-open class SessionDTO(
+open class SessionDTO : RealmObject {
     @PrimaryKey
-    var id: String = "",
-    var imageUrl: String = "",
-    var email: String = "",
-    var name: String = "",
-    var fullName: String = "",
-    var instagram: String? = null,
-    var twitter: String? = null,
-    var tiktok: String? = null,
+    var id: String = ""
+    var imageUrl: String = ""
+    var email: String = ""
+    var name: String = ""
+    var fullName: String = ""
+    var instagram: String? = null
+    var twitter: String? = null
+    var tiktok: String? = null
     var youtube: String? = null
-) : RealmObject()
+}

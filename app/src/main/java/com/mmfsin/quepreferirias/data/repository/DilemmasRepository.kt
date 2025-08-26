@@ -40,7 +40,7 @@ import com.mmfsin.quepreferirias.utils.USERS
 import com.mmfsin.quepreferirias.utils.VOTES_NO
 import com.mmfsin.quepreferirias.utils.VOTES_YES
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.realm.kotlin.where
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID
@@ -48,8 +48,7 @@ import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 class DilemmasRepository @Inject constructor(
-    @ApplicationContext val context: Context,
-    private val realmDatabase: IRealmDatabase
+    @ApplicationContext val context: Context, private val realmDatabase: IRealmDatabase
 ) : IDilemmasRepository {
 
     private val reference = Firebase.database.reference
@@ -62,16 +61,11 @@ class DilemmasRepository @Inject constructor(
         val totalLimit = 4L
         val finalDataList = mutableListOf<Dilemma>()
 
-        db.collection(DILEMMAS)
-            .whereGreaterThan(FILTER_VALUE, randomValue)
-            .limit(totalLimit)
-            .get()
+        db.collection(DILEMMAS).whereGreaterThan(FILTER_VALUE, randomValue).limit(totalLimit).get()
             .addOnSuccessListener { documents ->
                 if (documents.size() < totalLimit) {
-                    db.collection(DILEMMAS)
-                        .whereLessThan(FILTER_VALUE, randomValue)
-                        .limit(totalLimit - documents.size())
-                        .get()
+                    db.collection(DILEMMAS).whereLessThan(FILTER_VALUE, randomValue)
+                        .limit(totalLimit - documents.size()).get()
                         .addOnSuccessListener { moreDocuments ->
                             for (moreDoc in moreDocuments) {
                                 val moreData = Dilemma(
@@ -106,8 +100,8 @@ class DilemmasRepository @Inject constructor(
     override suspend fun getDilemmaById(dilemmaId: String): Dilemma? {
         val latch = CountDownLatch(1)
         var dilemma: DilemmaDTO? = null
-        Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
-            .get().addOnSuccessListener { d ->
+        Firebase.firestore.collection(DILEMMAS).document(dilemmaId).get()
+            .addOnSuccessListener { d ->
                 try {
                     d.toObject(DilemmaDTO::class.java)?.let {
                         dilemma = it
@@ -158,16 +152,13 @@ class DilemmasRepository @Inject constructor(
 
     override suspend fun alreadyDilemmaVoted(dilemmaId: String): Boolean? {
         val voted = realmDatabase.getObjectFromRealm(
-            DilemmaVotedDTO::class.java,
-            DILEMMA_ID,
-            dilemmaId
+            DilemmaVotedDTO::class, DILEMMA_ID, dilemmaId
         )
         return voted?.votedYes
     }
 
     private fun getSession(): Session? {
-        val session =
-            realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
+        val session = realmDatabase.getObjectsFromRealm { query<SessionDTO>().find() }
         return if (session.isEmpty()) null else session.first().toSession()
     }
 
@@ -175,9 +166,8 @@ class DilemmasRepository @Inject constructor(
         val session = getSession()
         val latch = CountDownLatch(1)
         session?.let {
-            Firebase.firestore.collection(USERS).document(session.id)
-                .collection(SAVED_DILEMMAS).document(dilemma.dilemmaId)
-                .set(dilemma, SetOptions.merge())
+            Firebase.firestore.collection(USERS).document(session.id).collection(SAVED_DILEMMAS)
+                .document(dilemma.dilemmaId).set(dilemma, SetOptions.merge())
                 .addOnCompleteListener {
                     realmDatabase.addObject { dilemma }
                     latch.countDown()
@@ -190,20 +180,18 @@ class DilemmasRepository @Inject constructor(
         val session = getSession()
         val latch = CountDownLatch(1)
         return session?.let {
-            val sharedPrefs =
-                context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+            val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(SERVER_SAVED_DILEMMAS, true)) {
-                realmDatabase.deleteAllObjects(DilemmaFavDTO::class.java)
+                realmDatabase.deleteAllObjects(DilemmaFavDTO::class)
                 val dilemmas = mutableListOf<DilemmaFavDTO>()
-                Firebase.firestore.collection(USERS).document(session.id)
-                    .collection(SAVED_DILEMMAS).get().addOnSuccessListener { d ->
+                Firebase.firestore.collection(USERS).document(session.id).collection(SAVED_DILEMMAS)
+                    .get().addOnSuccessListener { d ->
                         for (document in d.documents) {
                             try {
-                                document.toObject(DilemmaFavDTO::class.java)
-                                    ?.let { favDilemma ->
-                                        dilemmas.add(favDilemma)
-                                        realmDatabase.addObject { favDilemma }
-                                    }
+                                document.toObject(DilemmaFavDTO::class.java)?.let { favDilemma ->
+                                    dilemmas.add(favDilemma)
+                                    realmDatabase.addObject { favDilemma }
+                                }
                             } catch (e: Exception) {
                                 Log.e("error", "error parsing dilemma fav")
                             }
@@ -219,8 +207,7 @@ class DilemmasRepository @Inject constructor(
                 }
                 dilemmas.toDilemmaFavList().reversed()
             } else {
-                val dilemmas =
-                    realmDatabase.getObjectsFromRealm { where<DilemmaFavDTO>().findAll() }
+                val dilemmas = realmDatabase.getObjectsFromRealm { query<DilemmaFavDTO>().find() }
                 dilemmas.toDilemmaFavList().reversed()
             }
         } ?: run { emptyList() }
@@ -235,13 +222,10 @@ class DilemmasRepository @Inject constructor(
         val session = getSession()
         val latch = CountDownLatch(1)
         session?.let {
-            Firebase.firestore.collection(USERS).document(session.id)
-                .collection(SAVED_DILEMMAS).document(dilemmaId)
-                .delete().addOnCompleteListener {
+            Firebase.firestore.collection(USERS).document(session.id).collection(SAVED_DILEMMAS)
+                .document(dilemmaId).delete().addOnCompleteListener {
                     realmDatabase.deleteObject(
-                        DilemmaFavDTO::class.java,
-                        DILEMMA_ID,
-                        dilemmaId
+                        DilemmaFavDTO::class, DILEMMA_ID, dilemmaId
                     )
                     latch.countDown()
                 }
@@ -253,10 +237,8 @@ class DilemmasRepository @Inject constructor(
         val latch = CountDownLatch(3)
 
         /** Set in User Dilemmas */
-        Firebase.firestore.collection(USERS).document(dilemma.creatorId)
-            .collection(DILEMMAS_SENT).document(dilemma.dilemmaId)
-            .set(dilemma, SetOptions.merge())
-            .addOnCompleteListener {
+        Firebase.firestore.collection(USERS).document(dilemma.creatorId).collection(DILEMMAS_SENT)
+            .document(dilemma.dilemmaId).set(dilemma, SetOptions.merge()).addOnCompleteListener {
                 realmDatabase.addObject { dilemma }
                 latch.countDown()
             }
@@ -264,8 +246,7 @@ class DilemmasRepository @Inject constructor(
 
         /** Set in total dilemmas */
         Firebase.firestore.collection(DILEMMAS).document(dilemma.dilemmaId)
-            .set(dilemma, SetOptions.merge())
-            .addOnCompleteListener {
+            .set(dilemma, SetOptions.merge()).addOnCompleteListener {
                 latch.countDown()
             }
 
@@ -282,20 +263,18 @@ class DilemmasRepository @Inject constructor(
         val session = getSession()
         val latch = CountDownLatch(1)
         return session?.let {
-            val sharedPrefs =
-                context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
+            val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(SERVER_SENT_DILEMMAS, true)) {
-                realmDatabase.deleteAllObjects(SendDilemmaDTO::class.java)
+                realmDatabase.deleteAllObjects(SendDilemmaDTO::class)
                 val dilemmas = mutableListOf<SendDilemmaDTO>()
-                Firebase.firestore.collection(USERS).document(session.id)
-                    .collection(DILEMMAS_SENT).get().addOnSuccessListener { d ->
+                Firebase.firestore.collection(USERS).document(session.id).collection(DILEMMAS_SENT)
+                    .get().addOnSuccessListener { d ->
                         for (document in d.documents) {
                             try {
-                                document.toObject(SendDilemmaDTO::class.java)
-                                    ?.let { sentDilemma ->
-                                        dilemmas.add(sentDilemma)
-                                        realmDatabase.addObject { sentDilemma }
-                                    }
+                                document.toObject(SendDilemmaDTO::class.java)?.let { sentDilemma ->
+                                    dilemmas.add(sentDilemma)
+                                    realmDatabase.addObject { sentDilemma }
+                                }
                             } catch (e: Exception) {
                                 Log.e("error", "error parsing sent dilemma")
                             }
@@ -311,8 +290,7 @@ class DilemmasRepository @Inject constructor(
                 }
                 dilemmas.toSendDilemmaList().reversed()
             } else {
-                val dilemmas =
-                    realmDatabase.getObjectsFromRealm { where<SendDilemmaDTO>().findAll() }
+                val dilemmas = realmDatabase.getObjectsFromRealm { query<SendDilemmaDTO>().find() }
                 dilemmas.toSendDilemmaList().reversed()
             }
         } ?: run { emptyList() }
@@ -321,8 +299,8 @@ class DilemmasRepository @Inject constructor(
     override suspend fun getOtherUserDilemmas(userId: String): List<SendDilemma> {
         val latch = CountDownLatch(1)
         val dilemmas = mutableListOf<SendDilemmaDTO>()
-        Firebase.firestore.collection(USERS).document(userId)
-            .collection(DILEMMAS_SENT).get().addOnSuccessListener { d ->
+        Firebase.firestore.collection(USERS).document(userId).collection(DILEMMAS_SENT).get()
+            .addOnSuccessListener { d ->
                 for (document in d.documents) {
                     try {
                         document.toObject(SendDilemmaDTO::class.java)?.let { sentDilemma ->
@@ -345,11 +323,10 @@ class DilemmasRepository @Inject constructor(
         val latch = CountDownLatch(3)
         session?.let {
             /** Delete user dilemma */
-            Firebase.firestore.collection(USERS).document(session.id)
-                .collection(DILEMMAS_SENT).document(dilemmaId)
-                .delete().addOnCompleteListener {
+            Firebase.firestore.collection(USERS).document(session.id).collection(DILEMMAS_SENT)
+                .document(dilemmaId).delete().addOnCompleteListener {
                     realmDatabase.deleteObject(
-                        SendDilemmaDTO::class.java,
+                        SendDilemmaDTO::class,
                         DILEMMA_ID,
                         dilemmaId
                     )
@@ -357,10 +334,10 @@ class DilemmasRepository @Inject constructor(
                 }
 
             /** Delete in total dilemmas */
-            Firebase.firestore.collection(DILEMMAS).document(dilemmaId)
-                .delete().addOnCompleteListener {
+            Firebase.firestore.collection(DILEMMAS).document(dilemmaId).delete()
+                .addOnCompleteListener {
                     realmDatabase.deleteObject(
-                        DilemmaFavDTO::class.java,
+                        DilemmaFavDTO::class,
                         DILEMMA_ID,
                         dilemmaId
                     )
@@ -379,10 +356,8 @@ class DilemmasRepository @Inject constructor(
 
     override suspend fun reportDilemma(dilemma: Dilemma) {
         val latch = CountDownLatch(1)
-        Firebase.firestore.collection(REPORTED)
-            .document(DILEMMAS).collection(dilemma.id)
-            .document(dilemma.id).set(dilemma)
-            .addOnCompleteListener {
+        Firebase.firestore.collection(REPORTED).document(DILEMMAS).collection(dilemma.id)
+            .document(dilemma.id).set(dilemma).addOnCompleteListener {
                 latch.countDown()
             }
         withContext(Dispatchers.IO) { latch.await() }

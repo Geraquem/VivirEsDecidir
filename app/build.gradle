@@ -1,104 +1,105 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
-    id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs.kotlin'
-    id 'kotlin-kapt'
-    id 'realm-android'
-    id 'com.google.gms.google-services'
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-kapt")
+    id("io.realm.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace 'com.mmfsin.quepreferirias'
-    compileSdk 35
+    namespace = "com.mmfsin.quepreferirias"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId "com.mmfsin.quepreferirias"
-        minSdk 26
-        targetSdk 35
-        versionCode 17
-        versionName "2.1.6"
+        applicationId = "com.mmfsin.quepreferirias"
+        minSdk = 26
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            isMinifyEnabled = false
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "11"
     }
     viewBinding {
-        enabled = true
+        enable = true
     }
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.16.0'
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.9.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.9.0'
+    implementation("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
 
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
 
-    //Lottie
-    implementation 'com.airbnb.android:lottie:4.2.2'
+    //Realm
+    implementation("io.realm.kotlin:library-base:3.0.0")
 
-    // Gifs
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+    // Lottie
+    implementation("com.airbnb.android:lottie:4.2.2")
 
-    //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1"
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.9.0'
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
 
-    //Swipe refresh
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // Swipe refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
-    //Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.9.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.9.0'
-    implementation 'androidx.annotation:annotation:1.9.1'
+    // Annotations
+    implementation("androidx.annotation:annotation:1.9.1")
 
-    //Firebase + Realm
-    implementation "io.reactivex.rxjava2:rxjava:2.1.8"
+    // Firebase + Realm
+    implementation("io.reactivex.rxjava2:rxjava:2.1.8")
 
-    //Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.2.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-database-ktx'
-    implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx'
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
     //Hilt
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+    implementation("com.google.dagger:hilt-android:2.47")
+    kapt("com.google.dagger:hilt-compiler:2.47")
 
-    //Gson
-    implementation 'com.google.code.gson:gson:2.10.1'
+    // Gson
+    implementation("com.google.code.gson:gson:2.10.1")
 
-    //Google services
-    implementation 'com.google.android.gms:play-services-ads:22.1.0'
+    // Google services
+    implementation("com.google.android.gms:play-services-ads:22.1.0")
 
     // Google auth
-    implementation 'com.google.android.gms:play-services-auth:20.6.0'
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // Tests
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

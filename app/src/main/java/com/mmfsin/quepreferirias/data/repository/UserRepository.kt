@@ -13,14 +13,14 @@ import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.INSTAGRAM
+import com.mmfsin.quepreferirias.utils.SERVER_USER_DATA
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TIKTOK
 import com.mmfsin.quepreferirias.utils.TWITTER
-import com.mmfsin.quepreferirias.utils.SERVER_USER_DATA
 import com.mmfsin.quepreferirias.utils.USERS
 import com.mmfsin.quepreferirias.utils.YOUTUBE
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.realm.kotlin.where
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
@@ -33,13 +33,13 @@ class UserRepository @Inject constructor(
 
     override suspend fun saveSession(session: Session): Boolean {
         return if (saveSessionInFirebase(session)) {
-            realmDatabase.addObject { session.toSessionDTO() }
+            realmDatabase.addObject { toSessionDTO(session) }
             true
         } else false
     }
 
     private fun getSession(): Session? {
-        val session = realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
+        val session = realmDatabase.getObjectsFromRealm { query<SessionDTO>().find() }
         return if (session.isEmpty()) null else session.first().toSession()
     }
 
@@ -65,7 +65,7 @@ class UserRepository @Inject constructor(
         return session?.let {
             val sharedPrefs = context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(SERVER_USER_DATA, true)) {
-                realmDatabase.deleteAllObjects(SessionDTO::class.java)
+                realmDatabase.deleteAllObjects(SessionDTO::class)
                 Firebase.firestore.collection(USERS).document(session.id).get()
                     .addOnSuccessListener { d ->
                         try {
@@ -103,7 +103,7 @@ class UserRepository @Inject constructor(
             documentReference.update(updatedRRSS).addOnCompleteListener {
                 if (it.isSuccessful) {
                     user.rrss = rrss
-                    realmDatabase.addObject { user.toSessionDTO() }
+                    realmDatabase.addObject { toSessionDTO(user) }
                     latch.countDown()
                 }
             }

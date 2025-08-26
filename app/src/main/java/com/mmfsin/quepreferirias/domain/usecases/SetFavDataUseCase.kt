@@ -33,7 +33,7 @@ class SetFavDataUseCase @Inject constructor(
             txtTop = params.txtTop,
             txtBottom = params.txtBottom,
         )
-        dilemmasRepo.setFavDilemma(dilemmaFav.toDilemmaFavDTO())
+        dilemmasRepo.setFavDilemma(toDilemmaFavDTO(dilemmaFav))
     }
 
     private suspend fun setFavDualism(params: Params) {
@@ -42,7 +42,7 @@ class SetFavDataUseCase @Inject constructor(
             txtTop = params.txtTop,
             txtBottom = params.txtBottom,
         )
-        dualismsRepo.setFavDualism(dualismFav.toDualismFavDTO())
+        dualismsRepo.setFavDualism(toDualismFavDTO(dualismFav))
     }
 
     data class Params(

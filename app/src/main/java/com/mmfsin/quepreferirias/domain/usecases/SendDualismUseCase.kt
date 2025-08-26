@@ -22,7 +22,7 @@ class SendDualismUseCase @Inject constructor(
             timestamp = System.currentTimeMillis(),
             filterValue = Math.random()
         )
-        return repository.sendDualism(dualism.toSendDualismDTO())
+        return repository.sendDualism(toSendDualismDTO(dualism))
     }
 
     data class Params(

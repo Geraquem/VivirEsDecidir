@@ -41,7 +41,7 @@ import com.mmfsin.quepreferirias.utils.USERS
 import com.mmfsin.quepreferirias.utils.VOTES_BOTTOM
 import com.mmfsin.quepreferirias.utils.VOTES_TOP
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.realm.kotlin.where
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID
@@ -57,7 +57,7 @@ class DualismsRepository @Inject constructor(
 
     private fun getSession(): Session? {
         val session =
-            realmDatabase.getObjectsFromRealm { where<SessionDTO>().findAll() }
+            realmDatabase.getObjectsFromRealm { query<SessionDTO>().find() }
         return if (session.isEmpty()) null else session.first().toSession()
     }
 
@@ -146,7 +146,7 @@ class DualismsRepository @Inject constructor(
             val sharedPrefs =
                 context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(SERVER_SAVED_DUALISMS, true)) {
-                realmDatabase.deleteAllObjects(DualismFavDTO::class.java)
+                realmDatabase.deleteAllObjects(DualismFavDTO::class)
                 val dualisms = mutableListOf<DualismFavDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
                     .collection(SAVED_DUALISMS).get().addOnSuccessListener { d ->
@@ -172,8 +172,7 @@ class DualismsRepository @Inject constructor(
                 }
                 dualisms.toDualismFavList().reversed()
             } else {
-                val dualisms =
-                    realmDatabase.getObjectsFromRealm { where<DualismFavDTO>().findAll() }
+                val dualisms = realmDatabase.getObjectsFromRealm { query<DualismFavDTO>().find() }
                 dualisms.toDualismFavList().reversed()
             }
         } ?: run { emptyList() }
@@ -213,7 +212,7 @@ class DualismsRepository @Inject constructor(
 
     override suspend fun alreadyDualismVoted(dualismId: String): Boolean? {
         val voted = realmDatabase.getObjectFromRealm(
-            DualismVotedDTO::class.java,
+            DualismVotedDTO::class,
             DUALISM_ID,
             dualismId
         )
@@ -272,7 +271,7 @@ class DualismsRepository @Inject constructor(
                 .collection(SAVED_DUALISMS).document(dualismId)
                 .delete().addOnCompleteListener {
                     realmDatabase.deleteObject(
-                        DualismFavDTO::class.java,
+                        DualismFavDTO::class,
                         DUALISM_ID,
                         dualismId
                     )
@@ -289,7 +288,7 @@ class DualismsRepository @Inject constructor(
             val sharedPrefs =
                 context.getSharedPreferences(SESSION, Context.MODE_PRIVATE)
             if (sharedPrefs.getBoolean(SERVER_SENT_DUALISMS, true)) {
-                realmDatabase.deleteAllObjects(SendDualismDTO::class.java)
+                realmDatabase.deleteAllObjects(SendDualismDTO::class)
                 val dualisms = mutableListOf<SendDualismDTO>()
                 Firebase.firestore.collection(USERS).document(session.id)
                     .collection(DUALISMS_SENT).get().addOnSuccessListener { d ->
@@ -315,8 +314,7 @@ class DualismsRepository @Inject constructor(
                 }
                 dualisms.toSendDualismList().reversed()
             } else {
-                val dualisms =
-                    realmDatabase.getObjectsFromRealm { where<SendDualismDTO>().findAll() }
+                val dualisms = realmDatabase.getObjectsFromRealm { query<SendDualismDTO>().find() }
                 dualisms.toSendDualismList().reversed()
             }
         } ?: run { emptyList() }
@@ -331,7 +329,7 @@ class DualismsRepository @Inject constructor(
                 .collection(DUALISMS_SENT).document(dualismId)
                 .delete().addOnCompleteListener {
                     realmDatabase.deleteObject(
-                        SendDualismDTO::class.java,
+                        SendDualismDTO::class,
                         DUALISM_ID,
                         dualismId
                     )
@@ -342,7 +340,7 @@ class DualismsRepository @Inject constructor(
             Firebase.firestore.collection(DUALISMS).document(dualismId)
                 .delete().addOnCompleteListener {
                     realmDatabase.deleteObject(
-                        DualismFavDTO::class.java,
+                        DualismFavDTO::class,
                         DUALISM_ID,
                         dualismId
                     )

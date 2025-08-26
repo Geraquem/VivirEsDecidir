@@ -21,7 +21,7 @@ class SendDilemmaUseCase @Inject constructor(
             timestamp = System.currentTimeMillis(),
             filterValue = Math.random()
         )
-        return repository.sendDilemma(dilemma.toSendDilemmaDTO())
+        return repository.sendDilemma(toSendDilemmaDTO(dilemma))
     }
 
     data class Params(

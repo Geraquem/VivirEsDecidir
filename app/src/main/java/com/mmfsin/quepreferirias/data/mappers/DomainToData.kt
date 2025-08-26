@@ -15,57 +15,57 @@ import com.mmfsin.quepreferirias.domain.models.SendDilemma
 import com.mmfsin.quepreferirias.domain.models.SendDualism
 import com.mmfsin.quepreferirias.domain.models.Session
 
-fun Session.toSessionDTO() = SessionDTO(
-    id = id,
-    imageUrl = imageUrl,
-    email = email,
-    name = name,
-    fullName = fullName,
-    instagram = rrss?.instagram,
-    twitter = rrss?.twitter,
-    tiktok = rrss?.tiktok,
-    youtube = rrss?.youtube,
-)
+fun toSessionDTO(session: Session) = SessionDTO().apply {
+    id = session.id
+    imageUrl = session.imageUrl
+    email = session.email
+    name = session.name
+    fullName = session.fullName
+    instagram = session.rrss?.instagram
+    twitter = session.rrss?.twitter
+    tiktok = session.rrss?.tiktok
+    youtube = session.rrss?.youtube
+}
 
-fun DilemmaFav.toDilemmaFavDTO() = DilemmaFavDTO(
-    dilemmaId = dilemmaId,
-    txtTop = txtTop,
-    txtBottom = txtBottom
-)
+fun toDilemmaFavDTO(dilemma: DilemmaFav) = DilemmaFavDTO().apply {
+    dilemmaId = dilemma.dilemmaId
+    txtTop = dilemma.txtTop
+    txtBottom = dilemma.txtBottom
+}
 
-fun DualismFav.toDualismFavDTO() = DualismFavDTO(
-    dualismId = dualismId,
-    txtTop = txtTop,
-    txtBottom = txtBottom
-)
+fun toDualismFavDTO(dualismFav: DualismFav) = DualismFavDTO().apply {
+    dualismId = dualismFav.dualismId
+    txtTop = dualismFav.txtTop
+    txtBottom = dualismFav.txtBottom
+}
 
-fun DilemmaVoted.toDilemmaVotedDTO() = DilemmaVotedDTO(
-    dilemmaId = dilemmaId,
-    votedYes = votedYes
-)
+fun toDilemmaVotedDTO(dilemmaVoted: DilemmaVoted) = DilemmaVotedDTO().apply {
+    dilemmaId = dilemmaVoted.dilemmaId
+    votedYes = dilemmaVoted.votedYes
+}
 
-fun DualismVoted.toDualismVotedDTO() = DualismVotedDTO(
-    dualismId = dualismId,
-    votedTop = votedTop
-)
+fun toDualismVotedDTO(dualismVoted: DualismVoted) = DualismVotedDTO().apply {
+    dualismId = dualismVoted.dualismId
+    votedTop = dualismVoted.votedTop
+}
 
-fun SendDilemma.toSendDilemmaDTO() = SendDilemmaDTO(
-    dilemmaId = dilemmaId,
-    txtTop = txtTop,
-    txtBottom = txtBottom,
-    creatorId = creatorId,
-    creatorName = creatorName,
-    timestamp = timestamp,
-    filterValue = filterValue
-)
+fun toSendDilemmaDTO(a: SendDilemma) = SendDilemmaDTO().apply {
+    dilemmaId = a.dilemmaId
+    txtTop = a.txtTop
+    txtBottom = a.txtBottom
+    creatorId = a.creatorId
+    creatorName = a.creatorName
+    timestamp = a.timestamp
+    filterValue = a.filterValue
+}
 
-fun SendDualism.toSendDualismDTO() = SendDualismDTO(
-    dualismId = dualismId,
-    explanation = explanation,
-    txtTop = txtTop,
-    txtBottom = txtBottom,
-    creatorId = creatorId,
-    creatorName = creatorName,
-    timestamp = timestamp,
-    filterValue = filterValue
-)
+fun toSendDualismDTO(sendDualism: SendDualism) = SendDualismDTO().apply {
+    dualismId = sendDualism.dualismId
+    explanation = sendDualism.explanation
+    txtTop = sendDualism.txtTop
+    txtBottom = sendDualism.txtBottom
+    creatorId = sendDualism.creatorId
+    creatorName = sendDualism.creatorName
+    timestamp = sendDualism.timestamp
+    filterValue = sendDualism.filterValue
+}

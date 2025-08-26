@@ -18,14 +18,14 @@ class RespondDataCommentUseCase @Inject constructor(
 ) : BaseUseCase<RespondDataCommentUseCase.Params, CommentReply?>() {
 
     override suspend fun execute(params: Params): CommentReply? {
-        val reply = CommentReplyDTO(
-            replyId = UUID.randomUUID().toString(),
-            commentId = params.commentId,
-            userId = params.session.id,
-            userName = params.session.name,
-            image = params.session.imageUrl,
-            reply = params.reply,
-        )
+        val reply = CommentReplyDTO().apply {
+            replyId = UUID.randomUUID().toString()
+            commentId = params.commentId
+            userId = params.session.id
+            userName = params.session.name
+            image = params.session.imageUrl
+            reply = params.reply
+        }
         val root = when (params.type) {
             DILEMMA -> DILEMMAS
             DUALISM -> DUALISMS

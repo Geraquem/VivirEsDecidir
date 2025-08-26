@@ -6,7 +6,8 @@ import com.mmfsin.quepreferirias.domain.interfaces.ICommentsRepository
 import com.mmfsin.quepreferirias.domain.models.Comment
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.presentation.models.DashboardType
-import com.mmfsin.quepreferirias.presentation.models.DashboardType.*
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DILEMMA
+import com.mmfsin.quepreferirias.presentation.models.DashboardType.DUALISM
 import com.mmfsin.quepreferirias.utils.DILEMMAS
 import com.mmfsin.quepreferirias.utils.DUALISMS
 import java.time.LocalDate
@@ -18,15 +19,15 @@ class SendDataCommentUseCase @Inject constructor(
 ) : BaseUseCase<SendDataCommentUseCase.Params, Comment?>() {
 
     override suspend fun execute(params: Params): Comment? {
-        val comment = CommentDTO(
-            commentId = UUID.randomUUID().toString(),
-            userId = params.session.id,
-            name = params.session.name,
-            comment = params.comment,
-            image = params.session.imageUrl,
-            timestamp = System.currentTimeMillis(),
+        val comment = CommentDTO().apply {
+            commentId = UUID.randomUUID().toString()
+            userId = params.session.id
+            name = params.session.name
+            comment = params.comment
+            image = params.session.imageUrl
+            timestamp = System.currentTimeMillis()
             date = LocalDate.now().toString()
-        )
+        }
         val root = when (params.type) {
             DILEMMA -> DILEMMAS
             DUALISM -> DUALISMS
