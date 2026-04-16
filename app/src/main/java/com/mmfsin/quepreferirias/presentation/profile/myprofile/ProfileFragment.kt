@@ -52,7 +52,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     private fun setToolbar() {
         (activity as BedRockActivity).apply {
-            backListener { onBackPressed() }
+            backListener { activity?.onBackPressedDispatcher?.onBackPressed() }
             setToolbarText(R.string.profile_title)
         }
     }

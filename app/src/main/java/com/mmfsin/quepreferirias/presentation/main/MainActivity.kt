@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     private var resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
+            /** hacer algo más guapo */
             Toast.makeText(applicationContext, "BIENVENIDO/A", Toast.LENGTH_SHORT).show()
         }
     }

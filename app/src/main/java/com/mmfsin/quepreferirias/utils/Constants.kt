@@ -3,6 +3,9 @@ package com.mmfsin.quepreferirias.utils
 /** INTENT */
 const val ROOT_ACTIVITY_NAV_GRAPH = "root_nav_graph"
 
+/** REALM */
+const val REALM_ID = "id == \$0"
+
 /** SHARED PREFS */
 const val SESSION = "user_session"
 const val SESSION_INITIATED = "session_initiated"

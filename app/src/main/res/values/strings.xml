@@ -27,11 +27,13 @@
     <string name="no_more_btn">Salir</string>
 
     <!-- LOGIN -->
-    <string name="login_title">Inicia sesión para:</string>
+    <string name="login_welcome">Bienvenido a <b>Vivir es decidir</b></string>
+    <string name="login_welcome_description">Aquí podrás decidir y opinar sin ningún tipo de filtro ni tapujo</string>
+    <string name="login_title">Inicia sesión con tu cuenta de Google para poder:</string>
     <array name="login_txt_list">
         <item>Dejar comentarios</item>
         <item>Guardar favoritos</item>
-        <item>Enviar tus propias preguntas</item>
+        <item>Enviar tus propias dilemas y dualismos</item>
         <item>Dejar tus redes sociales</item>
     </array>
     <string name="login_google">Iniciar sesión</string>
@@ -195,7 +197,7 @@
 
     <!-- EDIT PROFILE -->
     <string name="edit_profile">Editar perfil</string>
-    <string name="edit_profile_add_rrss"><u>Añadir redes sociales</u></string>
+    <string name="edit_profile_add_rrss"><u>Mis redes sociales</u></string>
     <string name="edit_profile_rrss">Redes sociales</string>
     <string name="edit_profile_rrss_no_ats">Escribe solo el nombre, sin @</string>
     <string name="edit_profile_rrss_instagram">Instagram</string>

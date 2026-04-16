@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="@dimen/xxsmall"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingHorizontal="12dp">
+    android:paddingHorizontal="@dimen/medium_small">
 
-    <include
-        layout="@layout/include_circle_image"
+    <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="4dp"
         android:layout_height="4dp"
-        android:layout_marginTop="1dp"
-        android:layout_gravity="center"
-        android:layout_marginEnd="12dp" />
+        android:layout_marginEnd="@dimen/medium_small"
+        android:alpha="0.75"
+        android:background="@color/black"
+        app:shapeAppearanceOverlay="@style/circular_image" />
 
     <TextView
         android:id="@+id/tv_text"
-        style="@style/SmallTextView"
+        style="@style/MediumTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

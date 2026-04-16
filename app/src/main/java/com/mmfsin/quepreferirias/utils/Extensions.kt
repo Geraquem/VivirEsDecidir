@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun FragmentActivity.showErrorDialog(action: () -> Unit) {
+fun FragmentActivity.showErrorDialog(action: () -> Unit = {}) {
     val dialog = ErrorDialog(action)
     this.let { dialog.show(it.supportFragmentManager, "") }
 }

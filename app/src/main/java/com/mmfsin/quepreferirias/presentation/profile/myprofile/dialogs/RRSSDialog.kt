@@ -13,8 +13,11 @@ import com.mmfsin.quepreferirias.utils.checkIfEmpty
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RRSSDialog(val session: Session, val listener: IRRSSListener, val closeSession: () -> Unit) :
-    BaseBottomSheet<DialogEditProfileBinding>() {
+class RRSSDialog(
+    val session: Session,
+    val listener: IRRSSListener,
+    val closeSession: () -> Unit
+) : BaseBottomSheet<DialogEditProfileBinding>() {
 
     override fun inflateView(inflater: LayoutInflater) = DialogEditProfileBinding.inflate(inflater)
 

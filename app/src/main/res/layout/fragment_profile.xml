@@ -92,10 +92,10 @@
 
                             <TextView
                                 android:id="@+id/tv_name"
-                                style="@style/MediumTextView_Bold"
+                                style="@style/MediumTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
+                                android:layout_marginStart="@dimen/xxsmall"
                                 tools:text="Cristian" />
 
                         </LinearLayout>
@@ -115,7 +115,7 @@
                     style="@style/SmallTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/small"
                     android:alpha="0.6"
                     android:background="@drawable/click_effect"
                     android:backgroundTint="@color/background"

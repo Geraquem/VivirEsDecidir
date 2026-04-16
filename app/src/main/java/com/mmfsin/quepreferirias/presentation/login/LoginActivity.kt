@@ -44,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding.apply {
-            toolbar.ivBack.setOnClickListener { finish() }
             btnLogin.btnGoogle.setOnClickListener { viewModel.googleLogin() }
         }
     }
@@ -88,8 +87,8 @@ class LoginActivity : AppCompatActivity() {
             } catch (e: ApiException) {
                 error()
             }
-        } else error()
+        }
     }
 
-    private fun error() = showErrorDialog() { finish() }
+    private fun error() = showErrorDialog()
 }

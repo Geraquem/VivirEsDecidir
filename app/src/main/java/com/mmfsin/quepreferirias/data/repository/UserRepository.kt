@@ -13,6 +13,7 @@ import com.mmfsin.quepreferirias.domain.interfaces.IUserRepository
 import com.mmfsin.quepreferirias.domain.models.RRSS
 import com.mmfsin.quepreferirias.domain.models.Session
 import com.mmfsin.quepreferirias.utils.INSTAGRAM
+import com.mmfsin.quepreferirias.utils.REALM_ID
 import com.mmfsin.quepreferirias.utils.SERVER_USER_DATA
 import com.mmfsin.quepreferirias.utils.SESSION
 import com.mmfsin.quepreferirias.utils.TIKTOK
@@ -52,9 +53,7 @@ class UserRepository @Inject constructor(
                 result = it.isSuccessful
                 latch.countDown()
             }
-        withContext(Dispatchers.IO) {
-            latch.await()
-        }
+        withContext(Dispatchers.IO) { latch.await() }
         return result
     }
 
@@ -91,9 +90,12 @@ class UserRepository @Inject constructor(
     override fun deleteSession() = realmDatabase.deleteAllData()
 
     override suspend fun updateProfile(rrss: RRSS) {
-        val session = getSession()
+        var firebaseResult = false
         val latch = CountDownLatch(1)
+
+        val session = getSession()
         session?.let { user ->
+            //Update Firebase
             val documentReference = Firebase.firestore.collection(USERS).document(user.id)
             val updatedRRSS = hashMapOf<String, Any>()
             rrss.instagram?.let { updatedRRSS.put(INSTAGRAM, it) }
@@ -101,14 +103,26 @@ class UserRepository @Inject constructor(
             rrss.tiktok?.let { updatedRRSS.put(TIKTOK, it) }
             rrss.youtube?.let { updatedRRSS.put(YOUTUBE, it) }
             documentReference.update(updatedRRSS).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    user.rrss = rrss
-                    realmDatabase.addObject { toSessionDTO(user) }
-                    latch.countDown()
+                firebaseResult = it.isSuccessful
+                latch.countDown()
+            }
+        }
+        withContext(Dispatchers.IO) {
+            latch.await()
+        }
+
+        //Update Realm
+        session?.let { user ->
+            if (firebaseResult) {
+                realmDatabase.write {
+                    val mSession = query<SessionDTO>(REALM_ID, user.id).first().find()
+                    mSession?.instagram = rrss.instagram
+                    mSession?.twitter = rrss.twitter
+                    mSession?.tiktok = rrss.tiktok
+                    mSession?.youtube = rrss.youtube
                 }
             }
         }
-        withContext(Dispatchers.IO) { latch.await() }
     }
 
     override suspend fun getUserById(userId: String): Session? {
